@@ -6,7 +6,7 @@
 
 #include <functional>
 #include <time.h>
-
+#include "..\CommonUtilities\DL_Debug.h"
 
 using namespace std::placeholders;
 
@@ -61,7 +61,7 @@ void CGame::Init()
         ERROR_AUTO_PRINT( "Fatal error! Engine could not start!" );
     }
 
-
+	
 }
 
 
@@ -73,6 +73,7 @@ void CGame::InitCallBack()
 
 void CGame::UpdateCallBack()
 {
+	DL_DEBUG("Hey");
 	const float deltaTime = 1.0f / 120.0f;
 	myGameWorld.Update(deltaTime);
 }
