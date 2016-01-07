@@ -32,8 +32,8 @@ CGame::~CGame()
 
 void CGame::Init()
 {
-	unsigned short windowWidth = 1920;
-	unsigned short windowHeight = 1080;
+	unsigned short windowWidth = 1280;
+	unsigned short windowHeight = 720;
 
 
     DX2D::SEngineCreateParameters createParameters;
@@ -61,19 +61,25 @@ void CGame::Init()
         ERROR_AUTO_PRINT( "Fatal error! Engine could not start!" );
     }
 
-
 }
 
 
 void CGame::InitCallBack()
 {
+	DL_Debug::Debug::Create("DebugLog.txt");
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+
+
     myGameWorld.Init();
 }
 
 
 void CGame::UpdateCallBack()
 {
-	const float deltaTime = 1.0f / 120.0f;
+	myTimerManager.UpdateTimers();
+	myInputManager.Update();
+
+	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
 	myGameWorld.Update(deltaTime);
 }
 
