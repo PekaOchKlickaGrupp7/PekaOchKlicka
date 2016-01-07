@@ -43,6 +43,9 @@
     <Filter Include="Math\Vectors">
       <UniqueIdentifier>{6552b5aa-1a49-4fcf-baf5-752aa58c81cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThreadHelper">
+      <UniqueIdentifier>{31cc2399-111f-4359-aee1-341a0f58c55e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="matrix44.h">
       <Filter>Math\Matrix</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadHelper.h">
+      <Filter>ThreadHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -145,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="StackWalker\StackWalker.cpp">
       <Filter>Debug\StackWalker</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHelper.cpp">
+      <Filter>ThreadHelper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
