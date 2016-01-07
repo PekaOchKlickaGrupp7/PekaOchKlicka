@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CU.h" />
     <ClInclude Include="DL_Assert.h" />
     <ClInclude Include="DL_Debug.h" />
@@ -76,6 +77,8 @@
     <ClInclude Include="GrowingArray.h" />
     <ClInclude Include="InputWrapper.h" />
     <ClInclude Include="Macros.h" />
+    <ClInclude Include="matrix33.h" />
+    <ClInclude Include="matrix44.h" />
     <ClInclude Include="ReleaseAssert.h" />
     <ClInclude Include="StaticArray.h" />
     <ClInclude Include="stdafx.h" />

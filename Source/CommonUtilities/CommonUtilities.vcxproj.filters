@@ -22,14 +22,26 @@
     <Filter Include="ContainerTypes">
       <UniqueIdentifier>{d0b5a8c4-e80e-4301-930d-09ae75a47680}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vectors">
-      <UniqueIdentifier>{6552b5aa-1a49-4fcf-baf5-752aa58c81cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{9dd30dd6-7084-4b51-a8ea-26564888ace0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Debug\StackWalker">
       <UniqueIdentifier>{6bfb7a34-ee89-48a5-891a-b2ec2d5eb422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{9371981f-d849-4ad9-8433-2e0d2456720c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Collision">
+      <UniqueIdentifier>{7a9345a6-57a4-4234-8fb0-db66b01e554b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Collision\2D">
+      <UniqueIdentifier>{b93b400c-16b4-4e8d-bec9-ba6b1247f6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Matrix">
+      <UniqueIdentifier>{f35362ef-9b3e-45f2-ad56-554b23ef784f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Vectors">
+      <UniqueIdentifier>{6552b5aa-1a49-4fcf-baf5-752aa58c81cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,28 +76,28 @@
       <Filter>ContainerTypes</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="GrowingArray.h">
       <Filter>ContainerTypes</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.inl">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.inl">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.inl">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>Vectors</Filter>
+      <Filter>Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="DL_Debug.h">
       <Filter>Debug</Filter>
@@ -98,6 +110,15 @@
     </ClInclude>
     <ClInclude Include="ReleaseAssert.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Math\Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix33.h">
+      <Filter>Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix44.h">
+      <Filter>Math\Matrix</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
