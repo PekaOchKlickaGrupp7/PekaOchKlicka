@@ -25,4 +25,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWorld.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DebugLog.txt" />
+  </ItemGroup>
 </Project>

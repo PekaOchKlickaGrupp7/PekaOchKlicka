@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ThreadHelper.h"
 
 static const DWORD MS_VC_EXCEPTION = 0x406D1388;
