@@ -22,6 +22,7 @@ CGameWorld::~CGameWorld()
 
 void CGameWorld::Init()
 {		
+
 	myCarSprite = new DX2D::CSprite("sprites/car_1.dds");
 	myCarSprite2 = new DX2D::CSprite("sprites/car_1.dds");
 
