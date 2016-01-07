@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include "SoundManager.h"
 
 namespace DX2D
 {
@@ -26,5 +26,6 @@ private:
 
 	DX2D::CCustomShape* myShape;
 
+	SoundManager sound;
 	
 };

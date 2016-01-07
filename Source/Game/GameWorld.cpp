@@ -22,6 +22,13 @@ CGameWorld::~CGameWorld()
 
 void CGameWorld::Init()
 {		
+	//sound.Initialize();
+
+	SoundClass soundSample;
+	sound.createSound(&soundSample, "SFX/jaguar.wav");
+
+	sound.playSound(soundSample, true);
+
 
 	myCarSprite = new DX2D::CSprite("sprites/car_1.dds");
 	myCarSprite2 = new DX2D::CSprite("sprites/car_1.dds");
