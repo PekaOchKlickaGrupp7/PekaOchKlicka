@@ -126,6 +126,9 @@
     <ClInclude Include="ThreadHelper.h">
       <Filter>ThreadHelper</Filter>
     </ClInclude>
+    <ClInclude Include="StackWalker\StackWalker.h">
+      <Filter>Debug\StackWalker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
