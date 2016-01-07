@@ -81,7 +81,6 @@ void CGame::UpdateCallBack()
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
 	DL_DEBUG("Hey");
-	const float deltaTime = 1.0f / 120.0f;
 	myGameWorld.Update(deltaTime);
 }
 
