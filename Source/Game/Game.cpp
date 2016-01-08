@@ -21,13 +21,27 @@ using namespace std::placeholders;
 #endif // DEBUG
 
 
-CGame::CGame()
+CGame::CGame() :
+myStateStackProxy(myStateStack),
+myRenderer()
 {
+	myRenderThread = nullptr;
+	myQuit = false;
 }
 
 
 CGame::~CGame()
 {
+	myRenderThread->join();
+	mySynchronizer.Quit();
+
+
+	myStateStack.Clear();
+
+	delete myRenderThread;
+	myRenderThread = nullptr;
+	DL_Debug::Debug::Destroy();
+	DX2D::CEngine::DestroyInstance();
 }
 
 
@@ -37,31 +51,30 @@ void CGame::Init()
 	unsigned short windowHeight = 720;
 
 
-    DX2D::SEngineCreateParameters createParameters;
-    createParameters.myActivateDebugSystems = true;
-    createParameters.myInitFunctionToCall = std::bind( &CGame::InitCallBack, this );
-    createParameters.myUpdateFunctionToCall = std::bind( &CGame::UpdateCallBack, this );
-    createParameters.myLogFunction = std::bind( &CGame::LogCallback, this, _1 );
-    createParameters.myWindowHeight = windowHeight;
-    createParameters.myWindowWidth = windowWidth;
+	DX2D::SEngineCreateParameters createParameters;
+	createParameters.myActivateDebugSystems = true;
+	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
+	createParameters.myUpdateFunctionToCall = std::bind(&CGame::UpdateCallBack, this);
+	createParameters.myLogFunction = std::bind(&CGame::LogCallback, this, _1);
+	createParameters.myWindowHeight = windowHeight;
+	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
-    createParameters.myClearColor.Set( 0.0f, 0.0f, 0.0f, 1.0f );
+	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
-    std::wstring appname = L"TGA 2D RELEASE";
+	std::wstring appname = L"TGA 2D RELEASE";
 #ifdef _DEBUG
-    appname = L"TGA 2D DEBUG";
+	appname = L"TGA 2D DEBUG";
 #endif
 
-    createParameters.myApplicationName = appname;
-    createParameters.myEnableVSync = false;
+	createParameters.myApplicationName = appname;
+	createParameters.myEnableVSync = false;
 
-    DX2D::CEngine::CreateInstance( createParameters );
-    if( !DX2D::CEngine::GetInstance()->Start() )
-    {
-        ERROR_AUTO_PRINT( "Fatal error! Engine could not start!" );
-    }
-
+	DX2D::CEngine::CreateInstance(createParameters);
+	if (!DX2D::CEngine::GetInstance()->Start())
+	{
+		ERROR_AUTO_PRINT("Fatal error! Engine could not start!");
+	}
 }
 
 
@@ -69,21 +82,60 @@ void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create("DebugLog.txt");
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+	myRenderThread = new std::thread(&CGame::Render, this);
+	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
 
-    myGameWorld.Init();
+}
+const bool CGame::Update()
+{
+	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
+	if (myStateStack.UpdateCurrentState(deltaTime) == true)
+	{
+		myStateStack.RenderCurrentState(mySynchronizer);
+	}
+	else
+	{
+		myQuit = true;
+	}
+
+
+	if (myQuit == true)
+	{
+		return true;
+	}
+	return false;
 }
 
+void CGame::Render()
+{
+	while (mySynchronizer.HasQuit() == false)
+	{
+		mySynchronizer.WaitForLogic();
+		myRenderer.Render(mySynchronizer);
+
+		mySynchronizer.SwapBuffer();
+		mySynchronizer.RenderIsDone();
+	}
+}
 
 void CGame::UpdateCallBack()
 {
 	myTimerManager.UpdateTimers();
 	myInputManager.Update();
 
-	myGameWorld.Update(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat());
+	myQuit = Update();
+
+	DL_DEBUG("Hey");
+	mySynchronizer.LogicIsDone();
+	mySynchronizer.WaitForRender();
+	if (myQuit == true)
+	{
+		this->~CGame();
+	}
 }
 
 
-void CGame::LogCallback( std::string aText )
+void CGame::LogCallback(std::string aText)
 {
 }

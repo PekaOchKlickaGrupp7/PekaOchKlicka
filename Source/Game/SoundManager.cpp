@@ -40,7 +40,7 @@ void SoundManager::playSound(SoundClass pSound, bool bLoop)
 	}
 
 	FMOD::Channel *channel = nullptr;
-	m_pSystem->playSound(pSound, nullptr, false, &channel);
+	//m_pSystem->playSound(pSound, nullptr, false, &channel);
 }
 
 void SoundManager::releaseSound(SoundClass pSound)
