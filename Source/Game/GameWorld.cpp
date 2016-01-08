@@ -48,7 +48,6 @@ void CGameWorld::Init()
 
 	myShape = new DX2D::CCustomShape();
 	myShape->SetTexture("sprites/testBalll_64_norm.dds");
-
 }
 
 
