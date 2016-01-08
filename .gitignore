@@ -193,3 +193,5 @@ Lib/Game_Release.lib
 Lib/Game_Debug.lib
 Lib/DX2DEngine_Release.lib
 Lib/DX2DEngine_Debug.lib
+Bin/Logs/Log 2016.1.8  15h54m45s.txt
+*.txt

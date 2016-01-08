@@ -1,0 +1,6 @@
+15:53:47 print 
+	A Keyboard device was found and acquired.
+15:53:47 print 
+	A Mouse device was found and acquired.
+15:53:47 print 
+	A Joystick device could not be found.

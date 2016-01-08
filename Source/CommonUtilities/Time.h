@@ -14,6 +14,7 @@ namespace CU
 			const double GetHours() const;
 			const double GetMinutes() const; // Make everything const because const is a great principle and it's awesome
 			const double GetSeconds() const;
+			const float GetSecondsFloat() const;
 			const double GetMiliseconds() const;
 			const double GetMicroseconds() const;
 			const long long GetMicrosecondsAsLongLong() const;
