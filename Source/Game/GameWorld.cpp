@@ -27,7 +27,7 @@ void CGameWorld::Init()
 	SoundClass soundSample;
 	sound.createSound(&soundSample, "SFX/jaguar.wav");
 
-	sound.playSound(soundSample, false);
+	sound.playSound(soundSample, true);
 
 
 	myCarSprite = new DX2D::CSprite("sprites/car_1.dds");
@@ -52,7 +52,7 @@ void CGameWorld::Init()
 }
 
 
-void CGameWorld::Update(const float &aTimeDelta)
+void CGameWorld::Update(float aTimeDelta)
 { 
 	static float test = 0;
 	test += aTimeDelta;
