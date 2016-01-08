@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "SoundManager.h"
-#include "GameState.h"
 
 namespace DX2D
 {
@@ -11,15 +10,14 @@ namespace DX2D
 	class CCustomShape;
 }
 
-class CGameWorld : public GameState
+class CGameWorld
 {
 public:
-	CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager);
+	CGameWorld();
 	~CGameWorld();
 
 	void Init();
-	eStateStatus Update(float aTimeDelta) override;
-	void Render(Synchronizer& aSynchronizer)override;
+	void Update(const float &aTimeDelta);
 private:
 
 	DX2D::CSprite* myCarSprite;
@@ -29,5 +27,5 @@ private:
 	DX2D::CCustomShape* myShape;
 
 	SoundManager sound;
-
+	
 };

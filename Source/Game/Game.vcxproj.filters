@@ -16,12 +16,6 @@
     <Filter Include="External\FMOD">
       <UniqueIdentifier>{8f9f6553-c981-423b-8e05-8a21651c0649}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameState">
-      <UniqueIdentifier>{130355d9-4c1c-4709-a5c9-ed46593c29dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer">
-      <UniqueIdentifier>{538976cb-678d-4a7b-8ccd-ba2e9e18e4e9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -62,27 +56,6 @@
     <ClInclude Include="fmod_output.h">
       <Filter>External\FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="GameStatus.h">
-      <Filter>GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="StateStack.h">
-      <Filter>GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="StateStackProxy.h">
-      <Filter>GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderCommand.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Synchronizer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -92,21 +65,6 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="SoundManager.cpp">
       <Filter>System\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="StateStack.cpp">
-      <Filter>GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="StateStackProxy.cpp">
-      <Filter>GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Synchronizer.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

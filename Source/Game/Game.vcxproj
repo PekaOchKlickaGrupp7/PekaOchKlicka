@@ -71,15 +71,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\FMOD\api\inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\FMOD\api\lib\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\FMOD\api\inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\FMOD\api\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>%FMOD ROOT%\FMOD Studio API Windows\api\lowlevel\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>%FMOD ROOT%\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -87,7 +86,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\FMOD\api\lib\;$(SolutionDir)DX2DEngine\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DX2DEngine\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -96,8 +95,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\;$(SolutionDir)\FMOD\api\lib\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -128,7 +127,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)\FMOD\api\lib\;$(SolutionDir)DX2DEngine\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc\fmod.hpp";%FMOD ROOT%\FMOD Studio API Windows\api\lowlevel\inc;$(SolutionDir)DX2DEngine\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -137,8 +136,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\;$(SolutionDir)\FMOD\api\lib\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\;%FMOD ROOT%\FMOD Studio API Windows\api\lowlevel\lib</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -176,34 +175,22 @@
     <ClInclude Include="fmod_errors.h" />
     <ClInclude Include="fmod_output.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GameWorld.h" />
-    <ClInclude Include="RenderCommand.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="StateStack.h" />
-    <ClInclude Include="StateStackProxy.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Synchronizer.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorld.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="StateStack.cpp" />
-    <ClCompile Include="StateStackProxy.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Synchronizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">

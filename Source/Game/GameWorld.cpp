@@ -10,35 +10,25 @@
 #include <tga2d/primitives/custom_shape.h>
 #include <tga2d/math/color.h>
 
-#include "StateStackProxy.h"
-#include "Synchronizer.h"
-
 using namespace DX2D;
-CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
-GameState(aStateStackProxy, aInputWrapper, aTimerManager)
+CGameWorld::CGameWorld()
 {
-	Init();
 }
 
 
 CGameWorld::~CGameWorld()
 {
-	delete myCarSprite;
-	delete myCarSprite2;
-	delete text;
-	delete myShape;
-
 }
 
 void CGameWorld::Init()
-{
+{		
 	//sound.Initialize();
 
 	SoundClass soundSample;
 	sound.createSound(&soundSample, "SFX/jaguar.wav");
 
-	sound.playSound(soundSample, true);
-	sound.releaseSound(soundSample);
+	sound.playSound(soundSample, false);
+
 
 	myCarSprite = new DX2D::CSprite("sprites/car_1.dds");
 	myCarSprite2 = new DX2D::CSprite("sprites/car_1.dds");
@@ -48,7 +38,7 @@ void CGameWorld::Init()
 	myCarSprite2->SetPosition(DX2D::Vector2f(myCarSprite->GetSize().x, myCarSprite->GetSize().y));
 
 
-	DX2D::Vector2f size = myCarSprite->GetSize();
+	Vector2f size = myCarSprite->GetSize();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
@@ -58,17 +48,11 @@ void CGameWorld::Init()
 
 	myShape = new DX2D::CCustomShape();
 	myShape->SetTexture("sprites/testBalll_64_norm.dds");
-
 }
 
 
-eStateStatus CGameWorld::Update(float aTimeDelta)
-{
-	myInputWrapper.Update();
-	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
-	{
-		return eStateStatus::ePopMainState;
-	}
+void CGameWorld::Update(const float &aTimeDelta)
+{ 
 	static float test = 0;
 	test += aTimeDelta;
 
@@ -84,26 +68,16 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myShape->BuildShape();
 
+
+	
+
+	myShape->Render();
+
+
+	text->Render();
+/*
+	myCarSprite->Render();
+	myCarSprite2->Render();*/
+
 	CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
-	return eStateStatus::eKeepState;
-}
-
-void CGameWorld::Render(Synchronizer& aSynchronizer)
-{
-	RenderCommand command;
-	command.myType = eRenderType::eSprite;
-	command.myPosition = myCarSprite->GetPosition();
-	command.mySprite = myCarSprite;
-	aSynchronizer.AddRenderCommand(command);
-
-
-	command.myType = eRenderType::eCustomShape;
-	command.myPosition = myShape->myPosition;
-	command.myCustomShape = myShape;
-	aSynchronizer.AddRenderCommand(command);
-
-	command.myType = eRenderType::eText;
-	command.myPosition = text->myPosition;
-	command.myText = text;
-	aSynchronizer.AddRenderCommand(command);
 }
