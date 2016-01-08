@@ -187,3 +187,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/Lib/DX2DEngine_Debug.lib
+/Lib/Game_Debug.lib
