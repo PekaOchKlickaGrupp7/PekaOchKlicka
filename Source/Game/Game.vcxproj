@@ -175,22 +175,34 @@
     <ClInclude Include="fmod_errors.h" />
     <ClInclude Include="fmod_output.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="RenderCommand.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="StateStack.h" />
+    <ClInclude Include="StateStackProxy.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Synchronizer.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="StateStack.cpp" />
+    <ClCompile Include="StateStackProxy.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Synchronizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">
