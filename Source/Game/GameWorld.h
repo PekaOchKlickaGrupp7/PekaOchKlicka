@@ -17,7 +17,7 @@ public:
 	~CGameWorld();
 
 	void Init();
-	void Update(const float &aTimeDelta);
+	void Update(float aTimeDelta);
 private:
 
 	DX2D::CSprite* myCarSprite;
