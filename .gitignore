@@ -189,8 +189,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 *.lib
 *.exe
-Lib/Game_Release.lib
-Lib/Game_Debug.lib
-Lib/DX2DEngine_Release.lib
-Lib/DX2DEngine_Debug.lib
-Bin/Logs/*.txt
+Lib/*
+Bin/Logs/*
+*.lib
