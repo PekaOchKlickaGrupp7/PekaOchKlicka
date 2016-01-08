@@ -10,6 +10,12 @@
     <Filter Include="System\Sound">
       <UniqueIdentifier>{55c566cd-0db7-4ccc-a86f-79d272374ff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{1de0bbfc-fb78-465d-9f0a-6e6b762a3b28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\FMOD">
+      <UniqueIdentifier>{cf15d84c-b680-4799-bc61-a6c77fd5deb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -25,6 +31,30 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>System\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_common.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp_effects.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_output.h">
+      <Filter>External\FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_errors.h">
+      <Filter>External\FMOD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

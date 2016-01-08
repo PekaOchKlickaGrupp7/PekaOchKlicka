@@ -8,6 +8,8 @@
 #include <ctime>
 #include "DL_StackWalker.h"
 
+#include <iostream>
+
 namespace DL_Debug
 {
 	Debug* Debug::ourInstance = nullptr;
@@ -33,7 +35,19 @@ namespace DL_Debug
 			return false;
 		}
 
-		ourInstance->myDebugFile.open(aFile, std::fstream::app);
+		time_t t = time(0); // get current system time;
+		struct tm timeinfo;
+		localtime_s(&timeinfo, &t);
+
+		std::string tempString = ".\\Logs\\Log " + std::to_string(timeinfo.tm_year + 1900) + "." + std::to_string(timeinfo.tm_mon + 1) + "." + std::to_string(timeinfo.tm_mday) +
+			"  " + std::to_string(timeinfo.tm_hour) + "h" + std::to_string(timeinfo.tm_min) + "m" + std::to_string(timeinfo.tm_sec) + "s" + ".txt";
+		const char* fileNameToGive = "uninitialized.txt";
+		fileNameToGive = tempString.c_str();
+		ourInstance->myDebugFile.open(fileNameToGive, std::fstream::out); // std::ios::out
+
+		//ourInstance->myDebugFile.open(aFile, std::fstream::app);
+
+		
 
 		assert(ourInstance->myDebugFile.fail() != true && "Failed to open the debug file.");
 
@@ -56,8 +70,7 @@ namespace DL_Debug
 		time_t t = time(0); // get current system time;
 		struct tm timeinfo;
 		localtime_s(&timeinfo, &t);
-		myDebugFile << "<error> " << timeinfo.tm_year + 1900 << "-" << timeinfo.tm_mon + 1 << "-" << timeinfo.tm_mday <<
-			" @" << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << std::endl;
+		myDebugFile << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << " error" << std::endl;
 		myDebugFile << "	Error: " << aString << " in function " << aFunctionName << " line " << aLine << " in file " << aFileName << std::endl;
 		myDebugFile.flush();
 
@@ -81,8 +94,7 @@ namespace DL_Debug
 		time_t t = time(0); // get current system time;
 		struct tm timeinfo;
 		localtime_s(&timeinfo, &t);
-		myDebugFile << "<message> " << timeinfo.tm_year + 1900 << "-" << timeinfo.tm_mon + 1 << "-" << timeinfo.tm_mday <<
-			" @" << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << std::endl;
+		myDebugFile << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << " print " << std::endl;
 		myDebugFile << "	" << aString << std::endl;
 		myDebugFile.flush();
 	}
@@ -92,8 +104,7 @@ namespace DL_Debug
 		time_t t = time(0); // get current system time;
 		struct tm timeinfo;
 		localtime_s(&timeinfo, &t);
-		myDebugFile << "<debug> " << timeinfo.tm_year + 1900 << "-" << timeinfo.tm_mon + 1 << "-" << timeinfo.tm_mday <<
-			" @" << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << std::endl;
+		myDebugFile << timeinfo.tm_hour << ":" << timeinfo.tm_min << ":" << timeinfo.tm_sec << " debug " << std::endl;
 		char buffer[256];
 		va_list args;
 		va_start (args, aFormattedString);

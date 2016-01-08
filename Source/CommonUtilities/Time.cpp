@@ -35,6 +35,11 @@ namespace CU
 			return (static_cast<double>(MyTime) / 1000000.0) / myFrequency;
 		}
 
+		const float Time::GetSecondsFloat() const
+		{
+			return (static_cast<float>(MyTime) / 1000000.0f) / myFrequency;
+		}
+
 		const double Time::GetMinutes() const
 		{
 			return (((static_cast<double>(MyTime) / 1000000.0) / 60.0) / myFrequency);

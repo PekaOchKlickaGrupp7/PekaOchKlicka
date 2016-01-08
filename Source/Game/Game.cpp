@@ -80,9 +80,7 @@ void CGame::UpdateCallBack()
 	myTimerManager.UpdateTimers();
 	myInputManager.Update();
 
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
-	DL_DEBUG("Hey");
-	myGameWorld.Update(deltaTime);
+	myGameWorld.Update(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat());
 }
 
 

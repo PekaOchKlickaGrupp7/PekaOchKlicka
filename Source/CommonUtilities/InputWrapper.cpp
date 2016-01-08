@@ -45,6 +45,7 @@ namespace CU
 				result = myKeyboard->SetCooperativeLevel(aHwnd, DISCL_BACKGROUND | DISCL_NONEXCLUSIVE);
 				result = myKeyboard->Acquire();
 				mySuccededKeyboard = true;
+				DL_PRINT("A Keyboard device was found and acquired.");
 			}
 
 			result = myDirectInput->CreateDevice(GUID_SysMouse, &myMouse, NULL);
@@ -60,6 +61,7 @@ namespace CU
 				result = myMouse->SetCooperativeLevel(aHwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 				result = myMouse->Acquire();
 				mySuccededMouse = true;
+				DL_PRINT("A Mouse device was found and acquired.");
 			}
 
 			result = myDirectInput->CreateDevice(GUID_Joystick, &myJoystick, NULL);
@@ -75,6 +77,7 @@ namespace CU
 				result = myJoystick->SetCooperativeLevel(aHwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 				result = myJoystick->Acquire();
 				mySuccededJoystick = true;
+				DL_PRINT("A Joystick device was found and acquired.");
 			}
 
 
