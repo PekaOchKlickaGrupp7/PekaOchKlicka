@@ -63,9 +63,9 @@ void CGame::Init()
 	createParameters.myRenderWidth = windowWidth;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
-	std::wstring appname = L"TGA 2D RELEASE";
+	std::wstring appname = L"Peka Och Klicka Grupp 7";
 #ifdef _DEBUG
-	appname = L"TGA 2D DEBUG";
+	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
 	createParameters.myApplicationName = appname;
@@ -129,7 +129,6 @@ void CGame::UpdateCallBack()
 
 	myQuit = Update();
 
-	DL_DEBUG("Hey");
 	mySynchronizer.LogicIsDone();
 	mySynchronizer.WaitForRender();
 	if (myQuit == true)

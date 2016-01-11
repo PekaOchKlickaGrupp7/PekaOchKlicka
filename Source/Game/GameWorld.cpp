@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "GameWorld.h"
 
-#include <tga2d/sprite/sprite.h>
-#include <tga2d/Engine.h>
-#include <tga2d/light/light_manager.h>
-#include <tga2d/sprite/sprite_batch.h>
-#include <tga2d/drawers/debug_drawer.h>
-#include <tga2d/text/text.h>
-#include <tga2d/primitives/custom_shape.h>
-#include <tga2d/math/color.h>
-
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
-using namespace DX2D;
+#include <iostream>
+
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 {
@@ -23,32 +15,25 @@ GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 
 CGameWorld::~CGameWorld()
 {
-	delete myCarSprite;
-	delete myCarSprite2;
 	delete text;
 	delete myShape;
 
+
+	mySoundManager.ReleaseSound(mySFXJaguar);
+	mySoundManager.ReleaseSound(mySFXRain);
 }
 
 void CGameWorld::Init()
 {
-	//sound.Initialize();
+	mySoundManager.CreateSound(&mySFXJaguar, "SFX/jaguar.wav");
+	mySoundManager.CreateSound(&mySFXRain, "SFX/rain.wav");
+	
 
-	SoundClass soundSample;
-	sound.createSound(&soundSample, "SFX/jaguar.wav");
+	mySoundManager.CreateChannel(std::string("RainChannel"));
 
-	sound.playSound(soundSample, true);
-	sound.releaseSound(soundSample);
+	//mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel()->setPan(-2001.0f);
 
-	myCarSprite = new DX2D::CSprite("sprites/car_1.dds");
-	myCarSprite2 = new DX2D::CSprite("sprites/car_1.dds");
-
-
-	myCarSprite->SetPosition(DX2D::Vector2f(0.0f, 0.0f));
-	myCarSprite2->SetPosition(DX2D::Vector2f(myCarSprite->GetSize().x, myCarSprite->GetSize().y));
-
-
-	DX2D::Vector2f size = myCarSprite->GetSize();
+	mySoundManager.PlaySound(mySFXRain, mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel(), true);
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
@@ -59,12 +44,16 @@ void CGameWorld::Init()
 	myShape = new DX2D::CCustomShape();
 	myShape->SetTexture("sprites/testBalll_64_norm.dds");
 
+	myAudioListenerSprite = new DX2D::CSprite("Sprites/AudioListener.dds");
+	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
+	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
+	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
+	myAudioSourcePosition = {0.5f, 0.5f};
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
-	myInputWrapper.Update();
 	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
@@ -84,18 +73,47 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myShape->BuildShape();
 
-	CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
+	
+	static int aSpeed = 1.0f;
+	if (myAudioSourcePosition.x + myAudioSourceSprite->GetSize().x > 0 && myAudioSourcePosition.x - myAudioSourceSprite->GetSize().x < 1)
+	{
+		myAudioSourcePosition.x += myInputWrapper.GetMouseLocationX() * aSpeed * aTimeDelta;
+	}
+	else
+	{
+		myAudioSourcePosition.x = 0.5f;
+	}
+	if (myAudioSourcePosition.y + myAudioSourceSprite->GetSize().y > 0 && myAudioSourcePosition.y - myAudioSourceSprite->GetSize().y < 1)
+	{
+		myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
+	}
+	else
+	{
+		myAudioSourcePosition.y = 0.5f;
+	}
+	std::cout << myInputWrapper.GetMouseLocationX() << std::endl;
+	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
+
+	mySoundManager.SetChannelAttributes(mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel(),
+		myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
+
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 	return eStateStatus::eKeepState;
 }
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
+
 	command.myType = eRenderType::eSprite;
-	command.myPosition = myCarSprite->GetPosition();
-	command.mySprite = myCarSprite;
+	command.myPosition = myAudioListenerSprite->GetPosition();
+	command.mySprite = myAudioListenerSprite;
 	aSynchronizer.AddRenderCommand(command);
 
+	command.myType = eRenderType::eSprite;
+	command.myPosition = myAudioSourceSprite->GetPosition();
+	command.mySprite = myAudioSourceSprite;
+	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eCustomShape;
 	command.myPosition = myShape->myPosition;

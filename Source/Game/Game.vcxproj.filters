@@ -83,6 +83,9 @@
     <ClInclude Include="StateStackProxy.h">
       <Filter>GameState</Filter>
     </ClInclude>
+    <ClInclude Include="ChannelObject.h">
+      <Filter>System\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -107,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="StateStackProxy.cpp">
       <Filter>GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelObject.cpp">
+      <Filter>System\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
