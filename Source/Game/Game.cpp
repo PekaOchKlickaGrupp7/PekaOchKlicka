@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <time.h>
+#include "..\CommonUtilities\ThreadHelper.h"
 
 
 
@@ -80,9 +81,10 @@ void CGame::Init()
 
 void CGame::InitCallBack()
 {
-	DL_Debug::Debug::Create("DebugLog.txt");
+	DL_Debug::Debug::Create();
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
 	myRenderThread = new std::thread(&CGame::Render, this);
+	ThreadHelper::SetThreadName(-1, "Updater");
 	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
 
@@ -109,6 +111,7 @@ const bool CGame::Update()
 
 void CGame::Render()
 {
+	ThreadHelper::SetThreadName(-1, "Renderer");
 	while (mySynchronizer.HasQuit() == false)
 	{
 		mySynchronizer.WaitForLogic();
