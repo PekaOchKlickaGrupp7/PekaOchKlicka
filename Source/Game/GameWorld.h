@@ -2,14 +2,14 @@
 #include <vector>
 #include "SoundManager.h"
 #include "GameState.h"
-
-namespace DX2D
-{
-	class CSprite;
-	class CSpriteBatch;
-	class CText;
-	class CCustomShape;
-}
+#include <tga2d/sprite/sprite.h>
+#include <tga2d/Engine.h>
+#include <tga2d/light/light_manager.h>
+#include <tga2d/sprite/sprite_batch.h>
+#include <tga2d/drawers/debug_drawer.h>
+#include <tga2d/text/text.h>
+#include <tga2d/primitives/custom_shape.h>
+#include <tga2d/math/color.h>
 
 class CGameWorld : public GameState
 {
@@ -21,13 +21,16 @@ public:
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 private:
-
-	DX2D::CSprite* myCarSprite;
-	DX2D::CSprite* myCarSprite2;
 	DX2D::CText* text;
 
 	DX2D::CCustomShape* myShape;
 
-	SoundManager sound;
+	DX2D::CSprite* myAudioSourceSprite;
+	DX2D::CSprite* myAudioListenerSprite;
+	DX2D::Vector2f myAudioSourcePosition;
+
+	SoundManager mySoundManager;
+	SoundClass mySFXJaguar;
+	SoundClass mySFXRain;
 
 };
