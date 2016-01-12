@@ -60,3 +60,8 @@ void Item::SetPickupStatus(bool aPickupStatus)
 {
 	myPickupStatus = aPickupStatus;
 }
+
+bool Item::operator ==(const Item& aItem)
+{
+	return myName == aItem.myName;
+}

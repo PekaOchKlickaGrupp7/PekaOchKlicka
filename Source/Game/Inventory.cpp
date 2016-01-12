@@ -23,10 +23,12 @@ void Inventory::Remove(const Item& aItemToRemove)
 
 Item& Inventory::CombineInInventory(const Item& aItemToCombine)
 {
-
+	//CHANGE THIS
+	return myInventory[0];
 }
 
 Item& Inventory::CombineInWorld(const Item& aItemToCombine)
 {
-
+	//CHANGE THIS
+	return myInventory[0];
 }

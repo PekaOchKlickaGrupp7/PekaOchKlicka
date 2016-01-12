@@ -25,6 +25,8 @@ public:
 	inline bool GetCombinable();
 	inline bool GetPickupStatus();
 
+	bool operator ==(const Item& aItem);
+
 private:
 	DX2D::CSprite* mySprite;
 
