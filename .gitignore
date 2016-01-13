@@ -192,3 +192,5 @@ ModelManifest.xml
 Lib/*
 Bin/Logs/*
 *.lib
+Bin/fmodoutput.wav
+*.idb
