@@ -22,12 +22,6 @@
     <Filter Include="GameState">
       <UniqueIdentifier>{bd24e6c9-fd4d-4129-a760-eec609d6e39d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Inventory">
-      <UniqueIdentifier>{3848eec1-56b7-4dd8-8716-ddf70a925ebc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Item">
-      <UniqueIdentifier>{a137b636-b0fd-4f47-b2a1-59ee3ed8ccef}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -92,12 +86,8 @@
     <ClInclude Include="Sound.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Item</Filter>
-    </ClInclude>
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -124,14 +114,9 @@
       <Filter>GameState</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Inventory</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ChannelObject.cpp">
       <Filter>System\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
   </ItemGroup>
 </Project>
