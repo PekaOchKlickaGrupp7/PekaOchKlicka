@@ -74,7 +74,7 @@ void SoundManager::SetPan(FMOD::Channel *aChannel, float aPanFloat)
 	aChannel->setPan(aPanFloat);
 }
 
-void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, int aX, int aY, int aZ)
+void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, float aX, float aY, float aZ)
 {
 	FMOD_VECTOR positionVector;
 
@@ -96,15 +96,6 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f 
 
 	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
 	std::cout << result << std::endl;
-}
-
-void SoundManager::Pause(SoundClass aSound)
-{
-
-}
-void SoundManager::Resume(SoundClass aSound)
-{
-
 }
 
 void SoundManager::Update()

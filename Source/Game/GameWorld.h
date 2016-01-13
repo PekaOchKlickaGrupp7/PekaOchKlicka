@@ -24,8 +24,6 @@ public:
 private:
 	DX2D::CText* text;
 
-	DX2D::CCustomShape* myShape;
-
 	DX2D::CSprite* myAudioSourceSprite;
 	DX2D::CSprite* myAudioListenerSprite;
 	DX2D::Vector2f myAudioSourcePosition;

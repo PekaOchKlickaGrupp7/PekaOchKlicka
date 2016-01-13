@@ -1,6 +1,5 @@
 #pragma once
 #include "fmod.hpp"
-#include "fmod_errors.h"
 #include "..\DX2DEngine\tga2d\sprite\sprite.h"
 class Sound
 {
@@ -13,10 +12,12 @@ public:
 	void Pause();
 	void Resume();
 	void Stop();
-	void SetPosition(int aX, int aY, int aZ = 0);
+	void SetPosition(float aX, float aY, float aZ = 0);
 	void SetPosition(DX2D::Vector2f aPosition);
 	DX2D::Vector2f GetPosition() { return myPosition; };
 	void SetPan(float aPan);
+	void SetVolume(float aVolume);
+	float GetVolume();
 	~Sound();
 private:
 	FMOD::Channel* myChannel;

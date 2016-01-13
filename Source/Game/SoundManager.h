@@ -1,6 +1,5 @@
 #pragma once
 #include "fmod.hpp"
-#include "fmod_errors.h"
 #include "..\CommonUtilities\GrowingArray.h"
 #include <string>
 #include "..\DX2DEngine\tga2d\sprite\sprite.h"
@@ -35,10 +34,8 @@ public:
 	SoundClass CreateSound3D(const char* aFile);
 	void SetPan(FMOD::Channel *aChannel, float aPanFloat);
 	void CreateChannel(std::string &aChannel);
-	void Pause(SoundClass aSound);
-	void Resume(SoundClass aSound);
 	FMOD::Channel* GetChannel();
-	void SetChannelAttributes(FMOD::Channel *aChannel, int aX, int aY, int aZ = 0);
+	void SetChannelAttributes(FMOD::Channel *aChannel, float aX, float aY, float aZ = 0);
 	void SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition);
 private:
 	FMOD::System *mySystem;

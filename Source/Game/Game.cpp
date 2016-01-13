@@ -53,7 +53,7 @@ void CGame::Init()
 
 
 	DX2D::SEngineCreateParameters createParameters;
-	createParameters.myActivateDebugSystems = true;
+	createParameters.myActivateDebugSystems = false;
 	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
 	createParameters.myUpdateFunctionToCall = std::bind(&CGame::UpdateCallBack, this);
 	createParameters.myLogFunction = std::bind(&CGame::LogCallback, this, _1);
@@ -66,6 +66,7 @@ void CGame::Init()
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
 	createParameters.myStartInFullScreen = true;
 #ifdef _DEBUG
+	createParameters.myActivateDebugSystems = true;
 	createParameters.myStartInFullScreen = false;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
@@ -86,14 +87,14 @@ void CGame::InitCallBack()
 	DL_Debug::Debug::Create();
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
 	myRenderThread = new std::thread(&CGame::Render, this);
-	ThreadHelper::SetThreadName(-1, "Updater");
+	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
 
 }
 const bool CGame::Update()
 {
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
+	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
@@ -113,7 +114,7 @@ const bool CGame::Update()
 
 void CGame::Render()
 {
-	ThreadHelper::SetThreadName(-1, "Renderer");
+	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Renderer");
 	while (mySynchronizer.HasQuit() == false)
 	{
 		mySynchronizer.WaitForLogic();

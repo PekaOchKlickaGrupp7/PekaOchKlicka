@@ -28,7 +28,7 @@ void Sound::Play(DX2D::Vector2f aPosition)
 	myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
 }
 
-void Sound::SetPosition(int aX, int aY, int aZ)
+void Sound::SetPosition(float aX, float aY, float aZ)
 {
 	myPosition.x = aX;
 	myPosition.y = aY;
@@ -44,4 +44,31 @@ void Sound::SetPosition(DX2D::Vector2f aPosition)
 void Sound::SetPan(float aPan)
 {
 	myChannel->setPan(aPan);
+}
+
+void Sound::Pause()
+{
+	myChannel->setPaused(true);
+}
+
+void Sound::Resume()
+{
+	myChannel->setPaused(false);
+}
+
+void Sound::Stop()
+{
+	myChannel->stop();
+}
+
+void Sound::SetVolume(float aVolume)
+{
+	myChannel->setVolume(aVolume);
+}
+
+float Sound::GetVolume()
+{
+	float tempFloat = 0;
+	myChannel->getVolume(&tempFloat);
+	return tempFloat;
 }

@@ -16,7 +16,6 @@ GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	delete myShape;
 	SoundManager::DestroyInstance();
 }
 
