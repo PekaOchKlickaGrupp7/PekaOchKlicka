@@ -12,8 +12,7 @@ const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would 
 
 SoundManager::SoundManager()
 {
-	FMOD_VECTOR listenerpos = { 0.0f, 0.0f, -1.0f * DISTANCEFACTOR };
-
+	myListenerPosition = { 5.0f, 5.0f, -1.0f * DISTANCEFACTOR };
 
 	if (FMOD::System_Create(&mySystem) != FMOD_OK)
 	{
@@ -34,22 +33,6 @@ SoundManager::SoundManager()
 	DL_PRINT("Created a sound device");
 
 	mySystem->set3DSettings(1.0, DISTANCEFACTOR, 1.0f);
-
-	static float t = 0;
-	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR forward =		 { 0.0f, 0.0f, 1.0f };
-	FMOD_VECTOR up =			 { 0.0f, 1.0f, 0.0f };
-	FMOD_VECTOR vel;
-
-	vel.x = (listenerpos.x - lastpos.x) * (1000 / INTERFACE_UPDATETIME); //
-	vel.y = (listenerpos.y - lastpos.y) * (1000 / INTERFACE_UPDATETIME); //
-	vel.z = (listenerpos.z - lastpos.z) * (1000 / INTERFACE_UPDATETIME); //
-
-	//listenerpos.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
-
-	lastpos = listenerpos;
-
-	mySystem->set3DListenerAttributes(0, &listenerpos, &vel, &forward, &up);
 }
 
 SoundClass SoundManager::CreateSound3D(const char* aFile)
@@ -100,6 +83,21 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f 
 
 void SoundManager::Update()
 {
+	static float t = 0;
+	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR forward = { 0.0f, 0.0f, 1.0f };
+	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
+	FMOD_VECTOR vel;
+
+	vel.x = (myListenerPosition.x - lastpos.x) * (1000 / INTERFACE_UPDATETIME); //
+	vel.y = (myListenerPosition.y - lastpos.y) * (1000 / INTERFACE_UPDATETIME); //
+	vel.z = (myListenerPosition.z - lastpos.z) * (1000 / INTERFACE_UPDATETIME); //
+
+	//listenerpos.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
+
+	lastpos = myListenerPosition;
+
+	mySystem->set3DListenerAttributes(0, &myListenerPosition, &vel, &forward, &up);
 	mySystem->update();
 }
 

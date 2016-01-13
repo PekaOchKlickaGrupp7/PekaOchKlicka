@@ -41,5 +41,6 @@ private:
 	FMOD::System *mySystem;
 	static SoundManager* mySoundManager;
 	SoundManager();
+	FMOD_VECTOR myListenerPosition;
 };
 
