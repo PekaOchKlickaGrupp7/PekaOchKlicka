@@ -17,23 +17,16 @@ CGameWorld::~CGameWorld()
 {
 	delete text;
 	delete myShape;
-
-
-	mySoundManager.ReleaseSound(mySFXJaguar);
-	mySoundManager.ReleaseSound(mySFXRain);
+	SoundManager::DestroyInstance();
 }
 
 void CGameWorld::Init()
 {
-	mySoundManager.CreateSound(&mySFXJaguar, "SFX/jaguar.wav");
-	mySoundManager.CreateSound(&mySFXRain, "SFX/rain.wav");
-	
+	SoundManager::GetInstance(); // Creates a sound manager instance.
 
-	mySoundManager.CreateChannel(std::string("RainChannel"));
-
-	//mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel()->setPan(-2001.0f);
-
-	mySoundManager.PlaySound(mySFXRain, mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel(), true);
+	mySFXRain.Create3D("SFX/rain.wav");
+	mySFXRain.SetLooping(true);
+	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
@@ -54,6 +47,8 @@ void CGameWorld::Init()
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
+	SoundManager::GetInstance()->Update();
+
 	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
@@ -74,28 +69,23 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myShape->BuildShape();
 
 	
-	static int aSpeed = 1.0f;
-	if (myAudioSourcePosition.x + myAudioSourceSprite->GetSize().x > 0 && myAudioSourcePosition.x - myAudioSourceSprite->GetSize().x < 1)
-	{
-		myAudioSourcePosition.x += myInputWrapper.GetMouseLocationX() * aSpeed * aTimeDelta;
-	}
-	else
-	{
-		myAudioSourcePosition.x = 0.5f;
-	}
-	if (myAudioSourcePosition.y + myAudioSourceSprite->GetSize().y > 0 && myAudioSourcePosition.y - myAudioSourceSprite->GetSize().y < 1)
-	{
-		myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
-	}
-	else
-	{
-		myAudioSourcePosition.y = 0.5f;
-	}
-	std::cout << myInputWrapper.GetMouseLocationX() << std::endl;
+	static float aSpeed = 0.01f;
+
+
+	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
+	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
+
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
-	mySoundManager.SetChannelAttributes(mySoundManager.GetChannel(std::string("RainChannel")).GetFMODChannel(),
-		myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
+	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
+	std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
+
+	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+	{
+		myAudioSourcePosition.x = 0.5f;
+		myAudioSourcePosition.y = 0.5f;
+		myAudioListenerSprite->SetPosition(myAudioSourcePosition);
+	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 	return eStateStatus::eKeepState;

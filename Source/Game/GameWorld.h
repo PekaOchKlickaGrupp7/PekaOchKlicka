@@ -10,6 +10,7 @@
 #include <tga2d/text/text.h>
 #include <tga2d/primitives/custom_shape.h>
 #include <tga2d/math/color.h>
+#include "Sound.h"
 
 class CGameWorld : public GameState
 {
@@ -29,8 +30,5 @@ private:
 	DX2D::CSprite* myAudioListenerSprite;
 	DX2D::Vector2f myAudioSourcePosition;
 
-	SoundManager mySoundManager;
-	SoundClass mySFXJaguar;
-	SoundClass mySFXRain;
-
+	Sound mySFXRain;
 };

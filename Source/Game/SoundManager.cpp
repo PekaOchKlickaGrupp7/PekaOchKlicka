@@ -1,13 +1,23 @@
 #include "stdafx.h"
 #include "SoundManager.h"
+#include "..\CommonUtilities\DL_Debug.h"
+#include <iostream>
+
+SoundManager* SoundManager::mySoundManager = nullptr;
+
+
+
+const int   INTERFACE_UPDATETIME = 16;      // 50ms standard update for interface
+const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
 SoundManager::SoundManager()
 {
-	myChannels.Init(1);
+	FMOD_VECTOR listenerpos = { 0.0f, 0.0f, -1.0f * DISTANCEFACTOR };
+
 
 	if (FMOD::System_Create(&mySystem) != FMOD_OK)
 	{
-		// report error
+		DL_PRINT("Could not create a sound device.");
 		return;
 	}
 
@@ -16,18 +26,47 @@ SoundManager::SoundManager()
 
 	if (driverCount == 0)
 	{
-		// report error
+		DL_PRINT("No sound drivers detected.");
 		return;
 	}
 
 	mySystem->init(36, FMOD_INIT_NORMAL, nullptr);
+	DL_PRINT("Created a sound device");
+
+	mySystem->set3DSettings(1.0, DISTANCEFACTOR, 1.0f);
+
+	static float t = 0;
+	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR forward =		 { 0.0f, 0.0f, 1.0f };
+	FMOD_VECTOR up =			 { 0.0f, 1.0f, 0.0f };
+	FMOD_VECTOR vel;
+
+	vel.x = (listenerpos.x - lastpos.x) * (1000 / INTERFACE_UPDATETIME); //
+	vel.y = (listenerpos.y - lastpos.y) * (1000 / INTERFACE_UPDATETIME); //
+	vel.z = (listenerpos.z - lastpos.z) * (1000 / INTERFACE_UPDATETIME); //
+
+	//listenerpos.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
+
+	lastpos = listenerpos;
+
+	mySystem->set3DListenerAttributes(0, &listenerpos, &vel, &forward, &up);
 }
 
-void SoundManager::CreateSound(SoundClass *aSound, const char* aFile)
+SoundClass SoundManager::CreateSound3D(const char* aFile)
+{
+	SoundClass tempSoundClass = nullptr;
+	mySystem->createSound(aFile, FMOD_3D, 0, &tempSoundClass);
+	tempSoundClass->set3DMinMaxDistance(0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+	return tempSoundClass;
+}
+
+SoundClass SoundManager::CreateSound(const char* aFile)
 {
 	// for stream use FMOD_CREATESTREAM
 	// FMOD_CREATESAMPLE compresses and streams. FMOD_DEFAULT is higher qual-ish
-	mySystem->createSound(aFile, FMOD_CREATESAMPLE /*| FMOD_2D*/, 0, aSound);
+	SoundClass tempSoundClass = nullptr;
+	mySystem->createSound(aFile, FMOD_2D, 0, &tempSoundClass);
+	return tempSoundClass;
 }
 
 void SoundManager::SetPan(FMOD::Channel *aChannel, float aPanFloat)
@@ -35,43 +74,28 @@ void SoundManager::SetPan(FMOD::Channel *aChannel, float aPanFloat)
 	aChannel->setPan(aPanFloat);
 }
 
-void SoundManager::CreateChannel(std::string &aName) // choose group to attach to instead
-{
-	//mySystem->setOutput(FMOD_OUTPUTTYPE_WAVWRITER);
-	//mySystem->setSoftwareFormat(48000, FMOD_SPEAKERMODE_STEREO, 2);
-
-	FMOD::Channel *aChannel = nullptr;
-	aChannel->setPaused(true); // start paused
-
-	ChannelObject aChannelObject(aName, aChannel);
-	myChannels.Add(aChannelObject);
-}
-
-ChannelObject SoundManager::GetChannel(std::string &aName)
-{
-	for (size_t i = 0; i < myChannels.Size(); i++)
-	{
-		if (myChannels[i].GetName() == aName)
-		{
-			return myChannels[i];
-		}
-	}
-	// If nothing found, do this.
-	ChannelObject nullObject;
-	return nullObject;
-}
-
 void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, int aX, int aY, int aZ)
 {
 	FMOD_VECTOR positionVector;
-	FMOD_VECTOR velocityVector; // default 0
-	FMOD_VECTOR alt_pan_posVector;
 
 	positionVector.x = aX;
 	positionVector.y = aY;
 	positionVector.z = aZ;
 
-	aChannel->set3DAttributes(&positionVector, &velocityVector, &alt_pan_posVector);
+	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
+	std::cout << result << std::endl;
+}
+
+void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition)
+{
+	FMOD_VECTOR positionVector;
+
+	positionVector.x = aPosition.x;
+	positionVector.y = aPosition.y;
+	positionVector.z = 0;
+
+	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
+	std::cout << result << std::endl;
 }
 
 void SoundManager::Pause(SoundClass aSound)
@@ -83,8 +107,20 @@ void SoundManager::Resume(SoundClass aSound)
 
 }
 
-void SoundManager::PlaySound(SoundClass aSound, FMOD::Channel *aChannel, bool isLooping)
+void SoundManager::Update()
 {
+	mySystem->update();
+}
+
+FMOD::Channel* SoundManager::PlaySound(SoundClass aSound, DX2D::Vector2f aPosition, bool isLooping)
+{
+	// If 2D, all 3D commands will be ignored by FMOD. No error check required.
+	FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
+	pos.x = aPosition.x * DISTANCEFACTOR;
+	pos.y = aPosition.y * DISTANCEFACTOR;
+	pos.z = 0;
+
 	if (!isLooping)
 	{
 		aSound->setMode(FMOD_LOOP_OFF);
@@ -94,8 +130,13 @@ void SoundManager::PlaySound(SoundClass aSound, FMOD::Channel *aChannel, bool is
 		aSound->setMode(FMOD_LOOP_NORMAL);
 		aSound->setLoopCount(-1);
 	}
+	FMOD::Channel* tempChannel = nullptr;
 
-	mySystem->playSound(aSound, nullptr, false, &aChannel);
+	mySystem->playSound(aSound, nullptr, false, &tempChannel);
+
+	tempChannel->set3DAttributes(&pos, &vel);
+
+	return tempChannel;
 }
 
 void SoundManager::ReleaseSound(SoundClass aSound)
@@ -103,7 +144,13 @@ void SoundManager::ReleaseSound(SoundClass aSound)
 	aSound->release();
 }
 
+void SoundManager::Destroy()
+{
+	mySystem->close();
+	mySystem->release();
+}
 
 SoundManager::~SoundManager()
 {
+	Destroy();
 }
