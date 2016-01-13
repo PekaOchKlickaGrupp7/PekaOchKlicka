@@ -34,9 +34,6 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
-	myShape = new DX2D::CCustomShape();
-	myShape->SetTexture("sprites/testBalll_64_norm.dds");
-
 	myAudioListenerSprite = new DX2D::CSprite("Sprites/AudioListener.dds");
 	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
 	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
@@ -53,21 +50,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	{
 		return eStateStatus::ePopMainState;
 	}
-	static float test = 0;
-	test += aTimeDelta;
-
-	float cosinusLow = cos(test) * 0.1f;
-	myShape->Reset();
-	myShape->AddPoint(DX2D::Vector2f(0.1f, 0.1f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(0, 0));
-	myShape->AddPoint(DX2D::Vector2f(0.2f, 0.1f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(1, 0));
-	myShape->AddPoint(DX2D::Vector2f(0.1f + cosinusLow, 0.2f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(0, 1));
-
-	myShape->AddPoint(DX2D::Vector2f(0.2f, 0.1f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(1, 0));
-	myShape->AddPoint(DX2D::Vector2f(0.1f + cosinusLow, 0.2f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(0, 1));
-	myShape->AddPoint(DX2D::Vector2f(0.2f + cosinusLow, 0.2f), DX2D::CColor(1, 1, 1, 1), DX2D::Vector2f(1, 1));
-
-	myShape->BuildShape();
-
 	
 	static float aSpeed = 0.01f;
 
@@ -103,11 +85,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioSourceSprite->GetPosition();
 	command.mySprite = myAudioSourceSprite;
-	aSynchronizer.AddRenderCommand(command);
-
-	command.myType = eRenderType::eCustomShape;
-	command.myPosition = myShape->myPosition;
-	command.myCustomShape = myShape;
 	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eText;
