@@ -188,7 +188,7 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 *.lib
-*.exe
+Bin/Launcher_Debug.exe
 Lib/*
 Bin/Logs/*
 *.lib
