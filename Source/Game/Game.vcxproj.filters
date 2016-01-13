@@ -22,6 +22,9 @@
     <Filter Include="GameState">
       <UniqueIdentifier>{bd24e6c9-fd4d-4129-a760-eec609d6e39d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Monitor">
+      <UniqueIdentifier>{835b92ca-5777-49a5-928b-6ae7066454d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ResolutionManager.h">
+      <Filter>System\Monitor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -118,5 +124,8 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ResolutionManager.cpp">
+      <Filter>System\Monitor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

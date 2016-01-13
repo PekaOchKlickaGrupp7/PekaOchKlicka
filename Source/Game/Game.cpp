@@ -48,6 +48,9 @@ CGame::~CGame()
 
 void CGame::Init()
 {
+	myResolutionManager.Initialize({0,0});
+
+
 	unsigned short windowWidth = 1280;
 	unsigned short windowHeight = 720;
 

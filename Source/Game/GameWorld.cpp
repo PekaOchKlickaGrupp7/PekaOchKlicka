@@ -38,13 +38,14 @@ void CGameWorld::Init()
 	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
 	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
 	myAudioSourcePosition = {0.5f, 0.5f};
+
+	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
-	SoundManager::GetInstance()->Update();
-
+	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
@@ -75,6 +76,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
+
+	command.myType = eRenderType::eSprite;
+	command.myPosition = myResolutionTestSprite->GetPosition();
+	command.mySprite = myResolutionTestSprite;
+	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();

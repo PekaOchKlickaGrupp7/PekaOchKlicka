@@ -23,6 +23,7 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 private:
 	DX2D::CText* text;
+	DX2D::CSprite* myResolutionTestSprite;
 
 	DX2D::CSprite* myAudioSourceSprite;
 	DX2D::CSprite* myAudioListenerSprite;

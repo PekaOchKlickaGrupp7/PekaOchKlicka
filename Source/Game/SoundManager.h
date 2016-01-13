@@ -26,7 +26,7 @@ public:
 		delete mySoundManager;
 	}
 
-	void Update();
+	void Update(float aUpdateTimer);
 	void Destroy();
 	FMOD::Channel* PlaySound(SoundClass aSound, DX2D::Vector2f aPosition = { 0.0f, 0.0f }, bool isLooping = false);
 	void ReleaseSound(SoundClass aSound);

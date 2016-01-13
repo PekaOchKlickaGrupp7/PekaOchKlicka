@@ -7,7 +7,6 @@ SoundManager* SoundManager::mySoundManager = nullptr;
 
 
 
-const int   INTERFACE_UPDATETIME = 16;      // 50ms standard update for interface
 const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
 SoundManager::SoundManager()
@@ -77,11 +76,10 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f 
 	positionVector.y = aPosition.y;
 	positionVector.z = 0;
 
-	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
-	std::cout << result << std::endl;
+	aChannel->set3DAttributes(&positionVector, 0, nullptr);
 }
 
-void SoundManager::Update()
+void SoundManager::Update(float aUpdateTimer)
 {
 	static float t = 0;
 	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
@@ -89,11 +87,11 @@ void SoundManager::Update()
 	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
 	FMOD_VECTOR vel;
 
-	vel.x = (myListenerPosition.x - lastpos.x) * (1000 / INTERFACE_UPDATETIME); //
-	vel.y = (myListenerPosition.y - lastpos.y) * (1000 / INTERFACE_UPDATETIME); //
-	vel.z = (myListenerPosition.z - lastpos.z) * (1000 / INTERFACE_UPDATETIME); //
+	vel.x = (myListenerPosition.x - lastpos.x) * (1000 / aUpdateTimer); //
+	vel.y = (myListenerPosition.y - lastpos.y) * (1000 / aUpdateTimer); //
+	vel.z = (myListenerPosition.z - lastpos.z) * (1000 / aUpdateTimer); //
 
-	//listenerpos.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
+	//myListenerPosition.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
 
 	lastpos = myListenerPosition;
 

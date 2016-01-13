@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <ctime>
 #include "DL_StackWalker.h"
+#include <Windows.h>
 
 namespace DL_Debug
 {
@@ -37,11 +38,21 @@ namespace DL_Debug
 		struct tm timeinfo;
 		localtime_s(&timeinfo, &t);
 
-		std::string tempString = ".\\Logs\\Log " + std::to_string(timeinfo.tm_year + 1900) + "." + std::to_string(timeinfo.tm_mon + 1) + "." + std::to_string(timeinfo.tm_mday) +
-			"  " + std::to_string(timeinfo.tm_hour) + "h" + std::to_string(timeinfo.tm_min) + "m" + std::to_string(timeinfo.tm_sec) + "s" + ".txt";
-		const char* fileNameToGive = "uninitialized.txt";
-		fileNameToGive = tempString.c_str();
-		ourInstance->myDebugFile.open(fileNameToGive, std::fstream::out); // std::ios::out
+
+		if (CreateDirectory(L"Logs", 0) || ERROR_ALREADY_EXISTS == GetLastError())
+		{
+			std::string tempString = ".\\Logs\\Log " + std::to_string(timeinfo.tm_year + 1900) + "." + std::to_string(timeinfo.tm_mon + 1) + "." + std::to_string(timeinfo.tm_mday) +
+				"  " + std::to_string(timeinfo.tm_hour) + "h" + std::to_string(timeinfo.tm_min) + "m" + std::to_string(timeinfo.tm_sec) + "s" + ".txt";
+			const char* fileNameToGive = "uninitialized.txt";
+			fileNameToGive = tempString.c_str();
+			ourInstance->myDebugFile.open(fileNameToGive, std::fstream::out); // std::ios::out
+		}
+		else
+		{
+			// failed to create the folder
+		}
+
+		
 
 		//ourInstance->myDebugFile.open(aFile, std::fstream::app);
 

@@ -13,6 +13,8 @@
 #include "StateStack.h"
 #include "StateStackProxy.h"
 
+#include "ResolutionManager.h"
+
 class CGame
 {
 public:
@@ -38,4 +40,6 @@ private:
 
 	std::thread* myRenderThread;
 	volatile bool myQuit;
+
+	ResolutionManager myResolutionManager;
 };

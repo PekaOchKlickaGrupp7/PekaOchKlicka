@@ -182,6 +182,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StateStack.cpp" />
