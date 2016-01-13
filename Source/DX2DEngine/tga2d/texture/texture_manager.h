@@ -10,6 +10,7 @@ struct ID3D11ShaderResourceView;
 namespace DX2D
 {
 	class CDirectEngine;
+	class CSprite;
 	class CTextureManager
 	{
 	public:
@@ -21,9 +22,13 @@ namespace DX2D
 		CTexture* GetWhiteSquareTexture(){ return myWhiteSquareTexture; }
 		Vector2f GetTextureSize(ID3D11ShaderResourceView* aResourceView, bool aNormalize = true) const;
 
+		void ReleaseTexture(CTexture* aTexture);
+
 		void Update();
 
+		/* Requires DX11 includes */
 		ID3D11ShaderResourceView* GetDefaultNormalMapResource() const { return myDefaultNormalMapResource; }
+		/* Requires DX11 includes */
 		ID3D11ShaderResourceView* GetNoiseTexture() const { return myNoiseResource; }
 	private:
 		std::vector<CTexture*> myResourceViews;

@@ -64,7 +64,9 @@ void CGame::Init()
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
+	createParameters.myStartInFullScreen = true;
 #ifdef _DEBUG
+	createParameters.myStartInFullScreen = false;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 

@@ -10,6 +10,7 @@
 #include "text/text_service.h"
 #include "texture/texture_manager.h"
 #include "windows/windows_window.h"
+//#include "FBX/FbxLoader_simple.h"
 #include <windows.h>
 
 
@@ -47,6 +48,7 @@ CEngine::CEngine( const SEngineCreateParameters& aCreateParameters)
 , myLightManager(nullptr)
 , myCreateParameters(aCreateParameters)
 , myRunEngine(true)
+/*, myFBXLoader(nullptr)*/
 {
 	myWindowSize.x = myCreateParameters.myWindowWidth;
 	myWindowSize.y = myCreateParameters.myWindowHeight;
@@ -80,6 +82,7 @@ CEngine::~CEngine()
 	SAFE_DELETE(myLightManager);
 	SAFE_DELETE(myErrorManager);
 	SAFE_DELETE(myFileWatcher);
+	/*SAFE_DELETE(myFBXLoader);*/
 }
 
 
@@ -102,7 +105,7 @@ bool CEngine::Start()
 	}
 
 	myDirect3D = new CDirectEngine();
-	if (!myDirect3D->Init(*this, myWindowSize, myCreateParameters.myEnableVSync))
+	if (!myDirect3D->Init(*this, myWindowSize, myCreateParameters.myEnableVSync, myCreateParameters.myStartInFullScreen))
 	{
 		ERROR_AUTO_PRINT("%s", "D3D failed to be created!");
 		return false;
@@ -113,8 +116,11 @@ bool CEngine::Start()
 	myRenderer = new CRenderer(myCreateParameters.myMaxRenderedObjectsPerFrame);
 	myTextureManager = new CTextureManager();
 	myTextureManager->Init();
+
+	/*myFBXLoader = new CFbxLoader();*/
 	myTextService = new CTextService();
 	myTextService->Init();
+
 
 	myLightManager = new CLightManager();
 	CalculateRatios();
@@ -247,4 +253,13 @@ HWND* DX2D::CEngine::GetHWND() const
 HINSTANCE DX2D::CEngine::GetHInstance() const
 {
 	return myHInstance;
+}
+
+void DX2D::CEngine::SetFullScreen(bool aFullScreen)
+{
+	if (myDirect3D)
+	{
+		myDirect3D->SetFullScreen(aFullScreen);
+	}
+	
 }

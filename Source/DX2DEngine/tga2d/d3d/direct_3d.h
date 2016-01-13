@@ -38,7 +38,7 @@ namespace DX2D
 	public:
 		CDirectEngine(void);
 		~CDirectEngine(void);
-		bool Init(const CEngine& aEngine, Vector2<unsigned int> aWindowSize, bool enableVSync);
+		bool Init(const CEngine& aEngine, Vector2<unsigned int> aWindowSize, bool enableVSync, bool startInFullScreen);
 		void PostRenderFrame();
 		void RenderFrame();
 		void SetClearColor(CColor aColor);
@@ -57,6 +57,7 @@ namespace DX2D
 		Vector2<unsigned int> myWindowSize;
 
 		void SetResolution(DX2D::Vector2<unsigned int> aResolution);
+		void SetFullScreen(bool aFullScreen);
 
 		Matrix44 myCorrectedWorldWatrix;
 		Matrix44 myWorldWatrix;

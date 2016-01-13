@@ -350,9 +350,6 @@ void DX2D::CShader::DoOneFrameUpdates(CRenderObject* aObject)
 	dataPtrLights = (LightBufferType*)mappedResourceLight.pData;
 	dataPtrLights->myNumberOfLights = lights.size();
 
-	static float test = 0;
-	test += 0.001f;
-
 	for (unsigned int i = 0; i < 4; i++)
 	{
 		dataPtrLights->myLights[i].myLightColors.Set(0, 0, 0, 0);

@@ -196,7 +196,7 @@ bool CDirectEngine::CollectAdapters( Vector2<unsigned int> aWindowSize, Vector2<
     return true;
 }
 
-bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowSize, bool enableVSync )
+bool CDirectEngine::Init(const CEngine& aEngine, Vector2<unsigned int> aWindowSize, bool enableVSync, bool startInFullScreen)
 {
     myEnableVSync = enableVSync;
     HRESULT result = S_OK;
@@ -224,7 +224,7 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
     swapChainDescription.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swapChainDescription.OutputWindow = aEngine.GetWindow().GetWindowHandle();
     swapChainDescription.SampleDesc.Count = 1;
-    swapChainDescription.Windowed = TRUE;
+	swapChainDescription.Windowed = !startInFullScreen;
     swapChainDescription.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     swapChainDescription.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
     swapChainDescription.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -346,7 +346,7 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
     depthBufferDesc.Height = myWindowSize.y;
     depthBufferDesc.MipLevels = 1;
     depthBufferDesc.ArraySize = 1;
-    depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     depthBufferDesc.SampleDesc.Count = 1;
     depthBufferDesc.SampleDesc.Quality = 0;
     depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -400,7 +400,7 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
     ZeroMemory( &depthStencilViewDesc, sizeof( depthStencilViewDesc ) );
 
     // Set up the depth stencil view description.
-    depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
     depthStencilViewDesc.Texture2D.MipSlice = 0;
 
@@ -424,7 +424,7 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
     rasterDesc.DepthClipEnable = true;
     rasterDesc.FillMode = D3D11_FILL_SOLID;
     rasterDesc.FrontCounterClockwise = false;
-    rasterDesc.MultisampleEnable = true;
+    rasterDesc.MultisampleEnable = false;
     rasterDesc.ScissorEnable = false;
     rasterDesc.SlopeScaledDepthBias = 0.0f;
 
@@ -476,6 +476,8 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
     viewport.TopLeftY = 0;
     viewport.Width = static_cast<float>( myWindowSize.x );
     viewport.Height = static_cast<float>( myWindowSize.y );
+	viewport.MinDepth = 0;
+	viewport.MaxDepth = 1;
 
     myDeviceContext->RSSetViewports( 1, &viewport );
 
@@ -498,7 +500,7 @@ bool CDirectEngine::Init( const CEngine& aEngine, Vector2<unsigned int> aWindowS
 
     float screenAspect = (float)myWindowSize.x / (float)myWindowSize.y;
 
-    MakeMatrixOrtho( -screenAspect, screenAspect, -1.0f, 1.0f, 0.1f, 100.0, myProjWatrix );
+    MakeMatrixOrtho( -screenAspect, screenAspect, -1.0f, 1.0f, 0.01f, 1000.0, myProjWatrix );
 
     INFO_PRINT( "%s", "All done, starting..." );
     return true;
@@ -545,12 +547,12 @@ bool CDirectEngine::CreateSampler()
 {
     D3D11_SAMPLER_DESC samplerDesc;
     samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
     samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = 8;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
     samplerDesc.BorderColor[0] = 0;
     samplerDesc.BorderColor[1] = 0;
     samplerDesc.BorderColor[2] = 0;
@@ -649,6 +651,7 @@ void DX2D::CDirectEngine::SetDebugObjectName( _In_ ID3D11DeviceChild* resource, 
 
 void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution )
 {
+	return;
     myWindowSize = aResolution;
 
     myDeviceContext->OMSetRenderTargets( 0, 0, 0 );
@@ -686,6 +689,11 @@ void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution
     float screenAspect = (float)myWindowSize.x / (float)myWindowSize.y;
 
     MakeMatrixOrtho( -screenAspect, screenAspect, -1.0f, 1.0f, 0.1f, 1000.0, myProjWatrix );
+}
+
+void DX2D::CDirectEngine::SetFullScreen(bool aFullScreen)
+{
+	mySwapchain->SetFullscreenState(aFullScreen, nullptr);
 }
 
 int DX2D::CDirectEngine::GetObjectRenderCount()
