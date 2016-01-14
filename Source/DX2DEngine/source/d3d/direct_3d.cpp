@@ -649,6 +649,8 @@ void DX2D::CDirectEngine::SetDebugObjectName( _In_ ID3D11DeviceChild* resource, 
 #endif
 }
 
+#pragma warning (push)
+#pragma warning (disable: 4702)
 void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution )
 {
 	return;
@@ -690,6 +692,8 @@ void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution
 
     MakeMatrixOrtho( -screenAspect, screenAspect, -1.0f, 1.0f, 0.1f, 1000.0, myProjWatrix );
 }
+
+#pragma warning (pop)
 
 void DX2D::CDirectEngine::SetFullScreen(bool aFullScreen)
 {

@@ -180,10 +180,12 @@
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="JSON.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateStack.h" />
@@ -198,6 +200,7 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -216,6 +219,9 @@
     <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">
       <Project>{e3935931-b5a5-4a68-934e-5084028f8906}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

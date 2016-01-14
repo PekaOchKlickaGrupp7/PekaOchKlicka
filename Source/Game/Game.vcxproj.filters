@@ -25,6 +25,9 @@
     <Filter Include="System\Monitor">
       <UniqueIdentifier>{835b92ca-5777-49a5-928b-6ae7066454d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\JSON">
+      <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -94,6 +97,10 @@
     <ClInclude Include="ResolutionManager.h">
       <Filter>System\Monitor</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="JSON.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -127,5 +134,11 @@
     <ClCompile Include="ResolutionManager.cpp">
       <Filter>System\Monitor</Filter>
     </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
 </Project>

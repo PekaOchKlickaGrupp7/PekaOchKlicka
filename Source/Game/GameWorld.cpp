@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameWorld.h"
+#include "JSON.h"
 
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
@@ -22,6 +23,9 @@ CGameWorld::~CGameWorld()
 void CGameWorld::Init()
 {
 	SoundManager::GetInstance(); // Creates a sound manager instance.
+
+	JSON json;
+	json.Load("root.json");
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
