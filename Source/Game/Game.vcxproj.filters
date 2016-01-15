@@ -34,6 +34,9 @@
     <Filter Include="Menu\MenuComponent">
       <UniqueIdentifier>{e933bf4a-61ac-4ec3-89ff-bb8b805ffb95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Events">
+      <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -128,6 +131,12 @@
     <ClInclude Include="MenuTextItem.h">
       <Filter>Menu\MenuComponent</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -185,8 +194,11 @@
     <ClCompile Include="MenuTextItem.cpp">
       <Filter>Menu\MenuComponent</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Game.rc" />
+    <ClCompile Include="EventManager.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -351,7 +351,7 @@ namespace CommonUtilities
 	void GrowingArray<TEMPLATE_ARGUMENTS>::DeleteAll()
 	{
 		assert(myIsInitiated && " GROWING ARRAY ERROR  -  Trying to do stuff with a GrowingArray without initiating it!");
-		for (int i = 0; i < myNumberOfElements; ++i)
+		for (SizeType i = 0; i < myNumberOfElements; ++i)
 		{
 			delete myArray[i];
 			myArray[i] = nullptr;
