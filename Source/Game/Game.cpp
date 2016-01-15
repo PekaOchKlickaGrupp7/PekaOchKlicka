@@ -8,6 +8,7 @@
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
 
+#include "SoundManager.h"
 
 
 using namespace std::placeholders;
@@ -33,14 +34,13 @@ myRenderer()
 
 CGame::~CGame()
 {
-
+	myStateStack.Clear();
+	mySynchronizer.Quit();
+	myRenderThread->join();
 	delete myRenderThread;
 	myRenderThread = nullptr;
 
-	if (DX2D::CEngine::GetInstance() != nullptr)
-	{
-		//DX2D::CEngine::DestroyInstance();
-	}
+	SoundManager::DestroyInstance();
 }
 
 
@@ -48,10 +48,8 @@ void CGame::Init()
 {
 	myResolutionManager.Initialize({0,0});
 
-
 	unsigned short windowWidth = 1280;
 	unsigned short windowHeight = 720;
-
 
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
@@ -86,11 +84,14 @@ void CGame::Init()
 void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
+
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
 		*DX2D::CEngine::GetInstance()->GetHWND());
 
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
+
+	SoundManager::GetInstance(); // Creates a sound manager instance.
 
 	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
 
@@ -116,7 +117,7 @@ void CGame::Render()
 
 		mySynchronizer.SwapBuffer();
 		myRenderer.Render(mySynchronizer);
-	
+		
 		mySynchronizer.RenderIsDone();
 	}
 }
@@ -131,11 +132,7 @@ void CGame::UpdateCallBack()
 	mySynchronizer.LogicIsDone();
 	if (myQuit == true)
 	{
-		myStateStack.Clear();
-		mySynchronizer.Quit();
-		myRenderThread->detach();
-
-		//this->~CGame();
+		DX2D::CEngine::Destroy();
 	}
 	else
 	{
