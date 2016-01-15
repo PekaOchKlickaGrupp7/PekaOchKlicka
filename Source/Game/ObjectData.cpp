@@ -9,5 +9,5 @@ ObjectData::ObjectData()
 
 ObjectData::~ObjectData()
 {
-	delete mySprite;
+	//delete mySprite;
 }

@@ -68,6 +68,12 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myJson.LoadLevel("Smiley_Face", myObjects);
 	}
 
+	RECT windowSize;
+	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
+
+
+	std::cout << windowSize.right - windowSize.left << std::endl;
+
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
 
