@@ -91,6 +91,10 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = myResolutionTestSprite->GetPosition();
 	command.mySprite = myResolutionTestSprite;
 	aSynchronizer.AddRenderCommand(command);*/
+	for (unsigned int i = 0; i < myObjects.Size(); ++i)
+	{
+		RenderLevel(aSynchronizer, myObjects[i]);
+	}
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();
@@ -107,10 +111,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
 
-	for (unsigned int i = 0; i < myObjects.Size(); ++i)
-	{
-		RenderLevel(aSynchronizer, myObjects[i]);
-	}
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData& aNode)
@@ -123,6 +123,7 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData& aNode)
 		{
 			command.myPosition = DX2D::Vector2f(aNode.myX, aNode.myY);
 			command.mySprite = aNode.mySprite;
+			command.mySprite->SetColor({ 1, 1, 1, 1 });
 			aSynchronizer.AddRenderCommand(command);
 		}
 		for (unsigned int j = 0; j < aNode.myChilds.Size(); ++j)
