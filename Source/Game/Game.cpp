@@ -9,7 +9,7 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "SoundManager.h"
-
+#include "EventManager.h"
 
 using namespace std::placeholders;
 
@@ -41,6 +41,7 @@ CGame::~CGame()
 	myRenderThread = nullptr;
 
 	SoundManager::DestroyInstance();
+	EventManager::DestroyInstance();
 }
 
 
@@ -92,11 +93,11 @@ void CGame::InitCallBack()
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
 	SoundManager::GetInstance(); // Creates a sound manager instance.
+	EventManager::CreateInstance();
 
 	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
-
-
 }
+
 const bool CGame::Update()
 {
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
