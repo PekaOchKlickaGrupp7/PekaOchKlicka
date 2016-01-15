@@ -10,5 +10,6 @@ ObjectData::ObjectData()
 ObjectData::~ObjectData()
 {
 	delete mySprite;
+	mySprite = nullptr;
 	myChilds.DeleteAll();
 }

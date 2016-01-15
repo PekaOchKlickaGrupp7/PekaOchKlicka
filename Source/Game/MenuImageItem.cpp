@@ -30,7 +30,7 @@ MenuImageItem::~MenuImageItem()
 void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 {
 	RenderCommand command;
-	command.myConvertFromNormalToPixelSpace = true;
+	command.myConvertFromPixelToSpaceNormal = true;
 
 	command.myPosition.x = myPos.x;
 	command.myPosition.y = myPos.y;

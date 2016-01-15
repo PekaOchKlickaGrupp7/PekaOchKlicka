@@ -11,6 +11,6 @@ public:
 	~Renderer();
 	void Render(Synchronizer& aSynchronizer);
 private:
-	void ConvertPosFromNormalToPixelSpace(RenderCommand& aRenderCommand);
+	void ConvertPosFromPixelToNormalSpace(RenderCommand& aRenderCommand);
 };
 

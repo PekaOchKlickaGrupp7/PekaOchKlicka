@@ -5,6 +5,7 @@
 Sound::Sound()
 {
 	myPosition = { 0.0f, 0.0f };
+	mySFX = nullptr;
 }
 
 

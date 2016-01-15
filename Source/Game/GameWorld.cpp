@@ -12,16 +12,14 @@ GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 	Init();
 }
 
-
 CGameWorld::~CGameWorld()
 {
+	mySFXRain.Stop();
 	delete text;
-	
 	myObjects.DeleteAll();
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
-
 }
 
 void CGameWorld::Init()
@@ -30,6 +28,7 @@ void CGameWorld::Init()
 
 	myObjects.Init(128);
 	myJson.LoadLevel("Smiley_Face", myObjects);
+
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -90,10 +89,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 
-	/*command.myType = eRenderType::eSprite;
-	command.myPosition = myResolutionTestSprite->GetPosition();
-	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);*/
 	for (unsigned int i = 0; i < myObjects.Size(); ++i)
 	{
 		RenderLevel(aSynchronizer, myObjects[i]);

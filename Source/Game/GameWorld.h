@@ -17,7 +17,8 @@
 class CGameWorld : public GameState
 {
 public:
-	CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager);
+	CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper,
+		CU::TimeSys::TimerManager& aTimerManager);
 	~CGameWorld();
 
 	void Init();

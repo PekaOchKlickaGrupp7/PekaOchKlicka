@@ -31,8 +31,8 @@ MenuCursor::~MenuCursor()
 
 void MenuCursor::Update(CU::DirectInput::InputWrapper& anInputWrapper)
 {
-	myScreenPos.x = anInputWrapper.GetMouseLocationX() - (mySprite->GetSize().x * 1280) / 2;
-	myScreenPos.y = anInputWrapper.GetMouseLocationY() - (mySprite->GetSize().y * 720) / 2;
+	myScreenPos.x = anInputWrapper.GetMouseLocationXInPixels() - (mySprite->GetSize().x * 1280) / 2;
+	myScreenPos.y = anInputWrapper.GetMouseLocationYInPixels() - (mySprite->GetSize().y * 720) / 2;
 	if (myScreenPos.x > 1280 || myScreenPos.y > 720
 		|| myScreenPos.x < 0 || myScreenPos.y < 0)
 	{
@@ -48,7 +48,8 @@ void MenuCursor::Update(CU::DirectInput::InputWrapper& anInputWrapper)
 void MenuCursor::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
-	command.myConvertFromNormalToPixelSpace = true;
+
+	command.myConvertFromPixelToSpaceNormal = true;
 
 	command.myPosition.x = myScreenPos.x;
 	command.myPosition.y = myScreenPos.y;

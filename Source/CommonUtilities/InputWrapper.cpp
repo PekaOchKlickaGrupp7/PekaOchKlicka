@@ -106,14 +106,21 @@ namespace CU
 
 		int InputWrapper::GetMouseLocationX()
 		{
-			return myMouseX;
+			return myMouseX / 1280;
 		}
 
 		int InputWrapper::GetMouseLocationY()
 		{
+			return myMouseY / 720;
+		}
+		int InputWrapper::GetMouseLocationXInPixels()
+		{
+			return myMouseX;
+		}
+		int InputWrapper::GetMouseLocationYInPixels()
+		{
 			return myMouseY;
 		}
-
 		void InputWrapper::SetMouseLocation(int aX, int aY)
 		{
 			SetCursorPos(aX, aY);

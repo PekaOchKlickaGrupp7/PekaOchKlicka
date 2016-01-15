@@ -13,7 +13,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::ConvertPosFromNormalToPixelSpace(RenderCommand& aRenderCommand)
+void Renderer::ConvertPosFromPixelToNormalSpace(RenderCommand& aRenderCommand)
 {
 	aRenderCommand.myPosition.x /= 1280;
 	aRenderCommand.myPosition.y /= 720;
@@ -23,9 +23,9 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 {
 	for (int i = 0; i < aSynchronizer.GetSize(); ++i)
 	{
-		if (aSynchronizer.GetRenderCommand(i).myConvertFromNormalToPixelSpace == true)
+		if (aSynchronizer.GetRenderCommand(i).myConvertFromPixelToSpaceNormal == true)
 		{
-			ConvertPosFromNormalToPixelSpace(aSynchronizer.GetRenderCommand(i));
+			ConvertPosFromPixelToNormalSpace(aSynchronizer.GetRenderCommand(i));
 		}
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{

@@ -46,7 +46,7 @@ bool JSON::Load(const std::string& aRootFile)
 
 		std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
 	}
-
+	
 	return true;
 }
 
