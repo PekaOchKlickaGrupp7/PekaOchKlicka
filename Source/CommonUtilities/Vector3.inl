@@ -137,6 +137,12 @@ T Vector3<T>::Dot(const Vector3<T> &aLeft, const Vector3<T> &aRight)
 }
 
 template <typename T>
+T Length2(const Vector3<T>& aVector)
+{
+	return Dot(aVector, aVector);
+}
+
+template <typename T>
 Vector3<T> Vector3<T>::Cross(const Vector3 &aRight) const
 {
 	Vector3 newVector;
@@ -177,6 +183,83 @@ Vector3<T> Vector3<T>::Normalize(Vector3 aVector)
 	aVector.x /= tempLength;
 	aVector.y /= tempLength;
 	aVector.z /= tempLength;
+	return aVector;
+}
+
+// operator with scalar
+
+template <typename T>
+Vector3<T> operator+(const Vector3<T>& aVector, T aScalar)
+{
+	Vector3<T> result(aVector);
+	result += aScalar;
+	return result;
+}
+template <typename T>
+Vector3<T> operator+(T aScalar, const Vector3<T>& aVector)
+{
+	return aVector + aScalar;
+}
+template <typename T>
+Vector3<T> operator+=(Vector3<T>& aVector, T aScalar)
+{
+	aVector.x += aScalar;
+	aVector.y += aScalar;
+	aVector.z += aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector3<T> operator-(const Vector3<T>& aVector, T aScalar)
+{
+	Vector3<T> result(aVector);
+	result -= aScalar;
+	return result;
+}
+template <typename T>
+Vector3<T> operator-=(Vector3<T>& aVector, T aScalar)
+{
+	aVector.x -= aScalar;
+	aVector.y -= aScalar;
+	aVector.z -= aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector3<T> operator*(const Vector3<T>& aVector, T aScalar)
+{
+	Vector3<T> result(aVector);
+	result *= aScalar;
+	return result;
+}
+template <typename T>
+Vector3<T> operator*(T aScalar, const Vector3<T>& aVector)
+{
+	return aVector * aScalar;
+}
+template <typename T>
+Vector3<T> operator*=(Vector3<T>& aVector, T aScalar)
+{
+	aVector.x *= aScalar;
+	aVector.y *= aScalar;
+	aVector.z *= aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector3<T> operator/(const Vector3<T>& aVector, T aScalar)
+{
+	Vector3<T> result(aVector);
+	result /= aScalar;
+	return result;
+}
+template <typename T>
+Vector3<T> operator/=(Vector3<T>& aVector, T aScalar)
+{
+	assert(aScalar != 0 && "Division by zero.");
+	aVector.x /= aScalar;
+	aVector.y /= aScalar;
+	aVector.z /= aScalar;
 	return aVector;
 }
 

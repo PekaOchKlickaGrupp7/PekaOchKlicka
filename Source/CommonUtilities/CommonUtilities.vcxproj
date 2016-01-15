@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CU.h" />
     <ClInclude Include="DL_Assert.h" />
@@ -78,10 +79,16 @@
     <ClInclude Include="DL_StackWalker.h" />
     <ClInclude Include="GrowingArray.h" />
     <ClInclude Include="InputWrapper.h" />
+    <ClInclude Include="Intersection.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="LineSegment2D.h" />
+    <ClInclude Include="LineSegment3D.h" />
     <ClInclude Include="Macros.h" />
     <ClInclude Include="matrix33.h" />
     <ClInclude Include="matrix44.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="ReleaseAssert.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="StackWalker\StackWalker.h" />
     <ClInclude Include="StaticArray.h" />
     <ClInclude Include="stdafx.h" />

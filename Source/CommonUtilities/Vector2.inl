@@ -1,3 +1,4 @@
+#include <cmath>
 #pragma region Constructors
 template <typename T>
 Vector2<T>::Vector2(void)
@@ -77,6 +78,77 @@ Vector2<T>& Vector2<T>::operator/=(const T aRight)
 	return *this;
 }
 
+template <typename T>
+Vector2<T> operator+(const Vector2<T>& aVector, T aScalar)
+{
+	Vector2<T> result(aVector);
+	result += aScalar;
+	return result;
+}
+template <typename T>
+Vector2<T> operator+(T aScalar, const Vector2<T>& aVector)
+{
+	return aVector + aScalar;
+}
+template <typename T>
+Vector2<T> operator+=(Vector2<T>& aVector, T aScalar)
+{
+	aVector.x += aScalar;
+	aVector.y += aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector2<T> operator-(const Vector2<T>& aVector, T aScalar)
+{
+	Vector2<T> result(aVector);
+	result -= aScalar;
+	return result;
+}
+
+template <typename T>
+Vector2<T> operator-=(Vector2<T>& aVector, T aScalar)
+{
+	aVector.x -= aScalar;
+	aVector.y -= aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector2<T> operator*(const Vector2<T>& aVector, T aScalar)
+{
+	Vector2<T> result(aVector);
+	result *= aScalar;
+	return result;
+}
+template <typename T>
+Vector2<T> operator*(T aScalar, const Vector2<T>& aVector)
+{
+	return aVector * aScalar;
+}
+template <typename T>
+Vector2<T> operator*=(Vector2<T>& aVector, T aScalar)
+{
+	aVector.x *= aScalar;
+	aVector.y *= aScalar;
+	return aVector;
+}
+
+template <typename T>
+Vector2<T> operator/(const Vector2<T>& aVector, T aScalar)
+{
+	Vector2<T> result(aVector);
+	result /= aScalar;
+	return result;
+}
+template <typename T>
+Vector2<T> operator/=(Vector2<T>& aVector, T aScalar)
+{
+	assert(aScalar != 0 && "Division by zero.");
+	aVector.x /= aScalar;
+	aVector.y /= aScalar;
+	return aVector;
+}
 #pragma endregion
 
 #pragma region Info
@@ -134,6 +206,11 @@ Vector2<T> Vector2<T>::Normalize(Vector2 aVector)
 	return aVector;
 }
 
+template <typename T>
+T Length2(const Vector2<T>& aVector)
+{
+	return Dot(aVector, aVector);
+}
 #pragma endregion
 
 

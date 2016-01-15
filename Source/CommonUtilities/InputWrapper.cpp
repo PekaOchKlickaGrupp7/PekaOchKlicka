@@ -60,7 +60,9 @@ namespace CU
 				result = myMouse->SetDataFormat(&c_dfDIMouse);
 				result = myMouse->SetCooperativeLevel(aHwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 				result = myMouse->Acquire();
+
 				mySuccededMouse = true;
+
 				DL_PRINT("A Mouse device was found and acquired.");
 			}
 
@@ -80,14 +82,17 @@ namespace CU
 				DL_PRINT("A Joystick device was found and acquired.");
 			}
 
-
+			myWindowHandler = aHwnd;
 			return true;
 		}
 
 		void InputWrapper::ProcessInput()
 		{
-			myMouseX += myMouseState.lX;
-			myMouseY += myMouseState.lY;
+			tagPOINT cursorPoint;
+			GetCursorPos(&cursorPoint);
+			ScreenToClient(myWindowHandler, &cursorPoint);
+			myMouseX = static_cast<float>(cursorPoint.x);
+			myMouseY = static_cast<float>(cursorPoint.y);
 			myMouseZ += myMouseState.lZ;
 		}
 
@@ -197,9 +202,6 @@ namespace CU
 		{
 			bool result;
 			myPrevKeyboardState = myKeyboardState;
-
-			myMouseX = 0;
-			myMouseY = 0;
 
 			result = ReadKeyboard();
 			result = ReadMouse();

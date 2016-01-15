@@ -96,6 +96,7 @@ public:
 	//
 	T Length(void) const;
 	T Length2(void) const;
+	static T Length2(const Vector3<T>& aVector);
 	T Dot(const Vector3<T> &aRight) const;
 	Vector3 Cross(const Vector3 &aRight) const;
 	Vector3 GetNormalized(void) const;

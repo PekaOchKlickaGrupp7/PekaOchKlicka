@@ -33,12 +33,6 @@ myRenderer()
 
 CGame::~CGame()
 {
-	myRenderThread->join();
-	mySynchronizer.Quit();
-
-
-	myStateStack.Clear();
-
 	delete myRenderThread;
 	myRenderThread = nullptr;
 	DL_Debug::Debug::Destroy();
@@ -88,31 +82,25 @@ void CGame::Init()
 void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
+		*DX2D::CEngine::GetInstance()->GetHWND());
+
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+
+	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
 
 
 }
 const bool CGame::Update()
 {
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
+	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
+		return false;
 	}
-	else
-	{
-		myQuit = true;
-	}
-
-
-	if (myQuit == true)
-	{
-		return true;
-	}
-	return false;
+	return true;
 }
 
 void CGame::Render()
@@ -121,9 +109,10 @@ void CGame::Render()
 	while (mySynchronizer.HasQuit() == false)
 	{
 		mySynchronizer.WaitForLogic();
-		myRenderer.Render(mySynchronizer);
 
 		mySynchronizer.SwapBuffer();
+		myRenderer.Render(mySynchronizer);
+	
 		mySynchronizer.RenderIsDone();
 	}
 }
@@ -136,10 +125,17 @@ void CGame::UpdateCallBack()
 	myQuit = Update();
 
 	mySynchronizer.LogicIsDone();
-	mySynchronizer.WaitForRender();
 	if (myQuit == true)
 	{
+		myStateStack.Clear();
+		mySynchronizer.Quit();
+		myRenderThread->join();
+
 		this->~CGame();
+	}
+	else
+	{
+		mySynchronizer.WaitForRender();
 	}
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <tga2d/Engine.h>
-#include "GameWorld.h"
+#include "MainMenuState.h"
 
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputWrapper.h"
