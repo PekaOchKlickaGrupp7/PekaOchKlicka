@@ -17,9 +17,10 @@ public:
 
 	bool Load(const std::string& aRootFile);
 
-	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData, unsigned int>& aObjects);
+	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
-	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData, unsigned int>& aObjects, float x, float y);
+	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, 
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y);
 private:
 	const char* ReadFile(const char* aFile);
 	

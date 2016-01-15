@@ -50,7 +50,7 @@ bool JSON::Load(const std::string& aRootFile)
 	return true;
 }
 
-bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData, unsigned int>& aObjects)
+bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
 {
 	bool found = false;
 	unsigned int index = 0;
@@ -90,47 +90,48 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 
 #pragma region Private Methods
 
-void JSON::LoadObject(Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData, unsigned int>& aObjects, float x, float y)
+void JSON::LoadObject(Value& node, ObjectData* aParentObject, 
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y)
 {
 	Value& object = node;
 
-	ObjectData dataObject;
+	ObjectData* dataObject = new ObjectData();
 
-	dataObject.myActive = object["active"].GetBool();
+	dataObject->myActive = object["active"].GetBool();
 
-	dataObject.myScaleX = static_cast<float>(object["sx"].GetDouble());
-	dataObject.myScaleY = static_cast<float>(object["sy"].GetDouble());
-	dataObject.myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1280.0f;
-	dataObject.myY = (static_cast<float>(object["y"].GetDouble()) + y) / 720.0f;
-	dataObject.myRotation = static_cast<float>(object["rotation"].GetDouble());
-	dataObject.myPivotX = static_cast<float>(object["pivotX"].GetDouble());
-	dataObject.myPivotY = static_cast<float>(object["pivotY"].GetDouble());
+	dataObject->myScaleX = static_cast<float>(object["sx"].GetDouble());
+	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
+	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1280.0f;
+	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 720.0f;
+	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
+	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
+	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
 
 	if (std::string(object["image"].GetString()).size() > 0)
 	{
 		std::cout << object["image"].GetString() << std::endl;
-		dataObject.mySprite = new DX2D::CSprite(object["image"].GetString());
-		dataObject.mySprite->SetPivot(DX2D::Vector2f(dataObject.myPivotX, dataObject.myPivotY));
-		dataObject.mySprite->SetSize(DX2D::Vector2f(dataObject.myScaleX, dataObject.myScaleY));
-		dataObject.mySprite->SetRotation(dataObject.myRotation);
-		dataObject.mySprite->SetPosition(DX2D::Vector2f(dataObject.myX, dataObject.myY));
+		dataObject->mySprite = new DX2D::CSprite(object["image"].GetString());
+		dataObject->mySprite->SetPivot(DX2D::Vector2f(dataObject->myPivotX, dataObject->myPivotY));
+		dataObject->mySprite->SetSize(DX2D::Vector2f(dataObject->myScaleX, dataObject->myScaleY));
+		dataObject->mySprite->SetRotation(dataObject->myRotation);
+		dataObject->mySprite->SetPosition(DX2D::Vector2f(dataObject->myX, dataObject->myY));
 	}
 	else
 	{
-		dataObject.mySprite = nullptr;
+		dataObject->mySprite = nullptr;
 	}
 
 	ObjectData* parentData = nullptr;
-	dataObject.myChilds.Init(12);
+	dataObject->myChilds.Init(12);
 	if (aParentObject == nullptr)
 	{
 		aObjects.Add(dataObject);
-		parentData = &aObjects[aObjects.Size() - 1];
+		parentData = aObjects[aObjects.Size() - 1];
 	}
 	else
 	{
 		aParentObject->myChilds.Add(dataObject);
-		parentData = &aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+		parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
 	}
 
 	for (unsigned int j = 0; j < object["childs"].Size(); ++j)

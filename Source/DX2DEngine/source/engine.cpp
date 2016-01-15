@@ -86,7 +86,7 @@ CEngine::~CEngine()
 }
 
 
-void DX2D::CEngine::DestroyInstance()
+void DX2D::CEngine::Destroy()
 {
 	if (myInstance != nullptr)
 	{
@@ -140,7 +140,7 @@ bool CEngine::Start()
 
 	StartStep();
 
-	DestroyInstance();
+	Destroy();
 	return true;
 }
 

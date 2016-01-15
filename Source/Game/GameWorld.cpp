@@ -16,17 +16,16 @@ GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	SoundManager::DestroyInstance();
-	myObjects.RemoveAll();
+	
+	myObjects.DeleteAll();
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
+
 }
 
 void CGameWorld::Init()
 {
-	SoundManager::GetInstance(); // Creates a sound manager instance.
-
 	myJson.Load("root.json");
 
 	myObjects.Init(128);
@@ -117,22 +116,22 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 }
 
-void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData& aNode)
+void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 {
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
-	if (aNode.myActive == true)
+	if (aNode->myActive == true)
 	{
-		if (aNode.mySprite != nullptr)
+		if (aNode->mySprite != nullptr)
 		{
-			command.myPosition = DX2D::Vector2f(aNode.myX, aNode.myY);
-			command.mySprite = aNode.mySprite;
+			command.myPosition = DX2D::Vector2f(aNode->myX, aNode->myY);
+			command.mySprite = aNode->mySprite;
 			command.mySprite->SetColor({ 1, 1, 1, 1 });
 			aSynchronizer.AddRenderCommand(command);
 		}
-		for (unsigned int j = 0; j < aNode.myChilds.Size(); ++j)
+		for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
 		{
-			RenderLevel(aSynchronizer, aNode.myChilds[j]);
+			RenderLevel(aSynchronizer, aNode->myChilds[j]);
 		}
 	}
 }

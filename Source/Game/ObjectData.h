@@ -17,6 +17,6 @@ public:
 	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
 	bool myActive;
 
-	CommonUtilities::GrowingArray<ObjectData, unsigned int> myChilds;
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 };
 
