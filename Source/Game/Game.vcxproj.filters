@@ -28,6 +28,12 @@
     <Filter Include="System\JSON">
       <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{ebcd1b9c-2c00-4619-bf54-e621f6f5ff12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu\MenuComponent">
+      <UniqueIdentifier>{e933bf4a-61ac-4ec3-89ff-bb8b805ffb95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -107,6 +113,21 @@
     <ClInclude Include="LevelData.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuCursor.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuImageItem.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuTextItem.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +169,21 @@
     </ClCompile>
     <ClCompile Include="LevelData.cpp">
       <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuCursor.cpp">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuImageItem.cpp">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuItem.cpp">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuTextItem.cpp">
+      <Filter>Menu\MenuComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

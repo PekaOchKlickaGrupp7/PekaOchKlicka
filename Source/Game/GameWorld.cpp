@@ -17,6 +17,10 @@ CGameWorld::~CGameWorld()
 {
 	delete text;
 	SoundManager::DestroyInstance();
+	myObjects.RemoveAll();
+	delete myAudioListenerSprite;
+	delete myAudioSourceSprite;
+	delete myResolutionTestSprite;
 }
 
 void CGameWorld::Init()

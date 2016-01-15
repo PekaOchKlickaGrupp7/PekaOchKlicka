@@ -1,7 +1,4 @@
 #pragma once
-
-#define DIRECTINPUT_VERSION 0x0800
-
 #pragma comment (lib, "dinput8.lib")
 #pragma comment (lib, "dxguid.lib")
 #include <dinput.h>
@@ -50,6 +47,8 @@ namespace CU
 			DIJOYSTATE myJoystickState;
 			DIJOYSTATE myPrevJoystickState;
 
+			HWND myWindowHandler;
+
 			bool ReadKeyboard();
 			bool ReadMouse();
 			bool ReadJoystick();
@@ -64,6 +63,7 @@ namespace CU
 			int myMouseX;
 			int myMouseY;
 			int myMouseZ;
+			
 		};
 
 		bool InputWrapper::GetKeyDown(int aKey)
