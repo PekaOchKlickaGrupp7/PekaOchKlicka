@@ -8,7 +8,8 @@
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
 
-
+#include "SoundManager.h"
+#include "EventManager.h"
 
 using namespace std::placeholders;
 
@@ -33,27 +34,26 @@ myRenderer()
 
 CGame::~CGame()
 {
-	myRenderThread->join();
-	mySynchronizer.Quit();
-
-
 	myStateStack.Clear();
-
+	mySynchronizer.Quit();
+	myRenderThread->join();
 	delete myRenderThread;
 	myRenderThread = nullptr;
-	DL_Debug::Debug::Destroy();
-	DX2D::CEngine::DestroyInstance();
+
+	SoundManager::DestroyInstance();
+	EventManager::DestroyInstance();
 }
 
 
 void CGame::Init()
 {
+	myResolutionManager.Initialize({0,0});
+
 	unsigned short windowWidth = 1280;
 	unsigned short windowHeight = 720;
 
-
 	DX2D::SEngineCreateParameters createParameters;
-	createParameters.myActivateDebugSystems = true;
+	createParameters.myActivateDebugSystems = false;
 	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
 	createParameters.myUpdateFunctionToCall = std::bind(&CGame::UpdateCallBack, this);
 	createParameters.myLogFunction = std::bind(&CGame::LogCallback, this, _1);
@@ -61,10 +61,13 @@ void CGame::Init()
 	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
-	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
+	createParameters.myClearColor.Set(1.0f, 1.0f, 1.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
+	createParameters.myStartInFullScreen = false;
 #ifdef _DEBUG
+	createParameters.myActivateDebugSystems = true;
+	createParameters.myStartInFullScreen = false;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
@@ -82,42 +85,40 @@ void CGame::Init()
 void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
+		*DX2D::CEngine::GetInstance()->GetHWND());
+
 	myRenderThread = new std::thread(&CGame::Render, this);
-	ThreadHelper::SetThreadName(-1, "Updater");
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
+	SoundManager::GetInstance(); // Creates a sound manager instance.
+	EventManager::CreateInstance();
 
+	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
 }
+
 const bool CGame::Update()
 {
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
+		return false;
 	}
-	else
-	{
-		myQuit = true;
-	}
-
-
-	if (myQuit == true)
-	{
-		return true;
-	}
-	return false;
+	return true;
 }
 
 void CGame::Render()
 {
-	ThreadHelper::SetThreadName(-1, "Renderer");
+	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Renderer");
 	while (mySynchronizer.HasQuit() == false)
 	{
 		mySynchronizer.WaitForLogic();
-		myRenderer.Render(mySynchronizer);
 
 		mySynchronizer.SwapBuffer();
+		myRenderer.Render(mySynchronizer);
+		
 		mySynchronizer.RenderIsDone();
 	}
 }
@@ -130,10 +131,13 @@ void CGame::UpdateCallBack()
 	myQuit = Update();
 
 	mySynchronizer.LogicIsDone();
-	mySynchronizer.WaitForRender();
 	if (myQuit == true)
 	{
-		this->~CGame();
+		DX2D::CEngine::Destroy();
+	}
+	else
+	{
+		mySynchronizer.WaitForRender();
 	}
 }
 

@@ -80,7 +80,10 @@ public:
 	T Length(void) const;
 	T Length2(void) const;
 	T Dot(const Vector2<T> &aRight) const;
+	static T Length2(const Vector2<T>& aVector);
+	static T Length(const Vector2<T>& aVector);
 	Vector2 GetNormalized(void) const;
+
 
 	// Manipulation
 	//

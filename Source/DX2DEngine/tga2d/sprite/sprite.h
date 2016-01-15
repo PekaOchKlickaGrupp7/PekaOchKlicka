@@ -70,6 +70,9 @@ namespace DX2D
 		bool GetShouldRender(){ return myShouldRender; }
 
 		void SetMap(const EShaderMap aMapType, const char* aPath);
+
+		/* Will delete the texturedata, be aware that if anything else uses this texture it will be invalid*/
+		void ReleaseAttachedTexture();
 		
 	private:
 		

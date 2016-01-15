@@ -27,6 +27,7 @@ namespace DX2D
     class CLightManager;
     class CErrorManager;
     class CFileWatcher;
+	//class CFbxLoader;
 }
 
 
@@ -38,7 +39,7 @@ namespace DX2D
 	typedef std::function<void(std::string)> callback_function_error;
     struct SEngineCreateParameters
     {
-		SEngineCreateParameters(){ myHwnd = nullptr; myHInstance = nullptr;  myWindowWidth = 800; myWindowHeight = 600; myEnableVSync = false; myMaxRenderedObjectsPerFrame = 100000; myRenderWidth = myWindowWidth; myRenderHeight = myWindowHeight; myErrorFunction = nullptr; }
+		SEngineCreateParameters(){ myHwnd = nullptr; myHInstance = nullptr;  myWindowWidth = 800; myWindowHeight = 600; myEnableVSync = false; myMaxRenderedObjectsPerFrame = 100000; myRenderWidth = myWindowWidth; myRenderHeight = myWindowHeight; myErrorFunction = nullptr; myStartInFullScreen = false; }
         callback_function myInitFunctionToCall;
         callback_function_update myUpdateFunctionToCall;
         callback_function_log myLogFunction;
@@ -54,6 +55,7 @@ namespace DX2D
         HINSTANCE myHInstance;
         std::wstring myApplicationName;
         bool myEnableVSync;
+		bool myStartInFullScreen;
         int myMaxRenderedObjectsPerFrame;
     };
 
@@ -68,7 +70,7 @@ namespace DX2D
         CEngine &operator =( const CEngine &anOther ) = delete;
         static void CreateInstance( const SEngineCreateParameters& aCreateParameters);
         static CEngine* GetInstance() {return myInstance;}
-        static void DestroyInstance();
+        static void Destroy();
 
         bool Start();
 		void Shutdown();
@@ -102,6 +104,10 @@ namespace DX2D
         CFileWatcher* GetFileWatcher(){ return myFileWatcher; }
 
         bool GetIsDebugSystemsActive() const { return myCreateParameters.myActivateDebugSystems; }
+
+		//CFbxLoader* GetFBXLoader() const { return myFBXLoader; }
+
+		void SetFullScreen(bool aFullScreen);
     private:
         CEngine(const SEngineCreateParameters& aCreateParameters);
         ~CEngine();
@@ -125,6 +131,7 @@ namespace DX2D
 		Vector2<unsigned int> myRenderSize;
         Vector2<unsigned int> myNativeRenderSize;
         HWND *myHwnd;
+		//CFbxLoader* myFBXLoader;
         HINSTANCE myHInstance;
         CColor myClearColor;
         SEngineCreateParameters myCreateParameters;

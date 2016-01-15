@@ -22,6 +22,8 @@ namespace CU
 			void GetMouseLocation(int& aX, int& aY); // Relative
 			int GetMouseLocationX();
 			int GetMouseLocationY();
+			int GetMouseLocationXInPixels();
+			int GetMouseLocationYInPixels();
 			void GetMouseAbsoluteLocation(int& aX, int& aY);
 			void SetMouseLocation(int aX, int aY);
 
@@ -47,6 +49,8 @@ namespace CU
 			DIJOYSTATE myJoystickState;
 			DIJOYSTATE myPrevJoystickState;
 
+			HWND myWindowHandler;
+
 			bool ReadKeyboard();
 			bool ReadMouse();
 			bool ReadJoystick();
@@ -61,6 +65,7 @@ namespace CU
 			int myMouseX;
 			int myMouseY;
 			int myMouseZ;
+			
 		};
 
 		bool InputWrapper::GetKeyDown(int aKey)

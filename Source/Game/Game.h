@@ -1,6 +1,6 @@
 #pragma once
 #include <tga2d/Engine.h>
-#include "GameWorld.h"
+#include "MainMenuState.h"
 
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputWrapper.h"
@@ -12,6 +12,8 @@
 
 #include "StateStack.h"
 #include "StateStackProxy.h"
+
+#include "ResolutionManager.h"
 
 class CGame
 {
@@ -38,4 +40,6 @@ private:
 
 	std::thread* myRenderThread;
 	volatile bool myQuit;
+
+	ResolutionManager myResolutionManager;
 };

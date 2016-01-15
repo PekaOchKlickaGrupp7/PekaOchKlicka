@@ -6,10 +6,12 @@ This class will store a texture bound to DX11
 #pragma once
 #include <string>
 #include "math/Vector2.h"
-#include <d3d11.h>
 
+struct ID3D11ShaderResourceView;
+struct ID3D11RenderTargetView;
 namespace DX2D
 {
+	
 	class CTexture
 	{
 	public:
@@ -22,8 +24,10 @@ namespace DX2D
 		Vector2f mySize;
 		Vector2<unsigned int> myImageSize;
 		bool myIsFailedTexture;
+		bool myIsReleased;
 	};
 
+	
 	class CRendertarget : public CTexture
 	{
 	public:

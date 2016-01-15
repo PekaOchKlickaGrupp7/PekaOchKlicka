@@ -146,7 +146,7 @@ void CDebugDrawer::Update(float aTimeDelta)
 	
 	fpsText.append("FPS: ");
 
-	int fps = static_cast<int>(MAX((int)(1.0f / aTimeDelta), 0.0f));
+	int fps = aTimeDelta == 0 ? static_cast<int>(MAX((int)(1.0f / aTimeDelta), 0.0f)) : 0;
 
 	int avgFps = static_cast<int>(CalcAverageTick(fps));
 
@@ -236,6 +236,11 @@ void CDebugDrawer::Render()
 		int objCount = CEngine::GetInstance()->GetDirect3D().GetObjectRenderCount();
 		drawCalls.append(std::to_string(objCount));
 		myDrawCallText->myText = drawCalls;
+		myDrawCallText->myColor.Set(1, 1, 1, 1);
+		if (objCount > 1000)
+		{
+			myDrawCallText->myColor.Set(1, 0, 0, 1);
+		}
 		myDrawCallText->Render();
 		myCPUText->Render();
 	}

@@ -1,19 +1,15 @@
+
 #include "stdafx.h"
 #include "SoundManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
-#include <iostream>
 
 SoundManager* SoundManager::mySoundManager = nullptr;
 
-
-
-const int   INTERFACE_UPDATETIME = 16;      // 50ms standard update for interface
 const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
 SoundManager::SoundManager()
 {
-	FMOD_VECTOR listenerpos = { 0.0f, 0.0f, -1.0f * DISTANCEFACTOR };
-
+	myListenerPosition = { 5.0f, 5.0f, -1.0f * DISTANCEFACTOR };
 
 	if (FMOD::System_Create(&mySystem) != FMOD_OK)
 	{
@@ -34,22 +30,6 @@ SoundManager::SoundManager()
 	DL_PRINT("Created a sound device");
 
 	mySystem->set3DSettings(1.0, DISTANCEFACTOR, 1.0f);
-
-	static float t = 0;
-	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR forward =		 { 0.0f, 0.0f, 1.0f };
-	FMOD_VECTOR up =			 { 0.0f, 1.0f, 0.0f };
-	FMOD_VECTOR vel;
-
-	vel.x = (listenerpos.x - lastpos.x) * (1000 / INTERFACE_UPDATETIME); //
-	vel.y = (listenerpos.y - lastpos.y) * (1000 / INTERFACE_UPDATETIME); //
-	vel.z = (listenerpos.z - lastpos.z) * (1000 / INTERFACE_UPDATETIME); //
-
-	//listenerpos.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
-
-	lastpos = listenerpos;
-
-	mySystem->set3DListenerAttributes(0, &listenerpos, &vel, &forward, &up);
 }
 
 SoundClass SoundManager::CreateSound3D(const char* aFile)
@@ -74,7 +54,7 @@ void SoundManager::SetPan(FMOD::Channel *aChannel, float aPanFloat)
 	aChannel->setPan(aPanFloat);
 }
 
-void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, int aX, int aY, int aZ)
+void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, float aX, float aY, float aZ)
 {
 	FMOD_VECTOR positionVector;
 
@@ -82,8 +62,7 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, int aX, int aY,
 	positionVector.y = aY;
 	positionVector.z = aZ;
 
-	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
-	std::cout << result << std::endl;
+	aChannel->set3DAttributes(&positionVector, 0, nullptr);
 }
 
 void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition)
@@ -94,21 +73,26 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f 
 	positionVector.y = aPosition.y;
 	positionVector.z = 0;
 
-	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
-	std::cout << result << std::endl;
+	aChannel->set3DAttributes(&positionVector, 0, nullptr);
 }
 
-void SoundManager::Pause(SoundClass aSound)
+void SoundManager::Update(float aUpdateTimer)
 {
+	static float t = 0;
+	static FMOD_VECTOR lastpos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR forward = { 0.0f, 0.0f, 1.0f };
+	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
+	FMOD_VECTOR vel;
 
-}
-void SoundManager::Resume(SoundClass aSound)
-{
+	vel.x = (myListenerPosition.x - lastpos.x) * (1000 / aUpdateTimer); //
+	vel.y = (myListenerPosition.y - lastpos.y) * (1000 / aUpdateTimer); //
+	vel.z = (myListenerPosition.z - lastpos.z) * (1000 / aUpdateTimer); //
 
-}
+	//myListenerPosition.x = (float)sin(t * 0.05f) * 24.0f * DISTANCEFACTOR;
 
-void SoundManager::Update()
-{
+	lastpos = myListenerPosition;
+
+	mySystem->set3DListenerAttributes(0, &myListenerPosition, &vel, &forward, &up);
 	mySystem->update();
 }
 
