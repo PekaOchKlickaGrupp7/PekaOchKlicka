@@ -33,10 +33,14 @@ myRenderer()
 
 CGame::~CGame()
 {
+
 	delete myRenderThread;
 	myRenderThread = nullptr;
-	DL_Debug::Debug::Destroy();
-	DX2D::CEngine::DestroyInstance();
+
+	if (DX2D::CEngine::GetInstance() != nullptr)
+	{
+		//DX2D::CEngine::DestroyInstance();
+	}
 }
 
 
@@ -129,9 +133,9 @@ void CGame::UpdateCallBack()
 	{
 		myStateStack.Clear();
 		mySynchronizer.Quit();
-		myRenderThread->join();
+		myRenderThread->detach();
 
-		this->~CGame();
+		//this->~CGame();
 	}
 	else
 	{

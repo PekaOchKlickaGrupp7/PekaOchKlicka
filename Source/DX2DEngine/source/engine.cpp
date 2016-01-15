@@ -88,7 +88,10 @@ CEngine::~CEngine()
 
 void DX2D::CEngine::DestroyInstance()
 {
-	myInstance->Shutdown();
+	if (myInstance != nullptr)
+	{
+		myInstance->Shutdown();
+	}
 }
 
 
