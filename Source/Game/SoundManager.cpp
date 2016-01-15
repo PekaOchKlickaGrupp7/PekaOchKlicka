@@ -1,11 +1,9 @@
+
 #include "stdafx.h"
 #include "SoundManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
-#include <iostream>
 
 SoundManager* SoundManager::mySoundManager = nullptr;
-
-
 
 const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 
@@ -64,8 +62,7 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, float aX, float
 	positionVector.y = aY;
 	positionVector.z = aZ;
 
-	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
-	std::cout << result << std::endl;
+	aChannel->set3DAttributes(&positionVector, 0, nullptr);
 }
 
 void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition)

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "GameWorld.h"
-#include "JSON.h"
 
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
@@ -24,8 +23,10 @@ void CGameWorld::Init()
 {
 	SoundManager::GetInstance(); // Creates a sound manager instance.
 
-	JSON json;
-	json.Load("root.json");
+	myJson.Load("root.json");
+
+	myObjects.Init(128);
+	myJson.LoadLevel("Smiley_Face", myObjects);
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -57,6 +58,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	static float aSpeed = 0.01f;
 
+	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+	{
+		std::cout << "Smiley face" << std::endl;
+		myJson.LoadLevel("Smiley_Face", myObjects);
+	}
 
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
@@ -64,7 +70,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
 	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
-	std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
+	//std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
 
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{
@@ -81,10 +87,10 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 
-	command.myType = eRenderType::eSprite;
+	/*command.myType = eRenderType::eSprite;
 	command.myPosition = myResolutionTestSprite->GetPosition();
 	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
+	aSynchronizer.AddRenderCommand(command);*/
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();
@@ -100,4 +106,28 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
+
+	for (unsigned int i = 0; i < myObjects.Size(); ++i)
+	{
+		RenderLevel(aSynchronizer, myObjects[i]);
+	}
+}
+
+void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData& aNode)
+{
+	RenderCommand command;
+	command.myType = eRenderType::eSprite;
+	if (aNode.myActive == true)
+	{
+		if (aNode.mySprite != nullptr)
+		{
+			command.myPosition = DX2D::Vector2f(aNode.myX, aNode.myY);
+			command.mySprite = aNode.mySprite;
+			aSynchronizer.AddRenderCommand(command);
+		}
+		for (unsigned int j = 0; j < aNode.myChilds.Size(); ++j)
+		{
+			RenderLevel(aSynchronizer, aNode.myChilds[j]);
+		}
+	}
 }

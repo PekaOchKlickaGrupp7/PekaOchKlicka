@@ -11,6 +11,8 @@
 #include <tga2d/primitives/custom_shape.h>
 #include <tga2d/math/color.h>
 #include "Sound.h"
+#include "ObjectData.h"
+#include "JSON.h"
 
 class CGameWorld : public GameState
 {
@@ -21,6 +23,7 @@ public:
 	void Init();
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
+	void RenderLevel(Synchronizer& aSynchronizer, ObjectData& aNode);
 private:
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
@@ -28,6 +31,10 @@ private:
 	DX2D::CSprite* myAudioSourceSprite;
 	DX2D::CSprite* myAudioListenerSprite;
 	DX2D::Vector2f myAudioSourcePosition;
+
+	CommonUtilities::GrowingArray<ObjectData, unsigned int> myObjects;
+
+	JSON myJson;
 
 	Sound mySFXRain;
 };

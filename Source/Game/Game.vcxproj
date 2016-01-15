@@ -181,6 +181,8 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
+    <ClInclude Include="LevelData.h" />
+    <ClInclude Include="ObjectData.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
@@ -201,6 +203,8 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="LevelData.cpp" />
+    <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />

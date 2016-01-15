@@ -383,7 +383,7 @@ namespace CommonUtilities
 
 		ObjectType* newArray = new ObjectType[aNewSize];
 
-		for (int i = 0; i < myNumberOfElements; ++i)
+		for (SizeType i = 0; i < myNumberOfElements; ++i)
 		{
 			newArray[i] = myArray[i];
 		}
