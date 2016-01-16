@@ -50,9 +50,9 @@ bool JSON::Load(const std::string& aRootFile)
 	return true;
 }
 
-bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
+bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, bool testLevel)
 {
-	bool found = false;
+	bool found = testLevel;
 	unsigned int index = 0;
 	for (unsigned int i = 0; i < myLevels.Size(); ++i)
 	{
@@ -68,7 +68,15 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	}
 	aObjects.RemoveAll();
 
-	const char* data = ReadFile(myLevels[index].myLevelPath.c_str());
+	const char* data = "";
+	if (testLevel == true)
+	{
+		data = ReadFile(aLevelName.c_str());
+	}
+	else
+	{
+		data = ReadFile(myLevels[index].myLevelPath.c_str());
+	}
 
 	Document level;
 	level.Parse(data);
@@ -78,7 +86,6 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 		DL_DEBUG("Couldn't parse level file");
 		return false;
 	}
-	aObjects.RemoveAll();
 
 	for (unsigned int i = 0; i < level["objects"].Size(); ++i)
 	{

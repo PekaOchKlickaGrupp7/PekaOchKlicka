@@ -10,6 +10,7 @@
 
 #include "SoundManager.h"
 #include "EventManager.h"
+#include <iostream>
 
 using namespace std::placeholders;
 
@@ -22,6 +23,7 @@ using namespace std::placeholders;
 #pragma comment(lib,"DX2DEngine_Release.lib")
 #endif // DEBUG
 
+std::string CGame::testLevel = "";
 
 CGame::CGame() :
 myStateStackProxy(myStateStack),
@@ -45,8 +47,30 @@ CGame::~CGame()
 }
 
 
-void CGame::Init()
+void CGame::Init(const char** argv, const int argc)
 {
+
+	std::cout << std::endl;
+	for (int i = 0; i < argc; ++i)
+	{
+		std::cout << argv[i] << std::endl;
+	}
+	std::cout << std::endl;
+
+	if (argc == 2)
+	{
+		//Test level
+		std::string str = argv[1];
+		while (str.find("%") != str.npos)
+		{
+			str = str.replace(str.find("%"), 1, " ");
+		}
+
+
+		testLevel = str;
+		std::cout << "Level: " << testLevel << std::endl; 
+	}
+
 	myResolutionManager.Initialize({0,0});
 
 	unsigned short windowWidth = 1280;

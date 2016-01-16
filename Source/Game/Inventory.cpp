@@ -28,7 +28,7 @@ void Inventory::Remove(const Item& aItemToRemove)
 //Combine one item with another
 void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
 {
-	if ((aItemToCombine.IsCombinable == true && aItemToCombineWith.IsCombinable == true))
+	if ((aItemToCombine.IsCombinable() == true && aItemToCombineWith.IsCombinable() == true))
 	{
 		//Compare the first items list of combinable item names with the name of the second item
 		for (int i = 0; i < aItemToCombine.GetList().Size(); ++i)
