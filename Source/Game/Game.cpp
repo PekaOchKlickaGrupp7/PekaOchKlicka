@@ -124,7 +124,8 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
+	const float deltaTime = static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds());
+	EventManager::GetInstance()->Update(deltaTime);
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
