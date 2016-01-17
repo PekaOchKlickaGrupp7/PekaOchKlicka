@@ -8,6 +8,7 @@
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
 
+#include "GameWorld.h"
 #include "SoundManager.h"
 #include "EventManager.h"
 #include <iostream>
@@ -23,7 +24,7 @@ using namespace std::placeholders;
 #pragma comment(lib,"DX2DEngine_Release.lib")
 #endif // DEBUG
 
-std::string CGame::testLevel = "";
+std::string CGame::myTestLevel = "";
 
 CGame::CGame() :
 myStateStackProxy(myStateStack),
@@ -67,8 +68,8 @@ void CGame::Init(const char** argv, const int argc)
 		}
 
 
-		testLevel = str;
-		std::cout << "Level: " << testLevel << std::endl; 
+		myTestLevel = str;
+		std::cout << "Level: " << myTestLevel << std::endl; 
 	}
 
 	myResolutionManager.Initialize({0,0});
@@ -119,7 +120,14 @@ void CGame::InitCallBack()
 	SoundManager::GetInstance(); // Creates a sound manager instance.
 	EventManager::CreateInstance();
 
-	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	if (myTestLevel.size() > 0)
+	{
+		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	}
+	else
+	{
+		myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	}
 }
 
 const bool CGame::Update()

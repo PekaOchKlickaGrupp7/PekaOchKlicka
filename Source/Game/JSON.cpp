@@ -21,6 +21,7 @@ bool JSON::Load(const std::string& aRootFile)
 	if (root.HasParseError() == true)
 	{
 		DL_DEBUG("Failed to load root.json.");
+		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
 
@@ -28,6 +29,7 @@ bool JSON::Load(const std::string& aRootFile)
 	if (levels.IsNull() == true)
 	{
 		DL_DEBUG("Levels is not a member of root file");
+		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
 	for (unsigned int i = 0; i < levels.Capacity(); ++i)
@@ -36,6 +38,7 @@ bool JSON::Load(const std::string& aRootFile)
 		if (level.IsNull() == true)
 		{
 			DL_DEBUG("level is null");
+			root.GetAllocator().~MemoryPoolAllocator();
 			return false;
 		}
 		
@@ -47,7 +50,16 @@ bool JSON::Load(const std::string& aRootFile)
 		std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
 	}
 	
+	root.GetAllocator().Clear();
+
+	delete data;
+
 	return true;
+}
+
+CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
+{
+	return myLevels;
 }
 
 bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, bool testLevel)
@@ -65,6 +77,10 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	if (found == false)
 	{
 		return false;
+	}
+	for (unsigned int i = 0; i < aObjects.Size(); ++i)
+	{
+		delete aObjects[i];
 	}
 	aObjects.RemoveAll();
 
@@ -84,6 +100,7 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	if (level.HasParseError() == true)
 	{
 		DL_DEBUG("Couldn't parse level file");
+		level.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
 
@@ -91,6 +108,10 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	{
 		LoadObject(level["objects"][i], nullptr, aObjects, 0, 0);
 	}
+
+	level.GetAllocator().Clear();
+
+	delete data;
 
 	return true;
 }
@@ -128,6 +149,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		dataObject->mySprite = nullptr;
 	}
 
+	dataObject->myEvents.Init(128);
+
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
 	if (aParentObject == nullptr)
@@ -154,7 +177,7 @@ const char* JSON::ReadFile(const char* aFile)
 	std::string str((std::istreambuf_iterator<char>(input)),
 		std::istreambuf_iterator<char>());
 
-	char* data = new char[str.length()];
+	char* data = new char[str.length() + 1];
 	int a = 0;
 	for (unsigned int i = 0; i < str.length(); ++i)
 	{
@@ -164,6 +187,7 @@ const char* JSON::ReadFile(const char* aFile)
 			a++;
 		}
 	}
+
 	data[a] = '\0';
 	input.close();
 	

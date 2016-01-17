@@ -22,7 +22,7 @@ public:
 	~CGame();
 	void Init(const char** argv, const int argc);
 
-	static std::string testLevel;
+	static std::string myTestLevel;
 
 private:
 	void InitCallBack();

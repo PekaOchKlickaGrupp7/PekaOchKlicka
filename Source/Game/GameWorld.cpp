@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "Game.h"
+#include "EventManager.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputWrapper, aTimerManager)
@@ -29,16 +30,17 @@ void CGameWorld::Init()
 
 	myObjects.Init(128);
 	
-	std::cout << "Level: " << CGame::testLevel << std::endl;
-	if (CGame::testLevel.size() > 0)
+	std::cout << "Level: " << CGame::myTestLevel << std::endl;
+	if (CGame::myTestLevel.size() > 0)
 	{
-		myJson.LoadLevel(CGame::testLevel, myObjects, true);
+		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
 	}
 	else
 	{
 		myJson.LoadLevel("Smiley_Face", myObjects);
 	}
 
+	EventManager::GetInstance()->LoadObjects(myObjects);
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -72,14 +74,15 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{
-		if (CGame::testLevel.size() > 0)
+		if (CGame::myTestLevel.size() > 0)
 		{
-			myJson.LoadLevel(CGame::testLevel, myObjects, true);
+			myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
 		}
 		else
 		{
 			myJson.LoadLevel("Smiley_Face", myObjects);
 		}
+		EventManager::GetInstance()->LoadObjects(myObjects);
 	}
 
 	RECT windowSize;
