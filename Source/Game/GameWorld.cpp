@@ -40,7 +40,7 @@ void CGameWorld::Init()
 	}
 	else
 	{
-		myJson.LoadLevel("Smiley_Face", myObjects);
+	myJson.LoadLevel("Smiley_Face", myObjects);
 	}
 
 	mySFXRain.Create3D("SFX/rain.wav");
@@ -81,8 +81,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 		else
 		{
-			myJson.LoadLevel("Smiley_Face", myObjects);
-		}
+		myJson.LoadLevel("Smiley_Face", myObjects);
+	}
 		EventManager::GetInstance()->LoadObjects(myObjects);
 	}*/
 
@@ -157,7 +157,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
-
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

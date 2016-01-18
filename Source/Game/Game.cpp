@@ -126,7 +126,7 @@ void CGame::InitCallBack()
 	}
 	else
 	{
-		myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
 	}
 }
 
