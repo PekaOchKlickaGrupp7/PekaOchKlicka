@@ -68,9 +68,9 @@ void MainMenuState::InitState()
 
 	float scaleButtons = 0.75f;
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds", "Sprites/menu/playHighlight.dds", Vector2<float>(1280 / 6.f, 5 * 720 / 10.f), scaleButtons * 720 / 1024.f));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds", "Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons * 720 / 1024.f));
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds", "Sprites/menu/exitHighlight.dds", Vector2<float>(1280 / 6.f, 8 * 720 / 10.f), scaleButtons * 720 / 1024.f));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds", "Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons * 720 / 1024.f));
 
 }
 

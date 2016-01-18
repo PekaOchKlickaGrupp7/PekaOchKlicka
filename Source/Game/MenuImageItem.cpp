@@ -16,8 +16,8 @@ MenuImageItem::MenuImageItem(eAction anAction, const char* aSpritePath
 
 	//mySprite->SetTextureRect(0, 0, mySize.x, mySize.y);
 	//mySpriteHighlight->SetTextureRect(0, 0, mySize.x, mySize.y);
-	myPos.x - (mySprite->GetSize().x * 1280) / 2;
-	myPos.y - (mySprite->GetSize().y * 720) / 2;
+	myPos = aPos;
+
 }
 
 

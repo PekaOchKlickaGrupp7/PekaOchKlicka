@@ -26,13 +26,17 @@ public:
 	}
 
 	void Update(const float aDeltaTime);
-	Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
+	void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+
+
+	//Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
 	Event& GetEvent(const std::string& aName);
 
 private:
 	static EventManager* myInstance;
 
-	CommonUtilities::GrowingArray<Event, unsigned int> myEvents;
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
+	//CommonUtilities::GrowingArray<Event, unsigned int> myEvents;
 
 	EventManager();
 	~EventManager();
