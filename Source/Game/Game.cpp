@@ -94,9 +94,8 @@ void CGame::InitCallBack()
 	SoundManager::GetInstance(); // Creates a sound manager instance.
 
 	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
-
-
 }
+
 const bool CGame::Update()
 {
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();

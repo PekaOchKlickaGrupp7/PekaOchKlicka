@@ -29,7 +29,6 @@ void CGameWorld::Init()
 	myObjects.Init(128);
 	myJson.LoadLevel("Smiley_Face", myObjects);
 
-
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
 	mySFXRain.Play();
@@ -68,7 +67,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
-
 
 	std::cout << windowSize.right - windowSize.left << std::endl;
 
@@ -114,7 +112,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
-
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
