@@ -15,15 +15,15 @@ void Event::Update(const float aDeltaTime)
 	
 }
 
-void Event::SetType(const EventTypes aType)
-{
-	myType = aType;
-}
-
-const EventTypes Event::GetType() const
-{
-	return myType;
-}
+//void Event::SetType(const EventActions aType)
+//{
+//	myType = aType;
+//}
+//
+//const EventActions Event::GetType() const
+//{
+//	return myType;
+//}
 
 void Event::SetName(const std::string& aName)
 {

@@ -23,6 +23,7 @@ public:
 
 	void Init();
 	eStateStatus Update(float aTimeDelta) override;
+	float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2);
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:

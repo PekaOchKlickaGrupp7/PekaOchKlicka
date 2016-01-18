@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Game.h"
 #include "EventManager.h"
+#include "HitBox.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputWrapper, aTimerManager)
@@ -30,17 +31,17 @@ void CGameWorld::Init()
 
 	myObjects.Init(128);
 	
+	
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
-		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
+		
+		myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
 	}
 	else
 	{
 		myJson.LoadLevel("Smiley_Face", myObjects);
 	}
-
-	EventManager::GetInstance()->LoadObjects(myObjects);
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -71,7 +72,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 	
 	static float aSpeed = 0.01f;
-
+/*
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{
 		if (CGame::myTestLevel.size() > 0)
@@ -83,19 +84,30 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			myJson.LoadLevel("Smiley_Face", myObjects);
 		}
 		EventManager::GetInstance()->LoadObjects(myObjects);
-	}
+	}*/
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
-
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
 	int mX = 0, mY = 0;
 	myInputWrapper.GetMouseLocation(mX, mY);
 
-	myAudioSourcePosition.x = mX / 1280.0f;
-	myAudioSourcePosition.y = mY / 720.0f;
+	if (myInputWrapper.GetKeyWasPressed(DIK_K) == true)
+	{
+		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) / 720.0f << std::endl;
+		for (int i = 0; i < myObjects.Size(); ++i)
+		{
+			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
+			{
+				std::cout << "Collided with object" << std::endl;
+			}
+		}
+	}
+
+	myAudioSourcePosition.x = Remap(mX, 0, 1280, 0, 1280) / 1280.0f;
+	myAudioSourcePosition.y = Remap(mY, 0, 720, 0, 720) / 720.0f;
 /*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
@@ -115,6 +127,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 	return eStateStatus::eKeepState;
+}
+
+float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2)
+{
+	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 }
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
