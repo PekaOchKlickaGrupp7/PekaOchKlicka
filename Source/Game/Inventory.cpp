@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Inventory.h"
+#include "Synchronizer.h"
 
 
 Inventory::Inventory()
@@ -7,10 +8,15 @@ Inventory::Inventory()
 	myContents.Init(10);
 
 	myIsOpen = false;
+
+	myPosition = DX2D::Vector2f(0.0, 0.0);
+
+	myBackground = nullptr;
 }
 
 Inventory::~Inventory()
 {
+	SAFE_DELETE(myBackground);
 }
 
 //Adds an item to the inventory
@@ -28,7 +34,7 @@ void Inventory::Remove(const Item& aItemToRemove)
 //Combine one item with another
 void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
 {
-	if ((aItemToCombine.IsCombinable == true && aItemToCombineWith.IsCombinable == true))
+	if ((aItemToCombine.IsCombinable() == true && aItemToCombineWith.IsCombinable() == true))
 	{
 		//Compare the first items list of combinable item names with the name of the second item
 		for (int i = 0; i < aItemToCombine.GetList().Size(); ++i)
@@ -44,4 +50,15 @@ void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
 	{
 		//Trigger message to indicate that they cant be combined
 	}
+}
+
+//Render the inventory through the synchronizer
+void Inventory::Render(Synchronizer& aSynchronizer)
+{
+	RenderCommand command;
+	command.mySprite = myBackground;
+	command.myPosition = myPosition;
+	command.myType = eRenderType::eSprite;
+
+	aSynchronizer.AddRenderCommand(command);
 }
