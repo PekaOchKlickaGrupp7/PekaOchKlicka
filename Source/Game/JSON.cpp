@@ -187,6 +187,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myHitBox = box;
 	dataObject->myTriggerType = static_cast<TriggerType>(object["events"]["type"].GetInt());
 	dataObject->myTriggerEnabled = object["events"]["enabled"].GetBool();
+	dataObject->myRadius = static_cast<float>(object["events"]["radius"].GetDouble());
 
 	Value& events = object["events"]["list"];
 	for (unsigned int i = 0; i < events.Size(); ++i)

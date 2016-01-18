@@ -5,6 +5,7 @@
 #include "..\CommonUtilities\Collision.h"
 #include "..\CommonUtilities\DL_Debug.h"
 #include "ObjectData.h"
+#include "Event.h"
 
 HitBox::HitBox() : myObject(nullptr)
 {
@@ -21,11 +22,22 @@ void HitBox::Init(ObjectData* aObject)
 
 bool HitBox::IsMouseColliding(const float aX, const float aY)
 {
+	if (myObject->myTriggerEnabled == false)
+	{
+		return false;
+	}
 	if (myObject == nullptr)
 	{
 		DL_ASSERT("DataObject is nullptr");
 	}
-	return CommonUtilities::AxisAlignedBoundingBox(aX, aY, 0, 0, myObject->myX + myX, myObject->myY + myY, myWidth, myHeight);
+	if (myObject->myTriggerType == TriggerType::Box)
+	{
+		return CommonUtilities::AxisAlignedBoundingBox(aX, aY, 0, 0, myObject->myX + myX, myObject->myY + myY, myWidth, myHeight);
+	}
+	else
+	{
+		return CommonUtilities::CircleCollision(1.0f, aX * 1280.0f, aY * 720.0f, myObject->myRadius, (myObject->myX + myX) * 1280.0f, (myObject->myY + myY) * 720.0f);
+	}
 }
 
 void HitBox::Parse(const std::string& aString)
@@ -47,7 +59,6 @@ void HitBox::Parse(const std::string& aString)
 			{
 				str = aString.substr(lastIndex, i - lastIndex);
 			}
-			std::cout << str << std::endl;
 			std::stringstream(str) >> value;
 			lastIndex = i + 2;
 			switch (++index)
