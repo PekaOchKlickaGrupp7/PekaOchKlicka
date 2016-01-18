@@ -7,16 +7,19 @@ class Inventory
 public:
 	Inventory();
 	~Inventory();
+
+	//Adds an item to the inventory
 	void Add(const Item& aItemToAdd);
+
+	//Removes an item from the inventory
 	void Remove(const Item& aItemToRemove);
 	
-	//Combine in inventory
-	Item& CombineInInventory(const Item& aItemToCombine);
-
-	//Combine in World
-	Item& CombineInWorld(const Item& aItemToCombine);
+	//Combine one item with another, generates a new item and removes the originals
+	void Combine(Item& aItemToCombine, Item& aItemToCombineWith);
 
 private:
-	CommonUtilities::GrowingArray<Item> myInventory;
+	CommonUtilities::GrowingArray<Item> myContents;
+
+	bool myIsOpen;
 };
 

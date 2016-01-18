@@ -4,33 +4,44 @@
 
 Inventory::Inventory()
 {
-	myInventory.Init(10);
+	myContents.Init(10);
+
+	myIsOpen = false;
 }
 
 Inventory::~Inventory()
 {
 }
 
+//Adds an item to the inventory
 void Inventory::Add(const Item& aItemToAdd)
 {
-	myInventory.Add(aItemToAdd);
+	myContents.Add(aItemToAdd);
 }
 
+//Removes an item from the inventory
 void Inventory::Remove(const Item& aItemToRemove)
 {
-	myInventory.RemoveCyclic(aItemToRemove);
+	myContents.RemoveCyclic(aItemToRemove);
 }
 
-Item& Inventory::CombineInInventory(const Item& aItemToCombine)
+//Combine one item with another
+void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
 {
-	//CHANGE THIS
-	(aItemToCombine);
-	return myInventory[0];
-}
+	if ((aItemToCombine.IsCombinable() == true && aItemToCombineWith.IsCombinable() == true))
+	{
+		//Compare the first items list of combinable item names with the name of the second item
+		for (int i = 0; i < aItemToCombine.GetList().Size(); ++i)
+		{
+			std::string name = aItemToCombine.GetList()[i];
+			if (aItemToCombineWith.GetName() == name)
+			{
 
-Item& Inventory::CombineInWorld(const Item& aItemToCombine)
-{
-	//CHANGE THIS
-	(aItemToCombine);
-	return myInventory[0];
+			}
+		}
+	}
+	else
+	{
+		//Trigger message to indicate that they cant be combined
+	}
 }

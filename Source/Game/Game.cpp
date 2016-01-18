@@ -8,8 +8,10 @@
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
 
+#include "GameWorld.h"
 #include "SoundManager.h"
-
+#include "EventManager.h"
+#include <iostream>
 
 using namespace std::placeholders;
 
@@ -22,6 +24,7 @@ using namespace std::placeholders;
 #pragma comment(lib,"DX2DEngine_Release.lib")
 #endif // DEBUG
 
+std::string CGame::myTestLevel = "";
 
 CGame::CGame() :
 myStateStackProxy(myStateStack),
@@ -41,11 +44,34 @@ CGame::~CGame()
 	myRenderThread = nullptr;
 
 	SoundManager::DestroyInstance();
+	EventManager::DestroyInstance();
 }
 
 
-void CGame::Init()
+void CGame::Init(const char** argv, const int argc)
 {
+
+	std::cout << std::endl;
+	for (int i = 0; i < argc; ++i)
+	{
+		std::cout << argv[i] << std::endl;
+	}
+	std::cout << std::endl;
+
+	if (argc == 2)
+	{
+		//Test level
+		std::string str = argv[1];
+		while (str.find("%") != str.npos)
+		{
+			str = str.replace(str.find("%"), 1, " ");
+		}
+
+
+		myTestLevel = str;
+		std::cout << "Level: " << myTestLevel << std::endl; 
+	}
+
 	myResolutionManager.Initialize({0,0});
 
 	unsigned short windowWidth = 1280;
@@ -92,13 +118,22 @@ void CGame::InitCallBack()
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
 	SoundManager::GetInstance(); // Creates a sound manager instance.
+	EventManager::CreateInstance();
 
+	if (myTestLevel.size() > 0)
+	{
+		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	}
+	else
+	{
 	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	}
 }
 
 const bool CGame::Update()
 {
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds();
+	const float deltaTime = static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds());
+	EventManager::GetInstance()->Update(deltaTime);
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);

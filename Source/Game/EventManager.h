@@ -8,35 +8,36 @@ class Event;
 class EventManager
 {
 public:
-	static void CreateInstance();
-	static EventManager* const GetInstance();
-	static void EventManager::DestroyInstance();
+	static void CreateInstance()
+	{
+		if (myInstance == nullptr)
+		{
+			myInstance = new EventManager();
+		}
+	}
+	static EventManager* const GetInstance()
+	{
+		return myInstance;
+	}
+	static void EventManager::DestroyInstance()
+	{
+		delete myInstance;
+		myInstance = nullptr;
+	}
 
 	void Update(const float aDeltaTime);
-	Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
+	void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+
+
+	//Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
 	Event& GetEvent(const std::string& aName);
 
 private:
 	static EventManager* myInstance;
 
-	CommonUtilities::GrowingArray<Event, unsigned int> myEvents;
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
+	//CommonUtilities::GrowingArray<Event, unsigned int> myEvents;
 
 	EventManager();
 	~EventManager();
 };
-
-void EventManager::CreateInstance()
-{
-	myInstance = new EventManager();
-}
-
-EventManager* const EventManager::GetInstance()
-{
-	return myInstance;
-}
-
-void EventManager::DestroyInstance()
-{
-	delete myInstance;
-}
-

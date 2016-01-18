@@ -91,8 +91,8 @@ namespace CU
 			tagPOINT cursorPoint;
 			GetCursorPos(&cursorPoint);
 			ScreenToClient(myWindowHandler, &cursorPoint);
-			myMouseX = static_cast<float>(cursorPoint.x);
-			myMouseY = static_cast<float>(cursorPoint.y);
+			myMouseX = static_cast<int>(cursorPoint.x);
+			myMouseY = static_cast<int>(cursorPoint.y);
 			myMouseZ += myMouseState.lZ;
 		}
 

@@ -20,7 +20,10 @@ class CGame
 public:
 	CGame();
 	~CGame();
-	void Init();
+	void Init(const char** argv, const int argc);
+
+	static std::string myTestLevel;
+
 private:
 	void InitCallBack();
 	void UpdateCallBack();

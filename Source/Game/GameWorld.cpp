@@ -5,6 +5,8 @@
 #include "Synchronizer.h"
 
 #include <iostream>
+#include "Game.h"
+#include "EventManager.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputWrapper, aTimerManager)
@@ -27,7 +29,18 @@ void CGameWorld::Init()
 	myJson.Load("root.json");
 
 	myObjects.Init(128);
+	
+	std::cout << "Level: " << CGame::myTestLevel << std::endl;
+	if (CGame::myTestLevel.size() > 0)
+	{
+		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
+	}
+	else
+	{
 	myJson.LoadLevel("Smiley_Face", myObjects);
+	}
+
+	EventManager::GetInstance()->LoadObjects(myObjects);
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -61,17 +74,32 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{
-		std::cout << "Smiley face" << std::endl;
+		if (CGame::myTestLevel.size() > 0)
+		{
+			myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
+		}
+		else
+		{
 		myJson.LoadLevel("Smiley_Face", myObjects);
+	}
+		EventManager::GetInstance()->LoadObjects(myObjects);
 	}
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
 
-	std::cout << windowSize.right - windowSize.left << std::endl;
 
+	//std::cout << windowSize.right - windowSize.left << std::endl;
+
+	int mX = 0, mY = 0;
+	myInputWrapper.GetMouseLocation(mX, mY);
+
+	myAudioSourcePosition.x = mX / 1280.0f;
+	myAudioSourcePosition.y = mY / 720.0f;
+/*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
+*/
 
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
