@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 #include "ObjectData.h"
 #include "LevelData.h"
 #include "rapidjson\document.h"
@@ -11,14 +12,20 @@ public:
 	~JSON();
 
 	bool Load(const std::string& aRootFile);
-	CommonUtilities::GrowingArray<LevelData, unsigned int> GetLevels() const;
-	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, bool testLevel = false);
+	bool LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
-	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, 
-		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y);
+	//CommonUtilities::GrowingArray<LevelData, unsigned int> GetLevels() const;
+
 private:
+	bool LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y);
 	const char* ReadFile(const char* aFile);
-	
-	CommonUtilities::GrowingArray<LevelData, unsigned int> myLevels;
+
+	std::map<std::string, CommonUtilities::GrowingArray<ObjectData*, unsigned int>> myLevels;
+
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myCurrentLevel;
+
+	//CommonUtilities::GrowingArray<LevelData, unsigned int> myLevels;
 };
 

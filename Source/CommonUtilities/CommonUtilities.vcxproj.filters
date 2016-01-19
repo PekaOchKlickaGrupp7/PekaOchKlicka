@@ -69,9 +69,6 @@
     <ClInclude Include="Macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputWrapper.h">
-      <Filter>DirectInput</Filter>
-    </ClInclude>
     <ClInclude Include="StaticArray.h">
       <Filter>ContainerTypes</Filter>
     </ClInclude>
@@ -150,6 +147,9 @@
     <ClInclude Include="Sphere.h">
       <Filter>Math\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>DirectInput</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -164,9 +164,6 @@
     <ClCompile Include="TimerManager.cpp">
       <Filter>Timer</Filter>
     </ClCompile>
-    <ClCompile Include="InputWrapper.cpp">
-      <Filter>DirectInput</Filter>
-    </ClCompile>
     <ClCompile Include="DL_Debug.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="ThreadHelper.cpp">
       <Filter>ThreadHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>DirectInput</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

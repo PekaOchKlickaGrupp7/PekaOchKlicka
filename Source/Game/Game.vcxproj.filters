@@ -131,6 +131,10 @@
     <ClInclude Include="Event.h">
       <Filter>System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="HitBox.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -187,6 +191,10 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="HitBox.cpp">
+      <Filter>System\JSON</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

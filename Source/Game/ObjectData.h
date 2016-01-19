@@ -1,6 +1,7 @@
 #pragma once
 #include "..\CommonUtilities\GrowingArray.h"
 #include "Event.h"
+#include "HitBox.h"
 
 namespace DX2D
 {
@@ -19,6 +20,11 @@ public:
 
 	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
 	bool myActive;
+
+	bool myTriggerEnabled = true;
+	HitBox myHitBox;
+	float myRadius;
+	TriggerType myTriggerType;
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event, unsigned int> myEvents;

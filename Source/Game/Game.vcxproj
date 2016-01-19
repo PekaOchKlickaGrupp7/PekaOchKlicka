@@ -180,6 +180,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="HitBox.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="MenuImageItem.h" />
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
@@ -215,6 +218,7 @@
     <ClCompile Include="MenuImageItem.cpp" />
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="ObjectData.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />

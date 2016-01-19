@@ -78,7 +78,7 @@
     <ClInclude Include="DL_Debug.h" />
     <ClInclude Include="DL_StackWalker.h" />
     <ClInclude Include="GrowingArray.h" />
-    <ClInclude Include="InputWrapper.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineSegment2D.h" />
@@ -109,7 +109,7 @@
   <ItemGroup>
     <ClCompile Include="DL_Debug.cpp" />
     <ClCompile Include="DL_StackWalker.cpp" />
-    <ClCompile Include="InputWrapper.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="StackWalker\StackWalker.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

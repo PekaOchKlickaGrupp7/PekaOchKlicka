@@ -4,11 +4,11 @@
 
 
 GameState::GameState(StateStackProxy& aStateStackProxy
-	, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager
+	, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager
 	, bool aLetThroughRender)
 	: myStateStackProxy(aStateStackProxy)
 
-	, myInputWrapper(aInputWrapper)
+	, myInputManager(aInputManager)
 	, myTimerManager(aTimerManager)
 	, myLetThroughRender(aLetThroughRender)
 {
@@ -25,11 +25,6 @@ void GameState::InitState()
 }
 
 void GameState::EndState()
-{
-
-}
-
-void GameState::Render(Synchronizer& aSynchronizer)
 {
 
 }

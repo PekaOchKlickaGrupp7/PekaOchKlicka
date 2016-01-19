@@ -12,8 +12,6 @@ JSON::~JSON() { }
 
 bool JSON::Load(const std::string& aRootFile)
 {
-	myLevels.Init(10, true);
-
 	const char* data = ReadFile(aRootFile.c_str());
 
 	Document root;
@@ -45,9 +43,11 @@ bool JSON::Load(const std::string& aRootFile)
 		LevelData data;
 		data.myLevelName = level["name"].GetString();
 		data.myLevelPath = level["path"].GetString();
-		myLevels.Add(data);
+		myLevels[level["name"].GetString()].Init(128);
 
-		std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
+		LoadLevel(level["name"].GetString(), data.myLevelPath.c_str(), myLevels[level["name"].GetString()]);
+
+	//	std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
 	}
 	
 	root.GetAllocator().Clear();
@@ -57,14 +57,43 @@ bool JSON::Load(const std::string& aRootFile)
 	return true;
 }
 
-CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
+bool JSON::LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
 {
-	return myLevels;
+	for (unsigned int i = 0; i < aObjects.Size(); ++i)
+	{
+		aObjects[i] = nullptr;
+	}
+	aObjects.RemoveAll();
+
+	LoadLevel(std::string(""), aLevelPath.c_str(), aObjects);
+
+	return true;
 }
 
-bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, bool testLevel)
+bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
 {
-	bool found = testLevel;
+	for (unsigned int i = 0; i < aObjects.Size(); ++i)
+	{
+		aObjects[i] = nullptr;
+	}
+	aObjects.RemoveAll();
+
+	for (unsigned int i = 0; i < myLevels[aLevelName].Size(); ++i)
+	{
+		aObjects.Add(myLevels[aLevelName][i]);
+	}
+
+	return true;
+}
+
+//CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
+//{
+//	return myLevels;
+//}
+
+bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
+{
+	/*bool found = testLevel;
 	unsigned int index = 0;
 	for (unsigned int i = 0; i < myLevels.Size(); ++i)
 	{
@@ -77,7 +106,7 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	if (found == false)
 	{
 		return false;
-	}
+	}*/
 	for (unsigned int i = 0; i < aObjects.Size(); ++i)
 	{
 		delete aObjects[i];
@@ -85,14 +114,14 @@ bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArra
 	aObjects.RemoveAll();
 
 	const char* data = "";
-	if (testLevel == true)
+	/*if (testLevel == true)
 	{
 		data = ReadFile(aLevelName.c_str());
 	}
 	else
-	{
-		data = ReadFile(myLevels[index].myLevelPath.c_str());
-	}
+	{*/
+		data = ReadFile(aLevelPath);
+	//}
 
 	Document level;
 	level.Parse(data);
@@ -150,6 +179,25 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	}
 
 	dataObject->myEvents.Init(128);
+
+	HitBox box;
+	box.Init(dataObject);
+	box.Parse(object["events"]["hitbox"].GetString());
+
+	dataObject->myHitBox = box;
+	dataObject->myTriggerType = static_cast<TriggerType>(object["events"]["type"].GetInt());
+	dataObject->myTriggerEnabled = object["events"]["enabled"].GetBool();
+	dataObject->myRadius = static_cast<float>(object["events"]["radius"].GetDouble());
+
+	Value& events = object["events"]["list"];
+	for (unsigned int i = 0; i < events.Size(); ++i)
+	{
+		Event event;
+		event.myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+		event.myAction = static_cast<EventActions>(events[i]["action"].GetInt());
+		event.myTarget = events[i]["target"].GetString();
+		dataObject->myEvents.Add(event);
+	}
 
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);

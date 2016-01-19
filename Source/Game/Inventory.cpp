@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Inventory.h"
+#include "Synchronizer.h"
 
 
 Inventory::Inventory()
@@ -7,10 +8,21 @@ Inventory::Inventory()
 	myContents.Init(10);
 
 	myIsOpen = false;
+
+	myPosition = DX2D::Vector2f(0.0, 0.0);
+
+	myBackground = nullptr;
 }
 
 Inventory::~Inventory()
 {
+	SAFE_DELETE(myBackground);
+}
+
+void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
+{
+	myBackground = new DX2D::CSprite(aFilePath);
+	myPosition = aPosition;
 }
 
 //Adds an item to the inventory
@@ -44,4 +56,15 @@ void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
 	{
 		//Trigger message to indicate that they cant be combined
 	}
+}
+
+//Render the inventory through the synchronizer
+void Inventory::Render(Synchronizer& aSynchronizer)
+{
+	RenderCommand command;
+	command.mySprite = myBackground;
+	command.myPosition = myPosition;
+	command.myType = eRenderType::eSprite;
+
+	aSynchronizer.AddRenderCommand(command);
 }
