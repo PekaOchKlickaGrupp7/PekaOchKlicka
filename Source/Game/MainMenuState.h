@@ -1,7 +1,6 @@
 #pragma once
 #include "GameState.h"
 #include "..\CommonUtilities\Vector.h"
-#include "MenuCursor.h"
 #include "..\CommonUtilities\VectorOnStack.h"
 #include "MenuItem.h"
 
@@ -33,7 +32,5 @@ private:
 	DX2D::CSprite* myTitle;
 
 	CommonUtilities::VectorOnStack<MenuItem*, 4, int> myButtons;
-
-	MenuCursor myMenuCursor;
 };
 
