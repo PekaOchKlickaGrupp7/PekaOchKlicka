@@ -80,8 +80,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 		else
 		{
-		myJson.LoadLevel("Smiley_Face", myObjects);
-	}
+			myJson.LoadLevel("Smiley_Face", myObjects);
+		}
 		EventManager::GetInstance()->LoadObjects(myObjects);
 	}
 

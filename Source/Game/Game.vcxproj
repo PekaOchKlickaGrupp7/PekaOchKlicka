@@ -185,10 +185,8 @@
     <ClInclude Include="JSON.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MenuCursor.h" />
     <ClInclude Include="MenuImageItem.h" />
     <ClInclude Include="MenuItem.h" />
-    <ClInclude Include="MenuTextItem.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
@@ -214,10 +212,8 @@
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="LevelData.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MenuCursor.cpp" />
     <ClCompile Include="MenuImageItem.cpp" />
     <ClCompile Include="MenuItem.cpp" />
-    <ClCompile Include="MenuTextItem.cpp" />
     <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />

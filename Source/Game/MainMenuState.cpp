@@ -48,8 +48,6 @@ eStateStatus MainMenuState::Update(float aTimeDelta)
 		}
 	}
 
-	myMenuCursor.Update(myInputWrapper);
-
 	CalcHighlights();
 
 	return eStateStatus::eKeepState;
@@ -66,22 +64,22 @@ void MainMenuState::InitState()
 	//myTitle->SetTextureRect(0, 0, 1024.f, 512.f);
 	myTitle->SetPivot(DX2D::Vector2<float>(myTitle->GetSize().x / 2, myTitle->GetSize().y / 2));
 
-	float scaleButtons = 0.75f;
+	float scaleButtons = 1.f;
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds", "Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons * 720 / 1024.f));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds", "Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons));
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds", "Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons * 720 / 1024.f));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds", "Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons));
 
 }
 
 void MainMenuState::CalcHighlights()
 {
-	bool highlightCursor = false;
 	for (int i = 0; i < myButtons.Size(); ++i)
 	{
-		if (myButtons[i]->Collide(myMenuCursor.GetScreenPos()) == true)
+		
+		if (myButtons[i]->Collide(Vector2<float>(myInputWrapper.GetMouseLocationXInPixels(),
+			myInputWrapper.GetMouseLocationYInPixels())) == true)
 		{
-			highlightCursor = true;
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
 		}
@@ -90,7 +88,6 @@ void MainMenuState::CalcHighlights()
 			myButtons[i]->SetHighlight(false);
 		}
 	}
-	myMenuCursor.SetHighlight(highlightCursor);
 }
 
 void MainMenuState::Render(Synchronizer& aSynchronizer)
@@ -114,7 +111,5 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 	{
 		myButtons[i]->Render(aSynchronizer);
 	}
-
-	myMenuCursor.Render(aSynchronizer);
 }
 
