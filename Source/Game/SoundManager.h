@@ -27,7 +27,6 @@ public:
 	}
 
 	void Update(float aUpdateTimer);
-	void Destroy();
 	FMOD::Channel* PlaySound(SoundClass aSound, DX2D::Vector2f aPosition = { 0.0f, 0.0f }, bool isLooping = false);
 	void ReleaseSound(SoundClass aSound);
 	SoundClass CreateSound(const char* aFile);
@@ -38,6 +37,7 @@ public:
 	void SetChannelAttributes(FMOD::Channel *aChannel, float aX, float aY, float aZ = 0);
 	void SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition);
 private:
+	void Destroy();
 	FMOD::System *mySystem;
 	static SoundManager* mySoundManager;
 	SoundManager();

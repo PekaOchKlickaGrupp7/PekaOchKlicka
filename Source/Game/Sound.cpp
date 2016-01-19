@@ -10,6 +10,11 @@ Sound::Sound()
 
 Sound::~Sound()
 {
+}
+
+void Sound::Destroy()
+{
+	myChannel->stop();
 	mySFX->release();
 }
 

@@ -13,8 +13,6 @@
 #include "StateStack.h"
 #include "StateStackProxy.h"
 
-#include "ResolutionManager.h"
-
 class CGame
 {
 public:
@@ -29,6 +27,8 @@ private:
 	const bool Update();
 	void Render();
 
+	bool myIsFullscreen;
+
 	StateStack myStateStack;
 	StateStackProxy myStateStackProxy;
 
@@ -40,6 +40,4 @@ private:
 
 	std::thread* myRenderThread;
 	volatile bool myQuit;
-
-	ResolutionManager myResolutionManager;
 };

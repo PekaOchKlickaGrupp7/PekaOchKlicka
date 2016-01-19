@@ -6,9 +6,14 @@
 
 #include <functional>
 #include <time.h>
+
+
+
 #include "..\CommonUtilities\ThreadHelper.h"
 
+#include <iostream>
 
+#include "ResolutionManager.h"
 
 using namespace std::placeholders;
 
@@ -48,11 +53,11 @@ CGame::~CGame()
 
 void CGame::Init()
 {
-	myResolutionManager.Initialize({0,0});
+	myIsFullscreen = false;
+	ResolutionManager::GetInstance()->Initialize();
 
-
-	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 720;
+	unsigned short windowWidth = 1920;
+	unsigned short windowHeight = 1080;
 
 
 	DX2D::SEngineCreateParameters createParameters;
@@ -67,10 +72,14 @@ void CGame::Init()
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
-	createParameters.myStartInFullScreen = true;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
+	//createParameters.myWindowHeight = 720;
+	//createParameters.myWindowWidth = 1280;
+	//createParameters.myRenderHeight = 720;
+	//createParameters.myRenderWidth = 1280;
 	createParameters.myActivateDebugSystems = true;
-	createParameters.myStartInFullScreen = false;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
@@ -89,14 +98,26 @@ void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+	myInputManager.SetMouseLocation(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
-
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 }
 const bool CGame::Update()
 {
+	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
+
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+
+
+	if (myInputManager.GetKeyWasPressed(DIK_F1) == true)
+	{
+		myIsFullscreen = !myIsFullscreen;
+		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
+	}
+
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
@@ -104,6 +125,8 @@ const bool CGame::Update()
 	}
 	else
 	{
+
+
 		myQuit = true;
 	}
 

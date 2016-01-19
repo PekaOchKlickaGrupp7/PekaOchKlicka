@@ -105,7 +105,7 @@ bool CEngine::Start()
 	}
 
 	myDirect3D = new CDirectEngine();
-	if (!myDirect3D->Init(*this, myWindowSize, myCreateParameters.myEnableVSync, myCreateParameters.myStartInFullScreen))
+	if (!myDirect3D->Init(*this, myRenderSize, myCreateParameters.myEnableVSync, myCreateParameters.myStartInFullScreen))
 	{
 		ERROR_AUTO_PRINT("%s", "D3D failed to be created!");
 		return false;

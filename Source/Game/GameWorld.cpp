@@ -4,10 +4,14 @@
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
+#include "ResolutionManager.h"
+
 #include <iostream>
 
-CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
-GameState(aStateStackProxy, aInputWrapper, aTimerManager)
+CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy,
+	CU::DirectInput::InputWrapper& aInputWrapper,
+	CU::TimeSys::TimerManager& aTimerManager) :
+	GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 {
 	Init();
 }
@@ -15,7 +19,8 @@ GameState(aStateStackProxy, aInputWrapper, aTimerManager)
 
 CGameWorld::~CGameWorld()
 {
-	delete text;
+	//delete text;
+	mySFXRain.Destroy();
 	SoundManager::DestroyInstance();
 }
 
@@ -37,9 +42,11 @@ void CGameWorld::Init()
 	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
 	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
 	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
-	myAudioSourcePosition = {0.5f, 0.5f};
+	myAudioSourcePosition = { 0.5f, 0.5f };
 
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
+	//myResolutionTestSprite->SetPivot({ 0.5f, 0.5f });
+	//myResolutionTestSprite->SetPosition({ 0.5f, 0.5f });
 }
 
 
@@ -50,7 +57,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	{
 		return eStateStatus::ePopMainState;
 	}
-	
+
+	//myResolutionTestSprite->SetSize({ ResolutionManager::GetInstance()->GetRatio(), ResolutionManager::GetInstance()->GetRatio() });
+
 	static float aSpeed = 0.01f;
 
 
@@ -60,7 +69,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
 	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
-	std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
+
 
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{

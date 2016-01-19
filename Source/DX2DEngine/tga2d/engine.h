@@ -66,6 +66,7 @@ namespace DX2D
         friend class CRenderer;
         friend class CShader;
         friend class CErrorManager;
+		friend class CDirectEngine;
     public:
         CEngine &operator =( const CEngine &anOther ) = delete;
         static void CreateInstance( const SEngineCreateParameters& aCreateParameters);

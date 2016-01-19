@@ -64,8 +64,7 @@ void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, float aX, float
 	positionVector.y = aY;
 	positionVector.z = aZ;
 
-	FMOD_RESULT result = aChannel->set3DAttributes(&positionVector, 0, nullptr);
-	std::cout << result << std::endl;
+	aChannel->set3DAttributes(&positionVector, 0, nullptr);
 }
 
 void SoundManager::SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition)
@@ -139,5 +138,5 @@ void SoundManager::Destroy()
 
 SoundManager::~SoundManager()
 {
-	Destroy();
+	//Destroy();
 }
