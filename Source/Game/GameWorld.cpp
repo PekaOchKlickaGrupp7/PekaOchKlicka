@@ -76,41 +76,40 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	static float aSpeed = 0.01f;
 
-	if (myInputManager.KeyPressed(DIK_SPACE) == true)
-	{
-		if (CGame::myTestLevel.size() > 0)
-		{
-			myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
-		}
-		else
-		{
-		myJson.LoadLevel("Smiley_Face", myObjects);
-	}
-		EventManager::GetInstance()->LoadObjects(myObjects);
-	}*/
+	//if (myInputManager.KeyPressed(DIK_SPACE) == true)
+	//{
+	//	if (CGame::myTestLevel.size() > 0)
+	//	{
+	//		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
+	//	}
+	//	else
+	//	{
+	//	myJson.LoadLevel("Smiley_Face", myObjects);
+	//}
+	//	EventManager::GetInstance()->LoadObjects(myObjects);
+	//}
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	int mX = 0, mY = 0;
-	myInputWrapper.GetMouseLocation(mX, mY);
+	POINT mousePos = myInputManager.GetMousePos();
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_K) == true)
+	if (myInputManager.KeyPressed(DIK_K) == true)
 	{
-		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) / 720.0f << std::endl;
-		for (int i = 0; i < myObjects.Size(); ++i)
+		std::cout << Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) << ":" << Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f << std::endl;
+		for (unsigned int i = 0; i < myObjects.Size(); ++i)
 		{
-			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
+			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f, Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f) == true)
 			{
 				std::cout << "Collided with object" << std::endl;
 			}
 		}
 	}
 
-	myAudioSourcePosition.x = Remap(mX, 0, 1280, 0, 1280) / 1280.0f;
-	myAudioSourcePosition.y = Remap(mY, 0, 720, 0, 720) / 720.0f;
+	myAudioSourcePosition.x = Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f;
+	myAudioSourcePosition.y = Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f;
 /*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
