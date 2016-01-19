@@ -33,6 +33,8 @@
 
 #include "StackWalker.h"
 
+#pragma warning (push)
+#pragma warning (disable: 4127)
 
 // If VC7 and later, then use the shipped 'dbghelp.h'-file
 #if _MSC_VER >= 1300
@@ -1179,3 +1181,5 @@ void BaseStackWalker::OnOutput(char* buffer)
 {
   OutputDebugStringA(buffer);
 }
+
+#pragma warning (pop)

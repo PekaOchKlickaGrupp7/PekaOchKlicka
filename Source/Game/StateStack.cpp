@@ -72,13 +72,15 @@ bool StateStack::UpdateCurrentState(float aTimeDelta)
 			break;
 		case eStateStatus::ePopMainState:
 			PopMainGameState();
+			if (myGameStates.Size() > 0 == false)
+				return false;
 			break;
 		case eStateStatus::eKeepState:
 			break;
 		}
+		return true;
 	}
-
-	return myGameStates.Size() > 0;
+	return false;
 }
 
 void StateStack::RenderCurrentState(Synchronizer& aSynchronizer)

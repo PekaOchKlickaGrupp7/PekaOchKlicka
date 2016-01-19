@@ -1,9 +1,8 @@
 #pragma once
 #include <tga2d/Engine.h>
-#include "GameWorld.h"
-
+#include "MainMenuState.h"
 #include "..\CommonUtilities\TimerManager.h"
-#include "..\CommonUtilities\InputWrapper.h"
+#include "..\CommonUtilities\InputManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
 
 #include "Synchronizer.h"
@@ -18,7 +17,10 @@ class CGame
 public:
 	CGame();
 	~CGame();
-	void Init();
+	void Init(const char** argv, const int argc);
+
+	static std::string myTestLevel;
+
 private:
 	void InitCallBack();
 	void UpdateCallBack();
@@ -33,7 +35,7 @@ private:
 	StateStackProxy myStateStackProxy;
 
 	CU::TimeSys::TimerManager myTimerManager;
-	CU::DirectInput::InputWrapper myInputManager;
+	CU::DirectInput::InputManager myInputManager;
 
 	Synchronizer mySynchronizer;
 	Renderer myRenderer;

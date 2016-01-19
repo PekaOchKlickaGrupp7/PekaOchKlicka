@@ -25,6 +25,18 @@
     <Filter Include="System\Monitor">
       <UniqueIdentifier>{835b92ca-5777-49a5-928b-6ae7066454d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\JSON">
+      <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{ebcd1b9c-2c00-4619-bf54-e621f6f5ff12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu\MenuComponent">
+      <UniqueIdentifier>{e933bf4a-61ac-4ec3-89ff-bb8b805ffb95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Events">
+      <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -94,6 +106,35 @@
     <ClInclude Include="ResolutionManager.h">
       <Filter>System\Monitor</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="JSON.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectData.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelData.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuImageItem.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="HitBox.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -126,6 +167,34 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ResolutionManager.cpp">
       <Filter>System\Monitor</Filter>
+    </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectData.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelData.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuImageItem.cpp">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuItem.cpp">
+      <Filter>Menu\MenuComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="HitBox.cpp">
+      <Filter>System\JSON</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

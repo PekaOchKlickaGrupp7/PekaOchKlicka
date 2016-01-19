@@ -1,11 +1,9 @@
+
 #include "stdafx.h"
 #include "SoundManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
-#include <iostream>
 
 SoundManager* SoundManager::mySoundManager = nullptr;
-
-
 
 const float DISTANCEFACTOR = 1.0f;          // Units per meter.  I.e feet would = 3.28.  centimeters would = 100.
 

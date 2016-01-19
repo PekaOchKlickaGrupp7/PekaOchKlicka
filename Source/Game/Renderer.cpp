@@ -13,10 +13,20 @@ Renderer::~Renderer()
 {
 }
 
+void Renderer::ConvertPosFromPixelToNormalSpace(RenderCommand& aRenderCommand)
+{
+	aRenderCommand.myPosition.x /= 1280;
+	aRenderCommand.myPosition.y /= 720;
+}
+
 void Renderer::Render(Synchronizer& aSynchronizer)
 {
-	for (unsigned short i = 0; i < aSynchronizer.GetSize(); ++i)
+	for (int i = 0; i < aSynchronizer.GetSize(); ++i)
 	{
+		if (aSynchronizer.GetRenderCommand(i).myConvertFromPixelToSpaceNormal == true)
+		{
+			ConvertPosFromPixelToNormalSpace(aSynchronizer.GetRenderCommand(i));
+		}
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{
 		case eRenderType::eSprite:
@@ -34,6 +44,5 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 		default:
 			break;
 		}
-
 	}
 }

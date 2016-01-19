@@ -71,7 +71,7 @@ namespace DX2D
         CEngine &operator =( const CEngine &anOther ) = delete;
         static void CreateInstance( const SEngineCreateParameters& aCreateParameters);
         static CEngine* GetInstance() {return myInstance;}
-        static void DestroyInstance();
+        static void Destroy();
 
         bool Start();
 		void Shutdown();

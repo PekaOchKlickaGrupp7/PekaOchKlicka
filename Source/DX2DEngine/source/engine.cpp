@@ -86,9 +86,12 @@ CEngine::~CEngine()
 }
 
 
-void DX2D::CEngine::DestroyInstance()
+void DX2D::CEngine::Destroy()
 {
-	SAFE_DELETE(myInstance);
+	if (myInstance != nullptr)
+	{
+		myInstance->Shutdown();
+	}
 }
 
 
@@ -137,7 +140,7 @@ bool CEngine::Start()
 
 	StartStep();
 
-	DestroyInstance();
+	Destroy();
 	return true;
 }
 
@@ -166,6 +169,7 @@ void DX2D::CEngine::DoStep()
 			if(msg.message == WM_QUIT)
 			{
 				INFO_PRINT("%s", "Exiting...");
+				SAFE_DELETE(myInstance);
 				break;
 			}
 		}
