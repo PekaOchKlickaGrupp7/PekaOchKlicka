@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 #include "..\CommonUtilities\GrowingArray.h"
 
 class ObjectData;
@@ -26,7 +27,8 @@ public:
 	}
 
 	void Update(const float aDeltaTime);
-	void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+	void AddEvent(Event* aEvent);
+	//void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
 
 	//Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
@@ -35,8 +37,7 @@ public:
 private:
 	static EventManager* myInstance;
 
-	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
-	//CommonUtilities::GrowingArray<Event, unsigned int> myEvents;
+	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
 
 	EventManager();
 	~EventManager();
