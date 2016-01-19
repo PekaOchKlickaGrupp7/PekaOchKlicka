@@ -8,8 +8,8 @@
 #include "Game.h"
 #include "EventManager.h"
 
-CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
-GameState(aStateStackProxy, aInputWrapper, aTimerManager)
+CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
+GameState(aStateStackProxy, aInputManager, aTimerManager)
 {
 	Init();
 }
@@ -59,20 +59,23 @@ void CGameWorld::Init()
 	myAudioSourcePosition = {0.5f, 0.5f};
 
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
+
+	//Create the player character
+	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
-	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
+	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
 	}
 	
 	static float aSpeed = 0.01f;
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		if (CGame::myTestLevel.size() > 0)
 		{
@@ -91,11 +94,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	int mX = 0, mY = 0;
-	myInputWrapper.GetMouseLocation(mX, mY);
-
-	myAudioSourcePosition.x = mX / 1280.0f;
-	myAudioSourcePosition.y = mY / 720.0f;
+	myAudioSourcePosition.x = myInputManager.GetMousePos().x / 1280.0f;
+	myAudioSourcePosition.y = myInputManager.GetMousePos().y / 720.0f;
 /*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
@@ -106,7 +106,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
 	//std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		myAudioSourcePosition.x = 0.5f;
 		myAudioSourcePosition.y = 0.5f;
@@ -114,6 +114,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
+
+	myPlayer.Update(myInputManager, aTimeDelta);
+
 	return eStateStatus::eKeepState;
 }
 
@@ -140,6 +143,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
+
+	myPlayer.Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

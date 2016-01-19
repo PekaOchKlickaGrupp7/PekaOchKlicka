@@ -75,7 +75,7 @@ void CGame::Init(const char** argv, const int argc)
 	myResolutionManager.Initialize({0,0});
 
 	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 720;
+	unsigned short windowHeight = 1024;
 
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
@@ -112,7 +112,8 @@ void CGame::InitCallBack()
 	DL_Debug::Debug::Create();
 
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
-		*DX2D::CEngine::GetInstance()->GetHWND());
+		*DX2D::CEngine::GetInstance()->GetHWND(), 
+		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");

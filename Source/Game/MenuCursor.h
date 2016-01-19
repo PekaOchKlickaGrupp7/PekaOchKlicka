@@ -6,7 +6,7 @@ namespace CU
 {
 	namespace DirectInput
 	{
-		class InputWrapper;
+		class InputManager;
 	}
 }
 class Synchronizer;
@@ -18,7 +18,7 @@ public:
 	MenuCursor();
 	~MenuCursor();
 
-	void Update(CU::DirectInput::InputWrapper& anInputWrapper);
+	void Update(CU::DirectInput::InputManager& anInputManager);
 	void Render(Synchronizer& aSynchronizer);
 
 	const Vector2<float>& GetScreenPos() const;

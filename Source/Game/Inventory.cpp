@@ -19,6 +19,12 @@ Inventory::~Inventory()
 	SAFE_DELETE(myBackground);
 }
 
+void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
+{
+	myBackground = new DX2D::CSprite(aFilePath);
+	myPosition = aPosition;
+}
+
 //Adds an item to the inventory
 void Inventory::Add(const Item& aItemToAdd)
 {

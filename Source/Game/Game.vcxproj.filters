@@ -137,6 +137,7 @@
     <ClInclude Include="Event.h">
       <Filter>System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -200,5 +201,6 @@
     <ClCompile Include="Event.cpp">
       <Filter>System\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
 </Project>

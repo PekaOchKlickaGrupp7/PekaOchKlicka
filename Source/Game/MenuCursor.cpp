@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MenuCursor.h"
-#include "..\CommonUtilities\InputWrapper.h"
+#include "..\CommonUtilities\InputManager.h"
 #include "Synchronizer.h"
 
 
@@ -8,13 +8,13 @@ MenuCursor::MenuCursor()
 {
 	mySprite = new DX2D::CSprite("Sprites/menu/cursor.dds");
 
-	mySprite->SetPivot(DX2D::Vector2<float>(mySprite->GetSize().x / 2,
-		mySprite->GetSize().y / 2));
+	mySprite->SetPivot(DX2D::Vector2<float>(mySprite->GetSize().x / 2.0f,
+		mySprite->GetSize().y / 2.0f));
 
 	mySpriteHighlight = new DX2D::CSprite("Sprites/menu/cursorHighlight.dds");
 
-	mySpriteHighlight->SetPivot(DX2D::Vector2<float>(mySpriteHighlight->GetSize().x / 2,
-		mySpriteHighlight->GetSize().y / 2));
+	mySpriteHighlight->SetPivot(DX2D::Vector2<float>(mySpriteHighlight->GetSize().x / 2.0f,
+		mySpriteHighlight->GetSize().y / 2.0f));
 
 	myShoot = false;
 	myMelee = false;
@@ -29,19 +29,20 @@ MenuCursor::~MenuCursor()
 }
 
 
-void MenuCursor::Update(CU::DirectInput::InputWrapper& anInputWrapper)
+void MenuCursor::Update(CU::DirectInput::InputManager& anInputManager)
 {
-	myScreenPos.x = anInputWrapper.GetMouseLocationXInPixels() - (mySprite->GetSize().x * 1280) / 2;
-	myScreenPos.y = anInputWrapper.GetMouseLocationYInPixels() - (mySprite->GetSize().y * 720) / 2;
-	if (myScreenPos.x > 1280 || myScreenPos.y > 720
+	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
+	myScreenPos.x = anInputManager.GetAbsoluteMousePos().x - (mySprite->GetSize().x * windowSize.x) / 2;
+	myScreenPos.y = anInputManager.GetAbsoluteMousePos().y - (mySprite->GetSize().y * windowSize.y) / 2;
+	if (myScreenPos.x > windowSize.x || myScreenPos.y > windowSize.y
 		|| myScreenPos.x < 0 || myScreenPos.y < 0)
 	{
 		return;
 	}
 
 
-	myShoot = anInputWrapper.GetMouseWasDown(0);
-	myMelee = anInputWrapper.GetMouseWasDown(1);
+	myShoot = anInputManager.LeftMouseButtonClicked();
+	myMelee = anInputManager.RightMouseButtonClicked();
 }
 
 

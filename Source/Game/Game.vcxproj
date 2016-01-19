@@ -190,6 +190,7 @@
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="MenuTextItem.h" />
     <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="MenuTextItem.cpp" />
     <ClCompile Include="ObjectData.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />

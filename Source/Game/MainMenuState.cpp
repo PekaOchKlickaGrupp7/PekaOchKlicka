@@ -6,12 +6,12 @@
 #include "GameWorld.h"
 #include "MenuImageItem.h"
 #include "..\CommonUtilities\TimerManager.h"
-#include "..\CommonUtilities\InputWrapper.h"
+#include "..\CommonUtilities\InputManager.h"
 
 MainMenuState::MainMenuState(StateStackProxy& aStateStackProxy, 
-	CU::DirectInput::InputWrapper& aInputWrapper,
+	CU::DirectInput::InputManager& aInputManager,
 	CU::TimeSys::TimerManager& aTimerManager) :
-	GameState(aStateStackProxy, aInputWrapper, aTimerManager)
+	GameState(aStateStackProxy, aInputManager, aTimerManager)
 {
 	mySelection = MenuItem::eAction::NONE;
 }
@@ -25,19 +25,19 @@ MainMenuState::~MainMenuState()
 
 eStateStatus MainMenuState::Update(float aTimeDelta)
 {
-	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE))
+	if (myInputManager.KeyPressed(DIK_ESCAPE))
 	{
 		return eStateStatus::ePopMainState;
 	}
 
-	if (myInputWrapper.GetMouseDown(0) == true)
+	if (myInputManager.LeftMouseButtonClicked() == true)
 	{
 		switch (mySelection)
 		{
 		case MenuItem::eAction::NONE:
 			break;
 		case MenuItem::eAction::PLAY:
-			myStateStackProxy.PushMainGameState(new CGameWorld(myStateStackProxy, myInputWrapper
+			myStateStackProxy.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager
 				, myTimerManager));
 			break;
 		case MenuItem::eAction::EXIT:
@@ -48,7 +48,7 @@ eStateStatus MainMenuState::Update(float aTimeDelta)
 		}
 	}
 
-	myMenuCursor.Update(myInputWrapper);
+	myMenuCursor.Update(myInputManager);
 
 	CalcHighlights();
 

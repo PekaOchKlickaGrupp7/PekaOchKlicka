@@ -12,6 +12,9 @@ public:
 	Inventory();
 	~Inventory();
 
+	//Initialize the inventory
+	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
+
 	//Adds an item to the inventory
 	void Add(const Item& aItemToAdd);
 
