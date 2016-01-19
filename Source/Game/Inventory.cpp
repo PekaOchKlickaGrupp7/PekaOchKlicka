@@ -66,5 +66,20 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	command.myPosition = myPosition;
 	command.myType = eRenderType::eSprite;
 
-	aSynchronizer.AddRenderCommand(command);
+	if (myIsOpen == true)
+	{
+		aSynchronizer.AddRenderCommand(command);
+	}
+}
+
+//Opens the inventory
+void Inventory::Open()
+{
+	myIsOpen = true;
+}
+
+//Closes the inventory
+void Inventory::Close()
+{
+	myIsOpen = false;
 }

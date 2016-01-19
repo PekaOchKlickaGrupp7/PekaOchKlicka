@@ -62,7 +62,7 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 1.0f);
 }
 
 

@@ -9,6 +9,7 @@ Character::Character()
 	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
 	mySprite = nullptr;
 	myIsMoving = false;
+	myIsInventoryOpen = false;
 }
 
 
@@ -24,8 +25,10 @@ void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	mySprite = new DX2D::CSprite(aSpriteFilePath);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
+	myMovementSpeed = aMovementSpeed;
 	myIsMoving = false;
-	mySprite->SetPivot(DX2D::Vector2f(0.5f, 0.5f));
+	myIsInventoryOpen = false;
+	mySprite->SetPivot(DX2D::Vector2f(aPivotPoint.x, aPivotPoint.y));
 }
 
 //Update the character
@@ -43,6 +46,20 @@ void Character::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 	if (myIsMoving == true)
 	{
 		Move(myTargetPosition, myMovementSpeed, aDeltaT);
+	}
+
+	if (aInputManager.KeyPressed(DIK_I))
+	{
+		if (myIsInventoryOpen == false)
+		{
+			myInventory.Open();
+			myIsInventoryOpen = true;
+		}
+		else
+		{
+			myInventory.Close();
+			myIsInventoryOpen = false;
+		}
 	}
 }
 

@@ -27,6 +27,12 @@ public:
 	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
 
+	//Opens the inventory
+	void Open();
+
+	//Closes the inventory
+	void Close();
+
 private:
 	CommonUtilities::GrowingArray<Item> myContents;
 

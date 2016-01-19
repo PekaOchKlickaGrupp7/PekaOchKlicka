@@ -50,5 +50,6 @@ private:
 	float myMovementSpeed;
 
 	bool myIsMoving;
+	bool myIsInventoryOpen;
 };
 
