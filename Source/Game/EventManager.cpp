@@ -22,7 +22,7 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 
 void EventManager::AddEvent(Event* aEvent)
 {
-	myActiveEvents.Add(aEvent);
+	myActiveEvents.Add(*aEvent);
 }
 
 float EventManager::Remap(float value, float from1, float to1, float from2, float to2)
@@ -39,9 +39,12 @@ void EventManager::Update(const float aDeltaTime)
 	{
 		for (unsigned int i = 0; i < myObjects->Size(); ++i)
 		{
-			if ((*myObjects)[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 
-				ResolutionManager::GetInstance()->GetRenderAreaPosition().x, ResolutionManager::GetInstance()->GetRenderAreaDimension().x, 
-				0, 1920) / 1920.0f, Remap(mousePosition.y, ResolutionManager::GetInstance()->GetRenderAreaPosition().y, ResolutionManager::GetInstance()->GetRenderAreaDimension().y, 0, 1080) / 1080.0f) == true)
+			if ((*myObjects)[i]->myHitBox.IsMouseColliding(
+				Remap(mousePosition.x, 
+				0, 1280, 
+				0, 1920) / 1920.0f, 
+				Remap(mousePosition.y, 0, 
+				1024, 0, 1080) / 1080.0f) == true)
 			{
 				for (unsigned int j = 0; j < (*myObjects)[i]->myEvents.Size(); ++j)
 				{
@@ -59,7 +62,7 @@ void EventManager::Update(const float aDeltaTime)
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
-		Event* event = myActiveEvents[i];
+		Event* event = &(myActiveEvents[i]);
 		if (event->Update(aDeltaTime) == true)
 		{
 			myActiveEvents.RemoveCyclicAtIndex(i);

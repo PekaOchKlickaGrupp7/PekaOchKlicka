@@ -9,7 +9,7 @@ EventSetActive::~EventSetActive()
 {
 }
 
-bool EventSetActive::Update(float aDeltaTime)
+bool EventSetActive::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
 	ObjectData* object = GetGameObject(myTarget);

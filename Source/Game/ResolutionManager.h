@@ -24,8 +24,8 @@ public:
 		delete myResolutionManager;
 	}
 
-	DX2D::Vector2<int> GetRenderAreaPosition() { return myRenderAreaPosition; };
-	DX2D::Vector2<int> GetRenderAreaDimension() { return myRenderAreaDimensions; };
+	DX2D::Vector2<int> &GetRenderAreaPosition() { return myRenderAreaPosition; };
+	DX2D::Vector2<int> &GetRenderAreaDimension() { return myRenderAreaDimensions; };
 
 	void Initialize(DX2D::Vector2<int> aVirtualScreenSize = { 1920, 1080 });
 	DX2D::Vector2<int> GetMonitorResolution() { return myRealScreenSize; };

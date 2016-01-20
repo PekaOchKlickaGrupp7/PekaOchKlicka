@@ -31,3 +31,9 @@ ObjectData* Event::GetGameObject(const std::string& aName) const
 	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
 	return nullptr;
 }
+
+bool Event::Update(const float aSeconds)
+{
+	(aSeconds);
+	return true;
+}
