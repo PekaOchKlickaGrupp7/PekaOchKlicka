@@ -143,7 +143,7 @@ void Player::SetIsMoving(bool aValue)
 }
 
 //Add an item to inventory
-void Player::AddItemToInventory(const Item& aItemToAdd)
+void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
 }

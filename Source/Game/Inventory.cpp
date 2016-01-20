@@ -26,13 +26,13 @@ void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
 }
 
 //Adds an item to the inventory
-void Inventory::Add(const Item& aItemToAdd)
+void Inventory::Add(Item* aItemToAdd)
 {
 	myContents.Add(aItemToAdd);
 }
 
 //Removes an item from the inventory
-void Inventory::Remove(const Item& aItemToRemove)
+void Inventory::Remove(Item* aItemToRemove)
 {
 	myContents.RemoveCyclic(aItemToRemove);
 }
@@ -81,12 +81,12 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 		for (unsigned short i = 0; i < myContents.Size(); ++i)
 		{
 			//Make sure it renders the inventory sprite
-			myContents[i].SetToInventorySprite();
+			myContents[i]->SetToInventorySprite();
 
-			myContents[i].SetPosition(tempItemPos);
+			myContents[i]->SetPosition(tempItemPos);
 
 			//Change the position to the end of the items image + the offset
-			DX2D::Vector2f imageSize = myContents[i].GetSprite()->GetSize();
+			DX2D::Vector2f imageSize = myContents[i]->GetSprite()->GetSize();
 			tempItemPos.x += imageSize.x + myXOffset;
 
 			//If the image would be rendered outside the inventorys background image size in x-direction
@@ -97,7 +97,7 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 				tempItemPos.y += imageSize.y + myYOffset;
 			}
 			
-			myContents[i].Render(aSynchronizer);
+			myContents[i]->Render(aSynchronizer);
 		}
 	}
 }

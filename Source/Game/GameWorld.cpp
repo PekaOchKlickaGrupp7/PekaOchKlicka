@@ -74,8 +74,8 @@ void CGameWorld::Init()
 	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
 		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
 
-	myPlayer.AddItemToInventory(myTestItem);
-	myPlayer.AddItemToInventory(myTestItem2);
+	myPlayer.AddItemToInventory(&myTestItem);
+	myPlayer.AddItemToInventory(&myTestItem2);
 }
 
 

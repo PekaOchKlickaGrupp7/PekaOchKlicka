@@ -74,5 +74,10 @@ namespace CU
 		{
 			isStopped = true;
 		}
+
+		void Timer::Reset()
+		{
+			myTotalElapsedTime = 0;
+		}
 	}
 }
