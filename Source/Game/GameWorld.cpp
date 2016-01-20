@@ -99,15 +99,15 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
 	POINT mousePos = myInputManager.GetMousePos();
+	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (myInputManager.KeyPressed(DIK_K) == true)
+	if (myInputManager.LeftMouseButtonClicked() == true)
 	{
-
-		std::cout << Remap(mousePos.x, 0, 1280, 0, 1280) << ":" << Remap(mousePos.y, 0, 720, 0, 720) << std::endl;
+		std::cout << Remap(mousePosition.x, 0, 1280, 0, 1280) << ":" << Remap(mousePosition.y, 0, 720, 0, 720) << std::endl;
 		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
 		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
-			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePos.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePos.y, 0, 720, 0, 720) / 720.0f) == true)
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePosition.y, 0, 720, 0, 720) / 720.0f) == true)
 			{
 				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
 		{

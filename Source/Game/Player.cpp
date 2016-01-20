@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Character.h"
+#include "Player.h"
 
-Character::Character()
+Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
@@ -12,13 +12,13 @@ Character::Character()
 }
 
 
-Character::~Character()
+Player::~Player()
 { 
 
 }
 
 //Initialize the character
-void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
+void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
 	myAnimation.Init(aSpriteFilePath, 1, 4);
@@ -30,7 +30,7 @@ void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Character::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
 	//Character movement
 	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
@@ -65,7 +65,7 @@ void Character::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 }
 
 //Render everything about the player
-void Character::Render(Synchronizer& aSynchronizer)
+void Player::Render(Synchronizer& aSynchronizer)
 {
 	/*
 	RenderCommand command;
@@ -80,7 +80,7 @@ void Character::Render(Synchronizer& aSynchronizer)
 }
 
 //Move the character
-void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
+void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
 	DX2D::Vector2f characterPos(myPosition);
 	//Calculate distance between target and object
@@ -112,32 +112,32 @@ void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float
 }
 
 //Set the pivot point of the character
-void Character::SetPivot(const DX2D::Vector2f& aPoint)
+void Player::SetPivot(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPivot(aPoint);
 }
 
 //Set the characters position
-void Character::SetPosition(const DX2D::Vector2f& aPoint)
+void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
 }
 
 //Set the characters speed
-void Character::SetSpeed(float aSpeed)
+void Player::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
 }
 
 //Check if the character is moving, returns (true | false)
-bool Character::GetIsMoving()
+bool Player::GetIsMoving()
 {
 	return myIsMoving;
 }
 
 //Set if the character should move (true | false)
-void Character::SetIsMoving(bool aValue)
+void Player::SetIsMoving(bool aValue)
 {
 	myIsMoving = aValue;
 }
