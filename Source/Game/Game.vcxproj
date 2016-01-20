@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventChangeLevel.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventSetActive.h" />
     <ClInclude Include="fmod.h" />
@@ -209,6 +210,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventChangeLevel.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="EventSetActive.cpp" />
     <ClCompile Include="Game.cpp" />

@@ -29,10 +29,6 @@ private:
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
 
-	DX2D::CSprite* myAudioSourceSprite;
-	DX2D::CSprite* myAudioListenerSprite;
-	DX2D::Vector2f myAudioSourcePosition;
-
 	std::map<std::string, Room*> myRooms;
 	Room* myCurrentRoom;
 
