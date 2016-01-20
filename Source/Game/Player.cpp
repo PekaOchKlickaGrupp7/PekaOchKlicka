@@ -32,6 +32,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 //Update the character
 void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
+	//Character movement
 	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
 	if (aInputManager.LeftMouseButtonClicked())
 	{
@@ -46,6 +47,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 		Move(myTargetPosition, myMovementSpeed, aDeltaT);
 	}
 
+	//Opening/Closing the inventory
 	if (aInputManager.KeyPressed(DIK_I))
 	{
 		if (myIsInventoryOpen == false)
