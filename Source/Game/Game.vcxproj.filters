@@ -157,6 +157,9 @@
       <Filter>Events\Level</Filter>
     </ClInclude>
 	<ClInclude Include="Animation.h" />
+    <ClInclude Include="NavPolygon.h">
+      <Filter>Room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -228,5 +231,8 @@
       <Filter>Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="NavPolygon.cpp">
+      <Filter>Room</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

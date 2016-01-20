@@ -6,6 +6,7 @@
 #include "tga2d\sprite\sprite.h"
 #include <map>
 #include "Room.h"
+#include "GameWorld.h"
 
 //Events
 #include "EventSetActive.h"
@@ -36,7 +37,10 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
-	for (unsigned int i = 0; i < levels.Capacity(); ++i)
+
+	std::string levelName = "";
+
+	for (unsigned int i = 0; i < levels.Size(); ++i)
 	{
 		Value& level = levels[i];
 		if (level.IsNull() == true)
@@ -46,65 +50,26 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			return false;
 		}
 		
-		//myLevels[level["name"].GetString()].Init(128);
-
 		Room* room = new Room();
-		aRooms[level["name"].GetString()] = room;
-
 		room->GetObjectList().Init(128);
+		aRooms[level["name"].GetString()] = room;
+		
+		if (i == 0)
+		{
+			levelName = level["name"].GetString();
+		}
 
 		LoadLevel(level["name"].GetString(), level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
-
-	//	std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
 	}
 	
 	root.GetAllocator().Clear();
+
+	aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
 	return true;
 }
-
-/*
-bool JSON::LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
-{
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	LoadLevel(std::string(""), aLevelPath.c_str(), aObjects);
-
-	return true;
-}
-*/
-/*
-bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom)
-{
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	for (unsigned int i = 0; i < myLevels[aLevelName].Size(); ++i)
-	{
-		aObjects.Add(myLevels[aLevelName][i]);
-	}
-
-	Room* room = new Room();
-	room->
-
-		*
-	return true;
-}
-*/
-//CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
-//{
-//	return myLevels;
-//}
-
 
 bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
 {
@@ -187,12 +152,15 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			event = new EventSetActive();
 			event->Init(aRoom, aGameWorld);
+			event->myValue = events[i]["value"].GetBool();
 			break;
 		}
 		case EventActions::ChangeLevel:
 		{
 			event = new EventChangeLevel();
 			event->Init(aRoom, aGameWorld);
+
+			dynamic_cast<EventChangeLevel*>(event)->myTargetLevelName = events[i]["TargetSceneName"].GetString();
 			break;
 		}
 		default:
@@ -201,7 +169,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		}
 		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 		event->myTarget = std::string(events[i]["target"].GetString());
-		event->myValue = events[i]["value"].GetBool();
 		dataObject->myEvents.Add(event);
 	}
 
