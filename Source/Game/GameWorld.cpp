@@ -22,8 +22,6 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	delete myAudioListenerSprite;
-	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
 	SoundManager::DestroyInstance();
 }
@@ -51,7 +49,7 @@ void CGameWorld::Init()
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
-	mySFXRain.SetVolume(10.0f);
+	//mySFXRain.SetVolume(10.0f);
 	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
@@ -60,22 +58,18 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
-	myAudioListenerSprite = new DX2D::CSprite("Sprites/AudioListener.dds");
-	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
-	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
-	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
-	myAudioSourcePosition = { 0.5f, 0.5f };
-
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 1.0f);
+	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+
+
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
@@ -125,25 +119,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myAudioSourcePosition.x = Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f;
-	myAudioSourcePosition.y = Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f;
-/*
-	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
-	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
-*/
-
-	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
-
-	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
-
-
-	if (myInputManager.KeyPressed(DIK_SPACE) == true)
-	{
-		myAudioSourcePosition.x = 0.5f;
-		myAudioSourcePosition.y = 0.5f;
-		myAudioListenerSprite->SetPosition(myAudioSourcePosition);
-	}
-
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
 	myPlayer.Update(myInputManager, aTimeDelta);
@@ -171,16 +146,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myResolutionTestSprite->GetPosition();
 	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
-
-	command.myType = eRenderType::eSprite;
-	command.myPosition = myAudioListenerSprite->GetPosition();
-	command.mySprite = myAudioListenerSprite;
-	aSynchronizer.AddRenderCommand(command);
-
-	command.myType = eRenderType::eSprite;
-	command.myPosition = myAudioSourceSprite->GetPosition();
-	command.mySprite = myAudioSourceSprite;
 	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eText;

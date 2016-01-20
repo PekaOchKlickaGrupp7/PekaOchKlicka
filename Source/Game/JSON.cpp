@@ -9,6 +9,7 @@
 
 //Events
 #include "EventSetActive.h"
+#include "EventChangeLevel.h"
 
 using namespace rapidjson;
 
@@ -185,6 +186,12 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		case EventActions::SetActive:
 		{
 			event = new EventSetActive();
+			event->Init(aRoom, aGameWorld);
+			break;
+		}
+		case EventActions::ChangeLevel:
+		{
+			event = new EventChangeLevel();
 			event->Init(aRoom, aGameWorld);
 			break;
 		}

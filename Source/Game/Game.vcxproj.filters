@@ -46,6 +46,9 @@
     <Filter Include="Events\Object">
       <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Level">
+      <UniqueIdentifier>{b1b18d47-45c0-4535-a2a1-bddca9e99890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -150,6 +153,10 @@
     <ClInclude Include="Room.h">
       <Filter>Room</Filter>
     </ClInclude>
+    <ClInclude Include="EventChangeLevel.h">
+      <Filter>Events\Level</Filter>
+    </ClInclude>
+	<ClInclude Include="Animation.h" />
     <ClInclude Include="NavPolygon.h">
       <Filter>Room</Filter>
     </ClInclude>
@@ -220,6 +227,10 @@
     <ClCompile Include="Room.cpp">
       <Filter>Room</Filter>
     </ClCompile>
+    <ClCompile Include="EventChangeLevel.cpp">
+      <Filter>Events\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="NavPolygon.cpp">
       <Filter>Room</Filter>
     </ClCompile>

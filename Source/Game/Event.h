@@ -13,7 +13,7 @@ public:
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
 	virtual bool Update(const float aDeltaTime) = 0;
 
-	ObjectData* GetObject(const std::string& aName) const;
+	ObjectData* GetGameObject(const std::string& aName) const;
 
 	bool myValue;
 	std::string myTarget;
