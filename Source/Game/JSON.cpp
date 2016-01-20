@@ -172,6 +172,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 			setActive->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 			setActive->myTarget = std::string(events[i]["target"].GetString());
+			setActive->myObjectData = dataObject;
 
 			if (events[i].HasMember("Value") == true)
 			{
@@ -195,6 +196,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 			changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 			changeLevel->myTarget = std::string(events[i]["target"].GetString());
+			changeLevel->myObjectData = dataObject;
 
 			dataObject->myEvents.Add(changeLevel);
 			//event = dynamic_cast<Event*>(changeLevel);

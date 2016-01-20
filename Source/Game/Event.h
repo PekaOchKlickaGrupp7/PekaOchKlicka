@@ -18,6 +18,9 @@ public:
 
 	std::string myTarget;
 	EventTypes myType;
+
+	ObjectData* myObjectData;
+
 	CommonUtilities::GrowingArray<Event*, unsigned int> myChilds;
 protected:
 	Room* myRoom;
