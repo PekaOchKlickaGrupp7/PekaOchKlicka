@@ -8,7 +8,7 @@ public:
 	virtual ~EventSetActive();
 
 	virtual bool Update(const float aDeltaTime) override;
-protected:
-	float current, target;
+
+	bool myValue;
 };
 

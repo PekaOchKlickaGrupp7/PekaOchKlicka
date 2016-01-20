@@ -24,8 +24,6 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
-
-
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
 
