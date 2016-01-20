@@ -3,11 +3,11 @@
 #include "Animation.h"
 class CU::DirectInput::InputManager;
 
-class Character
+class Player
 {
 public:
-	Character();
-	~Character();
+	Player();
+	~Player();
 
 	//Initialize the character
 	void Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition, 

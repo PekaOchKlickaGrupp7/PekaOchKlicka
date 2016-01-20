@@ -509,6 +509,7 @@ bool CDirectEngine::Init(const CEngine& aEngine, Vector2<unsigned int> aWindowSi
 
 void CDirectEngine::SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth, float aRatio)
 {
+	(aRatio);
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 

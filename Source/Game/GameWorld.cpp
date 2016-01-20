@@ -108,9 +108,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePosition.y, 0, 720, 0, 720) / 720.0f) == true)
 			{
 				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
-				{
+		{
 					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
-					{
+			{
 						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
 					}
 				}

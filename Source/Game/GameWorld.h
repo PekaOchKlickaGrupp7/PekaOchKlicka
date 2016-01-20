@@ -5,7 +5,7 @@
 #include "Sound.h"
 #include "ObjectData.h"
 #include "JSON.h"
-#include "Character.h"
+#include "Player.h"
 #include "Room.h"
 
 class CGameWorld : public GameState
@@ -34,5 +34,5 @@ private:
 
 	Sound mySFXRain;
 
-	Character myPlayer;
+	Player myPlayer;
 };
