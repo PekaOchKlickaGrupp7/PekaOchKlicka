@@ -16,6 +16,7 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	myRoom = aRoom;
 	myGameWorld = aGameWorld;
+	myChilds.Init(1);
 }
 
 ObjectData* Event::GetGameObject(const std::string& aName) const
@@ -30,10 +31,4 @@ ObjectData* Event::GetGameObject(const std::string& aName) const
 	}
 	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
 	return nullptr;
-}
-
-bool Event::Update(const float aSeconds)
-{
-	(aSeconds);
-	return true;
 }

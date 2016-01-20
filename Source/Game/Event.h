@@ -11,7 +11,8 @@ public:
 	virtual ~Event();
 	Event();
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
-	virtual bool Update(const float aDeltaTime);
+	virtual bool Update(const float aDeltaTime) = 0;
+	virtual void Reset() = 0;
 
 	ObjectData* GetGameObject(const std::string& aName) const;
 

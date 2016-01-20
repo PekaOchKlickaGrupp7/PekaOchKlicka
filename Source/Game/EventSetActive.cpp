@@ -16,3 +16,8 @@ bool EventSetActive::Update(const float aDeltaTime)
 	object->myActive = myValue;
 	return true;
 }
+
+void EventSetActive::Reset()
+{
+	
+}

@@ -48,7 +48,7 @@ public:
 private:
 	static EventManager* myInstance;
 
-	CommonUtilities::GrowingArray<Event, int> myActiveEvents;
+	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
 
 	CU::DirectInput::InputManager* myInputManager;
 	Room* myCurrentRoom;

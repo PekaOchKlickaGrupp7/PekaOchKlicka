@@ -162,7 +162,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
 		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
-		Event* event = nullptr;
+		//Event* event = nullptr;
 		switch (action)
 		{
 		case EventActions::SetActive:
