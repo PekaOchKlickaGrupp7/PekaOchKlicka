@@ -28,6 +28,7 @@ public:
 
 	void Update(const float aDeltaTime);
 	void AddEvent(Event* aEvent);
+	void RemoveAllEvents();
 	//void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
 

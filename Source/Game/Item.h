@@ -8,17 +8,13 @@ class Item
 {
 public:
 	Item();
-	
-	//Constructor that sets all of the items values except the sprite
-	Item(std::string& aItemName, std::string& aItemDescription,
-		DX2D::Vector2f& aPosition, bool aCombinableStatus, bool aCanBePickedUpStatus,
-		std::string& aLevelToSpawnIn);
 
-	//Constructor that sets all of the items values
-	Item(DX2D::CSprite* aSprite, std::string& aItemName, std::string& aItemDescription,
-		DX2D::Vector2f& aPosition, bool aCombinableStatus, bool aCanBePickedUpStatus,
-		std::string& aLevelToSpawnIn);
 	~Item();
+
+	//Initialize the item
+	void Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
+		const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+		const std::string& aLevelToSpawnIn);
 
 	//Sets the items position on the screen
 	void SetPosition(DX2D::Vector2f& aPosition);
@@ -26,11 +22,14 @@ public:
 	//Sets if the item can be combined with something else (true / false)
 	void SetCombinable(bool aCombinableStatus);
 
-	//Sets if the item can be picked up (true / false)
-	void SetPickupStatus(bool aPickupStatus);
+	//Set the standard sprite to be the sprite made for the inventory
+	void SetToInventorySprite();
+
+	//Set the standard sprite to be the sprite made for the world
+	void SetToWorldSprite();
 
 	//Adds the items sprite to the rendering buffer
-	void Draw();
+	void Render(Synchronizer& aSynchronizer);
 
 	//Gets the list of item names that this item can be combined with
 	CommonUtilities::GrowingArray<std::string>& GetList();
@@ -53,17 +52,19 @@ public:
 	//Checks if the item can be combined with something else (true / false)
 	inline bool IsCombinable();
 
-	//Checks if the item can be picked up (true / false)
-	inline bool GetPickupStatus();
-
 	//Checks if the item has been clicked (true / false)
 	inline bool IsClicked();
 
 	bool operator ==(const Item& aItem);
 
 private:
+
+	void InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath);
+
 	CommonUtilities::GrowingArray<std::string> myCombinableWithList;
 	DX2D::CSprite* mySprite;
+	DX2D::CSprite* myWorldSprite;
+	DX2D::CSprite* myInventorySprite;
 
 	DX2D::Vector2f myPosition;
 
@@ -72,7 +73,6 @@ private:
 	std::string myLevelToSpawnIn;
 
 	bool myIsCombinable;
-	bool myPickupStatus;
 	bool myIsClicked;
 };
 
@@ -110,12 +110,6 @@ CommonUtilities::GrowingArray<std::string>& Item::GetCombinableWithList()
 bool Item::IsCombinable()
 {
 	return myIsCombinable;
-}
-
-//Checks if the item can be picked up (true / false)
-bool Item::GetPickupStatus()
-{
-	return myPickupStatus;
 }
 
 //Checks if the item has been clicked (true / false)

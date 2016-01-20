@@ -6,6 +6,8 @@
 #include "tga2d\sprite\sprite.h"
 #include <map>
 #include "Room.h"
+#include "GameWorld.h"
+#include "Item.h"
 
 //Events
 #include "EventSetActive.h"
@@ -36,7 +38,10 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
-	for (unsigned int i = 0; i < levels.Capacity(); ++i)
+
+	std::string levelName = "";
+
+	for (unsigned int i = 0; i < levels.Size(); ++i)
 	{
 		Value& level = levels[i];
 		if (level.IsNull() == true)
@@ -46,67 +51,30 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			return false;
 		}
 		
-		//myLevels[level["name"].GetString()].Init(128);
-
 		Room* room = new Room();
-		aRooms[level["name"].GetString()] = room;
-
 		room->GetObjectList().Init(128);
 
-		LoadLevel(level["name"].GetString(), level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
+		std::string name = level["name"].GetString();
+		aRooms[name] = room;
+		
+		if (i == 0)
+		{
+			levelName = name;
+		}
 
-	//	std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
+		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
 	}
 	
 	root.GetAllocator().Clear();
+
+	aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
 	return true;
 }
 
-/*
-bool JSON::LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
-{
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	LoadLevel(std::string(""), aLevelPath.c_str(), aObjects);
-
-	return true;
-}
-*/
-/*
-bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom)
-{
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	for (unsigned int i = 0; i < myLevels[aLevelName].Size(); ++i)
-	{
-		aObjects.Add(myLevels[aLevelName][i]);
-	}
-
-	Room* room = new Room();
-	room->
-
-		*
-	return true;
-}
-*/
-//CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
-//{
-//	return myLevels;
-//}
-
-
-bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
+bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
 {
 	const char* data = ReadFile(aLevelPath);
 	Document level;
@@ -185,14 +153,28 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 		case EventActions::SetActive:
 		{
-			event = new EventSetActive();
-			event->Init(aRoom, aGameWorld);
+			EventSetActive* setActive = new EventSetActive();
+			setActive->Init(aRoom, aGameWorld);
+			if (events[i].HasMember("Value") == true)
+			{
+				Value& myValue = events[i]["Value"];
+				if (myValue.IsNull() == true)
+				{
+					//DL_ASSERT("Event SetActive Value is null");
+				}
+				setActive->myValue = myValue.GetBool();
+			}
+
+			event = dynamic_cast<Event*>(setActive);
 			break;
 		}
 		case EventActions::ChangeLevel:
 		{
-			event = new EventChangeLevel();
-			event->Init(aRoom, aGameWorld);
+			EventChangeLevel* changeLevel = new EventChangeLevel();
+			changeLevel->Init(aRoom, aGameWorld);
+			changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+
+			event = dynamic_cast<Event*>(changeLevel);
 			break;
 		}
 		default:
@@ -201,21 +183,29 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		}
 		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 		event->myTarget = std::string(events[i]["target"].GetString());
-		event->myValue = events[i]["value"].GetBool();
 		dataObject->myEvents.Add(event);
 	}
 
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
-	if (aParentObject == nullptr)
+
+	if (false && object["item"]["isItem"].GetBool() == true)
 	{
-		aObjects.Add(dataObject);
-		parentData = aObjects[aObjects.Size() - 1];
+		//Item* item = new Item();
+		
 	}
 	else
 	{
-		aParentObject->myChilds.Add(dataObject);
-		parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+		if (aParentObject == nullptr)
+		{
+			aObjects.Add(dataObject);
+			parentData = aObjects[aObjects.Size() - 1];
+		}
+		else
+		{
+			aParentObject->myChilds.Add(dataObject);
+			parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+		}
 	}
 
 	for (unsigned int j = 0; j < object["childs"].Size(); ++j)

@@ -31,3 +31,7 @@ void EventManager::Update(const float aDeltaTime)
 	}
 }
 
+void EventManager::RemoveAllEvents()
+{
+
+}

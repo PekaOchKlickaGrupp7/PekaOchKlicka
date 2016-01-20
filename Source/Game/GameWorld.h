@@ -5,8 +5,9 @@
 #include "Sound.h"
 #include "ObjectData.h"
 #include "JSON.h"
-#include "Character.h"
+#include "Player.h"
 #include "Room.h"
+#include "Item.h"
 
 class CGameWorld : public GameState
 {
@@ -24,8 +25,6 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
-
-
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
 
@@ -36,5 +35,8 @@ private:
 
 	Sound mySFXRain;
 
-	Character myPlayer;
+	Player myPlayer;
+
+	Item myTestItem;
+	Item myTestItem2;
 };

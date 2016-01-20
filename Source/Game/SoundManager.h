@@ -22,8 +22,12 @@ public:
 
 	static void DestroyInstance()
 	{
-		mySoundManager->Destroy();
-		delete mySoundManager;
+		if (mySoundManager != nullptr)
+		{
+			mySoundManager->Destroy();
+			delete mySoundManager;
+			mySoundManager = nullptr;
+		}
 	}
 
 	void Update(float aUpdateTimer);

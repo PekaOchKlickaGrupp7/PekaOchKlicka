@@ -13,6 +13,7 @@ EventChangeLevel::~EventChangeLevel()
 
 bool EventChangeLevel::Update(const float aDeltaTime)
 {
-	myGameWorld->ChangeLevel("Test");
+	(aDeltaTime);
+	myGameWorld->ChangeLevel(myTargetLevelName);
 	return true;
 }

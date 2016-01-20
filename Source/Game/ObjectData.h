@@ -31,6 +31,7 @@ public:
 
 	void ObjectData::Update(float aDeltaTime);
 
+
 	DX2D::CSprite* mySprite;
 
 	std::string myName;

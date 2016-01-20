@@ -26,7 +26,7 @@ MainMenuState::~MainMenuState()
 
 eStateStatus MainMenuState::Update(float aTimeDelta)
 {
-	aTimeDelta;
+	(aTimeDelta);
 	if (myInputManager.KeyPressed(DIK_ESCAPE))
 	{
 		return eStateStatus::ePopMainState;

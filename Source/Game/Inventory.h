@@ -36,8 +36,9 @@ public:
 private:
 	CommonUtilities::GrowingArray<Item> myContents;
 
-	bool myIsOpen;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
+
+	bool myIsOpen;
 };
 
