@@ -29,12 +29,12 @@ CGameWorld::~CGameWorld()
 void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
+	myCurrentRoom->OnLoad();
 }
 
 void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
-	myCurrentRoom = myRooms["Test"];
 
 	/*std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
