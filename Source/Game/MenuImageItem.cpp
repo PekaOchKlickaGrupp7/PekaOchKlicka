@@ -47,5 +47,7 @@ void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 
 bool MenuImageItem::Collide(const Vector2<float>& aCursorPos) const
 {
-	return CommonUtilities::Intersection::PointVsRect(aCursorPos, myPos,myPos + mySize);
+	/*return CommonUtilities::Intersection::PointVsRect(aCursorPos, Vector2<float>(myPos.x + 8, myPos.y + 20),
+		Vector2<float>(myPos.x + 8, myPos.y + 20) + mySize);*/
+	return CommonUtilities::Intersection::PointVsRect(aCursorPos,myPos,myPos + mySize);
 }

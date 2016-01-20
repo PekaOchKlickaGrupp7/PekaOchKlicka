@@ -156,6 +156,7 @@
     <ClInclude Include="EventChangeLevel.h">
       <Filter>Events\Level</Filter>
     </ClInclude>
+	<ClInclude Include="Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -226,5 +227,6 @@
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp" />
   </ItemGroup>
 </Project>
