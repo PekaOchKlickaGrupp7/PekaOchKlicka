@@ -8,3 +8,8 @@ Room::Room()
 Room::~Room()
 {
 }
+
+void Room::OnLoad()
+{
+
+}
