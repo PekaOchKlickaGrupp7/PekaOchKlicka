@@ -13,8 +13,6 @@ public:
 	void Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints);
 
 	void OnLoad();
-	void OnClick();
-	void OnHover();
 
 	void LoadLevel();
 

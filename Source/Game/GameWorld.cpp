@@ -10,8 +10,8 @@
 #include <iostream>
 #include "Game.h"
 #include "EventManager.h"
-#include "Event.h"
 #include "HitBox.h"
+#include "Room.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -30,6 +30,7 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
+	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
 void CGameWorld::Init()
@@ -76,7 +77,7 @@ void CGameWorld::Init()
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
-	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+	EventManager::GetInstance()->Update(aTimeDelta);
 
 
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
@@ -105,39 +106,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	POINT mousePos = myInputManager.GetMousePos();
-	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
-	if (myInputManager.LeftMouseButtonClicked() == true)
-	{
-		std::cout << Remap(mousePosition.x, 0, 1280, 0, 1280) << ":" << Remap(mousePosition.y, 0, 720, 0, 720) << std::endl;
-		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
-		for (unsigned int i = 0; i < objects.Size(); ++i)
-		{
-			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePosition.y, 0, 720, 0, 720) / 720.0f) == true)
-			{
-				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
-				{
-					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
-					{
-						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
-					}
-				}
-				std::cout << "Collided with object" << std::endl;
-			}
-		}
-	}
-
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
 	myPlayer.Update(myInputManager, aTimeDelta);
 
 	return eStateStatus::eKeepState;
-}
-
-float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2)
-{
-	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 }
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
@@ -152,10 +125,10 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
-	command.myType = eRenderType::eSprite;
-	command.myPosition = myResolutionTestSprite->GetPosition();
-	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
+	//command.myType = eRenderType::eSprite;
+	//command.myPosition = myResolutionTestSprite->GetPosition();
+	//command.mySprite = myResolutionTestSprite;
+	//aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
