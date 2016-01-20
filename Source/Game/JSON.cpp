@@ -155,12 +155,15 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			EventSetActive* setActive = new EventSetActive();
 			setActive->Init(aRoom, aGameWorld);
-			Value& myValue = events[i]["Value"];
-			if (myValue.IsNull() == true)
+			if (events[i].HasMember("Value") == true)
 			{
-				//DL_ASSERT("Event SetActive Value is null");
+				Value& myValue = events[i]["Value"];
+				if (myValue.IsNull() == true)
+				{
+					//DL_ASSERT("Event SetActive Value is null");
+				}
+				setActive->myValue = myValue.GetBool();
 			}
-			setActive->myValue = myValue.GetBool();
 
 			event = dynamic_cast<Event*>(setActive);
 			break;
