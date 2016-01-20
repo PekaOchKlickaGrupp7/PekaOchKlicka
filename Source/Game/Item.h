@@ -9,8 +9,6 @@ class Item
 public:
 	Item();
 
-	Item(const Item& aItemToCopy);
-
 	~Item();
 
 	//Initialize the item

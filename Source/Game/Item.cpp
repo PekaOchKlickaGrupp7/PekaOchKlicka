@@ -20,24 +20,11 @@ Item::Item()
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
 
-Item::Item(const Item& aItemToCopy)
-{
-	this->myCombinableWithList = aItemToCopy.myCombinableWithList;
-	this->mySprite = aItemToCopy.mySprite;
-	this->myWorldSprite = aItemToCopy.myWorldSprite;
-	this->myInventorySprite = aItemToCopy.myInventorySprite;
-	this->myPosition = aItemToCopy.myPosition;
-	this->myName = aItemToCopy.myName;
-	this->myDescription = aItemToCopy.myDescription;
-	this->myLevelToSpawnIn = aItemToCopy.myLevelToSpawnIn;
-	this->myIsCombinable = aItemToCopy.myIsCombinable;
-	this->myIsClicked = aItemToCopy.myIsClicked;
-}
-
 Item::~Item()
 {
-	SAFE_DELETE(myInventorySprite);
+	SAFE_DELETE(mySprite);
 	SAFE_DELETE(myWorldSprite);
+	SAFE_DELETE(myInventorySprite);
 }
 
 //Initialize the item

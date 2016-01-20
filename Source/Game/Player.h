@@ -1,8 +1,6 @@
 #pragma once
 #include "Inventory.h"
 #include "Animation.h"
-#include "ResolutionManager.h"
-
 class CU::DirectInput::InputManager;
 
 class Player
@@ -40,7 +38,7 @@ public:
 	void SetIsMoving(bool aValue);
 
 	//Add an item to inventory
-	void AddItemToInventory(Item* aItemToAdd);
+	void AddItemToInventory(const Item& aItemToAdd);
 
 private:
 
