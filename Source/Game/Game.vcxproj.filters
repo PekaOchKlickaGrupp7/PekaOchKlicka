@@ -37,14 +37,26 @@
     <Filter Include="System\Events">
       <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Room">
-      <UniqueIdentifier>{cec9b55e-8293-4d32-87ec-ae8f23d66977}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Events">
       <UniqueIdentifier>{dbc5477f-e310-4fcf-8d9a-f621329f70a7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Events\Object">
       <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects">
+      <UniqueIdentifier>{335a2c01-3dcc-4f1b-97aa-4de674b7e89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Room">
+      <UniqueIdentifier>{cec9b55e-8293-4d32-87ec-ae8f23d66977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Characters">
+      <UniqueIdentifier>{292652af-9909-40cb-85b4-e9d33b96c1db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Items &amp; Inventory">
+      <UniqueIdentifier>{d0e37f68-d82c-4ef1-ab3e-eb7bc120a5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{477e6e45-aa37-44a7-b473-feb816ace6dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,8 +122,6 @@
     <ClInclude Include="Sound.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="ResolutionManager.h">
       <Filter>System\Monitor</Filter>
     </ClInclude>
@@ -147,15 +157,29 @@
       <Filter>Events\Object</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
-      <Filter>Room</Filter>
+      <Filter>Game Objects\Room</Filter>
     </ClInclude>
     <ClInclude Include="NavPolygon.h">
-      <Filter>Room</Filter>
+      <Filter>Game Objects\Room</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="EventChangeLevel.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="NPC.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Game Objects\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Game Objects\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="EventChangeLevel.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -184,8 +208,6 @@
     <ClCompile Include="Sound.cpp">
       <Filter>System\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ResolutionManager.cpp">
       <Filter>System\Monitor</Filter>
     </ClCompile>
@@ -220,14 +242,28 @@
       <Filter>Events\Object</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
-      <Filter>Room</Filter>
+      <Filter>Game Objects\Room</Filter>
     </ClCompile>
     <ClCompile Include="NavPolygon.cpp">
-      <Filter>Room</Filter>
+      <Filter>Game Objects\Room</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="EventChangeLevel.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="NPC.cpp">
+      <Filter>Game Objects\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Objects\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="EventChangeLevel.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
