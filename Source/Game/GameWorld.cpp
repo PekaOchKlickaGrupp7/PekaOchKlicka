@@ -76,18 +76,17 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	static float aSpeed = 0.01f;
 
-	//if (myInputManager.KeyPressed(DIK_SPACE) == true)
-	//{
-	//	if (CGame::myTestLevel.size() > 0)
-	//	{
-	//		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
-	//	}
-	//	else
-	//	{
-	//	myJson.LoadLevel("Smiley_Face", myObjects);
-	//}
-	//	EventManager::GetInstance()->LoadObjects(myObjects);
-	//}
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
+	{
+		if (CGame::myTestLevel.size() > 0)
+		{
+			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
+		}
+		else
+		{
+			myJson.LoadLevel("Smiley_Face", myObjects);
+		}
+	}
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
