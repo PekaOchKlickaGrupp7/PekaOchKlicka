@@ -96,7 +96,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	POINT mousePos = myInputManager.GetMousePos();
+	POINT mousePos;
+	mousePos.x = myInputManager.GetAbsoluteMousePos().x;
+	mousePos.y = myInputManager.GetAbsoluteMousePos().y;
 
 	if (myInputManager.KeyPressed(DIK_K) == true)
 	{

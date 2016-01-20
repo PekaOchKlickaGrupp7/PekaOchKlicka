@@ -7,6 +7,7 @@
 #include "MenuImageItem.h"
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
+#include "ResolutionManager.h"
 
 MainMenuState::MainMenuState(StateStackProxy& aStateStackProxy, 
 	CU::DirectInput::InputManager& aInputManager,
@@ -25,6 +26,7 @@ MainMenuState::~MainMenuState()
 
 eStateStatus MainMenuState::Update(float aTimeDelta)
 {
+	aTimeDelta;
 	if (myInputManager.KeyPressed(DIK_ESCAPE))
 	{
 		return eStateStatus::ePopMainState;
@@ -74,8 +76,11 @@ void MainMenuState::CalcHighlights()
 	for (int i = 0; i < myButtons.Size(); ++i)
 	{
 		
-		if (myButtons[i]->Collide(Vector2<float>(myInputManager.GetAbsoluteMousePos().x,
-			myInputManager.GetAbsoluteMousePos().y)) == true)
+		if (myButtons[i]->Collide(
+			Vector2<float>(myInputManager.GetAbsoluteMousePos().x-
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().x,
+			myInputManager.GetAbsoluteMousePos().y -
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) == true)
 		{
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
