@@ -21,5 +21,5 @@ ObjectData::~ObjectData()
 
 void ObjectData::Update(float aDeltaTime)
 {
-
+	(aDeltaTime);
 }

@@ -5,8 +5,10 @@
 #include "Sound.h"
 #include "ObjectData.h"
 #include "JSON.h"
-#include "Character.h"
-#include "Room.h"
+#include "Player.h"
+#include "Item.h"
+
+class Room;
 
 class CGameWorld : public GameState
 {
@@ -17,21 +19,14 @@ public:
 
 	void Init();
 
-	void ChangeLevel(const std::string& aString);
+	void ChangeLevel(const char* aString);
 
 	eStateStatus Update(float aTimeDelta) override;
-	float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2);
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
-
-
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
-
-	DX2D::CSprite* myAudioSourceSprite;
-	DX2D::CSprite* myAudioListenerSprite;
-	DX2D::Vector2f myAudioSourcePosition;
 
 	std::map<std::string, Room*> myRooms;
 	Room* myCurrentRoom;
@@ -40,5 +35,8 @@ private:
 
 	Sound mySFXRain;
 
-	Character myPlayer;
+	Player myPlayer;
+
+	Item myTestItem;
+	Item myTestItem2;
 };

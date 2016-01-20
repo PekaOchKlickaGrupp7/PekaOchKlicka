@@ -3,17 +3,24 @@
 
 EventSetActive::EventSetActive()
 {
-	current = 0;
-	target = 1;
 }
 
 EventSetActive::~EventSetActive()
 {
 }
 
-bool EventSetActive::Update(float aDeltaTime)
+bool EventSetActive::Update(const float aDeltaTime)
 {
-	ObjectData* object = GetObject(myTarget);
-	object->myActive = myValue;
+	(aDeltaTime);
+	ObjectData* object = GetGameObject(myTarget);
+	if (object != nullptr)
+	{
+		object->myActive = myValue;
+	}
 	return true;
+}
+
+void EventSetActive::Reset()
+{
+	
 }

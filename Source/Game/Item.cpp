@@ -5,6 +5,9 @@
 Item::Item()
 {
 	mySprite = nullptr;
+	myWorldSprite = nullptr;
+	myInventorySprite = nullptr;
+
 	myCombinableWithList.Init(4);
 
 	myName = "";
@@ -12,53 +15,42 @@ Item::Item()
 	myLevelToSpawnIn = "";
 
 	myIsCombinable = false;
-	myPickupStatus = false;
 	myIsClicked = false;
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
 
-//Constructor that sets all of the items values except the sprite
-Item::Item(std::string& aItemName, std::string& aItemDescription,
-	DX2D::Vector2f& aPosition, bool aCombinableStatus, bool aCanBePickedUpStatus,
-	std::string& aLevelToSpawnIn)
-{
-	myCombinableWithList.Init(4);
-
-	myName = aItemName;
-	myDescription = aItemDescription;
-	myLevelToSpawnIn = aLevelToSpawnIn;
-
-	myPosition = aPosition;
-	
-	myIsCombinable = aCombinableStatus;
-	myPickupStatus = aCanBePickedUpStatus;
-	myIsClicked = false;
-}
-
-//Constructor that sets all of the items values
-Item::Item(DX2D::CSprite* aSprite, std::string& aItemName, std::string& aItemDescription,
-	DX2D::Vector2f& aPosition, bool aCombinableStatus, bool aCanBePickedUpStatus,
-	std::string& aLevelToSpawnIn)
-{
-	myCombinableWithList.Init(4);
-
-	mySprite = aSprite;
-
-	myName = aItemName;
-	myDescription = aItemDescription;
-	myLevelToSpawnIn = aLevelToSpawnIn;
-
-	myPosition = aPosition;
-
-	myIsCombinable = aCombinableStatus;
-	myPickupStatus = aCanBePickedUpStatus;
-	myIsClicked = false;
-}
-
 Item::~Item()
 {
-	SAFE_DELETE(mySprite);
+	SAFE_DELETE(myWorldSprite);
+	SAFE_DELETE(myInventorySprite);
+}
+
+//Initialize the item
+void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
+	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+	const std::string& aLevelToSpawnIn)
+{
+	InitSprites(aWorldSpritePath, aInventorySpritePath);
+
+	myName = aItemName;
+	myDescription = aItemDescription;
+	myLevelToSpawnIn = aLevelToSpawnIn;
+
+	myPosition = aPosition;
+
+	myIsCombinable = aCombinableStatus;
+	myIsClicked = false;
+}
+
+//Initialize sprites
+void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)
+{
+	myWorldSprite = new DX2D::CSprite(aWorldSpritePath);
+	myInventorySprite = new DX2D::CSprite(aInventorySpritePath);
+
+	//Set standard sprite
+	mySprite = myWorldSprite;
 }
 
 //Sets the items position on the screen
@@ -73,16 +65,27 @@ void Item::SetCombinable(bool aCombinableStatus)
 	myIsCombinable = aCombinableStatus;
 }
 
-//Sets if the item can be picked up (true / false)
-void Item::SetPickupStatus(bool aPickupStatus)
+//Change from world sprite to inventory sprite
+void Item::SetToInventorySprite()
 {
-	myPickupStatus = aPickupStatus;
+	mySprite = myInventorySprite;
+}
+
+//Change from inventory sprite to world sprite
+void Item::SetToWorldSprite()
+{
+	mySprite = myWorldSprite;
 }
 
 //Adds the items sprite to the rendering buffer
-void Item::Draw()
+void Item::Render(Synchronizer& aSynchronizer)
 {
+	RenderCommand command;
+	command.mySprite = mySprite;
+	command.myPosition = myPosition;
+	command.myType = eRenderType::eSprite;
 
+	aSynchronizer.AddRenderCommand(command);
 }
 
 //Gets the list of item names that this item can be combined with

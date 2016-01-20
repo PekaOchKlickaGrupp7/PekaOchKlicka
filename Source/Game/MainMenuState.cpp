@@ -7,6 +7,7 @@
 #include "MenuImageItem.h"
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
+#include "ResolutionManager.h"
 
 MainMenuState::MainMenuState(StateStackProxy& aStateStackProxy, 
 	CU::DirectInput::InputManager& aInputManager,
@@ -25,6 +26,7 @@ MainMenuState::~MainMenuState()
 
 eStateStatus MainMenuState::Update(float aTimeDelta)
 {
+	(aTimeDelta);
 	if (myInputManager.KeyPressed(DIK_ESCAPE))
 	{
 		return eStateStatus::ePopMainState;
@@ -56,19 +58,16 @@ eStateStatus MainMenuState::Update(float aTimeDelta)
 void MainMenuState::InitState()
 {
 	myBackground = new DX2D::CSprite("Sprites/menu/background.dds");
-	//myBackground->SetTextureRect(0, 0, 2048.f, 1024.f);
-	myBackground->SetPivot(DX2D::Vector2<float>(myBackground->GetSize().x / 2, myBackground->GetSize().y / 2));
-
 
 	myTitle = new DX2D::CSprite("Sprites/menu/title.dds");
-	//myTitle->SetTextureRect(0, 0, 1024.f, 512.f);
-	myTitle->SetPivot(DX2D::Vector2<float>(myTitle->GetSize().x / 2, myTitle->GetSize().y / 2));
 
 	float scaleButtons = 1.f;
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds", "Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds",
+		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons));
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds", "Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons));
+	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds",
+		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons));
 
 }
 
@@ -77,8 +76,11 @@ void MainMenuState::CalcHighlights()
 	for (int i = 0; i < myButtons.Size(); ++i)
 	{
 		
-		if (myButtons[i]->Collide(Vector2<float>(myInputManager.GetAbsoluteMousePos().x,
-			myInputManager.GetAbsoluteMousePos().y)) == true)
+		if (myButtons[i]->Collide(
+			Vector2<float>(myInputManager.GetAbsoluteMousePos().x-
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().x,
+			myInputManager.GetAbsoluteMousePos().y -
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) == true)
 		{
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
@@ -97,13 +99,11 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 	command.myConvertFromPixelToSpaceNormal = true;
 	command.myType = eRenderType::eSprite;
 
-	command.myPosition.y = 720;
-	command.myPosition.x = 1280;
+	command.myPosition.y = 0;
+	command.myPosition.x = 0;
 	command.mySprite = myBackground;
 	aSynchronizer.AddRenderCommand(command);
 
-	command.myPosition.x = 300;
-	command.myPosition.y = 100;
 	command.mySprite = myTitle;
 	aSynchronizer.AddRenderCommand(command);
 

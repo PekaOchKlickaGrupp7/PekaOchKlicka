@@ -27,7 +27,7 @@ private:
 	volatile bool myRenderIsDone;
 	volatile bool myLogicIsDone;
 	volatile bool myQuit;
-	CommonUtilities::StaticArray<CommonUtilities::GrowingArray<RenderCommand>, 2> myRenderCommandBuffers;
+	CommonUtilities::StaticArray<CommonUtilities::GrowingArray<RenderCommand,int>, 2> myRenderCommandBuffers;
 	CommonUtilities::StaticArray<Matrix33<float>, 2> myCameraMatrixBuffers;
 	int myCurrentBuffer;
 };

@@ -16,10 +16,10 @@ public:
 	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
 
 	//Adds an item to the inventory
-	void Add(const Item& aItemToAdd);
+	void Add(Item* aItemToAdd);
 
 	//Removes an item from the inventory
-	void Remove(const Item& aItemToRemove);
+	void Remove(Item* aItemToRemove);
 	
 	//Combine one item with another, generates a new item and removes the originals
 	void Combine(Item& aItemToCombine, Item& aItemToCombineWith);
@@ -34,10 +34,11 @@ public:
 	void Close();
 
 private:
-	CommonUtilities::GrowingArray<Item> myContents;
+	CommonUtilities::GrowingArray<Item*> myContents;
 
-	bool myIsOpen;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
+
+	bool myIsOpen;
 };
 

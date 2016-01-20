@@ -11,6 +11,7 @@ namespace CU
 {
 	namespace DirectInput
 	{
+
 		class InputManager
 		{
 		public:
