@@ -1,9 +1,17 @@
 #pragma once
 #include <string>
 #include <map>
-#include "ObjectData.h"
-#include "LevelData.h"
 #include "rapidjson\document.h"
+
+class Room;
+class ObjectData;
+class CGameWorld;
+
+enum EventActions
+{
+	None,
+	SetActive
+};
 
 class JSON
 {
@@ -11,18 +19,17 @@ public:
 	JSON();
 	~JSON();
 
-	bool Load(const std::string& aRootFile);
+	bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld);
+	
 	bool LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
 	//CommonUtilities::GrowingArray<LevelData, unsigned int> GetLevels() const;
 
 private:
-	bool LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
-	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y);
+	bool LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld);
+	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y);
 	const char* ReadFile(const char* aFile);
-
-	std::map<std::string, CommonUtilities::GrowingArray<ObjectData*, unsigned int>> myLevels;
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myCurrentLevel;
 

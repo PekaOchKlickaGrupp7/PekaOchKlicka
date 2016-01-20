@@ -4,9 +4,11 @@
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
+#include "..\CommonUtilities\GrowingArray.h"
 #include <iostream>
 #include "Game.h"
 #include "EventManager.h"
+#include "Event.h"
 #include "HitBox.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
@@ -19,20 +21,22 @@ CGameWorld::~CGameWorld()
 {
 	mySFXRain.Stop();
 	delete text;
-	myObjects.DeleteAll();
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
 }
 
+void CGameWorld::ChangeLevel(const std::string& aString)
+{
+	myCurrentRoom = myRooms[aString];
+}
+
 void CGameWorld::Init()
 {
-	myJson.Load("root.json");
+	myJson.Load("root.json", myRooms, this);
+	myCurrentRoom = myRooms["Test"];
 
-	myObjects.Init(128);
-	
-	
-	std::cout << "Level: " << CGame::myTestLevel << std::endl;
+	/*std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
 		
@@ -41,7 +45,7 @@ void CGameWorld::Init()
 	else
 	{
 	myJson.LoadLevel("Smiley_Face", myObjects);
-	}
+	}*/
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
@@ -72,19 +76,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 	
 	static float aSpeed = 0.01f;
-/*
+
 	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
 	{
-		if (CGame::myTestLevel.size() > 0)
+		/*if (CGame::myTestLevel.size() > 0)
 		{
-			myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
+			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
 		}
 		else
 		{
-		myJson.LoadLevel("Smiley_Face", myObjects);
+			myJson.LoadLevel("Test", myObjects);
+		}*/
 	}
-		EventManager::GetInstance()->LoadObjects(myObjects);
-	}*/
+
+
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
@@ -96,11 +101,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputWrapper.GetKeyWasPressed(DIK_K) == true)
 	{
-		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) / 720.0f << std::endl;
-		for (int i = 0; i < myObjects.Size(); ++i)
+
+		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) << std::endl;
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
+		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
-			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
 			{
+				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
+				{
+					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
+					{
+						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
+					}
+				}
 				std::cout << "Collided with object" << std::endl;
 			}
 		}
@@ -138,9 +152,12 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 
-	for (unsigned int i = 0; i < myObjects.Size(); ++i)
+	if (myCurrentRoom != nullptr)
 	{
-		RenderLevel(aSynchronizer, myObjects[i]);
+		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
+		{
+			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
+		}
 	}
 
 	command.myType = eRenderType::eSprite;
