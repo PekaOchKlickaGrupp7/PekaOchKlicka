@@ -185,6 +185,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
+    <ClInclude Include="NavPolygon.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="MainMenuState.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="NavPolygon.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="LevelData.cpp" />
     <ClCompile Include="MainMenuState.cpp" />

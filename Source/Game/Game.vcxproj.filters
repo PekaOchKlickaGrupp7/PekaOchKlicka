@@ -150,6 +150,9 @@
     <ClInclude Include="Room.h">
       <Filter>Room</Filter>
     </ClInclude>
+    <ClInclude Include="NavPolygon.h">
+      <Filter>Room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -215,6 +218,9 @@
       <Filter>Events\Object</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
+      <Filter>Room</Filter>
+    </ClCompile>
+    <ClCompile Include="NavPolygon.cpp">
       <Filter>Room</Filter>
     </ClCompile>
   </ItemGroup>
