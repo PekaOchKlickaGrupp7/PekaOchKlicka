@@ -43,6 +43,10 @@ void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 		command.mySprite = mySpriteHighlight;
 	}
 	aSynchronizer.AddRenderCommand(command);
+
+	command.myPosition.x = myPos.x + mySize.x;
+	command.myPosition.y = myPos.y + mySize.y;
+	aSynchronizer.AddRenderCommand(command);
 }
 
 bool MenuImageItem::Collide(const Vector2<float>& aCursorPos) const
