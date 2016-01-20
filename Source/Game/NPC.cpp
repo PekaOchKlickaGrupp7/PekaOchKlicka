@@ -1,24 +1,16 @@
 #include "stdafx.h"
-#include "Character.h"
+#include "NPC.h"
 
-Character::Character()
+NPC::NPC()
 {
-	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
-	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
-	myIsMoving = false;
-	myIsInventoryOpen = false;
 }
 
-
-Character::~Character()
-{ 
-
+NPC::~NPC()
+{
 }
 
 //Initialize the character
-void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
+void NPC::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
 	myAnimation.Init(aSpriteFilePath, 1, 4);
@@ -30,40 +22,13 @@ void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Character::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
+void NPC::Update(float aDeltaT) //, Movement points here?)
 {
-	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked())
-	{
-		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-			/ static_cast<float>(windowSize.x);
-		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-			/ static_cast<float>(windowSize.y);
-	}
-	if (myIsMoving == true)
-	{
-		Move(myTargetPosition, myMovementSpeed, aDeltaT);
-	}
-
-	if (aInputManager.KeyPressed(DIK_I))
-	{
-		if (myIsInventoryOpen == false)
-		{
-			myInventory.Open();
-			myIsInventoryOpen = true;
-		}
-		else
-		{
-			myInventory.Close();
-			myIsInventoryOpen = false;
-		}
-	}
 	myAnimation.Update(aDeltaT);
 }
 
 //Render everything about the player
-void Character::Render(Synchronizer& aSynchronizer)
+void NPC::Render(Synchronizer& aSynchronizer)
 {
 	/*
 	RenderCommand command;
@@ -78,7 +43,7 @@ void Character::Render(Synchronizer& aSynchronizer)
 }
 
 //Move the character
-void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
+void NPC::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
 	DX2D::Vector2f characterPos(myPosition);
 	//Calculate distance between target and object
@@ -94,7 +59,7 @@ void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float
 		//Move the object
 		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
 		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
-		myPosition=DX2D::Vector2f(
+		myPosition = DX2D::Vector2f(
 			myRenderPosition.x,
 			myRenderPosition.y);
 
@@ -110,32 +75,32 @@ void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float
 }
 
 //Set the pivot point of the character
-void Character::SetPivot(const DX2D::Vector2f& aPoint)
+void NPC::SetPivot(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPivot(aPoint);
 }
 
 //Set the characters position
-void Character::SetPosition(const DX2D::Vector2f& aPoint)
+void NPC::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
 }
 
 //Set the characters speed
-void Character::SetSpeed(float aSpeed)
+void NPC::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
 }
 
 //Check if the character is moving, returns (true | false)
-bool Character::GetIsMoving()
+bool NPC::GetIsMoving()
 {
 	return myIsMoving;
 }
 
 //Set if the character should move (true | false)
-void Character::SetIsMoving(bool aValue)
+void NPC::SetIsMoving(bool aValue)
 {
 	myIsMoving = aValue;
 }

@@ -10,7 +10,7 @@ class Room
 public:
 	Room();
 	~Room();
-	void Init(ObjectData* aObjectData, const CommonUtilities::GrowingArray<Point2f>& aNavPoints);
+	void Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints);
 
 	void OnLoad();
 	void OnClick();
