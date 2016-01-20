@@ -12,6 +12,7 @@
 #include "EventManager.h"
 #include "Event.h"
 #include "HitBox.h"
+#include "Room.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -147,7 +148,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
-	{
+		{
 			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
 		}
 	}

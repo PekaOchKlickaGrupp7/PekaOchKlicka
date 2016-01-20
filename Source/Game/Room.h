@@ -10,6 +10,7 @@ class Room
 public:
 	Room();
 	~Room();
+	void Init();
 	void Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints);
 
 	void OnLoad();
@@ -17,11 +18,12 @@ public:
 	void OnHover();
 
 	void LoadLevel();
+	void AddNavPolygon(NavPolygon poly);
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& GetObjectList() { return myObjects; }
 
 private:
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
-	NavPolygon myNavMesh;
+	CommonUtilities::GrowingArray<NavPolygon, unsigned int> myNavMeshes;
 };
 

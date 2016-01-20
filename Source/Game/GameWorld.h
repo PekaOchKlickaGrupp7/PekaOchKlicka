@@ -6,8 +6,9 @@
 #include "ObjectData.h"
 #include "JSON.h"
 #include "Player.h"
-#include "Room.h"
 #include "Item.h"
+
+class Room;
 
 class CGameWorld : public GameState
 {

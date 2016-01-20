@@ -92,6 +92,20 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		LoadObject(level["objects"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
 	}
 
+	if (level.HasMember("walkable-areas") == true)
+	{
+		for (unsigned int i = 0; i < level["walkable-areas"].Size(); ++i)
+		{
+			Value& points = level["walkable-areas"][i]["points"];
+			NavPolygon poly;
+			for (unsigned int j = 0; j < points.Size(); j++)
+			{
+				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble())) / 1080.0f);
+			}
+			aRoom->AddNavPolygon(poly);
+		}
+	}
+
 	level.GetAllocator().Clear();
 
 	delete data;
@@ -113,8 +127,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	dataObject->myScaleX = static_cast<float>(object["sx"].GetDouble());
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
-	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1280.0f;
-	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 720.0f;
+	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
+	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
