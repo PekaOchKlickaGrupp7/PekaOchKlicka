@@ -7,13 +7,14 @@ NPC::NPC()
 
 NPC::~NPC()
 {
+	myAnimation.Destroy();
 }
 
 //Initialize the character
 void NPC::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 1, 4);
+	myAnimation.Init(aSpriteFilePath, 1, 8,4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;

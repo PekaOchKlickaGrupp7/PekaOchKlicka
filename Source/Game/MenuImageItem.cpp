@@ -11,9 +11,11 @@ MenuImageItem::MenuImageItem(eAction anAction, const char* aSpritePath
 	, myScale(aScale)
 {
 	mySprite = new DX2D::CSprite(aSpritePath);
+	mySprite->SetPivot(mySprite->GetSize() / 2);
 	//mySprite->SetPivot(DX2D::Vector2<float>(mySprite->GetSize().x / 2, mySprite->GetSize().y / 2));
 
 	mySpriteHighlight = new DX2D::CSprite(aSpriteHighlightPath);
+	mySpriteHighlight->SetPivot(mySprite->GetSize() / 2);
 	//mySpriteHighlight->SetPivot(DX2D::Vector2<float>(mySpriteHighlight->GetSize().x / 2, mySpriteHighlight->GetSize().y / 2));
 
 	myPos = aPos;
@@ -27,6 +29,7 @@ MenuImageItem::~MenuImageItem()
 
 void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 {
+	aARGB;
 	RenderCommand command;
 	command.myConvertFromPixelToSpaceNormal = true;
 
