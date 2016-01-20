@@ -135,6 +135,7 @@
     <ClInclude Include="HitBox.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -196,5 +197,6 @@
     <ClCompile Include="HitBox.cpp">
       <Filter>System\JSON</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp" />
   </ItemGroup>
 </Project>

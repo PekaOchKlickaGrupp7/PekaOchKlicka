@@ -62,7 +62,7 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
 }
 
 
@@ -98,18 +98,29 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_K) == true)
 	{
-		std::cout << Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) << ":" << Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f << std::endl;
+		std::cout << Remap(static_cast<float>(mousePos.x), 0, DX2D::CEngine::GetInstance()->GetWindowSize().x,
+			0, DX2D::CEngine::GetInstance()->GetWindowSize().x) << ":" <<
+			Remap(static_cast<float>(mousePos.y), 0, DX2D::CEngine::GetInstance()->GetWindowSize().y,
+			0, DX2D::CEngine::GetInstance()->GetWindowSize().y) / DX2D::CEngine::GetInstance()->GetWindowSize().y
+			<< std::endl;
 		for (unsigned int i = 0; i < myObjects.Size(); ++i)
 		{
-			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f, Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f) == true)
+			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(static_cast<float>(mousePos.x),
+				0, DX2D::CEngine::GetInstance()->GetWindowSize().x, 0,
+				DX2D::CEngine::GetInstance()->GetWindowSize().x) / DX2D::CEngine::GetInstance()->GetWindowSize().x,
+				Remap(static_cast<float>(mousePos.y),
+				0, DX2D::CEngine::GetInstance()->GetWindowSize().y, 0,
+				DX2D::CEngine::GetInstance()->GetWindowSize().y) / DX2D::CEngine::GetInstance()->GetWindowSize().y) == true)
 			{
 				std::cout << "Collided with object" << std::endl;
 			}
 		}
 	}
 
-	myAudioSourcePosition.x = Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f;
-	myAudioSourcePosition.y = Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f;
+	myAudioSourcePosition.x = Remap(static_cast<float>(mousePos.x), 0, DX2D::CEngine::GetInstance()->GetWindowSize().x,
+		0, DX2D::CEngine::GetInstance()->GetWindowSize().x) / DX2D::CEngine::GetInstance()->GetWindowSize().x;
+	myAudioSourcePosition.y = Remap(static_cast<float>(mousePos.y), 0, DX2D::CEngine::GetInstance()->GetWindowSize().y,
+		0, DX2D::CEngine::GetInstance()->GetWindowSize().y) / DX2D::CEngine::GetInstance()->GetWindowSize().y;
 /*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;

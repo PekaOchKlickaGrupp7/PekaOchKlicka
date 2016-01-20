@@ -112,7 +112,6 @@ void DX2D::CSprite::SetUVOffset(const Vector2f& aUV)
 }
 
 
-
 void DX2D::CSprite::SetColor(const CColor& aColor)
 {
 	myQuad->SetColor(aColor);
