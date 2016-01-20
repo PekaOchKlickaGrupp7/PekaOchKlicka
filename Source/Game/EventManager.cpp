@@ -63,6 +63,11 @@ void EventManager::Update(const float aDeltaTime)
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
+		if (event == nullptr)
+		{
+			int apa = 0;
+			++apa;
+		}
 		if (event->Update(aDeltaTime) == true)
 		{
 			myActiveEvents.RemoveCyclicAtIndex(i);

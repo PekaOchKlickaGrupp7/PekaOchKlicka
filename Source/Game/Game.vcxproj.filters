@@ -10,12 +10,6 @@
     <Filter Include="System\Sound">
       <UniqueIdentifier>{55c566cd-0db7-4ccc-a86f-79d272374ff0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External">
-      <UniqueIdentifier>{664e4302-88ff-4aee-9cd7-0cad76a08445}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="External\FMOD">
-      <UniqueIdentifier>{8f9f6553-c981-423b-8e05-8a21651c0649}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{57c328a7-6125-4596-a774-150744c8b3c5}</UniqueIdentifier>
     </Filter>
@@ -63,6 +57,12 @@
     </Filter>
     <Filter Include="System\Mouse">
       <UniqueIdentifier>{cf7a59e5-d930-47af-ba74-d1c5bda3b3e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{664e4302-88ff-4aee-9cd7-0cad76a08445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\FMOD">
+      <UniqueIdentifier>{8f9f6553-c981-423b-8e05-8a21651c0649}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,10 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
+	if (myCurrentRoom == nullptr)
+	{
+		DL_PRINT("Current room is null!");
+	}
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
