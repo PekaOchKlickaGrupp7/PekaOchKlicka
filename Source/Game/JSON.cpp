@@ -192,7 +192,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			EventChangeLevel* changeLevel = new EventChangeLevel();
 			changeLevel->Init(aRoom, aGameWorld);
-			changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+			changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
 
 			changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 			changeLevel->myTarget = std::string(events[i]["target"].GetString());

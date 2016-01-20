@@ -180,9 +180,6 @@
     <ClInclude Include="Item.h">
       <Filter>Game Objects\Items &amp; Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="EventChangeLevel.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Tools</Filter>
     </ClInclude>
@@ -193,6 +190,9 @@
       <Filter>Events\Level</Filter>
     </ClInclude>
     <ClInclude Include="MouseManager.h" />
+    <ClInclude Include="EventChangeLevel.h">
+      <Filter>Events\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -272,9 +272,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>Game Objects\Items &amp; Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="EventChangeLevel.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
@@ -285,5 +282,8 @@
       <Filter>Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="MouseManager.cpp" />
+    <ClCompile Include="EventChangeLevel.cpp">
+      <Filter>Events\Level</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

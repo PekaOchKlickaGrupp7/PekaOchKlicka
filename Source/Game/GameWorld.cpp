@@ -121,7 +121,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
 		{
-			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
+			if (myCurrentRoom->GetObjectList()[i]->myName == "Player")
+			{
+				//RenderPlayer();
+			}
+			else
+			{
+				RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
+			}
 		}
 	}
 
