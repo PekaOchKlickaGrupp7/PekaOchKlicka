@@ -76,7 +76,7 @@ void Player::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 	*/
 	myAnimation.Render(aSynchronizer, myRenderPosition);
-	//myInventory.Render(aSynchronizer);
+	myInventory.Render(aSynchronizer);
 }
 
 //Move the character
@@ -140,4 +140,10 @@ bool Player::GetIsMoving()
 void Player::SetIsMoving(bool aValue)
 {
 	myIsMoving = aValue;
+}
+
+//Add an item to inventory
+void Player::AddItemToInventory(const Item& aItemToAdd)
+{
+	myInventory.Add(aItemToAdd);
 }

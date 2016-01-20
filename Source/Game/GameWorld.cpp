@@ -62,8 +62,15 @@ void CGameWorld::Init()
 
 	//Create the player character
 	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
-	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory",
+
+	//Test item
+	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
 		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
+	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
+		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
+
+	myPlayer.AddItemToInventory(myTestItem);
+	myPlayer.AddItemToInventory(myTestItem2);
 }
 
 
@@ -156,7 +163,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
-	myTestItem.Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

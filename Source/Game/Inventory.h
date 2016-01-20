@@ -16,7 +16,7 @@ public:
 	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
 
 	//Adds an item to the inventory
-	void Add(Item& aItemToAdd);
+	void Add(const Item& aItemToAdd);
 
 	//Removes an item from the inventory
 	void Remove(const Item& aItemToRemove);

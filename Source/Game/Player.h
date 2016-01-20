@@ -37,6 +37,9 @@ public:
 	//Set if the character should move (true | false)
 	void SetIsMoving(bool aValue);
 
+	//Add an item to inventory
+	void AddItemToInventory(const Item& aItemToAdd);
+
 private:
 
 	Inventory myInventory;

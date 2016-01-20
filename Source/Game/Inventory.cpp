@@ -26,9 +26,8 @@ void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
 }
 
 //Adds an item to the inventory
-void Inventory::Add(Item& aItemToAdd)
+void Inventory::Add(const Item& aItemToAdd)
 {
-	aItemToAdd.SetToInventorySprite();
 	myContents.Add(aItemToAdd);
 }
 
@@ -81,9 +80,12 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 		//Render each item in the inventory
 		for (unsigned short i = 0; i < myContents.Size(); ++i)
 		{
+			//Make sure it renders the inventory sprite
+			myContents[i].SetToInventorySprite();
+
 			myContents[i].SetPosition(tempItemPos);
 
-			//Change the position to the end of the previous items image + the offset
+			//Change the position to the end of the items image + the offset
 			DX2D::Vector2f imageSize = myContents[i].GetSprite()->GetSize();
 			tempItemPos.x += imageSize.x + myXOffset;
 

@@ -32,8 +32,6 @@ void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, 
 	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
 	const std::string& aLevelToSpawnIn)
 {
-	myCombinableWithList.Init(4);
-
 	InitSprites(aWorldSpritePath, aInventorySpritePath);
 
 	myName = aItemName;
