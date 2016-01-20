@@ -26,9 +26,10 @@ CGameWorld::~CGameWorld()
 	mySFXRain.Destroy();
 }
 
-void CGameWorld::ChangeLevel(const std::string& aString)
+void CGameWorld::ChangeLevel(const char* aString)
 {
-	myCurrentRoom = myRooms[aString];
+	std::string str = aString;
+	myCurrentRoom = myRooms[str];
 	myCurrentRoom->OnLoad();
 	if (myCurrentRoom == nullptr)
 	{

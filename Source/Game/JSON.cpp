@@ -59,7 +59,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		
 		if (i == 0)
 		{
-			levelName = name;
+			levelName = name.c_str();
 		}
 
 		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
@@ -67,7 +67,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	
 	root.GetAllocator().Clear();
 
-	aGameWorld->ChangeLevel(levelName);
+	aGameWorld->ChangeLevel(levelName.c_str());
 
 	delete data;
 

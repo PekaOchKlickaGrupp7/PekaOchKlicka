@@ -35,30 +35,31 @@ void EventManager::Update(const float aDeltaTime)
 	POINT mousePos = myInputManager->GetMousePos();
 	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (myInputManager->LeftMouseButtonClicked() == true)
+	if (myObjects != nullptr)
 	{
-		for (unsigned int i = 0; i < myObjects->Size(); ++i)
+		if (myInputManager->LeftMouseButtonClicked() == true)
 		{
-			if ((*myObjects)[i]->myHitBox.IsMouseColliding(
-				Remap(mousePosition.x, 
-				0, 1280, 
-				0, 1920) / 1920.0f, 
-				Remap(mousePosition.y, 0, 
-				1024, 0, 1080) / 1080.0f) == true)
+			for (unsigned int i = 0; i < myObjects->Size(); ++i)
 			{
-				for (unsigned int j = 0; j < (*myObjects)[i]->myEvents.Size(); ++j)
+				if ((*myObjects)[i]->myHitBox.IsMouseColliding(
+					Remap(mousePosition.x,
+					0, 1280,
+					0, 1920) / 1920.0f,
+					Remap(mousePosition.y, 0,
+					1024, 0, 1080) / 1080.0f) == true)
 				{
-					if ((*myObjects)[i]->myEvents[j]->myType == EventTypes::OnClick)
+					for (unsigned int j = 0; j < (*myObjects)[i]->myEvents.Size(); ++j)
 					{
-						EventManager::GetInstance()->AddEvent((*myObjects)[i]->myEvents[j]);
+						if ((*myObjects)[i]->myEvents[j]->myType == EventTypes::OnClick)
+						{
+							EventManager::GetInstance()->AddEvent((*myObjects)[i]->myEvents[j]);
+						}
 					}
+					//std::cout << "Collided with object" << std::endl;
 				}
-				//std::cout << "Collided with object" << std::endl;
 			}
 		}
 	}
-
-
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
