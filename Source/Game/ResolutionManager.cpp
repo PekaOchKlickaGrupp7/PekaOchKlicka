@@ -52,6 +52,8 @@ void ResolutionManager::Initialize(DX2D::Vector2<int> aVirtualScreenSize)
 
 void ResolutionManager::Update(int aWindowWidth, int aWindowHeight)
 {
+	(aWindowWidth);
+	(aWindowHeight);
 	RECT returnedResolution = RetrieveResolutionRender();
 	/*	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(1920), static_cast<unsigned int>(1080) });*/
 	//CalculateRatio(1920, 1080);
@@ -100,9 +102,9 @@ void ResolutionManager::CalculateRatio(int aWindowWidth, int aWindowHeight)
 
 	if (myVirtualScreenSize.y * hRatio > myRealScreenSize.y)
 	{
-		viewPortX = ((myRealScreenSize.x - (myVirtualScreenSize.x * myRatio)) / 2);
+		viewPortX = static_cast<int>(((myRealScreenSize.x - (myVirtualScreenSize.x * myRatio)) / 2));
 		viewPortY = 0;
-		viewPortWidth = myVirtualScreenSize.x * myRatio;
+		viewPortWidth = static_cast<int>(myVirtualScreenSize.x * myRatio);
 		viewPortHeight = myRealScreenSize.y;
 	}
 	/*if (myVirtualScreenSize.y * hRatio > myRealScreenSize.y)
@@ -144,7 +146,7 @@ void ResolutionManager::CalculateRatio(int aWindowWidth, int aWindowHeight)
 	//}
 
 	// translate and scale (set viewport and scale)
-	myResViewport.SetViewport(viewPortX, viewPortY, myRealScreenSize.x, myRealScreenSize.y, 0, 1, myRatio);
+	myResViewport.SetViewport(static_cast<float>(viewPortX), static_cast<float>(viewPortY), static_cast<float>(myRealScreenSize.x), static_cast<float>(myRealScreenSize.y), 0, 1, myRatio);
 
 	myRenderAreaPosition.x = viewPortX;
 	myRenderAreaDimensions.x = myRealScreenSize.x;
