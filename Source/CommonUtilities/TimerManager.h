@@ -20,6 +20,7 @@ namespace CU
 			unsigned char CreateTimer();
 			void UpdateTimers();
 			void PauseTimers();
+			void ResetTimer(unsigned char ID);
 			void StartTimers(unsigned char ID);
 			void StopTimers(unsigned char ID);
 			double GetElapsedTime();

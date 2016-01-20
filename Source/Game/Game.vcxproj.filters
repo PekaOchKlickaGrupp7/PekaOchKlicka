@@ -150,6 +150,7 @@
     <ClInclude Include="Room.h">
       <Filter>Room</Filter>
     </ClInclude>
+    <ClInclude Include="TextTalk.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -217,5 +218,6 @@
     <ClCompile Include="Room.cpp">
       <Filter>Room</Filter>
     </ClCompile>
+    <ClCompile Include="TextTalk.cpp" />
   </ItemGroup>
 </Project>

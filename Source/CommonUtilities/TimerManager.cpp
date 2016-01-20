@@ -66,6 +66,11 @@ namespace CU
 			myTimers[ID].Stop();
 		}
 
+		void TimerManager::ResetTimer(unsigned char ID)
+		{
+			myTimers[ID].Reset();
+		}
+
 		const char TimerManager::GetCountOfTimers() const
 		{
 			return static_cast<unsigned char>(myTimers.size());
@@ -86,5 +91,6 @@ namespace CU
 
 			myTick2 = myTick1;
 		}
+
 	}
 }
