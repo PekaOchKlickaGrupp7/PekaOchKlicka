@@ -8,6 +8,8 @@ public:
 	virtual ~EventSetActive();
 
 	virtual bool Update(const float aDeltaTime) override;
+	virtual void Reset() override;
+
 
 	bool myValue;
 };

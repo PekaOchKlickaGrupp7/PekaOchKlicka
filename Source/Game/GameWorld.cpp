@@ -10,8 +10,8 @@
 #include <iostream>
 #include "Game.h"
 #include "EventManager.h"
-#include "Event.h"
 #include "HitBox.h"
+#include "Room.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -30,6 +30,11 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
+	if (myCurrentRoom == nullptr)
+	{
+		DL_PRINT("Current room is null!");
+}
+	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
 void CGameWorld::Init()
@@ -70,7 +75,7 @@ void CGameWorld::Init()
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
-	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+	EventManager::GetInstance()->Update(aTimeDelta);
 
 
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
@@ -129,11 +134,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	return eStateStatus::eKeepState;
 }
 
-float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2)
-{
-	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
-}
-
 void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
@@ -142,14 +142,21 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
 	{
+			if (myCurrentRoom->GetObjectList()[i]->myName == "Player")
+			{
+				//RenderPlayer();
+			}
+			else
+			{
 			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
 		}
 	}
+	}
 
-	command.myType = eRenderType::eSprite;
-	command.myPosition = myResolutionTestSprite->GetPosition();
-	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
+	//command.myType = eRenderType::eSprite;
+	//command.myPosition = myResolutionTestSprite->GetPosition();
+	//command.mySprite = myResolutionTestSprite;
+	//aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;

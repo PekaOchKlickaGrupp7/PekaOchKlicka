@@ -9,16 +9,20 @@ class Event
 {
 public:
 	virtual ~Event();
-
+	Event();
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
 	virtual bool Update(const float aDeltaTime) = 0;
+	virtual void Reset() = 0;
 
 	ObjectData* GetGameObject(const std::string& aName) const;
 
 	std::string myTarget;
 	EventTypes myType;
+
+	ObjectData* myObjectData;
+
+	CommonUtilities::GrowingArray<Event*, unsigned int> myChilds;
 protected:
-	Event();
 	Room* myRoom;
 	CGameWorld* myGameWorld;
 };

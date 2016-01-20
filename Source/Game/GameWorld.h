@@ -6,8 +6,9 @@
 #include "ObjectData.h"
 #include "JSON.h"
 #include "Player.h"
-#include "Room.h"
 #include "Item.h"
+
+class Room;
 
 class CGameWorld : public GameState
 {
@@ -21,7 +22,6 @@ public:
 	void ChangeLevel(const std::string& aString);
 
 	eStateStatus Update(float aTimeDelta) override;
-	float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2);
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:

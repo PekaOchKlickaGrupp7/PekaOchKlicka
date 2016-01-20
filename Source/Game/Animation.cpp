@@ -9,29 +9,38 @@ Animation::Animation()
 	mySprite = nullptr;
 	myNumberOfFrames = 0;
 	myFrame = 0;
-	myOriginalSpriteWidht = 0;
+	myFramesPerRow = 0;
 	myPaused = false;
 }
 
-void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames)
+void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
 	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
-
+	myFramesPerRow = aFramesPerRow;
 	mySprite = new DX2D::CSprite(aSpriteFilePath);
 
 	myNumberOfFrames = aNumberOfFrames;
-	myFrame = 3;
+	myFrame = 0;
 	myPaused = false;
-	myOriginalSpriteWidht = mySprite->GetSize().x;
-	mySprite->SetSize(DX2D::Vector2f(1.f / myNumberOfFrames, 1));
+
+	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1));
+
+	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
 
 	UpdateTextureRect();
 
 }
+void Animation::UpdateTextureRect()
+{
 
+	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
+		mySprite->GetSize().y*(myFrame / myFramesPerRow)));
+
+}
 void Animation::Update(float aDelta)
 {
+	
 	if (myPaused == false)
 	{
 		myCurentFrameDuration += aDelta;
@@ -50,7 +59,6 @@ void Animation::Update(float aDelta)
 
 void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 {
-	
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
 	command.myPosition = aPos;
@@ -59,16 +67,12 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 	aSynchronizer.AddRenderCommand(command);
 }
 
-void Animation::UpdateTextureRect()
-{
-	
-	float x = (myOriginalSpriteWidht * myFrame);
-
-	mySprite->SetTextureRect(x, 0,
-		mySprite->GetSize().x / myNumberOfFrames, 1);
-}
-
-Animation::~Animation()
+void Animation::Destroy()
 {
 	delete mySprite;
+	mySprite = nullptr;
+}
+Animation::~Animation()
+{
+	Destroy();
 }

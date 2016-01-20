@@ -92,6 +92,20 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		LoadObject(level["objects"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
 	}
 
+	if (level.HasMember("walkable-areas") == true)
+	{
+		for (unsigned int i = 0; i < level["walkable-areas"].Size(); ++i)
+		{
+			Value& points = level["walkable-areas"][i]["points"];
+			NavPolygon poly;
+			for (unsigned int j = 0; j < points.Size(); j++)
+			{
+				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble())) / 1080.0f);
+			}
+			aRoom->AddNavPolygon(poly);
+		}
+	}
+
 	level.GetAllocator().Clear();
 
 	delete data;
@@ -113,8 +127,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	dataObject->myScaleX = static_cast<float>(object["sx"].GetDouble());
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
-	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1280.0f;
-	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 720.0f;
+	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
+	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
@@ -148,13 +162,18 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
 		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
-		Event* event = nullptr;
+		//Event* event = nullptr;
 		switch (action)
 		{
 		case EventActions::SetActive:
 		{
 			EventSetActive* setActive = new EventSetActive();
 			setActive->Init(aRoom, aGameWorld);
+
+			setActive->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+			setActive->myTarget = std::string(events[i]["target"].GetString());
+			setActive->myObjectData = dataObject;
+
 			if (events[i].HasMember("Value") == true)
 			{
 				Value& myValue = events[i]["Value"];
@@ -165,25 +184,29 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 				setActive->myValue = myValue.GetBool();
 			}
 
-			event = dynamic_cast<Event*>(setActive);
+			dataObject->myEvents.Add(setActive);
+			//event = dynamic_cast<Event*>(setActive);
 			break;
 		}
 		case EventActions::ChangeLevel:
 		{
 			EventChangeLevel* changeLevel = new EventChangeLevel();
 			changeLevel->Init(aRoom, aGameWorld);
-			changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+			changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
 
-			event = dynamic_cast<Event*>(changeLevel);
+			changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+			changeLevel->myTarget = std::string(events[i]["target"].GetString());
+			changeLevel->myObjectData = dataObject;
+
+			dataObject->myEvents.Add(changeLevel);
+			//event = dynamic_cast<Event*>(changeLevel);
 			break;
 		}
 		default:
 
 			break;
 		}
-		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-		event->myTarget = std::string(events[i]["target"].GetString());
-		dataObject->myEvents.Add(event);
+		//dataObject->myEvents.Add(event);
 	}
 
 	ObjectData* parentData = nullptr;
@@ -213,7 +236,48 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		LoadObject(object["childs"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
 	}
 }
+/*
+void JSON::LoadEvent(Value& aParent)
+{
+	EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
+	Event* event = nullptr;
+	switch (action)
+	{
+	case EventActions::SetActive:
+	{
+		EventSetActive* setActive = new EventSetActive();
+		setActive->Init(aRoom, aGameWorld);
+		if (events[i].HasMember("Value") == true)
+		{
+			Value& myValue = events[i]["Value"];
+			if (myValue.IsNull() == true)
+			{
+				//DL_ASSERT("Event SetActive Value is null");
+			}
+			setActive->myValue = myValue.GetBool();
+		}
 
+		event = dynamic_cast<Event*>(setActive);
+		break;
+	}
+	case EventActions::ChangeLevel:
+	{
+		EventChangeLevel* changeLevel = new EventChangeLevel();
+		changeLevel->Init(aRoom, aGameWorld);
+		changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+
+		event = dynamic_cast<Event*>(changeLevel);
+		break;
+	}
+	default:
+
+		break;
+	}
+	event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+	event->myTarget = std::string(events[i]["target"].GetString());
+	dataObject->myEvents.Add(event);
+}
+*/
 const char* JSON::ReadFile(const char* aFile)
 {
 	std::ifstream input(aFile);
