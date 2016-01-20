@@ -20,7 +20,7 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	mySFXRain.Destroy();
+	//mySFXRain.Destroy();
 	myObjects.DeleteAll();
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
@@ -48,6 +48,7 @@ void CGameWorld::Init()
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
+	mySFXRain.SetVolume(10.0f);
 	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
@@ -150,6 +151,11 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		RenderLevel(aSynchronizer, myObjects[i]);
 	}
+
+	command.myType = eRenderType::eSprite;
+	command.myPosition = myResolutionTestSprite->GetPosition();
+	command.mySprite = myResolutionTestSprite;
+	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();

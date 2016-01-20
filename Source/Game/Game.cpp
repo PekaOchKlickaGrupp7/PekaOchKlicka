@@ -78,11 +78,6 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << "Level: " << myTestLevel << std::endl; 
 	}
 
-	myResolutionManager.Initialize({0,0});
-
-	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 1024;
-
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
 	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
@@ -92,7 +87,7 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
-	createParameters.myClearColor.Set(1.0f, 1.0f, 1.0f, 1.0f);
+	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
 	createParameters.myStartInFullScreen = myIsFullscreen;
@@ -125,7 +120,7 @@ void CGame::InitCallBack()
 		*DX2D::CEngine::GetInstance()->GetHWND(), 
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
-	myInputManager.SetMouseLocation(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
+	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
@@ -150,7 +145,7 @@ const bool CGame::Update()
 	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
 
-	if (myInputManager.GetKeyWasPressed(DIK_F1) == true)
+	if (myInputManager.KeyPressed(DIK_F1) == true)
 	{
 		myIsFullscreen = !myIsFullscreen;
 		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
