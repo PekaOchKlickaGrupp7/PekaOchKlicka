@@ -15,8 +15,8 @@ Renderer::~Renderer()
 
 void Renderer::ConvertPosFromPixelToNormalSpace(RenderCommand& aRenderCommand)
 {
-	aRenderCommand.myPosition.x /= 1280;
-	aRenderCommand.myPosition.y /= 720;
+	aRenderCommand.myPosition.x /= DX2D::CEngine::GetInstance()->GetWindowSize().x;
+	aRenderCommand.myPosition.y /= DX2D::CEngine::GetInstance()->GetWindowSize().y;
 }
 
 void Renderer::Render(Synchronizer& aSynchronizer)

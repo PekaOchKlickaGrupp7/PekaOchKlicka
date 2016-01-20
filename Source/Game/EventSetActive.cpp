@@ -13,7 +13,7 @@ EventSetActive::~EventSetActive()
 
 bool EventSetActive::Update(float aDeltaTime)
 {
-	ObjectData* object = GetObject(myTarget);
+	ObjectData* object = GetGameObject(myTarget);
 	object->myActive = myValue;
 	return true;
 }

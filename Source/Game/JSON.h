@@ -10,7 +10,8 @@ class CGameWorld;
 enum EventActions
 {
 	None,
-	SetActive
+	SetActive,
+	ChangeLevel
 };
 
 class JSON
