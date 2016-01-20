@@ -62,6 +62,8 @@ void CGameWorld::Init()
 
 	//Create the player character
 	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory",
+		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
 }
 
 
@@ -97,20 +99,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
 	POINT mousePos = myInputManager.GetMousePos();
+	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (myInputManager.KeyPressed(DIK_K) == true)
+	if (myInputManager.LeftMouseButtonClicked() == true)
 	{
-
-		std::cout << Remap(mousePos.x, 0, 1280, 0, 1280) << ":" << Remap(mousePos.y, 0, 720, 0, 720) << std::endl;
+		std::cout << Remap(mousePosition.x, 0, 1280, 0, 1280) << ":" << Remap(mousePosition.y, 0, 720, 0, 720) << std::endl;
 		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
 		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
-			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePos.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePos.y, 0, 720, 0, 720) / 720.0f) == true)
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePosition.y, 0, 720, 0, 720) / 720.0f) == true)
 			{
 				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
-				{
+		{
 					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
-					{
+			{
 						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
 					}
 				}
@@ -154,6 +156,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
+	myTestItem.Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

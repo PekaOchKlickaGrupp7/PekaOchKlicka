@@ -7,6 +7,7 @@
 #include <map>
 #include "Room.h"
 #include "GameWorld.h"
+#include "Item.h"
 
 //Events
 #include "EventSetActive.h"
@@ -52,14 +53,16 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		
 		Room* room = new Room();
 		room->GetObjectList().Init(128);
-		aRooms[level["name"].GetString()] = room;
+
+		std::string name = level["name"].GetString();
+		aRooms[name] = room;
 		
 		if (i == 0)
 		{
-			levelName = level["name"].GetString();
+			levelName = name;
 		}
 
-		LoadLevel(level["name"].GetString(), level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
+		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
 	}
 	
 	root.GetAllocator().Clear();
@@ -71,7 +74,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	return true;
 }
 
-bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
+bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
 {
 	const char* data = ReadFile(aLevelPath);
 	Document level;
@@ -150,17 +153,28 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 		case EventActions::SetActive:
 		{
-			event = new EventSetActive();
-			event->Init(aRoom, aGameWorld);
-			event->myValue = events[i]["value"].GetBool();
+			EventSetActive* setActive = new EventSetActive();
+			setActive->Init(aRoom, aGameWorld);
+			if (events[i].HasMember("Value") == true)
+			{
+				Value& myValue = events[i]["Value"];
+				if (myValue.IsNull() == true)
+				{
+					//DL_ASSERT("Event SetActive Value is null");
+				}
+				setActive->myValue = myValue.GetBool();
+			}
+
+			event = dynamic_cast<Event*>(setActive);
 			break;
 		}
 		case EventActions::ChangeLevel:
 		{
-			event = new EventChangeLevel();
-			event->Init(aRoom, aGameWorld);
+			EventChangeLevel* changeLevel = new EventChangeLevel();
+			changeLevel->Init(aRoom, aGameWorld);
+			changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
 
-			dynamic_cast<EventChangeLevel*>(event)->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+			event = dynamic_cast<Event*>(changeLevel);
 			break;
 		}
 		default:
@@ -174,15 +188,24 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
-	if (aParentObject == nullptr)
+
+	if (false && object["item"]["isItem"].GetBool() == true)
 	{
-		aObjects.Add(dataObject);
-		parentData = aObjects[aObjects.Size() - 1];
+		//Item* item = new Item();
+		
 	}
 	else
 	{
-		aParentObject->myChilds.Add(dataObject);
-		parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+		if (aParentObject == nullptr)
+		{
+			aObjects.Add(dataObject);
+			parentData = aObjects[aObjects.Size() - 1];
+		}
+		else
+		{
+			aParentObject->myChilds.Add(dataObject);
+			parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+		}
 	}
 
 	for (unsigned int j = 0; j < object["childs"].Size(); ++j)

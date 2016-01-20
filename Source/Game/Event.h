@@ -15,7 +15,6 @@ public:
 
 	ObjectData* GetGameObject(const std::string& aName) const;
 
-	bool myValue;
 	std::string myTarget;
 	EventTypes myType;
 protected:
