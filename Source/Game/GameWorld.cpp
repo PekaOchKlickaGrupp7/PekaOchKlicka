@@ -23,7 +23,7 @@ CGameWorld::~CGameWorld()
 {
 	delete text;
 	delete myResolutionTestSprite;
-	SoundManager::DestroyInstance();
+	mySFXRain.Destroy();
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
