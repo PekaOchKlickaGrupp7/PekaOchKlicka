@@ -9,9 +9,9 @@ public:
 	virtual ~EventChangeLevel();
 
 	virtual bool Update(const float aDeltaTime) override;
-	virtual void Reset() override {};
+	virtual void Reset() override;
 
-	const char* myTargetLevelName;
+	std::string myTargetLevelName;
 protected:
 };
 

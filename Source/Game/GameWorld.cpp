@@ -26,10 +26,9 @@ CGameWorld::~CGameWorld()
 	mySFXRain.Destroy();
 }
 
-void CGameWorld::ChangeLevel(const char* aString)
+void CGameWorld::ChangeLevel(std::string* aString)
 {
-	std::string str = aString;
-	myCurrentRoom = myRooms[str];
+	myCurrentRoom = myRooms[*aString];
 	myCurrentRoom->OnLoad();
 	if (myCurrentRoom == nullptr)
 	{
@@ -124,17 +123,17 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	if (myCurrentRoom != nullptr)
 	{
-		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
-	{
-			if (myCurrentRoom->GetObjectList()[i]->myName == "Player")
+		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
+		{
+			if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 			{
 				//RenderPlayer();
 			}
 			else
 			{
-			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
+				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
+			}
 		}
-	}
 	}
 
 	//command.myType = eRenderType::eSprite;

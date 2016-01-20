@@ -18,7 +18,7 @@ public:
 	void LoadLevel();
 	void AddNavPolygon(NavPolygon poly);
 
-	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& GetObjectList() { return myObjects; }
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* GetObjectList() { return &myObjects; }
 
 private:
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;

@@ -11,6 +11,7 @@ EventChangeLevel::EventChangeLevel()
 
 EventChangeLevel::~EventChangeLevel()
 {
+	DL_PRINT("Destructor");
 }
 
 bool EventChangeLevel::Update(const float aDeltaTime)
@@ -20,6 +21,10 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 	{
 		DL_PRINT("Room to change to was empty string");
 	}
-	myGameWorld->ChangeLevel(myTargetLevelName);
+	myGameWorld->ChangeLevel(&myTargetLevelName);
 	return true;
+}
+
+void EventChangeLevel::Reset()
+{
 }

@@ -52,14 +52,14 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		}
 		
 		Room* room = new Room();
-		room->GetObjectList().Init(128);
+		room->GetObjectList()->Init(128);
 
 		std::string name = level["name"].GetString();
 		aRooms[name] = room;
 		
 		if (i == 0)
 		{
-			levelName = name.c_str();
+			levelName = name;
 		}
 
 		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
@@ -67,14 +67,14 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	
 	root.GetAllocator().Clear();
 
-	aGameWorld->ChangeLevel(levelName.c_str());
+	aGameWorld->ChangeLevel(&levelName);
 
 	delete data;
 
 	return true;
 }
 
-bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
+bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld)
 {
 	const char* data = ReadFile(aLevelPath);
 	Document level;
@@ -116,7 +116,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 #pragma region Private Methods
 
 void JSON::LoadObject(Value& node, ObjectData* aParentObject, 
-	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y)
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y)
 {
 	Value& object = node;
 
@@ -221,8 +221,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	{
 		if (aParentObject == nullptr)
 		{
-			aObjects.Add(dataObject);
-			parentData = aObjects[aObjects.Size() - 1];
+			aObjects->Add(dataObject);
+			parentData = (*aObjects)[aObjects->Size() - 1];
 		}
 		else
 		{

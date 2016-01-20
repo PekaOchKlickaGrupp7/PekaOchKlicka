@@ -19,7 +19,7 @@ public:
 
 	void Init();
 
-	void ChangeLevel(const char* aString);
+	void ChangeLevel(std::string* aString);
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;

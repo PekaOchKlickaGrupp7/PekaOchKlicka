@@ -61,8 +61,8 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << argv[i] << std::endl;
 	}
 	std::cout << std::endl;
-	unsigned short windowWidth = 1920;
-	unsigned short windowHeight = 1080;
+	unsigned short windowWidth = 1280;
+	unsigned short windowHeight = 1024;
 
 	if (argc == 2)
 	{
@@ -128,7 +128,7 @@ void CGame::InitCallBack()
 	EventManager::CreateInstance();
 	EventManager::GetInstance()->Init(&myInputManager);
 
-	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	//ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	if (myTestLevel.size() > 0)
 	{
 		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
@@ -143,7 +143,7 @@ const bool CGame::Update()
 {
 	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
 
-	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	//ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
 
