@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include <iostream>
 
 Player::Player()
 {
@@ -33,14 +34,18 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
 	//Character movement
-	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
+	DX2D::Vector2<int> windowSize = ResolutionManager::GetInstance()->GetRenderAreaDimension() +
+		ResolutionManager::GetInstance()->GetRenderAreaPosition();
 	if (aInputManager.LeftMouseButtonClicked())
 	{
 		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-			/ static_cast<float>(windowSize.x);
-		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-			/ static_cast<float>(windowSize.y);
+		myTargetPosition.x = static_cast<float>(aInputManager.GetRelativeMousePos().x)
+		/ static_cast<float>(windowSize.x);
+		myTargetPosition.y = static_cast<float>(aInputManager.GetRelativeMousePos().y)
+		/ static_cast<float>(windowSize.y);
+
+		std::cout << "X: " << myTargetPosition.x << 
+			"Y: " << myTargetPosition.y << std::endl;
 	}
 	if (myIsMoving == true)
 	{
@@ -143,7 +148,7 @@ void Player::SetIsMoving(bool aValue)
 }
 
 //Add an item to inventory
-void Player::AddItemToInventory(const Item& aItemToAdd)
+void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
 }

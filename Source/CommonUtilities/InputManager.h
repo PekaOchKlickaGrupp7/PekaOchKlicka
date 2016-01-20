@@ -46,7 +46,7 @@ namespace CU
 			bool IsPressed(BYTE aValue) const;
 
 			inline bool CheckIfInitialized();
-			inline POINT GetMousePos();
+			inline POINT GetRelativeMousePos();
 			inline POINT GetAbsoluteMousePos();
 			inline void SetAbsoluteMousePos(int aX, int aY);
 
@@ -95,7 +95,7 @@ namespace CU
 			return myScrollWheelPos;
 		}
 
-		POINT InputManager::GetMousePos()
+		POINT InputManager::GetRelativeMousePos()
 		{
 			POINT pos;
 			pos.x = myMouseX;

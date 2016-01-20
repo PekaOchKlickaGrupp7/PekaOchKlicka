@@ -37,6 +37,5 @@ private:
 
 	Player myPlayer;
 
-	Item myTestItem;
-	Item myTestItem2;
+	Item testItem;
 };

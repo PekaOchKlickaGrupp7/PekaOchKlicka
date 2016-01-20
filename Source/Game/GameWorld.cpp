@@ -61,16 +61,10 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.2f);
 
-	//Test item
-	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
-	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
-
-	myPlayer.AddItemToInventory(myTestItem);
-	myPlayer.AddItemToInventory(myTestItem2);
+	testItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png", "Test1", "A Test", DX2D::Vector2f(0.2f, 0.8f), false, "Level 1");
+	myPlayer.AddItemToInventory(&testItem);
 }
 
 
@@ -105,7 +99,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	POINT mousePos = myInputManager.GetMousePos();
+	POINT mousePos = myInputManager.GetRelativeMousePos();
 	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
 	if (myInputManager.LeftMouseButtonClicked() == true)

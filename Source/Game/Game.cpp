@@ -120,7 +120,9 @@ void CGame::InitCallBack()
 		*DX2D::CEngine::GetInstance()->GetHWND(), 
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
-	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
+	myInputManager.SetAbsoluteMousePos(
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x / 2,
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
@@ -140,7 +142,7 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
+	//std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
 
 	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
