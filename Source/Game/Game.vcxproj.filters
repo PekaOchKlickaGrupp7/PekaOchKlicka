@@ -46,6 +46,9 @@
     <Filter Include="Events\Object">
       <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Level">
+      <UniqueIdentifier>{81074528-e4a3-45b3-8725-38d4978756a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -153,9 +156,11 @@
       <Filter>Room</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="EventChangeLevel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="EventChangeLevel.h">
+      <Filter>Events\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -226,8 +231,10 @@
       <Filter>Room</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="EventChangeLevel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="EventChangeLevel.cpp">
+      <Filter>Events\Level</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -158,7 +158,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			Value& myValue = events[i]["Value"];
 			if (myValue.IsNull() == true)
 			{
-				DL_ASSERT("Event SetActive Value is null");
+				//DL_ASSERT("Event SetActive Value is null");
 			}
 			setActive->myValue = myValue.GetBool();
 
