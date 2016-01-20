@@ -86,9 +86,12 @@ CEngine::~CEngine()
 }
 
 
-void DX2D::CEngine::DestroyInstance()
+void DX2D::CEngine::Destroy()
 {
-	SAFE_DELETE(myInstance);
+	if (myInstance != nullptr)
+	{
+		myInstance->Shutdown();
+	}
 }
 
 
@@ -105,7 +108,7 @@ bool CEngine::Start()
 	}
 
 	myDirect3D = new CDirectEngine();
-	if (!myDirect3D->Init(*this, myWindowSize, myCreateParameters.myEnableVSync, myCreateParameters.myStartInFullScreen))
+	if (!myDirect3D->Init(*this, myRenderSize, myCreateParameters.myEnableVSync, myCreateParameters.myStartInFullScreen))
 	{
 		ERROR_AUTO_PRINT("%s", "D3D failed to be created!");
 		return false;
@@ -137,7 +140,7 @@ bool CEngine::Start()
 
 	StartStep();
 
-	DestroyInstance();
+	Destroy();
 	return true;
 }
 
@@ -166,6 +169,7 @@ void DX2D::CEngine::DoStep()
 			if(msg.message == WM_QUIT)
 			{
 				INFO_PRINT("%s", "Exiting...");
+				SAFE_DELETE(myInstance);
 				break;
 			}
 		}

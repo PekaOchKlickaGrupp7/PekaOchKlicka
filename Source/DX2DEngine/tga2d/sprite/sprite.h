@@ -33,6 +33,7 @@ namespace DX2D
 		void SetPivot(const Vector2f& aPivot);
 		const Vector2f& GetPivot() const;
 
+
 		/* Set a rotation in radians*/
 		void SetRotation(const float aRotationInRadians);
 		float GetRotation() const;

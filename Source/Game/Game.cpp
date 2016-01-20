@@ -8,7 +8,12 @@
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
 
+#include "GameWorld.h"
+#include "SoundManager.h"
+#include "EventManager.h"
+#include <iostream>
 
+#include "ResolutionManager.h"
 
 using namespace std::placeholders;
 
@@ -21,6 +26,7 @@ using namespace std::placeholders;
 #pragma comment(lib,"DX2DEngine_Release.lib")
 #endif // DEBUG
 
+std::string CGame::myTestLevel = "";
 
 CGame::CGame() :
 myStateStackProxy(myStateStack),
@@ -33,24 +39,44 @@ myRenderer()
 
 CGame::~CGame()
 {
-	myRenderThread->join();
-	mySynchronizer.Quit();
-
-
 	myStateStack.Clear();
-
+	mySynchronizer.Quit();
+	myRenderThread->join();
 	delete myRenderThread;
 	myRenderThread = nullptr;
-	DL_Debug::Debug::Destroy();
-	DX2D::CEngine::DestroyInstance();
+
+	SoundManager::DestroyInstance();
+	EventManager::DestroyInstance();
 }
 
 
-void CGame::Init()
+void CGame::Init(const char** argv, const int argc)
 {
-	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 720;
+	myIsFullscreen = false;
+	ResolutionManager::GetInstance()->Initialize();
 
+	std::cout << std::endl;
+	for (int i = 0; i < argc; ++i)
+	{
+		std::cout << argv[i] << std::endl;
+	}
+	std::cout << std::endl;
+	unsigned short windowWidth = 1920;
+	unsigned short windowHeight = 1080;
+
+	if (argc == 2)
+	{
+		//Test level
+		std::string str = argv[1];
+		while (str.find("%") != str.npos)
+		{
+			str = str.replace(str.find("%"), 1, " ");
+		}
+
+
+		myTestLevel = str;
+		std::cout << "Level: " << myTestLevel << std::endl; 
+	}
 
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
@@ -64,10 +90,14 @@ void CGame::Init()
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
-	createParameters.myStartInFullScreen = true;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
+	//createParameters.myWindowHeight = 720;
+	//createParameters.myWindowWidth = 1280;
+	//createParameters.myRenderHeight = 720;
+	//createParameters.myRenderWidth = 1280;
 	createParameters.myActivateDebugSystems = true;
-	createParameters.myStartInFullScreen = false;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
@@ -85,32 +115,50 @@ void CGame::Init()
 void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), *DX2D::CEngine::GetInstance()->GetHWND());
+
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
+		*DX2D::CEngine::GetInstance()->GetHWND(), 
+		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+
+	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
+	SoundManager::GetInstance(); // Creates a sound manager instance.
+	EventManager::CreateInstance();
 
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	if (myTestLevel.size() > 0)
+	{
+		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	}
+	else
+	{
+	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	}
 }
+
 const bool CGame::Update()
 {
+	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
+
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+
+
+	if (myInputManager.KeyPressed(DIK_F1) == true)
+	{
+		myIsFullscreen = !myIsFullscreen;
+		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
+	}
+
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
+		return false;
 	}
-	else
-	{
-		myQuit = true;
-	}
-
-
-	if (myQuit == true)
-	{
 		return true;
 	}
-	return false;
-}
 
 void CGame::Render()
 {
@@ -118,9 +166,10 @@ void CGame::Render()
 	while (mySynchronizer.HasQuit() == false)
 	{
 		mySynchronizer.WaitForLogic();
-		myRenderer.Render(mySynchronizer);
 
 		mySynchronizer.SwapBuffer();
+		myRenderer.Render(mySynchronizer);
+
 		mySynchronizer.RenderIsDone();
 	}
 }
@@ -133,10 +182,13 @@ void CGame::UpdateCallBack()
 	myQuit = Update();
 
 	mySynchronizer.LogicIsDone();
-	mySynchronizer.WaitForRender();
 	if (myQuit == true)
 	{
-		this->~CGame();
+		DX2D::CEngine::Destroy();
+	}
+	else
+	{
+		mySynchronizer.WaitForRender();
 	}
 }
 

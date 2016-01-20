@@ -5,60 +5,94 @@
 Item::Item()
 {
 	mySprite = nullptr;
+	myWorldSprite = nullptr;
+	myInventorySprite = nullptr;
+
+	myCombinableWithList.Init(4);
 
 	myName = "";
 	myDescription = "";
+	myLevelToSpawnIn = "";
 
 	myIsCombinable = false;
-	myPickupStatus = false;
+	myIsClicked = false;
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
-}
-
-Item::Item(DX2D::CSprite* aSprite, std::string& aItemName, std::string& aItemDescription,
-	DX2D::Vector2f& aPosition, bool aCombinableStatus, bool aCanBePickedUpStatus)
-{
-	mySprite = aSprite;
-	myName = aItemName;
-	myDescription = aItemDescription;
-	myPosition = aPosition;
-	myIsCombinable = aCombinableStatus;
-	myPickupStatus = aCanBePickedUpStatus;
 }
 
 Item::~Item()
 {
 	SAFE_DELETE(mySprite);
+	SAFE_DELETE(myWorldSprite);
+	SAFE_DELETE(myInventorySprite);
 }
 
-void Item::SetSprite(DX2D::CSprite* aSprite)
+//Initialize the item
+void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
+	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+	const std::string& aLevelToSpawnIn)
 {
-	mySprite = aSprite;
+	InitSprites(aWorldSpritePath, aInventorySpritePath);
+
+	myName = aItemName;
+	myDescription = aItemDescription;
+	myLevelToSpawnIn = aLevelToSpawnIn;
+
+	myPosition = aPosition;
+
+	myIsCombinable = aCombinableStatus;
+	myIsClicked = false;
 }
 
-void Item::SetName(std::string& aName)
+//Initialize sprites
+void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)
 {
-	myName = aName;
+	myWorldSprite = new DX2D::CSprite(aWorldSpritePath);
+	myInventorySprite = new DX2D::CSprite(aInventorySpritePath);
+
+	//Set standard sprite
+	mySprite = myWorldSprite;
 }
 
-void Item::SetDescription(std::string& aDescription)
-{
-	myDescription = aDescription;
-}
-
+//Sets the items position on the screen
 void Item::SetPosition(DX2D::Vector2f& aPosition)
 {
 	myPosition = aPosition;
 }
 
+//Sets if the item can be combined with something else (true / false)
 void Item::SetCombinable(bool aCombinableStatus)
 {
 	myIsCombinable = aCombinableStatus;
 }
 
-void Item::SetPickupStatus(bool aPickupStatus)
+//Change from world sprite to inventory sprite
+void Item::SetToInventorySprite()
 {
-	myPickupStatus = aPickupStatus;
+	mySprite = myInventorySprite;
+}
+
+//Change from inventory sprite to world sprite
+void Item::SetToWorldSprite()
+{
+	mySprite = myWorldSprite;
+}
+
+//Adds the items sprite to the rendering buffer
+void Item::Render(Synchronizer& aSynchronizer)
+{
+	RenderCommand command;
+	command.mySprite = mySprite;
+	command.myPosition = myPosition;
+	command.myType = eRenderType::eSprite;
+
+	aSynchronizer.AddRenderCommand(command);
+}
+
+//Gets the list of item names that this item can be combined with
+CommonUtilities::GrowingArray<std::string>& Item::GetList()
+{
+	return myCombinableWithList;
 }
 
 bool Item::operator ==(const Item& aItem)

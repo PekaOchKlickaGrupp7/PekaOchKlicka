@@ -1,6 +1,6 @@
 #include "Game.h"
 
-void Init();
+void Init(const char** argv, const int argc);
 
 #ifdef _DEBUG
 #pragma comment(lib,"Game_Debug.lib")
@@ -20,25 +20,26 @@ void Init();
 #endif
 
 #ifdef USE_CONSOLE_COMMAND
-int main()
+int main(const int argc, const char** argv)
 {
-	Init();
+	Init(argv, argc);
 	return 0;
 }
 #else
 int WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, char*, int /*nShowCmd*/)
 {	
-	Init();
+	const char* value = "";
+	Init(&value, 0);
 	return 0;
 }
 #endif
 #pragma endregion MainFunction
 
 
-void Init()
+void Init(const char** argv, const int argc)
 {
 	CGame myGame;
-	myGame.Init();
+	myGame.Init(argv, argc);
 
 
 }

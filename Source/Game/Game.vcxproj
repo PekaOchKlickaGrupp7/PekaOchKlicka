@@ -166,6 +166,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventChangeLevel.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="EventSetActive.h" />
     <ClInclude Include="fmod.h" />
     <ClInclude Include="fmod.hpp" />
     <ClInclude Include="fmod_codec.h" />
@@ -178,11 +183,24 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="HitBox.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="JSON.h" />
+    <ClInclude Include="NavPolygon.h" />
+    <ClInclude Include="NPC.h" />
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="LevelData.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MenuImageItem.h" />
+    <ClInclude Include="MenuItem.h" />
+    <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateStack.h" />
@@ -192,12 +210,29 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventChangeLevel.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="EventSetActive.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="NavPolygon.cpp" />
+    <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="LevelData.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MenuImageItem.cpp" />
+    <ClCompile Include="MenuItem.cpp" />
+    <ClCompile Include="ObjectData.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StateStack.cpp" />

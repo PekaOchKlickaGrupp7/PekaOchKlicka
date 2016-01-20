@@ -22,12 +22,15 @@ public:
 
 	static void DestroyInstance()
 	{
-		mySoundManager->Destroy();
-		delete mySoundManager;
+		if (mySoundManager != nullptr)
+		{
+			mySoundManager->Destroy();
+			delete mySoundManager;
+			mySoundManager = nullptr;
+		}
 	}
 
-	void Update();
-	void Destroy();
+	void Update(float aUpdateTimer);
 	FMOD::Channel* PlaySound(SoundClass aSound, DX2D::Vector2f aPosition = { 0.0f, 0.0f }, bool isLooping = false);
 	void ReleaseSound(SoundClass aSound);
 	SoundClass CreateSound(const char* aFile);
@@ -38,6 +41,7 @@ public:
 	void SetChannelAttributes(FMOD::Channel *aChannel, float aX, float aY, float aZ = 0);
 	void SetChannelAttributes(FMOD::Channel *aChannel, DX2D::Vector2f aPosition);
 private:
+	void Destroy();
 	FMOD::System *mySystem;
 	static SoundManager* mySoundManager;
 	SoundManager();
