@@ -9,10 +9,12 @@ class Item
 public:
 	Item();
 
-	//Constructor that sets all of the items values
-	Item(DX2D::CSprite* aWorldSprite, DX2D::CSprite* aInventorySprite, std::string& aItemName, std::string& aItemDescription,
-		DX2D::Vector2f& aPosition, bool aCombinableStatus, std::string& aLevelToSpawnIn);
 	~Item();
+
+	//Initialize the item
+	void Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
+		const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+		const std::string& aLevelToSpawnIn);
 
 	//Sets the items position on the screen
 	void SetPosition(DX2D::Vector2f& aPosition);
@@ -56,6 +58,9 @@ public:
 	bool operator ==(const Item& aItem);
 
 private:
+
+	void InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath);
+
 	CommonUtilities::GrowingArray<std::string> myCombinableWithList;
 	DX2D::CSprite* mySprite;
 	DX2D::CSprite* myWorldSprite;

@@ -20,17 +20,21 @@ Item::Item()
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
 
-//Constructor that sets all of the items values
-Item::Item(DX2D::CSprite* aWorldSprite, DX2D::CSprite* aInventorySprite, std::string& aItemName, std::string& aItemDescription,
-	DX2D::Vector2f& aPosition, bool aCombinableStatus, std::string& aLevelToSpawnIn)
+Item::~Item()
+{
+	SAFE_DELETE(mySprite);
+	SAFE_DELETE(myWorldSprite);
+	SAFE_DELETE(myInventorySprite);
+}
+
+//Initialize the item
+void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
+	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+	const std::string& aLevelToSpawnIn)
 {
 	myCombinableWithList.Init(4);
 
-	myWorldSprite = aWorldSprite;
-	myInventorySprite = aInventorySprite;
-
-	//Set standard sprite
-	mySprite = aWorldSprite;
+	InitSprites(aWorldSpritePath, aInventorySpritePath);
 
 	myName = aItemName;
 	myDescription = aItemDescription;
@@ -42,11 +46,14 @@ Item::Item(DX2D::CSprite* aWorldSprite, DX2D::CSprite* aInventorySprite, std::st
 	myIsClicked = false;
 }
 
-Item::~Item()
+//Initialize sprites
+void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)
 {
-	SAFE_DELETE(mySprite);
-	SAFE_DELETE(myWorldSprite);
-	SAFE_DELETE(myInventorySprite);
+	myWorldSprite = new DX2D::CSprite(aWorldSpritePath);
+	myInventorySprite = new DX2D::CSprite(aInventorySpritePath);
+
+	//Set standard sprite
+	mySprite = myWorldSprite;
 }
 
 //Sets the items position on the screen

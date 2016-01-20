@@ -7,6 +7,7 @@
 #include "JSON.h"
 #include "Player.h"
 #include "Room.h"
+#include "Item.h"
 
 class CGameWorld : public GameState
 {
@@ -35,4 +36,6 @@ private:
 	Sound mySFXRain;
 
 	Player myPlayer;
+
+	Item myTestItem;
 };
