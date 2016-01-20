@@ -83,7 +83,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	static float aSpeed = 0.01f;
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		/*if (CGame::myTestLevel.size() > 0)
 		{
@@ -107,16 +107,16 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	if (myInputManager.KeyPressed(DIK_K) == true)
 	{
 
-		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) << std::endl;
+		std::cout << Remap(mousePos.x, 0, 1280, 0, 1280) << ":" << Remap(mousePos.y, 0, 720, 0, 720) << std::endl;
 		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
 		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
-			if (objects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePos.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePos.y, 0, 720, 0, 720) / 720.0f) == true)
 			{
 				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
-		{
+				{
 					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
-			{
+					{
 						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
 					}
 				}
