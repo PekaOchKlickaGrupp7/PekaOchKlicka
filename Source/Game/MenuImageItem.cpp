@@ -11,15 +11,13 @@ MenuImageItem::MenuImageItem(eAction anAction, const char* aSpritePath
 	, myScale(aScale)
 {
 	mySprite = new DX2D::CSprite(aSpritePath);
+	//mySprite->SetPivot(DX2D::Vector2<float>(mySprite->GetSize().x / 2, mySprite->GetSize().y / 2));
 
 	mySpriteHighlight = new DX2D::CSprite(aSpriteHighlightPath);
+	//mySpriteHighlight->SetPivot(DX2D::Vector2<float>(mySpriteHighlight->GetSize().x / 2, mySpriteHighlight->GetSize().y / 2));
 
-	//mySprite->SetTextureRect(0, 0, mySize.x, mySize.y);
-	//mySpriteHighlight->SetTextureRect(0, 0, mySize.x, mySize.y);
 	myPos = aPos;
-
 }
-
 
 MenuImageItem::~MenuImageItem()
 {
@@ -49,5 +47,5 @@ void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 
 bool MenuImageItem::Collide(const Vector2<float>& aCursorPos) const
 {
-	return CommonUtilities::Intersection::PointVsRect(aCursorPos, myPos, myPos + (myScale * mySize));
+	return CommonUtilities::Intersection::PointVsRect(aCursorPos, myPos,myPos + mySize);
 }

@@ -2,23 +2,16 @@
 #include <vector>
 #include "SoundManager.h"
 #include "GameState.h"
-#include <tga2d/sprite/sprite.h>
-#include <tga2d/Engine.h>
-#include <tga2d/light/light_manager.h>
-#include <tga2d/sprite/sprite_batch.h>
-#include <tga2d/drawers/debug_drawer.h>
-#include <tga2d/text/text.h>
-#include <tga2d/primitives/custom_shape.h>
-#include <tga2d/math/color.h>
 #include "Sound.h"
 #include "ObjectData.h"
 #include "JSON.h"
+#include "Character.h"
 #include "Room.h"
 
 class CGameWorld : public GameState
 {
 public:
-	CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper,
+	CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager,
 		CU::TimeSys::TimerManager& aTimerManager);
 	~CGameWorld();
 
@@ -30,8 +23,6 @@ public:
 	float CGameWorld::Remap(float value, float from1, float to1, float from2, float to2);
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
-
-	static CGameWorld* const myInstance;
 private:
 
 
@@ -48,4 +39,6 @@ private:
 	JSON myJson;
 
 	Sound mySFXRain;
+
+	Character myPlayer;
 };

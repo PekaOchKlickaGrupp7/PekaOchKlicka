@@ -128,16 +128,10 @@
     <ClInclude Include="MainMenuState.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="MenuCursor.h">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClInclude>
     <ClInclude Include="MenuImageItem.h">
       <Filter>Menu\MenuComponent</Filter>
     </ClInclude>
     <ClInclude Include="MenuItem.h">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuTextItem.h">
       <Filter>Menu\MenuComponent</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
@@ -146,6 +140,7 @@
     <ClInclude Include="Event.h">
       <Filter>System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h" />
     <ClInclude Include="HitBox.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
@@ -200,16 +195,10 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="MenuCursor.cpp">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClCompile>
     <ClCompile Include="MenuImageItem.cpp">
       <Filter>Menu\MenuComponent</Filter>
     </ClCompile>
     <ClCompile Include="MenuItem.cpp">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuTextItem.cpp">
       <Filter>Menu\MenuComponent</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
@@ -218,6 +207,7 @@
     <ClCompile Include="Event.cpp">
       <Filter>System\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="HitBox.cpp">
       <Filter>System\JSON</Filter>
     </ClCompile>

@@ -136,5 +136,5 @@ void SoundManager::Destroy()
 
 SoundManager::~SoundManager()
 {
-	Destroy();
+	//Destroy();
 }

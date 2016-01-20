@@ -4,6 +4,8 @@
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
+#include "ResolutionManager.h"
+
 #include "..\CommonUtilities\GrowingArray.h"
 #include <iostream>
 #include "Game.h"
@@ -11,19 +13,19 @@
 #include "Event.h"
 #include "HitBox.h"
 
-CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputWrapper& aInputWrapper, CU::TimeSys::TimerManager& aTimerManager) :
-GameState(aStateStackProxy, aInputWrapper, aTimerManager)
+CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
+GameState(aStateStackProxy, aInputManager, aTimerManager)
 {
 	Init();
 }
 
 CGameWorld::~CGameWorld()
 {
-	mySFXRain.Stop();
 	delete text;
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
+	SoundManager::DestroyInstance();
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -49,6 +51,7 @@ void CGameWorld::Init()
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
+	mySFXRain.SetVolume(10.0f);
 	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
@@ -61,16 +64,19 @@ void CGameWorld::Init()
 	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
 	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
 	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
-	myAudioSourcePosition = {0.5f, 0.5f};
+	myAudioSourcePosition = { 0.5f, 0.5f };
 
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
+
+	//Create the player character
+	myPlayer.Init("Sprites/Blue.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 1.0f);
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
-	if (myInputWrapper.GetKeyWasPressed(DIK_ESCAPE) == true)
+	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
 	}
@@ -96,10 +102,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
-	int mX = 0, mY = 0;
-	myInputWrapper.GetMouseLocation(mX, mY);
+	POINT mousePos = myInputManager.GetMousePos();
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_K) == true)
+	if (myInputManager.KeyPressed(DIK_K) == true)
 	{
 
 		std::cout << Remap(mX, 0, 1280, 0, 1280) << ":" << Remap(mY, 0, 720, 0, 720) << std::endl;
@@ -109,9 +114,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			if (objects[i]->myHitBox.IsMouseColliding(Remap(mX, 0, 1280, 0, 1280) / 1280.0f, Remap(mY, 0, 720, 0, 720) / 720.0f) == true)
 			{
 				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
-				{
+		{
 					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
-					{
+			{
 						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
 					}
 				}
@@ -120,8 +125,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myAudioSourcePosition.x = Remap(mX, 0, 1280, 0, 1280) / 1280.0f;
-	myAudioSourcePosition.y = Remap(mY, 0, 720, 0, 720) / 720.0f;
+	myAudioSourcePosition.x = Remap(static_cast<float>(mousePos.x), 0, 1280, 0, 1280) / 1280.0f;
+	myAudioSourcePosition.y = Remap(static_cast<float>(mousePos.y), 0, 720, 0, 720) / 720.0f;
 /*
 	myAudioSourcePosition.x += static_cast<float>(myInputWrapper.GetMouseLocationX()) * aSpeed * aTimeDelta;
 	myAudioSourcePosition.y += myInputWrapper.GetMouseLocationY() * aSpeed * aTimeDelta;
@@ -130,9 +135,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
 	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
-	//std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
 
-	if (myInputWrapper.GetKeyWasPressed(DIK_SPACE) == true)
+
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		myAudioSourcePosition.x = 0.5f;
 		myAudioSourcePosition.y = 0.5f;
@@ -140,6 +145,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
+
+	myPlayer.Update(myInputManager, aTimeDelta);
+
 	return eStateStatus::eKeepState;
 }
 
@@ -155,10 +163,15 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
-		{
+	{
 			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
 		}
 	}
+
+	command.myType = eRenderType::eSprite;
+	command.myPosition = myResolutionTestSprite->GetPosition();
+	command.mySprite = myResolutionTestSprite;
+	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();
@@ -174,6 +187,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
+
+	myPlayer.Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

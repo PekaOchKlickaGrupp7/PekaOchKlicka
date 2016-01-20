@@ -12,6 +12,9 @@ public:
 	Inventory();
 	~Inventory();
 
+	//Initialize the inventory
+	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
+
 	//Adds an item to the inventory
 	void Add(const Item& aItemToAdd);
 
@@ -23,6 +26,12 @@ public:
 
 	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
+
+	//Opens the inventory
+	void Open();
+
+	//Closes the inventory
+	void Close();
 
 private:
 	CommonUtilities::GrowingArray<Item> myContents;

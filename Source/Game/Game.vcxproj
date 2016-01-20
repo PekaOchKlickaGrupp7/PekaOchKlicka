@@ -188,11 +188,10 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MenuCursor.h" />
     <ClInclude Include="MenuImageItem.h" />
     <ClInclude Include="MenuItem.h" />
-    <ClInclude Include="MenuTextItem.h" />
     <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
@@ -220,11 +219,10 @@
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="LevelData.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MenuCursor.cpp" />
     <ClCompile Include="MenuImageItem.cpp" />
     <ClCompile Include="MenuItem.cpp" />
-    <ClCompile Include="MenuTextItem.cpp" />
     <ClCompile Include="ObjectData.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />

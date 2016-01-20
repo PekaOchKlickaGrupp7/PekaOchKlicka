@@ -1,9 +1,8 @@
 #pragma once
 #include <tga2d/Engine.h>
 #include "MainMenuState.h"
-
 #include "..\CommonUtilities\TimerManager.h"
-#include "..\CommonUtilities\InputWrapper.h"
+#include "..\CommonUtilities\InputManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
 
 #include "Synchronizer.h"
@@ -12,8 +11,6 @@
 
 #include "StateStack.h"
 #include "StateStackProxy.h"
-
-#include "ResolutionManager.h"
 
 class CGame
 {
@@ -32,17 +29,17 @@ private:
 	const bool Update();
 	void Render();
 
+	bool myIsFullscreen;
+
 	StateStack myStateStack;
 	StateStackProxy myStateStackProxy;
 
 	CU::TimeSys::TimerManager myTimerManager;
-	CU::DirectInput::InputWrapper myInputManager;
+	CU::DirectInput::InputManager myInputManager;
 
 	Synchronizer mySynchronizer;
 	Renderer myRenderer;
 
 	std::thread* myRenderThread;
 	volatile bool myQuit;
-
-	ResolutionManager myResolutionManager;
 };
