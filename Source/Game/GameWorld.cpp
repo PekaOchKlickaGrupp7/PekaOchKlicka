@@ -34,7 +34,7 @@ void CGameWorld::ChangeLevel(const char* aString)
 	if (myCurrentRoom == nullptr)
 	{
 		DL_PRINT("Current room is null!");
-	}
+}
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
@@ -111,6 +111,29 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//std::cout << windowSize.right - windowSize.left << std::endl;
 
+	POINT mousePos = myInputManager.GetMousePos();
+	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+
+	if (myInputManager.LeftMouseButtonClicked() == true)
+	{
+		std::cout << Remap(mousePosition.x, 0, 1280, 0, 1280) << ":" << Remap(mousePosition.y, 0, 720, 0, 720) << std::endl;
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
+		for (unsigned int i = 0; i < objects.Size(); ++i)
+		{
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePosition.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePosition.y, 0, 720, 0, 720) / 720.0f) == true)
+			{
+				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
+		{
+					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
+			{
+						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
+					}
+				}
+				std::cout << "Collided with object" << std::endl;
+			}
+		}
+	}
+
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
 	myPlayer.Update(myInputManager, aTimeDelta);
@@ -125,16 +148,16 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
-		{
+	{
 			if (myCurrentRoom->GetObjectList()[i]->myName == "Player")
 			{
 				//RenderPlayer();
 			}
 			else
 			{
-				RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
-			}
+			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
 		}
+	}
 	}
 
 	//command.myType = eRenderType::eSprite;

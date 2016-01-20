@@ -34,13 +34,13 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
 	//Character movement
 	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked()==true)
+	if (aInputManager.LeftMouseButtonClicked())
 	{
 		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x
-			/ static_cast<float>(windowSize.x));
+		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
+		/ static_cast<float>(windowSize.x);
 		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-			/ static_cast<float>(windowSize.y);
+		/ static_cast<float>(windowSize.y);
 	}
 	if (myIsMoving == true)
 	{

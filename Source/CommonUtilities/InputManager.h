@@ -6,7 +6,6 @@
 //Includes
 #include <dinput.h>
 #include "Windows.h"
-#include "Vector2.h"
 
 namespace CU
 {
@@ -16,146 +15,105 @@ namespace CU
 		class InputManager
 		{
 		public:
-		InputManager();
-		~InputManager();
+			InputManager();
+			~InputManager();
 
-		void Initialize(HINSTANCE aHINSTANCE, HWND aHWND, int aScreenWidth, int aScreenHeight);
-		void ReleaseDevices();
+			void Initialize(HINSTANCE aHINSTANCE, HWND aHWND, int aScreenWidth, int aScreenHeight);
+			void ReleaseDevices();
 
-		void ReadKeyboard();
-		void ReadMouse();
-		void Update();
-		void HandleMouseInput();
+			void ReadKeyboard();
+			void ReadMouse();
+			void Update();
+			void HandleMouseInput();
+			
+			bool LeftMouseButtonDown() const;
+			bool MiddleMouseButtonDown() const;
+			bool RightMouseButtonDown() const;
 
-		bool LeftMouseButtonDown() const;
-		bool MiddleMouseButtonDown() const;
-		bool RightMouseButtonDown() const;
+			bool LeftMouseButtonClicked() const;
+			bool MiddleMouseButtonClicked() const;
+			bool RightMouseButtonClicked() const;
 
-		bool LeftMouseButtonClicked() const;
-		bool MiddleMouseButtonClicked() const;
-		bool RightMouseButtonClicked() const;
+			bool LeftMouseButtonReleased() const;
+			bool MiddleMouseButtonReleased() const;
+			bool RightMouseButtonReleased() const;
 
-		bool LeftMouseButtonReleased() const;
-		bool MiddleMouseButtonReleased() const;
-		bool RightMouseButtonReleased() const;
+			inline LONG GetRelativeScrollWheel() const;
+			inline LONG GetAbsoluteScrollWheel() const;
 
-		inline LONG GetRelativeScrollWheel() const;
-		inline LONG GetAbsoluteScrollWheel() const;
+			bool KeyDown(unsigned char aKey) const;
+			bool KeyPressed(unsigned char aKey) const;
+			bool KeyUp(unsigned char aKey) const;
+			bool IsPressed(BYTE aValue) const;
 
-		bool KeyDown(unsigned char aKey) const;
-		bool KeyPressed(unsigned char aKey) const;
-		bool KeyUp(unsigned char aKey) const;
-		bool IsPressed(BYTE aValue) const;
-
-		inline bool CheckIfInitialized();
-		inline POINT GetMousePos();
-		inline POINT GetAbsoluteMousePos();
-		inline void SetAbsoluteMousePos(int aX, int aY);
+			inline bool CheckIfInitialized();
+			inline POINT GetMousePos();
+			inline POINT GetAbsoluteMousePos();
+			inline void SetAbsoluteMousePos(int aX, int aY);
 
 		private:
-		IDirectInput8* myDirectInput;
-		IDirectInputDevice8* myKeyboard;
-		IDirectInputDevice8* myMouse;
+			IDirectInput8* myDirectInput;
+			IDirectInputDevice8* myKeyboard;
+			IDirectInputDevice8* myMouse;
 
-		unsigned char myKeyboardState[256];
-		unsigned char myPreviousKeyboardState[256];
-		DIMOUSESTATE2 myMouseState;
-		DIMOUSESTATE2 myPreviousMouseState;
+			unsigned char myKeyboardState[256];
+			unsigned char myPreviousKeyboardState[256];
+			DIMOUSESTATE2 myMouseState;
+			DIMOUSESTATE2 myPreviousMouseState;
 
-		POINT myMousePos;
-		long myScrollWheelPos;
+			POINT myMousePos;
+			long myScrollWheelPos;
 
-		int myScreenWidth;
-		int myScreenHeight;
-		int myMouseX;
-		int myMouseY;
+			int myScreenWidth;
+			int myScreenHeight;
+			int myMouseX;
+			int myMouseY;
 
-		bool myInitialized;
+			bool myInitialized;
 		};
 
 		bool InputManager::CheckIfInitialized()
 		{
-		if (myInitialized == true)
-		{
-		return true;
-		}
-		else
-		{
-		return false;
-		}
+			if (myInitialized == true)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		//Returns the change in scroll wheel position since the last frame
 		LONG InputManager::GetRelativeScrollWheel() const
 		{
-		return myMouseState.lZ;
+			return myMouseState.lZ;
 		}
 
 		//Returns the total scroll wheel displacement since program start
 		LONG InputManager::GetAbsoluteScrollWheel() const
 		{
-		return myScrollWheelPos;
+			return myScrollWheelPos;
 		}
 
 		POINT InputManager::GetMousePos()
 		{
-		POINT pos;
-		pos.x = myMouseX;
-		pos.y = myMouseY;
-		return pos;
+			POINT pos;
+			pos.x = myMouseX;
+			pos.y = myMouseY;
+			return pos;
 		}
 
 		POINT InputManager::GetAbsoluteMousePos()
 		{
-		GetCursorPos(&myMousePos);
-		return myMousePos;
+			GetCursorPos(&myMousePos);
+			return myMousePos;
 		}
 
 		void InputManager::SetAbsoluteMousePos(int aX, int aY)
 		{
-		SetCursorPos(aX, aY);
+			SetCursorPos(aX, aY);
 		}
-
-		/*class InputManager
-		{
-		public:
-			InputManager();
-			~InputManager();
-
-			void Init(HWND aHwnd, HINSTANCE aHInstance, DWORD aKeyCoopFlags, DWORD aMouseCoopFlags);
-
-			double GetMouseDX() const;
-			double GetMouseDY() const;
-			double GetMouseDZ() const; //scrollwheel
-
-			const Vector2<float>& GetMousePosition() const;
-
-			bool MouseDown(int aButton) const; //specifik musknapp nere this frame
-			bool MouseUp(int aButton) const;
-			bool MouseIsPressed(int aButton) const; //musknapp nere 
-
-			bool KeyDown(unsigned int aKey) const; //Returns true if specified key is down THIS FRAME
-			bool KeyUp(unsigned int aKey) const;
-			bool KeyIsPressed(unsigned int aKey) const; //Returns true if specified key is down 
-
-			void Update();
-
-		private:
-			void CapturePreviousState();
-
-			LPDIRECTINPUT8 myDirectInput;
-			LPDIRECTINPUTDEVICE8 myKeyboardDevice;
-			UCHAR myKeyState[256];
-			UCHAR myPreviousKeyState[256];
-
-			LPDIRECTINPUTDEVICE8 myMouseDevice;
-			DIMOUSESTATE myMouseState;
-			DIMOUSESTATE myPreviousMouseState;
-
-			Vector2<float> myMousePos;
-
-			HWND myWindowHandler;
-		};*/
 	}
 }
 
