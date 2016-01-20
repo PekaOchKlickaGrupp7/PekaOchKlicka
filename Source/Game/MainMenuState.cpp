@@ -72,7 +72,8 @@ void MainMenuState::InitState()
 void MainMenuState::CalcHighlights()
 {
 	for (int i = 0; i < myButtons.Size(); ++i)
-	{		
+	{
+		
 		if (myButtons[i]->Collide(Vector2<float>(myInputManager.GetAbsoluteMousePos().x,
 			myInputManager.GetAbsoluteMousePos().y)) == true)
 		{

@@ -1,44 +1,26 @@
 #pragma once
 #include <string>
+#include "ObjectData.h"
 
-enum EventActions
-{
-	None,
-	SetActive
-};
-
-enum TriggerType
-{
-	Box,
-	Circle
-};
-
-enum EventTypes
-{
-	OnClick,
-	OnHover,
-	OnLoad,
-	Custom
-};
+class Room;
+class CGameWorld;
 
 class Event
 {
 public:
-	Event();
-	~Event();
+	virtual ~Event();
 
-	void Update(const float aDeltaTime);
+	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
+	virtual bool Update(const float aDeltaTime) = 0;
 
-	//void Event::SetType(const EventActions aType);
-	//const EventActions GetType() const;
+	ObjectData* GetObject(const std::string& aName) const;
 
-	void SetName(const std::string& aName);
-	const std::string& GetName() const;
-
-	const char* myTarget;
+	bool myValue;
+	std::string myTarget;
 	EventTypes myType;
-	EventActions myAction;
-private:
-	std::string myName;
+protected:
+	Event();
+	Room* myRoom;
+	CGameWorld* myGameWorld;
 };
 

@@ -19,6 +19,7 @@ public:
 	void SetVolume(float aVolume);
 	float GetVolume();
 	~Sound();
+	void Destroy();
 private:
 	FMOD::Channel* myChannel;
 	bool myIsLooping = false;

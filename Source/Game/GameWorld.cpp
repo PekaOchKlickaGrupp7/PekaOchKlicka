@@ -4,9 +4,13 @@
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
+#include "ResolutionManager.h"
+
+#include "..\CommonUtilities\GrowingArray.h"
 #include <iostream>
 #include "Game.h"
 #include "EventManager.h"
+#include "Event.h"
 #include "HitBox.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
@@ -17,22 +21,24 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 
 CGameWorld::~CGameWorld()
 {
-	mySFXRain.Stop();
 	delete text;
-	myObjects.DeleteAll();
 	delete myAudioListenerSprite;
 	delete myAudioSourceSprite;
 	delete myResolutionTestSprite;
+	SoundManager::DestroyInstance();
+}
+
+void CGameWorld::ChangeLevel(const std::string& aString)
+{
+	myCurrentRoom = myRooms[aString];
 }
 
 void CGameWorld::Init()
 {
-	myJson.Load("root.json");
+	myJson.Load("root.json", myRooms, this);
+	myCurrentRoom = myRooms["Test"];
 
-	myObjects.Init(128);
-	
-	
-	std::cout << "Level: " << CGame::myTestLevel << std::endl;
+	/*std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
 		
@@ -41,10 +47,11 @@ void CGameWorld::Init()
 	else
 	{
 	myJson.LoadLevel("Smiley_Face", myObjects);
-	}
+	}*/
 
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
+	mySFXRain.SetVolume(10.0f);
 	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
@@ -57,7 +64,7 @@ void CGameWorld::Init()
 	myAudioListenerSprite->SetPosition({ 0.5f, 0.5f });
 	myAudioSourceSprite = new DX2D::CSprite("Sprites/AudioSource.dds");
 	myAudioSourceSprite->SetPosition({ 0.5f, 0.5f });
-	myAudioSourcePosition = {0.5f, 0.5f};
+	myAudioSourcePosition = { 0.5f, 0.5f };
 
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
@@ -76,18 +83,19 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	static float aSpeed = 0.01f;
 
-	//if (myInputManager.KeyPressed(DIK_SPACE) == true)
-	//{
-	//	if (CGame::myTestLevel.size() > 0)
-	//	{
-	//		myJson.LoadLevel(CGame::myTestLevel, myObjects, true);
-	//	}
-	//	else
-	//	{
-	//	myJson.LoadLevel("Smiley_Face", myObjects);
-	//}
-	//	EventManager::GetInstance()->LoadObjects(myObjects);
-	//}
+	if (myInputManager.KeyPressed(DIK_SPACE) == true)
+	{
+		/*if (CGame::myTestLevel.size() > 0)
+		{
+			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
+		}
+		else
+		{
+			myJson.LoadLevel("Test", myObjects);
+		}*/
+	}
+
+
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
@@ -98,20 +106,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_K) == true)
 	{
-		std::cout << Remap(static_cast<float>(mousePos.x), 0, DX2D::CEngine::GetInstance()->GetWindowSize().x,
-			0, DX2D::CEngine::GetInstance()->GetWindowSize().x) << ":" <<
-			Remap(static_cast<float>(mousePos.y), 0, DX2D::CEngine::GetInstance()->GetWindowSize().y,
-			0, DX2D::CEngine::GetInstance()->GetWindowSize().y) / DX2D::CEngine::GetInstance()->GetWindowSize().y
-			<< std::endl;
-		for (unsigned int i = 0; i < myObjects.Size(); ++i)
+
+		std::cout << Remap(mousePos.x, 0, 1280, 0, 1280) << ":" << Remap(mousePos.y, 0, 720, 0, 720) << std::endl;
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myCurrentRoom->GetObjectList();
+		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
-			if (myObjects[i]->myHitBox.IsMouseColliding(Remap(static_cast<float>(mousePos.x),
-				0, DX2D::CEngine::GetInstance()->GetWindowSize().x, 0,
-				DX2D::CEngine::GetInstance()->GetWindowSize().x) / DX2D::CEngine::GetInstance()->GetWindowSize().x,
-				Remap(static_cast<float>(mousePos.y),
-				0, DX2D::CEngine::GetInstance()->GetWindowSize().y, 0,
-				DX2D::CEngine::GetInstance()->GetWindowSize().y) / DX2D::CEngine::GetInstance()->GetWindowSize().y) == true)
+			if (objects[i]->myHitBox.IsMouseColliding(Remap(mousePos.x, 0, 1280, 0, 1280) / 1280.0f, Remap(mousePos.y, 0, 720, 0, 720) / 720.0f) == true)
 			{
+				for (unsigned int j = 0; j < objects[i]->myEvents.Size(); ++j)
+		{
+					if (objects[i]->myEvents[j]->myType == EventTypes::OnClick)
+			{
+						EventManager::GetInstance()->AddEvent(objects[i]->myEvents[j]);
+					}
+				}
 				std::cout << "Collided with object" << std::endl;
 			}
 		}
@@ -129,7 +137,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myAudioSourceSprite->SetPosition(DX2D::Vector2f(myAudioSourcePosition.x, myAudioSourcePosition.y));
 
 	mySFXRain.SetPosition(myAudioSourcePosition.x * 10, myAudioSourcePosition.y * 10);
-	//std::cout << "Sound Pos X: " << mySFXRain.GetPosition().x << ", Y: " << mySFXRain.GetPosition().y << std::endl;
+
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
@@ -154,10 +162,18 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 
-	for (unsigned int i = 0; i < myObjects.Size(); ++i)
+	if (myCurrentRoom != nullptr)
 	{
-		RenderLevel(aSynchronizer, myObjects[i]);
+		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
+	{
+			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
+		}
 	}
+
+	command.myType = eRenderType::eSprite;
+	command.myPosition = myResolutionTestSprite->GetPosition();
+	command.mySprite = myResolutionTestSprite;
+	aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eSprite;
 	command.myPosition = myAudioListenerSprite->GetPosition();

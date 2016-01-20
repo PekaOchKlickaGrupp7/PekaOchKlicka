@@ -37,6 +37,15 @@
     <Filter Include="System\Events">
       <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Room">
+      <UniqueIdentifier>{cec9b55e-8293-4d32-87ec-ae8f23d66977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{dbc5477f-e310-4fcf-8d9a-f621329f70a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events\Object">
+      <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -135,7 +144,13 @@
     <ClInclude Include="HitBox.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h" />
+    <ClInclude Include="EventSetActive.h">
+      <Filter>Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Room</Filter>
+    </ClInclude>
+	<ClInclude Include="Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -196,6 +211,12 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="HitBox.cpp">
       <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetActive.cpp">
+      <Filter>Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Room</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp" />
   </ItemGroup>

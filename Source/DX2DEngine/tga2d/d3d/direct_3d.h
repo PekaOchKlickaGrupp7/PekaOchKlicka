@@ -59,6 +59,9 @@ namespace DX2D
 		void SetResolution(DX2D::Vector2<unsigned int> aResolution);
 		void SetFullScreen(bool aFullScreen);
 
+		D3D11_VIEWPORT &GetViewport();
+		void SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth, float aSetRatio);
+
 		Matrix44 myCorrectedWorldWatrix;
 		Matrix44 myWorldWatrix;
 		Matrix44 myViewWatrix;
@@ -88,7 +91,7 @@ namespace DX2D
 		ID3D11Debug *d3dDebug;
 		
 
-
+		D3D11_VIEWPORT myViewport;
 		
 		int myRenderedCount;
 

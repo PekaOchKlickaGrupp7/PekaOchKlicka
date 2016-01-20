@@ -264,6 +264,9 @@
     <ClInclude Include="tga2d\common_converters.h">
       <Filter>Source\tga2d</Filter>
     </ClInclude>
+    <ClInclude Include="tga2d\d3d\ResolutionViewPort.h">
+      <Filter>Source\tga2d\d3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectXTK\Src\DDSTextureLoader.cpp">
@@ -382,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="source\texture\texture_manager.cpp">
       <Filter>Source\source\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="ResolutionViewPort.cpp">
+      <Filter>Source\source\d3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

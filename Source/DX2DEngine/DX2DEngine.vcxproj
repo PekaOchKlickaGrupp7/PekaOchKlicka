@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="DirectXTK\Inc\DDSTextureLoader.h" />
     <ClInclude Include="DirectXTK\Inc\WICTextureLoader.h" />
+    <ClInclude Include="tga2d\d3d\ResolutionViewPort.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tga2d\arrays\simple_pointer_array.h" />
@@ -221,6 +222,7 @@
   <ItemGroup>
     <ClCompile Include="DirectXTK\Src\DDSTextureLoader.cpp" />
     <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp" />
+    <ClCompile Include="ResolutionViewPort.cpp" />
     <ClCompile Include="source\d3d\direct_3d.cpp" />
     <ClCompile Include="source\drawers\custom_shape_drawer.cpp" />
     <ClCompile Include="source\drawers\debug_drawer.cpp" />
