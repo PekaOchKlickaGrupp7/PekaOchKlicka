@@ -14,12 +14,20 @@ EventManager::~EventManager()
 {
 }
 
+void EventManager::AddEvent(Event* aEvent)
+{
+	myActiveEvents.Add(aEvent);
+}
+
 void EventManager::Update(const float aDeltaTime)
 {
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
-		event->Update(aDeltaTime);
+		if (event->Update(aDeltaTime) == true)
+		{
+			myActiveEvents.RemoveCyclicAtIndex(i);
+		}
 	}
 }
 

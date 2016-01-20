@@ -13,6 +13,8 @@
 #include "EventManager.h"
 #include <iostream>
 
+#include "ResolutionManager.h"
+
 using namespace std::placeholders;
 
 
@@ -50,6 +52,8 @@ CGame::~CGame()
 
 void CGame::Init(const char** argv, const int argc)
 {
+	myIsFullscreen = false;
+	ResolutionManager::GetInstance()->Initialize();
 
 	std::cout << std::endl;
 	for (int i = 0; i < argc; ++i)
@@ -57,6 +61,8 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << argv[i] << std::endl;
 	}
 	std::cout << std::endl;
+	unsigned short windowWidth = 1920;
+	unsigned short windowHeight = 1080;
 
 	if (argc == 2)
 	{
@@ -72,11 +78,6 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << "Level: " << myTestLevel << std::endl; 
 	}
 
-	myResolutionManager.Initialize({0,0});
-
-	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 1024;
-
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
 	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
@@ -86,13 +87,17 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
-	createParameters.myClearColor.Set(1.0f, 1.0f, 1.0f, 1.0f);
+	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
-	createParameters.myStartInFullScreen = false;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
+	//createParameters.myWindowHeight = 720;
+	//createParameters.myWindowWidth = 1280;
+	//createParameters.myRenderHeight = 720;
+	//createParameters.myRenderWidth = 1280;
 	createParameters.myActivateDebugSystems = true;
-	createParameters.myStartInFullScreen = false;
+	createParameters.myStartInFullScreen = myIsFullscreen;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
@@ -115,12 +120,14 @@ void CGame::InitCallBack()
 		*DX2D::CEngine::GetInstance()->GetHWND(), 
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
+	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
 	SoundManager::GetInstance(); // Creates a sound manager instance.
 	EventManager::CreateInstance();
 
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	if (myTestLevel.size() > 0)
 	{
 		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
@@ -133,15 +140,25 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	const float deltaTime = static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSeconds());
-	//EventManager::GetInstance()->Update(deltaTime);
+	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
+
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+
+
+	if (myInputManager.KeyPressed(DIK_F1) == true)
+	{
+		myIsFullscreen = !myIsFullscreen;
+		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
+	}
+
+	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
 		return false;
 	}
-	return true;
-}
+		return true;
+	}
 
 void CGame::Render()
 {
@@ -152,7 +169,7 @@ void CGame::Render()
 
 		mySynchronizer.SwapBuffer();
 		myRenderer.Render(mySynchronizer);
-		
+
 		mySynchronizer.RenderIsDone();
 	}
 }

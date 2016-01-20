@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Event.h"
+#include "Room.h"
+#include "..\CommonUtilities\DL_Debug.h"
 
 Event::Event()
 {
@@ -7,30 +9,25 @@ Event::Event()
 
 Event::~Event()
 {
+	myRoom = nullptr;
 }
 
-void Event::Update(const float aDeltaTime)
+void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	(aDeltaTime);
-	
+	myRoom = aRoom;
+	myGameWorld = aGameWorld;
 }
 
-//void Event::SetType(const EventActions aType)
-//{
-//	myType = aType;
-//}
-//
-//const EventActions Event::GetType() const
-//{
-//	return myType;
-//}
-
-void Event::SetName(const std::string& aName)
+ObjectData* Event::GetGameObject(const std::string& aName) const
 {
-	myName = aName;
-}
-
-const std::string& Event::GetName() const
-{
-	return myName;
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myRoom->GetObjectList();
+	for (unsigned int i = 0; i < objects.Size(); ++i)
+	{
+		if (objects[i]->myName == aName)
+		{
+			return objects[i];
+		}
+	}
+	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
+	return nullptr;
 }

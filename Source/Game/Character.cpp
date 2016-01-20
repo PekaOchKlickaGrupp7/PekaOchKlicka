@@ -7,7 +7,6 @@ Character::Character()
 	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
 	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
-	mySprite = nullptr;
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -15,20 +14,19 @@ Character::Character()
 
 Character::~Character()
 { 
-	SAFE_DELETE(mySprite);
+
 }
 
 //Initialize the character
 void Character::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	mySprite = new DX2D::CSprite(aSpriteFilePath);
+	myAnimation.Init(aSpriteFilePath, 1, 4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
 	myIsMoving = false;
-	myIsInventoryOpen = false;
-	mySprite->SetPivot(DX2D::Vector2f(aPivotPoint.x, aPivotPoint.y));
+	//mySprite->SetPivot(DX2D::Vector2f(0.5f, 0.5f));
 }
 
 //Update the character
@@ -63,25 +61,28 @@ void Character::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 			myIsInventoryOpen = false;
 		}
 	}
+	myAnimation.Update(aDeltaT);
 }
 
 //Render everything about the player
 void Character::Render(Synchronizer& aSynchronizer)
 {
+	/*
 	RenderCommand command;
 	command.mySprite = mySprite;
 	command.myPosition = myRenderPosition;
 	command.myType = eRenderType::eSprite;
 
 	aSynchronizer.AddRenderCommand(command);
-	
-	myInventory.Render(aSynchronizer);
+	*/
+	myAnimation.Render(aSynchronizer, myRenderPosition);
+	//myInventory.Render(aSynchronizer);
 }
 
 //Move the character
 void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
-	DX2D::Vector2f characterPos(mySprite->GetPosition());
+	DX2D::Vector2f characterPos(myPosition);
 	//Calculate distance between target and object
 	DX2D::Vector2f delta = DX2D::Vector2f(
 		characterPos.x - aTargetPosition.x,
@@ -95,9 +96,9 @@ void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float
 		//Move the object
 		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
 		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
-		mySprite->SetPosition(DX2D::Vector2f(
+		myPosition=DX2D::Vector2f(
 			myRenderPosition.x,
-			myRenderPosition.y));
+			myRenderPosition.y);
 
 		//DRAW DEBUG ARROW
 		DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
@@ -113,13 +114,14 @@ void Character::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float
 //Set the pivot point of the character
 void Character::SetPivot(const DX2D::Vector2f& aPoint)
 {
-	mySprite->SetPivot(aPoint);
+	//mySprite->SetPivot(aPoint);
 }
 
 //Set the characters position
 void Character::SetPosition(const DX2D::Vector2f& aPoint)
 {
-	mySprite->SetPosition(aPoint);
+	//mySprite->SetPosition(aPoint);
+	myPosition = aPoint;
 }
 
 //Set the characters speed

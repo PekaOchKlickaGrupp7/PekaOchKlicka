@@ -43,9 +43,15 @@ void MenuImageItem::Render(Synchronizer& aSynchronizer, unsigned long aARGB)
 		command.mySprite = mySpriteHighlight;
 	}
 	aSynchronizer.AddRenderCommand(command);
+
+	command.myPosition.x = myPos.x + mySize.x;
+	command.myPosition.y = myPos.y + mySize.y;
+	aSynchronizer.AddRenderCommand(command);
 }
 
 bool MenuImageItem::Collide(const Vector2<float>& aCursorPos) const
 {
-	return CommonUtilities::Intersection::PointVsRect(aCursorPos, myPos,myPos + mySize);
+	/*return CommonUtilities::Intersection::PointVsRect(aCursorPos, Vector2<float>(myPos.x + 8, myPos.y + 20),
+		Vector2<float>(myPos.x + 8, myPos.y + 20) + mySize);*/
+	return CommonUtilities::Intersection::PointVsRect(aCursorPos,myPos,myPos + mySize);
 }

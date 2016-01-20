@@ -4,13 +4,20 @@
 #include "..\CommonUtilities\DL_Debug.h"
 #include <iostream>
 #include "tga2d\sprite\sprite.h"
+#include <map>
+#include "Room.h"
+#include "GameWorld.h"
+
+//Events
+#include "EventSetActive.h"
+#include "EventChangeLevel.h"
 
 using namespace rapidjson;
 
 JSON::JSON() { }
 JSON::~JSON() { }
 
-bool JSON::Load(const std::string& aRootFile)
+bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld)
 {
 	const char* data = ReadFile(aRootFile.c_str());
 
@@ -30,7 +37,10 @@ bool JSON::Load(const std::string& aRootFile)
 		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
-	for (unsigned int i = 0; i < levels.Capacity(); ++i)
+
+	std::string levelName = "";
+
+	for (unsigned int i = 0; i < levels.Size(); ++i)
 	{
 		Value& level = levels[i];
 		if (level.IsNull() == true)
@@ -40,89 +50,30 @@ bool JSON::Load(const std::string& aRootFile)
 			return false;
 		}
 		
-		LevelData data;
-		data.myLevelName = level["name"].GetString();
-		data.myLevelPath = level["path"].GetString();
-		myLevels[level["name"].GetString()].Init(128);
+		Room* room = new Room();
+		room->GetObjectList().Init(128);
+		aRooms[level["name"].GetString()] = room;
+		
+		if (i == 0)
+		{
+			levelName = level["name"].GetString();
+		}
 
-		LoadLevel(level["name"].GetString(), data.myLevelPath.c_str(), myLevels[level["name"].GetString()]);
-
-	//	std::cout << myLevels[myLevels.Size() - 1].myLevelName << std::endl;
+		LoadLevel(level["name"].GetString(), level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
 	}
 	
 	root.GetAllocator().Clear();
+
+	aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
 	return true;
 }
 
-bool JSON::LoadTestLevel(const std::string& aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
+bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld)
 {
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	LoadLevel(std::string(""), aLevelPath.c_str(), aObjects);
-
-	return true;
-}
-
-bool JSON::LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
-{
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		aObjects[i] = nullptr;
-	}
-	aObjects.RemoveAll();
-
-	for (unsigned int i = 0; i < myLevels[aLevelName].Size(); ++i)
-	{
-		aObjects.Add(myLevels[aLevelName][i]);
-	}
-
-	return true;
-}
-
-//CommonUtilities::GrowingArray<LevelData, unsigned int> JSON::GetLevels() const
-//{
-//	return myLevels;
-//}
-
-bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects)
-{
-	/*bool found = testLevel;
-	unsigned int index = 0;
-	for (unsigned int i = 0; i < myLevels.Size(); ++i)
-	{
-		if (myLevels[i].myLevelName == aLevelName)
-		{
-			index = i;
-			found = true;
-		}
-	}
-	if (found == false)
-	{
-		return false;
-	}*/
-	for (unsigned int i = 0; i < aObjects.Size(); ++i)
-	{
-		delete aObjects[i];
-	}
-	aObjects.RemoveAll();
-
-	const char* data = "";
-	/*if (testLevel == true)
-	{
-		data = ReadFile(aLevelName.c_str());
-	}
-	else
-	{*/
-		data = ReadFile(aLevelPath);
-	//}
-
+	const char* data = ReadFile(aLevelPath);
 	Document level;
 	level.Parse(data);
 
@@ -135,7 +86,7 @@ bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, Comm
 
 	for (unsigned int i = 0; i < level["objects"].Size(); ++i)
 	{
-		LoadObject(level["objects"][i], nullptr, aObjects, 0, 0);
+		LoadObject(level["objects"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
 	}
 
 	level.GetAllocator().Clear();
@@ -148,13 +99,14 @@ bool JSON::LoadLevel(const std::string& aLevelName, const char* aLevelPath, Comm
 #pragma region Private Methods
 
 void JSON::LoadObject(Value& node, ObjectData* aParentObject, 
-	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, float x, float y)
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y)
 {
 	Value& object = node;
 
 	ObjectData* dataObject = new ObjectData();
 
 	dataObject->myActive = object["active"].GetBool();
+	dataObject->myName = object["name"].GetString();
 
 	dataObject->myScaleX = static_cast<float>(object["sx"].GetDouble());
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
@@ -192,10 +144,31 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	Value& events = object["events"]["list"];
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
-		Event event;
-		event.myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-		event.myAction = static_cast<EventActions>(events[i]["action"].GetInt());
-		event.myTarget = events[i]["target"].GetString();
+		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
+		Event* event = nullptr;
+		switch (action)
+		{
+		case EventActions::SetActive:
+		{
+			event = new EventSetActive();
+			event->Init(aRoom, aGameWorld);
+			event->myValue = events[i]["value"].GetBool();
+			break;
+		}
+		case EventActions::ChangeLevel:
+		{
+			event = new EventChangeLevel();
+			event->Init(aRoom, aGameWorld);
+
+			dynamic_cast<EventChangeLevel*>(event)->myTargetLevelName = events[i]["TargetSceneName"].GetString();
+			break;
+		}
+		default:
+
+			break;
+		}
+		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+		event->myTarget = std::string(events[i]["target"].GetString());
 		dataObject->myEvents.Add(event);
 	}
 
@@ -214,7 +187,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	for (unsigned int j = 0; j < object["childs"].Size(); ++j)
 	{
-		LoadObject(object["childs"][j], parentData, aObjects, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
+		LoadObject(object["childs"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
 	}
 }
 

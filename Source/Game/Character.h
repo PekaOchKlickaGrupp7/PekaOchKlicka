@@ -1,6 +1,6 @@
 #pragma once
 #include "Inventory.h"
-
+#include "Animation.h"
 class CU::DirectInput::InputManager;
 
 class Character
@@ -41,7 +41,7 @@ private:
 
 	Inventory myInventory;
 
-	DX2D::CSprite* mySprite;
+	Animation myAnimation;
 
 	DX2D::Vector2f myPosition;
 	DX2D::Vector2f myTargetPosition;
