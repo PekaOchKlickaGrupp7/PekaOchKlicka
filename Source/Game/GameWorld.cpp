@@ -120,7 +120,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList().Size(); ++i)
-	{
+		{
 			RenderLevel(aSynchronizer, myCurrentRoom->GetObjectList()[i]);
 		}
 	}

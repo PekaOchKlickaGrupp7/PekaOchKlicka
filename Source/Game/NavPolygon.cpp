@@ -3,6 +3,7 @@
 
 NavPolygon::NavPolygon()
 {
+	myPoints.Init(12);
 }
 
 NavPolygon::~NavPolygon()

@@ -116,11 +116,11 @@ void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
 
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
-		*DX2D::CEngine::GetInstance()->GetHWND(), 
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(),
+		*DX2D::CEngine::GetInstance()->GetHWND(),
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
-	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
+	//myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 

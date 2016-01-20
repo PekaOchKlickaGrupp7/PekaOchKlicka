@@ -11,20 +11,21 @@ class Animation
 public:
 	Animation();
 	~Animation();
-	void Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames);
+	void Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow);
 	void Update(float aDelta);
 	void Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos);
 	void Pause();
 	void Resume();
 	void Reset();
+	void Destroy();
 private:
 	void UpdateTextureRect();
 	float myFrameDuration,
-		myCurentFrameDuration,
-		myOriginalSpriteWidht;
+		myCurentFrameDuration;
 	DX2D::CSprite *mySprite;
 	int myNumberOfFrames,
-		myFrame;
+		myFrame,
+		myFramesPerRow;
 	bool myPaused;
 
 };

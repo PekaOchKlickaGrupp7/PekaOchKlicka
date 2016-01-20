@@ -14,14 +14,14 @@ Player::Player()
 
 Player::~Player()
 { 
-
+	myAnimation.Destroy();
 }
 
 //Initialize the character
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 1, 4);
+	myAnimation.Init(aSpriteFilePath, 0.33f,8,4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
@@ -34,11 +34,11 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
 	//Character movement
 	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked())
+	if (aInputManager.LeftMouseButtonClicked()==true)
 	{
 		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-			/ static_cast<float>(windowSize.x);
+		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x
+			/ static_cast<float>(windowSize.x));
 		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
 			/ static_cast<float>(windowSize.y);
 	}
