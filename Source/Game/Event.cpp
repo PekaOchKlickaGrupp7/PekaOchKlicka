@@ -18,7 +18,7 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myGameWorld = aGameWorld;
 }
 
-ObjectData* Event::GetObject(const std::string& aName) const
+ObjectData* Event::GetGameObject(const std::string& aName) const
 {
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = myRoom->GetObjectList();
 	for (unsigned int i = 0; i < objects.Size(); ++i)
