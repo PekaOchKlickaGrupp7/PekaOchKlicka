@@ -18,6 +18,7 @@ public:
 	void Resume();
 	void Reset();
 	void Destroy();
+	void SetSize(float aScale);
 private:
 	void UpdateTextureRect();
 	float myFrameDuration,

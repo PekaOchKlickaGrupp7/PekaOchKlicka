@@ -30,6 +30,7 @@ private:
 	std::string myString;
 	DX2D::CText *myText;
 	DX2D::CColor myColor;
+
 	int myWords;
 	bool myIsTalking;
 	CU::TimeSys::TimerManager myTimerManager;

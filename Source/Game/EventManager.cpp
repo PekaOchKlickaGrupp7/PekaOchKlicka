@@ -21,10 +21,12 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myObjects = aCurrentRoom->GetObjectList();
 	myLoadingLevel = false;
+	RemoveAllEvents();
 }
 
 void EventManager::AddEvent(Event* aEvent)
 {
+	aEvent->Reset();
 	myActiveEvents.Add(aEvent);
 }
 
@@ -84,6 +86,15 @@ void EventManager::Update(const float aDeltaTime)
 			event->Reset();
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
+	}
+}
+
+void EventManager::Render(Synchronizer &aSynchronizer)
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		Event* event = myActiveEvents[i];
+		event->Render(aSynchronizer);
 	}
 }
 
