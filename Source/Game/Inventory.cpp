@@ -90,7 +90,7 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	float myXOffset = 0.02f;
 	float myYOffset = 0.02f;
 
-	if (myIsOpen == true)
+	if (myPosition.y <= myStartPosition.y)
 	{
 		//Add inventory background to rendering
 		aSynchronizer.AddRenderCommand(command);
