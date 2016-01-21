@@ -38,7 +38,7 @@ public:
 	void SetIsMoving(bool aValue);
 
 	//Add an item to inventory
-	void AddItemToInventory(const Item& aItemToAdd);
+	void AddItemToInventory(Item* aItemToAdd);
 
 private:
 

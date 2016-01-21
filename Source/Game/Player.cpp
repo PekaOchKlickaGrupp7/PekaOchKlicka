@@ -6,7 +6,7 @@ Player::Player()
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
+	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -34,13 +34,13 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 {
 	//Character movement
 	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked()==true)
+	if (aInputManager.LeftMouseButtonClicked())
 	{
 		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x
-			/ static_cast<float>(windowSize.x));
+		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
+		/ static_cast<float>(windowSize.x);
 		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-			/ static_cast<float>(windowSize.y);
+		/ static_cast<float>(windowSize.y);
 	}
 	if (myIsMoving == true)
 	{
@@ -143,7 +143,7 @@ void Player::SetIsMoving(bool aValue)
 }
 
 //Add an item to inventory
-void Player::AddItemToInventory(const Item& aItemToAdd)
+void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
 }

@@ -22,7 +22,7 @@ void HitBox::Init(ObjectData* aObject)
 
 bool HitBox::IsMouseColliding(const float aX, const float aY)
 {
-	if (myObject->myTriggerEnabled == false)
+	if (myObject->myActive == true && myObject->myTriggerEnabled == false)
 	{
 		return false;
 	}

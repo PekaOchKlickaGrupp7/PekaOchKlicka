@@ -2,9 +2,14 @@
 #include <string>
 #include <map>
 #include "..\CommonUtilities\GrowingArray.h"
+#include "ResolutionManager.h"
+
 
 class ObjectData;
 class Event;
+
+class InputManager;
+class Room;
 
 class EventManager
 {
@@ -26,6 +31,11 @@ public:
 		myInstance = nullptr;
 	}
 
+	void Init(CU::DirectInput::InputManager* aInputManager) { myInputManager = aInputManager; };
+	void ChangeRoom(Room* aCurrentRoom);
+	float Remap(float value, float from1, float to1, float from2, float to2);
+
+
 	void Update(const float aDeltaTime);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
@@ -39,6 +49,11 @@ private:
 	static EventManager* myInstance;
 
 	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
+
+	CU::DirectInput::InputManager* myInputManager;
+	Room* myCurrentRoom;
+	bool myLoadingLevel;
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
 
 	EventManager();
 	~EventManager();

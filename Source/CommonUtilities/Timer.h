@@ -18,6 +18,7 @@ namespace CU
 			void Start(Time aTimeStamp);
 			void Stop();
 			void Pause();
+			void Reset();
 			void Update(Time aTimeStamp);
 		private:
 			// FPS calculating
