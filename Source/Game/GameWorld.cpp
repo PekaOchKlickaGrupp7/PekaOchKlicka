@@ -5,7 +5,6 @@
 #include "Synchronizer.h"
 
 #include "ResolutionManager.h"
-#include "MouseManager.h"
 
 #include "..\CommonUtilities\GrowingArray.h"
 #include <iostream>
@@ -117,10 +116,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	//Move character if inside nav mesh
 	if (myInputManager.LeftMouseButtonClicked())
 	{
-		myTargetPosition.x = static_cast<float>(myInputManager.GetAbsoluteMousePos().x)
-			/ static_cast<float>(windowSize.right);
-		myTargetPosition.y = static_cast<float>(myInputManager.GetAbsoluteMousePos().y)
-			/ static_cast<float>(windowSize.bottom);
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
 		if (myCurrentRoom->GetNavMeshes()[0].
 			PointInsideCheck(Point2f(myTargetPosition.x, myTargetPosition.y)))

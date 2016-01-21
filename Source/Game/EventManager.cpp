@@ -37,12 +37,16 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 {
 	if (aData->myActive == true)
 	{
+		//if (aData->myHitBox.IsMouseColliding(
+		//	Remap(aMouseX,
+		//	0, 1920,
+		//	0, 1920) / 1920.0f,
+		//	Remap(aMouseY, 0,
+		//	1080, 0, 1080) / 1080.0f) == true)
+
 		if (aData->myHitBox.IsMouseColliding(
-			Remap(aMouseX,
-			0, 1920,
-			0, 1920) / 1920.0f,
-			Remap(aMouseY, 0,
-			1080, 0, 1080) / 1080.0f) == true)
+			MouseManager::GetInstance()->GetPosition().x,
+			MouseManager::GetInstance()->GetPosition().y) == true)
 		{
 			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 			{
