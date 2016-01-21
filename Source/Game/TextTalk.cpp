@@ -30,7 +30,7 @@ void TextTalk::Update(const DX2D::Vector2f &aPosition)
 		return;
 	}
 
-	if (myTimerManager.GetTimer(myTimerHandle).GetTime().GetMiliseconds() > (500 * myWords))
+	if (myTimerManager.GetTimer(myTimerHandle).GetTime().GetMiliseconds() > (mySpeed * myWords))
 	{
 		NewSubString();
 	}
@@ -38,11 +38,15 @@ void TextTalk::Update(const DX2D::Vector2f &aPosition)
 
 }
 
-void TextTalk::Render()
+void TextTalk::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 {
 	if (myIsTalking == true)
 	{
-		
+		RenderCommand command;
+		command.myType = eRenderType::eText;
+		command.myPosition = myText->myPosition;
+		command.myText = myText;
+		aSynchronizer.AddRenderCommand(command);
 	}
 }
 
@@ -85,13 +89,14 @@ void TextTalk::NewSubString()
 	}
 }
 
-void TextTalk::StartTalk(const std::string &aString, const float &aTextSize)
+void TextTalk::StartTalk(const std::string &aString, const float &aTextSize, const unsigned int &aTextSpeed)
 {
 	myIsTalking = true;
 	myString = aString;
 	myText->mySize = aTextSize;
 	myTimerHandle = myTimerManager.CreateTimer();
 	myTimerManager.StartTimers(myTimerHandle);
+	mySpeed = aTextSpeed;
 }
 
 void TextTalk::SetPosition(const DX2D::Vector2f &aPosition)
@@ -102,8 +107,7 @@ void TextTalk::SetText(const std::string &aString)
 {
 	myString = aString;
 }
-const DX2D::Vector2f TextTalk::GetPosition() 
+const DX2D::Vector2f TextTalk::GetPosition()
 {
 	return myText->myPosition;
 }
-
