@@ -39,4 +39,6 @@ private:
 
 	Item myTestItem;
 	Item myTestItem2;
+
+	DX2D::Vector2f myTargetPosition;
 };
