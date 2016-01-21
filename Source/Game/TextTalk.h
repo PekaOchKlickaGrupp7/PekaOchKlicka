@@ -10,9 +10,10 @@ public:
 
 	void Init(const char* aPath, DX2D::CColor aColor);
 	void Update(const DX2D::Vector2f &aPosition);
-	void Render();
+	void Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos);
 
-	void StartTalk(const std::string &aString, const float &aSize);
+	//Stats printing aString with the size of aSize and with the speed aTextSpeed in ms
+	void StartTalk(const std::string &aString, const float &aSize, const int unsigned &aTextSpeed);
 
 	void SetState(const int aState);
 	void SetText(const std::string &aString);
@@ -25,6 +26,7 @@ private:
 	void NewSubString();
 
 	//CommonUtilities::GrowingArray <const char*> myStrings;
+	unsigned int mySpeed;
 	std::string myString;
 	DX2D::CText *myText;
 	DX2D::CColor myColor;

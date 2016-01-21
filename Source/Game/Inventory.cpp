@@ -113,3 +113,9 @@ void Inventory::Close()
 {
 	myIsOpen = false;
 }
+
+//Get the inventorys background sprite
+const DX2D::CSprite* Inventory::GetSprite()
+{
+	return myBackground;
+}
