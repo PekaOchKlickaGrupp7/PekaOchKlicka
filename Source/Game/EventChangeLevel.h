@@ -12,6 +12,7 @@ public:
 	virtual void Reset() override;
 
 	std::string myTargetLevelName;
+	DX2D::Vector2f myTargetPosition;
 protected:
 };
 

@@ -21,10 +21,12 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myObjects = aCurrentRoom->GetObjectList();
 	myLoadingLevel = false;
+	RemoveAllEvents();
 }
 
 void EventManager::AddEvent(Event* aEvent)
 {
+	aEvent->Reset();
 	myActiveEvents.Add(aEvent);
 }
 

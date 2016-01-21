@@ -31,11 +31,17 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
+
 	if (myCurrentRoom == nullptr)
 	{
 		DL_PRINT("Current room is null!");
-}
+	}
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
+}
+
+Player* CGameWorld::GetPlayer()
+{
+	return &myPlayer;
 }
 
 void CGameWorld::Init()
@@ -65,7 +71,7 @@ void CGameWorld::Init()
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
 	//of myAnimation.mySprite and not 0.5? ~Erik
-	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 0.95f), 0.2f);
+	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
 
 	/*
 	//Test item
@@ -127,16 +133,37 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
-
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
-		myPlayer.GetPosition().y) ) == false)
+		myPlayer.GetPosition().y)) == false)
 	{
 		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
 		myPlayer.SetIsMoving(false);
 	}
+	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
+	{
+		if (myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myPlayer.GetPosition().x,
+			myPlayer.GetPosition().y)
+			) == true
+			||
+			myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myTargetPosition.x,
+			myTargetPosition.y)
+			) == true)
+		{
+			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+			myPlayer.SetIsMoving(false);
+			break;
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+
+
 
 
 	return eStateStatus::eKeepState;

@@ -4,7 +4,6 @@
 #include "..\CommonUtilities\GrowingArray.h"
 #include "ResolutionManager.h"
 
-
 class ObjectData;
 class Event;
 
