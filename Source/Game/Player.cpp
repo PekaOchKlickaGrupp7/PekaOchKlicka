@@ -113,6 +113,7 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
+	myRenderPosition = aPoint;
 }
 
 //Set the characters speed

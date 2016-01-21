@@ -54,8 +54,8 @@ private:
 
 	CU::DirectInput::InputManager* myInputManager;
 	Room* myCurrentRoom;
-	bool myLoadingLevel;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
+	bool myIsSwitchingRoom;
 
 	EventManager();
 	~EventManager();
