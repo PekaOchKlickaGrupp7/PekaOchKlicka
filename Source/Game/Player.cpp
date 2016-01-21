@@ -6,7 +6,7 @@ Player::Player()
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
+	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
