@@ -13,13 +13,21 @@ public:
 	virtual void Reset() override;
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
-	float myShowTime;
+
 	std::string myText;
 	std::string myFontPath;
 
 	DX2D::CColor myColor;
 
+	bool myIsTalking;
+	float myShowTime;
+	float myTextSize;
+
 protected:
+
+	bool NewSubString();
+
+
 	DX2D::CText* myTextRender;
 
 	int myWordCount;

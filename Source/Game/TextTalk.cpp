@@ -99,15 +99,3 @@ void TextTalk::StartTalk(const std::string &aString, const float &aTextSize, con
 	mySpeed = aTextSpeed;
 }
 
-void TextTalk::SetPosition(const DX2D::Vector2f &aPosition)
-{
-	myText->myPosition = aPosition;
-}
-void TextTalk::SetText(const std::string &aString)
-{
-	myString = aString;
-}
-const DX2D::Vector2f TextTalk::GetPosition()
-{
-	return myText->myPosition;
-}
