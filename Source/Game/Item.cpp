@@ -22,7 +22,6 @@ Item::Item()
 
 Item::~Item()
 {
-	SAFE_DELETE(mySprite);
 	SAFE_DELETE(myWorldSprite);
 	SAFE_DELETE(myInventorySprite);
 }

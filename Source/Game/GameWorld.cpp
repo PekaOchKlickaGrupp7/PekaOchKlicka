@@ -98,8 +98,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}*/
 	}
 
-
-
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
 
