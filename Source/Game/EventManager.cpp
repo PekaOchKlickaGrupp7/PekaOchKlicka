@@ -4,6 +4,7 @@
 #include "ObjectData.h"
 #include "Room.h"
 #include "MouseManager.h"
+#include <iostream>
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -39,6 +40,15 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 {
 	if (aData->myActive == true)
 	{
+		bool trigger = true;
+		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
+		{
+			trigger = false;
+		}
+		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
+		{
+			trigger = false;
+		}
 		//if (aData->myHitBox.IsMouseColliding(
 		//	Remap(aMouseX,
 		//	0, 1920,
@@ -50,6 +60,26 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 			MouseManager::GetInstance()->GetPosition().x,
 			MouseManager::GetInstance()->GetPosition().y) == true)
 		{
+			if (trigger == true)
+			{
+				if (aType == EventTypes::OnHover)
+				{
+					aData->myIsHovering = true;
+					std::cout << "Collided with object" << std::endl;
+				}
+				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+				{
+					if (aData->myEvents[j]->myType == aType)
+					{
+						AddEvent(aData->myEvents[j]);
+					}
+				}
+				std::cout << "Is inside" << std::endl;
+			}
+		}
+		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
+		{
+			aData->myIsHovering = false;
 			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 			{
 				if (aData->myEvents[j]->myType == aType)
@@ -57,7 +87,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 					AddEvent(aData->myEvents[j]);
 				}
 			}
-			//std::cout << "Collided with object" << std::endl;
+			std::cout << "Left object" << std::endl;
 		}
 	}
 	for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
@@ -76,6 +106,12 @@ void EventManager::Update(const float aDeltaTime)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y);
 		}
+	}
+
+	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+	{
+		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y);
+		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
