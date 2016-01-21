@@ -7,7 +7,9 @@
 #include "MenuImageItem.h"
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
+
 #include "ResolutionManager.h"
+#include "MouseManager.h"
 
 MainMenuState::MainMenuState(StateStackProxy& aStateStackProxy, 
 	CU::DirectInput::InputManager& aInputManager,
@@ -77,10 +79,7 @@ void MainMenuState::CalcHighlights()
 	{
 		
 		if (myButtons[i]->Collide(
-			Vector2<float>(myInputManager.GetAbsoluteMousePos().x-
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().x,
-			myInputManager.GetAbsoluteMousePos().y -
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) == true)
+			Vector2<float>(MouseManager::GetInstance()->GetPosition().x, MouseManager::GetInstance()->GetPosition().y)) == true)
 		{
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
@@ -111,5 +110,7 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 	{
 		myButtons[i]->Render(aSynchronizer);
 	}
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
