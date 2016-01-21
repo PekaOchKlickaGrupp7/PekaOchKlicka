@@ -33,6 +33,9 @@ public:
 	//Closes the inventory
 	void Close();
 
+	//Get the inventorys background sprite
+	const DX2D::CSprite* GetSprite();
+
 private:
 	CommonUtilities::GrowingArray<Item*> myContents;
 
