@@ -67,6 +67,9 @@
     <Filter Include="Events\Mouse">
       <UniqueIdentifier>{a67ab8bc-9f25-4d1a-a70e-ee3f8fff30ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Conversation">
+      <UniqueIdentifier>{ec67dc03-1638-485e-b7e0-838074b6c09f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -205,6 +208,9 @@
     <ClInclude Include="EventChangeCursor.h">
       <Filter>Events\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="EventTalk.h">
+      <Filter>Events\Conversation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -305,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="EventChangeCursor.cpp">
       <Filter>Events\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTalk.cpp">
+      <Filter>Events\Conversation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

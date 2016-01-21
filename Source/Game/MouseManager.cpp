@@ -61,7 +61,7 @@ void MouseManager::Update(float aDeltaTime)
 		myPosition.y = 1 - mySprite->GetSize().y;
 	}
 
-	std::cout << myPosition.x << std::endl;
+	std::cout << myPosition.x << " " << myPosition.y << std::endl;
 }
 
 void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)

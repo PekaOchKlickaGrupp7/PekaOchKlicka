@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "JSON.h"
-#include "rapidjson\document.h"
 #include "..\CommonUtilities\DL_Debug.h"
 #include <iostream>
 #include "tga2d\sprite\sprite.h"
@@ -13,8 +12,51 @@
 #include "EventNone.h"
 #include "EventSetActive.h"
 #include "EventChangeLevel.h"
+#include "EventTalk.h"
 
 using namespace rapidjson;
+
+Event* JSON::CreateEventData(Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
+{
+	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
+	Event* event = nullptr;
+	switch (action)
+	{
+	case EventActions::SetActive:
+	{
+		EventSetActive* setActive = new EventSetActive();
+		setActive->Init(aRoom, aGameWorld);
+		if (aParent.HasMember("Value") == true)
+		{
+			Value& myValue = aParent["Value"];
+			if (myValue.IsNull() == true)
+			{
+				//DL_ASSERT("Event SetActive Value is null");
+			}
+			setActive->myValue = myValue.GetBool();
+		}
+
+		event = dynamic_cast<Event*>(setActive);
+		break;
+	}
+	case EventActions::ChangeLevel:
+	{
+		EventChangeLevel* changeLevel = new EventChangeLevel();
+		changeLevel->Init(aRoom, aGameWorld);
+		changeLevel->myTargetLevelName = aParent["TargetSceneName"].GetString();
+
+		event = dynamic_cast<Event*>(changeLevel);
+		break;
+	}
+	default:
+
+		break;
+	}
+	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
+	event->myTarget = std::string(aParent["target"].GetString());
+
+	return event;
+}
 
 JSON::JSON() { }
 JSON::~JSON() { }
@@ -184,7 +226,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			}
 
 			//dataObject->myEvents.Add(setActive);
-			event = dynamic_cast<Event*>(setActive);
+			event = setActive;
 			break;
 		}
 		case EventActions::ChangeLevel:
@@ -206,10 +248,25 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 					DL_ASSERT("Event Change Level Value is null");
 				}
 				changeLevel->myTargetLevelName = myValue.GetString();
+				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
 			}
 
 			/*dataObject->myEvents.Add(changeLevel);*/
-			event = dynamic_cast<Event*>(changeLevel);
+			event = changeLevel;
+			break;
+		}
+		case EventActions::Talk:
+		{
+			EventTalk* talk = new EventTalk();
+			talk->myColor = { 1, 1, 1, 1 };
+			talk->myFontPath = "Text/calibril.ttf_sdf";
+			talk->myShowTime = 5;
+			talk->myTarget = "Self";
+			talk->myText = "Test";
+
+			talk->Init(aRoom, aGameWorld);
+
+			event = talk;
 			break;
 		}
 		default:
@@ -250,48 +307,36 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		LoadObject(object["childs"]["$values"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
 	}
 }
-/*
-void JSON::LoadEvent(Value& aParent)
+
+void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
-	EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
-	Event* event = nullptr;
-	switch (action)
+	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
+	Event* event = CreateEventData(aParent, aRoom, aGameWorld);
+	if (aNode != nullptr)
 	{
-	case EventActions::SetActive:
+		aNode->myEvents.Add(event);
+	}
+
+	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
 	{
-		EventSetActive* setActive = new EventSetActive();
-		setActive->Init(aRoom, aGameWorld);
-		if (events[i].HasMember("Value") == true)
-		{
-			Value& myValue = events[i]["Value"];
-			if (myValue.IsNull() == true)
-			{
-				//DL_ASSERT("Event SetActive Value is null");
-			}
-			setActive->myValue = myValue.GetBool();
-		}
-
-		event = dynamic_cast<Event*>(setActive);
-		break;
+		LoadEvent(event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
 	}
-	case EventActions::ChangeLevel:
-	{
-		EventChangeLevel* changeLevel = new EventChangeLevel();
-		changeLevel->Init(aRoom, aGameWorld);
-		changeLevel->myTargetLevelName = events[i]["TargetSceneName"].GetString();
-
-		event = dynamic_cast<Event*>(changeLevel);
-		break;
-	}
-	default:
-
-		break;
-	}
-	event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-	event->myTarget = std::string(events[i]["target"].GetString());
-	dataObject->myEvents.Add(event);
 }
-*/
+
+void JSON::LoadEvent(Event* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
+{
+	Event* event = CreateEventData(aParent, aRoom, aGameWorld);
+	if (aNode != nullptr)
+	{
+		aNode->myChilds.Add(event);
+	}
+
+	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
+	{
+		LoadEvent(event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
+	}
+}
+
 const char* JSON::ReadFile(const char* aFile)
 {
 	std::ifstream input(aFile);

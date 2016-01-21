@@ -43,6 +43,7 @@ public:
 	void AddItemToInventory(Item* aItemToAdd);
 
 	DX2D::Vector2f& GetPosition();
+	DX2D::Vector2f& GetPreviousPosition();
 
 private:
 
@@ -51,6 +52,7 @@ private:
 	Animation myAnimation;
 
 	DX2D::Vector2f myPosition;
+	DX2D::Vector2f myPreviousPosition;
 	DX2D::Vector2f myRenderPosition;
 
 	float myMovementSpeed;

@@ -7,7 +7,7 @@ Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
+	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -24,6 +24,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 {
 	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
 	myPosition = aPosition;
+	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
 	myDepthScaleFactor = 1.5f;
@@ -34,28 +35,29 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 void Player::Update(CU::DirectInput::InputManager& aInputManager,
 	const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
+	myPreviousPosition = myPosition;
 	//Character movement
 	if (myIsMoving == true)
 	{
 		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
+	
+	myInventory.Update(aDeltaT);
+
 	//Opening/Closing the inventory
-	if (MouseManager::GetInstance()->GetPosition().y >= 
-		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + 
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y) - 
-		myInventory.GetSprite()->GetSize().y)
+	static float inventoryHoverArea = 1.0f - 0.05f;
+	if (myInventory.IsOpen() == false && 
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
-		if (myIsInventoryOpen == false)
-		{
-			myInventory.Open();
-			myIsInventoryOpen = true;
-		}
-		else
-		{
-			myInventory.Close();
-			myIsInventoryOpen = false;
-		}
+		myInventory.SetOpen();
+	}
+
+	if (myInventory.IsOpen() == true && 
+		MouseManager::GetInstance()->GetPosition().y <
+		myInventory.GetFullyOpenPosition().y)
+	{
+		myInventory.SetClose();
 	}
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
@@ -111,6 +113,7 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
+	myRenderPosition = aPoint;
 }
 
 //Set the characters speed
@@ -140,4 +143,9 @@ void Player::AddItemToInventory(Item* aItemToAdd)
 DX2D::Vector2f& Player::GetPosition()
 {
 	return myPosition;
+}
+
+DX2D::Vector2f& Player::GetPreviousPosition()
+{
+	return myPreviousPosition;
 }

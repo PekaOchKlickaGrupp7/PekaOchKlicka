@@ -4,6 +4,7 @@
 
 class Room;
 class CGameWorld;
+class Synchronizer;
 
 class Event
 {
@@ -13,6 +14,7 @@ public:
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
 	virtual bool Update(const float aDeltaTime) = 0;
 	virtual void Reset() = 0;
+	virtual void Render(Synchronizer &aSynchronizer);
 
 	ObjectData* GetGameObject(const std::string& aName) const;
 	ObjectData* GetGameObject(const std::string& aName, ObjectData* aParent) const;

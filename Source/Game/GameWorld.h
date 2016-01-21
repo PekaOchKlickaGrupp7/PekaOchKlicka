@@ -20,11 +20,13 @@ public:
 	void Init();
 
 	void ChangeLevel(const std::string& aString);
+	Player* CGameWorld::GetPlayer();
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
+	void ItemPickUp();
 	DX2D::CText* text;
 	DX2D::CSprite* myResolutionTestSprite;
 
@@ -36,9 +38,6 @@ private:
 	Sound mySFXRain;
 
 	Player myPlayer;
-
-	Item myTestItem;
-	Item myTestItem2;
 
 	DX2D::Vector2f myTargetPosition;
 };
