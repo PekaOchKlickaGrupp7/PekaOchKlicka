@@ -24,6 +24,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 {
 	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
 	myPosition = aPosition;
+	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
 	myDepthScaleFactor = 1.5f;
@@ -34,6 +35,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 void Player::Update(CU::DirectInput::InputManager& aInputManager,
 	const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
+	myPreviousPosition = myPosition;
 	//Character movement
 	if (myIsMoving == true)
 	{
@@ -140,4 +142,9 @@ void Player::AddItemToInventory(Item* aItemToAdd)
 DX2D::Vector2f& Player::GetPosition()
 {
 	return myPosition;
+}
+
+DX2D::Vector2f& Player::GetPreviousPosition()
+{
+	return myPreviousPosition;
 }
