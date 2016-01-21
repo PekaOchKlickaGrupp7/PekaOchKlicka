@@ -15,9 +15,7 @@ public:
 	//Stats printing aString with the size of aSize and with the speed aTextSpeed in ms
 	void StartTalk(const std::string &aString, const float &aSize, const int unsigned &aTextSpeed);
 
-	void SetState(const int aState);
-	void SetText(const std::string &aString);
-	void SetPosition(const DX2D::Vector2f &aPosition);
+
 	DX2D::CText* GetCText() const;
 
 	const DX2D::Vector2f GetPosition();
