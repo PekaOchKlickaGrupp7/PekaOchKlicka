@@ -13,7 +13,8 @@ enum EventActions
 	None,
 	SetActive,
 	ChangeLevel,
-	Talk
+	Talk,
+	ChangeCursor
 };
 
 class JSON
