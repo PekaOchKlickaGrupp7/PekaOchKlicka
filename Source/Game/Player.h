@@ -42,6 +42,8 @@ public:
 	//Add an item to inventory
 	void AddItemToInventory(Item* aItemToAdd);
 
+	DX2D::Vector2f& GetPosition();
+
 private:
 
 	Inventory myInventory;

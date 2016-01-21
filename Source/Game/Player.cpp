@@ -136,3 +136,8 @@ void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
 }
+
+DX2D::Vector2f& Player::GetPosition()
+{
+	return myPosition;
+}
