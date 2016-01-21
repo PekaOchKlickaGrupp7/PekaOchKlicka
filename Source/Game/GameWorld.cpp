@@ -12,6 +12,7 @@
 #include "EventManager.h"
 #include "HitBox.h"
 #include "Room.h"
+#include "..\CommonUtilities\Intersection.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -66,14 +67,12 @@ void CGameWorld::Init()
 	//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 0.95f), 0.2f);
 
+	/*
 	//Test item
-	myTestItem.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
-	myTestItem2.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
 
 	myPlayer.AddItemToInventory(&myTestItem);
 	myPlayer.AddItemToInventory(&myTestItem2);
+	*/
 }
 
 
@@ -108,6 +107,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
+
+		ItemPickUp();
+
 		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
 		{
 			if (myCurrentRoom->GetNavMeshes()[0].
@@ -140,6 +142,26 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	return eStateStatus::eKeepState;
 }
 
+void CGameWorld::ItemPickUp()
+{
+	if (myCurrentRoom != nullptr)
+	{
+		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		{
+			if (CommonUtilities::Intersection::PointVsRect(
+				Vector2<float>(myTargetPosition.x, myTargetPosition.y)
+				, Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x, myCurrentRoom->GetItem(i)->GetPosition().y)
+				,Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().x
+				, myCurrentRoom->GetItem(i)->GetPosition().y + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().y)))
+			{
+				myPlayer.AddItemToInventory(myCurrentRoom->GetItem(i));
+				myCurrentRoom->RemoveItem(i);
+				return;
+			}
+		}
+	}
+}
+
 void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
@@ -156,6 +178,10 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			{
 				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
 			}
+		}
+		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		{
+			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
 		}
 	}
 

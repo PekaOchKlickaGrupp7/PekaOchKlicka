@@ -17,6 +17,7 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
+	myContents.DeleteAll();
 }
 
 void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
@@ -34,7 +35,7 @@ void Inventory::Add(Item* aItemToAdd)
 //Removes an item from the inventory
 void Inventory::Remove(Item* aItemToRemove)
 {
-	myContents.RemoveCyclic(aItemToRemove);
+	myContents.DeleteCyclic(aItemToRemove);
 }
 
 //Combine one item with another
