@@ -154,6 +154,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
+	EventManager::GetInstance()->Render(aSynchronizer);
+
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
 	command.myText = text;

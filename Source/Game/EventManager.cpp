@@ -87,6 +87,15 @@ void EventManager::Update(const float aDeltaTime)
 	}
 }
 
+void EventManager::Render(Synchronizer &aSynchronizer)
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		Event* event = myActiveEvents[i];
+		event->Render(aSynchronizer);
+	}
+}
+
 void EventManager::RemoveAllEvents()
 {
 	myActiveEvents.RemoveAll();
