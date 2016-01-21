@@ -24,7 +24,7 @@ void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNum
 	myFrame = 0;
 	myPaused = false;
 
-	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1));
+	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
 	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
 
@@ -36,7 +36,7 @@ void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNum
 void Animation::UpdateTextureRect()
 {
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
-		mySprite->GetSize().y*(myFrame / myFramesPerRow)));
+		(mySprite->GetSize().y*myFramesPerRow)*(myFrame / myFramesPerRow)));
 }
 void Animation::Update(float aDelta)
 {
