@@ -24,6 +24,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
+	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
 }
 
@@ -51,6 +52,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 			myIsInventoryOpen = false;
 		}
 	}
+	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
 
