@@ -7,7 +7,7 @@ Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
+	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -52,7 +52,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 
 	if (myInventory.IsOpen() == true && 
 		MouseManager::GetInstance()->GetPosition().y <
-		myInventory.GetSprite()->GetPosition().y)
+		myInventory.GetFullyOpenPosition().y)
 	{
 		myInventory.SetClose();
 	}

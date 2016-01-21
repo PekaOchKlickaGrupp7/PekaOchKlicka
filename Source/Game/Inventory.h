@@ -13,7 +13,7 @@ public:
 	~Inventory();
 
 	//Initialize the inventory
-	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
+	void Init(const char* aFilePath);
 
 	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
@@ -42,6 +42,8 @@ public:
 	//Check if inventory is open
 	bool IsOpen();
 
+	inline DX2D::Vector2f& GetFullyOpenPosition();
+
 private:
 
 	void Open(float aDeltaTime);
@@ -59,4 +61,9 @@ private:
 
 	bool myIsOpen;
 };
+
+DX2D::Vector2f& Inventory::GetFullyOpenPosition()
+{
+	return myEndPosition;
+}
 

@@ -23,14 +23,13 @@ Inventory::~Inventory()
 	SAFE_DELETE(myBackground);
 }
 
-void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
+void Inventory::Init(const char* aFilePath)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myPosition = aPosition;
 	myEndPosition.y = 1.0f - myBackground->GetSize().y;
 	myStartPosition.y = 1.0f;
-
-	myMovementPerFrame = 0.2f;
+	myPosition.y = myStartPosition.y;
+	myMovementPerFrame = 0.1f;
 }
 
 //Adds an item to the inventory
@@ -52,7 +51,7 @@ void Inventory::Update(float aDeltaTime)
 	{
 		Open(aDeltaTime);
 	}
-	else
+	else if (myIsOpen == false)
 	{
 		Close(aDeltaTime);
 	}
