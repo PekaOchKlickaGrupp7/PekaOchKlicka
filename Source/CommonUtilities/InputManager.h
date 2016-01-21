@@ -48,8 +48,10 @@ namespace CU
 
 			inline bool CheckIfInitialized();
 			inline POINT GetMousePos();
+			inline POINT GetRelativeMousePos();
 			inline POINT GetAbsoluteMousePos();
 			inline void SetAbsoluteMousePos(int aX, int aY);
+			inline void SetHideMouse(bool aSet);
 
 		private:
 			IDirectInput8* myDirectInput;
@@ -70,6 +72,9 @@ namespace CU
 			int myMouseY;
 
 			bool myInitialized;
+
+			int myRelMouseX;
+			int myRelMouseY;
 		};
 
 		bool InputManager::CheckIfInitialized()
@@ -104,6 +109,14 @@ namespace CU
 			return pos;
 		}
 
+		POINT InputManager::GetRelativeMousePos()
+		{
+			POINT pos;
+			pos.x = myRelMouseX;
+			pos.y = myRelMouseY;
+			return pos;
+		}
+
 		POINT InputManager::GetAbsoluteMousePos()
 		{
 			GetCursorPos(&myMousePos);
@@ -113,6 +126,11 @@ namespace CU
 		void InputManager::SetAbsoluteMousePos(int aX, int aY)
 		{
 			SetCursorPos(aX, aY);
+		}
+
+		void InputManager::SetHideMouse(bool aSet)
+		{
+			ShowCursor(!aSet);
 		}
 	}
 }

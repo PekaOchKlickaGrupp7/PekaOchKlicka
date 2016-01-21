@@ -13,7 +13,7 @@ Animation::Animation()
 	myPaused = false;
 }
 
-void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
+void Animation::Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
 	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
@@ -24,19 +24,19 @@ void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNum
 	myFrame = 0;
 	myPaused = false;
 
-	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1));
+	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
 	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
+
+	mySprite->SetPivot(aPivot);
 
 	UpdateTextureRect();
 
 }
 void Animation::UpdateTextureRect()
 {
-
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
-		mySprite->GetSize().y*(myFrame / myFramesPerRow)));
-
+		(mySprite->GetSize().y*myFramesPerRow)*(myFrame / myFramesPerRow)));
 }
 void Animation::Update(float aDelta)
 {

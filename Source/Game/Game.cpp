@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include "ResolutionManager.h"
+#include "MouseManager.h"
 
 using namespace std::placeholders;
 
@@ -92,10 +93,6 @@ void CGame::Init(const char** argv, const int argc)
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
 	createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
-	//createParameters.myWindowHeight = 720;
-	//createParameters.myWindowWidth = 1280;
-	//createParameters.myRenderHeight = 720;
-	//createParameters.myRenderWidth = 1280;
 	createParameters.myActivateDebugSystems = true;
 	createParameters.myStartInFullScreen = myIsFullscreen;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
@@ -116,15 +113,18 @@ void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
 
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
-		*DX2D::CEngine::GetInstance()->GetHWND(), 
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(),
+		*DX2D::CEngine::GetInstance()->GetHWND(),
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
-	myInputManager.SetAbsoluteMousePos(ResolutionManager::GetInstance()->GetMonitorResolution().x / 2, ResolutionManager::GetInstance()->GetMonitorResolution().y / 2);
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
-	SoundManager::GetInstance(); // Creates a sound manager instance.
+	MouseManager::CreateInstance();
+	MouseManager::GetInstance()->Initialize("Sprites/MousePointer.dds", &myInputManager);
+
+	SoundManager::GetInstance();
+
 	EventManager::CreateInstance();
 	EventManager::GetInstance()->Init(&myInputManager);
 
@@ -141,10 +141,11 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
+	//std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
 
 	//ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
 
 	if (myInputManager.KeyPressed(DIK_F1) == true)

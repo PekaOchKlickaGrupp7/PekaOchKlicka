@@ -14,7 +14,7 @@ NPC::~NPC()
 void NPC::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 1, 8,4);
+	myAnimation.Init(aSpriteFilePath, aPivotPoint, 1, 8, 4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;

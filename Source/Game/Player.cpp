@@ -6,7 +6,6 @@
 Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
 	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
 	myIsMoving = false;
@@ -23,30 +22,21 @@ Player::~Player()
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 0.33f,8,4);
+	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
 	myIsMoving = false;
-	//mySprite->SetPivot(DX2D::Vector2f(0.5f, 0.5f));
 }
 
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager,
+	const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
 	//Character movement
-	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked())
-	{
-		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-		/ static_cast<float>(windowSize.x);
-		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-		/ static_cast<float>(windowSize.y);
-	}
 	if (myIsMoving == true)
 	{
-		Move(myTargetPosition, myMovementSpeed, aDeltaT);
+		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
 	//Opening/Closing the inventory
@@ -72,14 +62,6 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 //Render everything about the player
 void Player::Render(Synchronizer& aSynchronizer)
 {
-	/*
-	RenderCommand command;
-	command.mySprite = mySprite;
-	command.myPosition = myRenderPosition;
-	command.myType = eRenderType::eSprite;
-
-	aSynchronizer.AddRenderCommand(command);
-	*/
 	myAnimation.Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }

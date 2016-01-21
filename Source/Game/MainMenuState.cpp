@@ -7,7 +7,9 @@
 #include "MenuImageItem.h"
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
+
 #include "ResolutionManager.h"
+#include "MouseManager.h"
 
 MainMenuState::MainMenuState(StateStackProxy& aStateStackProxy, 
 	CU::DirectInput::InputManager& aInputManager,
@@ -64,10 +66,10 @@ void MainMenuState::InitState()
 	float scaleButtons = 1.f;
 
 	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds",
-		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons));
+		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 0.5f), scaleButtons));
 
 	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds",
-		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons));
+		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 0.8f), scaleButtons));
 
 }
 
@@ -77,17 +79,16 @@ void MainMenuState::CalcHighlights()
 	{
 		
 		if (myButtons[i]->Collide(
-			Vector2<float>(myInputManager.GetAbsoluteMousePos().x-
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().x,
-			myInputManager.GetAbsoluteMousePos().y -
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) == true)
+			Vector2<float>(MouseManager::GetInstance()->GetPosition().x, MouseManager::GetInstance()->GetPosition().y)) == true)
 		{
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
+			break;
 		}
 		else
 		{
 			myButtons[i]->SetHighlight(false);
+			mySelection = MenuItem::eAction::NONE;
 		}
 	}
 }
@@ -96,7 +97,6 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 	
-	command.myConvertFromPixelToSpaceNormal = true;
 	command.myType = eRenderType::eSprite;
 
 	command.myPosition.y = 0;
@@ -111,5 +111,7 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 	{
 		myButtons[i]->Render(aSynchronizer);
 	}
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 

@@ -79,14 +79,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	EventManager::GetInstance()->Update(aTimeDelta);
 
-
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
 	}
 	
-	static float aSpeed = 0.01f;
-
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		myJson.Load("root.json", myRooms, this);
@@ -96,26 +93,31 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			DL_PRINT(CGame::myTestLevel.c_str());
 			ChangeLevel(CGame::myTestLevel);
 		}
-		/*if (CGame::myTestLevel.size() > 0)
-		{
-			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
 		}
-		else
-		{
-			myJson.LoadLevel("Test", myObjects);
-		}*/
-	}
-
-
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
 
-	//std::cout << windowSize.right - windowSize.left << std::endl;
-
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
-	myPlayer.Update(myInputManager, aTimeDelta);
+	//Move character if inside nav mesh
+	if (myInputManager.LeftMouseButtonClicked())
+	{
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+		if (myCurrentRoom->GetNavMeshes()[0].
+			PointInsideCheck(Point2f(myTargetPosition.x, myTargetPosition.y)))
+		{
+			myPlayer.SetIsMoving(true);
+		}
+		else
+		{
+			myPlayer.SetIsMoving(false);
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
 	return eStateStatus::eKeepState;
 }
@@ -139,17 +141,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
-	//command.myType = eRenderType::eSprite;
-	//command.myPosition = myResolutionTestSprite->GetPosition();
-	//command.mySprite = myResolutionTestSprite;
-	//aSynchronizer.AddRenderCommand(command);
-
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
