@@ -45,14 +45,12 @@ public:
 	{ 
 		myResolutionIndependentPosition = myPosition;
 
-		myResolutionIndependentPosition.x *=
+		myResolutionIndependentPosition.x /=
 			(ResolutionManager::GetInstance()->GetRenderAreaDimension().x +
 			ResolutionManager::GetInstance()->GetRenderAreaPosition().x);
-		myResolutionIndependentPosition.y *=
+		myResolutionIndependentPosition.y /=
 			(ResolutionManager::GetInstance()->GetRenderAreaDimension().y +
 			ResolutionManager::GetInstance()->GetRenderAreaPosition().y);
-
-
 
 		return myResolutionIndependentPosition;
 	};
