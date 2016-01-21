@@ -25,6 +25,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	myPosition = { 0.5f - (mySprite->GetSize().x*0.5f), 0.5f - (mySprite->GetSize().y*0.5f) };
 	mySprite->SetPosition(myPosition);
+	mySprite->SetPivot({ 0.5f, 0.5f });
 
 	myInputManager->SetHideMouse(true);
 }
