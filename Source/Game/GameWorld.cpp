@@ -114,7 +114,26 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
-	myPlayer.Update(myInputManager, aTimeDelta);
+	//Move character if inside nav mesh
+	if (myInputManager.LeftMouseButtonClicked())
+	{
+		myTargetPosition.x = static_cast<float>(myInputManager.GetAbsoluteMousePos().x)
+			/ static_cast<float>(windowSize.right);
+		myTargetPosition.y = static_cast<float>(myInputManager.GetAbsoluteMousePos().y)
+			/ static_cast<float>(windowSize.bottom);
+
+		if (myCurrentRoom->GetNavMeshes()[0].
+			PointInsideCheck(Point2f(myTargetPosition.x, myTargetPosition.y)))
+		{
+			myPlayer.SetIsMoving(true);
+		}
+		else
+		{
+			myPlayer.SetIsMoving(false);
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
 	return eStateStatus::eKeepState;
 }

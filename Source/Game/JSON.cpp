@@ -102,7 +102,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			NavPolygon poly;
 			for (unsigned int j = 0; j < points.Size(); j++)
 			{
-				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble())) / 1080.0f);
+				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble()) / 1080.0f));
 			}
 			aRoom->AddNavPolygon(poly);
 		}

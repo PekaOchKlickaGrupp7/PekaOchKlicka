@@ -17,11 +17,12 @@ public:
 
 	void LoadLevel();
 	void AddNavPolygon(NavPolygon poly);
+	CommonUtilities::GrowingArray<NavPolygon> GetNavMeshes();
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* GetObjectList() { return &myObjects; }
 
 private:
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
-	CommonUtilities::GrowingArray<NavPolygon, unsigned int> myNavMeshes;
+	CommonUtilities::GrowingArray<NavPolygon, unsigned short> myNavMeshes;
 };
 
