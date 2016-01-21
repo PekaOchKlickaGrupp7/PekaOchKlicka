@@ -107,17 +107,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
-		if (myCurrentRoom->GetNavMeshes()[0].
-			PointInsideCheck(Point2f(
-			myTargetPosition.x,
-			myTargetPosition.y)
-			) == true)
+		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
 		{
-			myPlayer.SetIsMoving(true);
-		}
-		else
-		{
-			myPlayer.SetIsMoving(false);
+			if (myCurrentRoom->GetNavMeshes()[0].
+				PointInsideCheck(Point2f(
+				myTargetPosition.x,
+				myTargetPosition.y)
+				) == true)
+			{
+				myPlayer.SetIsMoving(true);
+			}
+			else
+			{
+				myPlayer.SetIsMoving(false);
+			}
 		}
 	}
 

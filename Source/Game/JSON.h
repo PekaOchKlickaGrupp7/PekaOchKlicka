@@ -6,6 +6,7 @@
 class Room;
 class ObjectData;
 class CGameWorld;
+class Event;
 
 enum EventActions
 {
@@ -27,6 +28,12 @@ public:
 private:
 	bool LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld);
 	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y);
+
+	void LoadEvent(ObjectData* aNode, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
+	void LoadEvent(Event* aNode, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
+
+	Event* CreateEventData(rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
+
 	const char* ReadFile(const char* aFile);
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myCurrentLevel;
