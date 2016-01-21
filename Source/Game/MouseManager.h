@@ -12,7 +12,7 @@ public:
 
 	static void CreateInstance()
 	{
-		if (myMouseManager = nullptr)
+		if (myMouseManager == nullptr)
 		{
 			myMouseManager = new MouseManager();
 		}
@@ -45,12 +45,12 @@ public:
 	{ 
 		myResolutionIndependentPosition = myPosition;
 
-		myResolutionIndependentPosition.x /=
+		/*myResolutionIndependentPosition.x *=
 			(ResolutionManager::GetInstance()->GetRenderAreaDimension().x +
 			ResolutionManager::GetInstance()->GetRenderAreaPosition().x);
-		myResolutionIndependentPosition.y /=
+		myResolutionIndependentPosition.y *=
 			(ResolutionManager::GetInstance()->GetRenderAreaDimension().y +
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().y);
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().y);*/
 
 		return myResolutionIndependentPosition;
 	};
