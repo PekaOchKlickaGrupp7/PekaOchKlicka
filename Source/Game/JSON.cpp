@@ -94,11 +94,11 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		LoadObject(level["objects"]["$values"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
 	}
 
-	if (level.HasMember("walkable-areas") == true)
+	if (level.HasMember("walkable_areas") == true)
 	{
 		for (unsigned int i = 0; i < level["walkable-areas"].Size(); ++i)
 		{
-			Value& points = level["walkable-areas"][i]["points"];
+			Value& points = level["walkable_areas"]["$values"][i]["points"]["$values"];
 			NavPolygon poly;
 			for (unsigned int j = 0; j < points.Size(); j++)
 			{

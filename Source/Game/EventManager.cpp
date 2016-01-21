@@ -32,42 +32,45 @@ float EventManager::Remap(float value, float from1, float to1, float from2, floa
 	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 }
 
+void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY)
+{
+	if (aData->myActive == true)
+	{
+		if (aData->myHitBox.IsMouseColliding(
+			Remap(aMouseX,
+			0, 1920,
+			0, 1920) / 1920.0f,
+			Remap(aMouseY, 0,
+			1080, 0, 1080) / 1080.0f) == true)
+		{
+			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			{
+				if (aData->myEvents[j]->myType == aType)
+				{
+					AddEvent(aData->myEvents[j]);
+				}
+			}
+			//std::cout << "Collided with object" << std::endl;
+		}
+	}
+	for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
+	{
+		OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+	}
+}
+
 void EventManager::Update(const float aDeltaTime)
 {
 	POINT mousePos = myInputManager->GetMousePos();
 	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (myLoadingLevel == false)
+
+	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
-		if (true || myObjects != nullptr)
+		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
-			if (myInputManager->LeftMouseButtonClicked() == true)
-			{
-				for (unsigned int i = 0; i < myObjects->Size(); ++i)
-				{
-					if ((*myObjects)[i]->myHitBox.IsMouseColliding(
-						Remap(mousePosition.x,
-						0, 1280,
-						0, 1920) / 1920.0f,
-						Remap(mousePosition.y, 0,
-						1024, 0, 1080) / 1080.0f) == true)
-					{
-						for (unsigned int j = 0; j < (*myObjects)[i]->myEvents.Size(); ++j)
-						{
-							if ((*myObjects)[i]->myEvents[j]->myType == EventTypes::OnClick)
-							{
-								AddEvent((*myObjects)[i]->myEvents[j]);
-							}
-						}
-						//std::cout << "Collided with object" << std::endl;
-					}
-				}
-			}
+			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y);
 		}
-	}
-	else
-	{
-		myLoadingLevel = false;
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
@@ -88,5 +91,5 @@ void EventManager::Update(const float aDeltaTime)
 
 void EventManager::RemoveAllEvents()
 {
-
+	myActiveEvents.RemoveAll();
 }
