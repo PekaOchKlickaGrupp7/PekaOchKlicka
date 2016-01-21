@@ -13,6 +13,7 @@
 #include "EventSetActive.h"
 #include "EventChangeLevel.h"
 #include "EventTalk.h"
+#include "EventChangeCursor.h"
 
 using namespace rapidjson;
 
@@ -248,6 +249,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 					DL_ASSERT("Event Change Level Value is null");
 				}
 				changeLevel->myTargetLevelName = myValue.GetString();
+				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
 			}
 
 			/*dataObject->myEvents.Add(changeLevel);*/
@@ -267,6 +269,15 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			talk->Init(aRoom, aGameWorld);
 
 			event = talk;
+			break;
+		}
+		case EventActions::ChangeCursor:
+		{
+			EventChangeCursor* changeCursor = new EventChangeCursor();
+			changeCursor->myTargetCursor = events[i]["extra"]["cursor"].GetInt();
+			changeCursor->Init(aRoom, aGameWorld);
+
+			event = changeCursor;
 			break;
 		}
 		default:

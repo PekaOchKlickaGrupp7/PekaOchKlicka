@@ -22,7 +22,7 @@ void HitBox::Init(ObjectData* aObject)
 
 bool HitBox::IsMouseColliding(const float aX, const float aY)
 {
-	if (myObject->myActive == true && myObject->myTriggerEnabled == false)
+	if (myObject->myActive == false || myObject->myTriggerEnabled == false)
 	{
 		return false;
 	}
@@ -36,7 +36,7 @@ bool HitBox::IsMouseColliding(const float aX, const float aY)
 	}
 	else
 	{
-		return CommonUtilities::CircleCollision(1.0f, aX * 1280.0f, aY * 720.0f, myObject->myRadius, (myObject->myX + myX) * 1280.0f, (myObject->myY + myY) * 720.0f);
+		return CommonUtilities::CircleCollision(1.0f, aX * 1920.0f, aY * 1080.0f, myObject->myRadius, (myObject->myX + myX) * 1920.0f, (myObject->myY + myY) * 1080.0f);
 	}
 }
 
@@ -64,16 +64,16 @@ void HitBox::Parse(const std::string& aString)
 			switch (++index)
 			{
 			case 1: //X
-				myX = value / 1280.0f;
+				myX = value / 1920.0f;
 				break;
 			case 2: //Y
-				myY = value / 720.0f;
+				myY = value / 1080.0f;
 				break;
 			case 3: //Width
-				myWidth = value / 1280.0f;
+				myWidth = value / 1920.0f;
 				break;
 			case 4: //height
-				myHeight = value / 720.0f;
+				myHeight = value / 1080.0f;
 				break;
 			}
 		}

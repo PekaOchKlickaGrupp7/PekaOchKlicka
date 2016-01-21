@@ -55,7 +55,7 @@ void ResolutionManager::Update(int aWindowWidth, int aWindowHeight)
 	(aWindowWidth);
 	(aWindowHeight);
 	RECT returnedResolution = RetrieveResolutionRender();
-	/*	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(1920), static_cast<unsigned int>(1080) });*/
+	//	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(1920), static_cast<unsigned int>(1080) });
 	//CalculateRatio(1920, 1080);
 	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(RetrieveResolutionWindow().right - RetrieveResolutionWindow().left), static_cast<unsigned int>(RetrieveResolutionWindow().bottom - RetrieveResolutionWindow().top) });
 	CalculateRatio(returnedResolution.right - returnedResolution.left, returnedResolution.bottom - returnedResolution.top);

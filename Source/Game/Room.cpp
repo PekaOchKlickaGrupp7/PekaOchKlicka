@@ -1,13 +1,20 @@
 #include "stdafx.h"
 #include "Room.h"
+#include "Item.h"
 
 Room::Room()
 {
 	myNavMeshes.Init(12);
+	myItems.Init(10);
+
+	myItems.Add(new Item());
+	myItems[0]->Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
+		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
 }
 
 Room::~Room()
 {
+	myItems.DeleteAll();
 }
 
 void Room::OnLoad()
@@ -24,6 +31,7 @@ void Room::Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints)
 	}
 
 	myNavMeshes.Add(poly);
+	
 }
 
 void Room::Init()

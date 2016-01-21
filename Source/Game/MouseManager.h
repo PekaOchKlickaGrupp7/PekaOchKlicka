@@ -4,6 +4,24 @@
 #include "..\CommonUtilities\InputManager.h"
 #include "ResolutionManager.h"
 #include <Windows.h>
+#include "..\CommonUtilities\GrowingArray.h"
+
+enum class eInteractive
+{
+	eRegular,
+	eTalkTo,
+	eExamine,
+	eChooseOption,
+	ePickUp,
+	eGrabAndDrag
+};
+
+// This is actually very handy. I don't have to static_cast all the time.
+template <typename T>
+int eMouse(T aElementType)
+{
+	return static_cast<int>(aElementType);
+}
 
 class MouseManager
 {
@@ -37,7 +55,7 @@ public:
 		}
 	}
 
-	void Initialize(const std::string &aFilePath, CU::DirectInput::InputManager* aInputManager);
+	void Initialize(CommonUtilities::GrowingArray<std::string> &aFilePath, CU::DirectInput::InputManager* aInputManager);
 	void Render(Synchronizer &aSynchronizer);
 	void Update(float aDeltaTime);
 
@@ -46,7 +64,7 @@ public:
 		return myPosition;
 	};
 
-	void Initialize(CU::DirectInput::InputManager* anInputManager) { myInputManager = anInputManager; };
+	void SetInteractiveMode(eInteractive aInteractiveMode);
 
 private:
 	MouseManager();
@@ -57,6 +75,19 @@ private:
 	CU::DirectInput::InputManager* myInputManager;
 	
 	DX2D::Vector2f myPosition;
+
+	// This is the current sprite
 	DX2D::CSprite* mySprite;
+
+	CommonUtilities::GrowingArray<DX2D::CSprite*> mySpriteInteractive;
+
+	// Interactive mouse cursor
+	//DX2D::CSprite* mySpriteInteractive_TalkTo;
+	//DX2D::CSprite* mySpriteInteractive_Examine;
+	//DX2D::CSprite* mySpriteInteractive_ChooseOption;
+	//DX2D::CSprite* mySpriteInteractive_Regular;
+	//DX2D::CSprite* mySpriteInteractive_PickUp;
+	//DX2D::CSprite* mySpriteInteractive_GrabAndDrag;
+	// End of interactive mouse cursor
 };
 

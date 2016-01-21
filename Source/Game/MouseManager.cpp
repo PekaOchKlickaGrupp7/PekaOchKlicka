@@ -9,10 +9,20 @@ MouseManager::MouseManager()
 {
 }
 
-void MouseManager::Initialize(const std::string &aFilePath, CU::DirectInput::InputManager* aInputManager)
+void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFilePath,
+	CU::DirectInput::InputManager* aInputManager)
 {
 	myInputManager = aInputManager;
-	mySprite = new DX2D::CSprite(aFilePath.c_str());
+
+	mySpriteInteractive.Init(6); // There are six different cursors
+	for (size_t i = 0; i < aFilePath.Size(); i++)
+	{
+		mySprite = new DX2D::CSprite(aFilePath[i].c_str());
+		mySpriteInteractive.Add(mySprite);
+	}
+
+	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
+
 	myPosition = { 0.5f - (mySprite->GetSize().x*0.5f), 0.5f - (mySprite->GetSize().y*0.5f) };
 	mySprite->SetPosition(myPosition);
 
@@ -51,7 +61,12 @@ void MouseManager::Update(float aDeltaTime)
 		myPosition.y = 1 - mySprite->GetSize().y;
 	}
 
-	std::cout << myPosition.x << std::endl;
+	std::cout << myPosition.x << " " << myPosition.y << std::endl;
+}
+
+void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)
+{
+	mySprite = mySpriteInteractive[eMouse(aInteractiveMode)];
 }
 
 void MouseManager::Render(Synchronizer &aSynchronizer)
