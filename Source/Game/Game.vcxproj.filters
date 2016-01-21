@@ -189,13 +189,15 @@
     <ClInclude Include="EventChangeLevel.h">
       <Filter>Events\Level</Filter>
     </ClInclude>
-    <ClInclude Include="MouseManager.h" />
     <ClInclude Include="EventChangeLevel.h">
       <Filter>Events\Level</Filter>
     </ClInclude>
     <ClInclude Include="TextTalk.h" />
     <ClInclude Include="EventNone.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseManager.h">
+      <Filter>System\Mouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,13 +287,15 @@
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
-    <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="TextTalk.cpp" />
     <ClCompile Include="EventNone.cpp">
       <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseManager.cpp">
+      <Filter>System\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
