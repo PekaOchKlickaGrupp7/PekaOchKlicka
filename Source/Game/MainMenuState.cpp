@@ -83,10 +83,12 @@ void MainMenuState::CalcHighlights()
 		{
 			myButtons[i]->SetHighlight(true);
 			mySelection = myButtons[i]->GetAction();
+			break;
 		}
 		else
 		{
 			myButtons[i]->SetHighlight(false);
+			mySelection = MenuItem::eAction::NONE;
 		}
 	}
 }
