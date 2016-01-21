@@ -259,12 +259,12 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		case EventActions::Talk:
 		{
 			EventTalk* talk = new EventTalk();
-			talk->myColor = { 1, 1, 1, 1 };
+			talk->myColor = { 1, 0, 1, 1 };
 			talk->myFontPath = "Text/calibril.ttf_sdf";
-			talk->myTextSize = 0.4f;
+			talk->myTextSize = 0.2f;
 			talk->myShowTime = 0.5f;
 			talk->myTarget = "Self";
-			talk->myText = "Fisk Fisk Fisk Fisk Fsik";
+			talk->myText = "I'm a box. \nDeal with it.";
 
 			talk->Init(aRoom, aGameWorld);
 
