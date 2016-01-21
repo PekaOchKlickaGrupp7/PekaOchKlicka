@@ -20,6 +20,9 @@ public:
 
 	//Removes an item from the inventory
 	void Remove(Item* aItemToRemove);
+
+	//Update the inventory
+	void Update(float aDeltaTime);
 	
 	//Combine one item with another, generates a new item and removes the originals
 	void Combine(Item& aItemToCombine, Item& aItemToCombineWith);
@@ -28,19 +31,31 @@ public:
 	void Render(Synchronizer& aSynchronizer);
 
 	//Opens the inventory
-	void Open();
+	void SetOpen();
 
 	//Closes the inventory
-	void Close();
+	void SetClose();
 
 	//Get the inventorys background sprite
 	const DX2D::CSprite* GetSprite();
 
+	//Check if inventory is open
+	bool IsOpen();
+
 private:
+
+	void Open(float aDeltaTime);
+	void Close(float aDeltaTime);
+
 	CommonUtilities::GrowingArray<Item*> myContents;
 
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
+
+	DX2D::Vector2f myStartPosition;
+	DX2D::Vector2f myEndPosition;
+
+	float myMovementPerFrame;
 
 	bool myIsOpen;
 };

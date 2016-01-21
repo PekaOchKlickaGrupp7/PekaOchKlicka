@@ -39,22 +39,22 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
+	
+	myInventory.Update(aDeltaT);
+
 	//Opening/Closing the inventory
-	if (MouseManager::GetInstance()->GetPosition().y >= 
-		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + 
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y) - 
-		myInventory.GetSprite()->GetSize().y)
+	static float inventoryHoverArea = 1.0f - 0.05f;
+	if (myInventory.IsOpen() == false && 
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
-		if (myIsInventoryOpen == false)
-		{
-			myInventory.Open();
-			myIsInventoryOpen = true;
-		}
-		else
-		{
-			myInventory.Close();
-			myIsInventoryOpen = false;
-		}
+		myInventory.SetOpen();
+	}
+
+	if (myInventory.IsOpen() == true && 
+		MouseManager::GetInstance()->GetPosition().y <
+		myInventory.GetSprite()->GetPosition().y)
+	{
+		myInventory.SetClose();
 	}
 	myAnimation.Update(aDeltaT);
 }
