@@ -62,7 +62,8 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.2f);
+	//BUG: Why does pivot.x = 0.25 refer to the center of myAnimation.mySprite and not 0.5?
+	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 0.95f), 0.2f);
 
 	//Test item
 	myTestItem.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
@@ -107,7 +108,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
 		if (myCurrentRoom->GetNavMeshes()[0].
-			PointInsideCheck(Point2f(myTargetPosition.x, myTargetPosition.y)))
+			PointInsideCheck(Point2f(
+			myTargetPosition.x,
+			myTargetPosition.y)
+			) == true)
 		{
 			myPlayer.SetIsMoving(true);
 		}
