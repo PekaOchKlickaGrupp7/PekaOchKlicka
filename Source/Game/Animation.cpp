@@ -13,7 +13,7 @@ Animation::Animation()
 	myPaused = false;
 }
 
-void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
+void Animation::Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
 	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
@@ -28,7 +28,7 @@ void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNum
 
 	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
 
-	mySprite->SetPivot(DX2D::Vector2f(0.5f,0.5f));
+	mySprite->SetPivot(aPivot);
 
 	UpdateTextureRect();
 

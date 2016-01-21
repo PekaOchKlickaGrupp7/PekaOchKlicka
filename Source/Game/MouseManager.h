@@ -43,16 +43,7 @@ public:
 
 	DX2D::Vector2f &GetPosition()
 	{ 
-		myResolutionIndependentPosition = myPosition;
-
-		/*myResolutionIndependentPosition.x *=
-			(ResolutionManager::GetInstance()->GetRenderAreaDimension().x +
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().x);
-		myResolutionIndependentPosition.y *=
-			(ResolutionManager::GetInstance()->GetRenderAreaDimension().y +
-			ResolutionManager::GetInstance()->GetRenderAreaPosition().y);*/
-
-		return myResolutionIndependentPosition;
+		return myPosition;
 	};
 
 	void Initialize(CU::DirectInput::InputManager* anInputManager) { myInputManager = anInputManager; };
@@ -66,7 +57,6 @@ private:
 	CU::DirectInput::InputManager* myInputManager;
 	
 	DX2D::Vector2f myPosition;
-	DX2D::Vector2f myResolutionIndependentPosition;
 	DX2D::CSprite* mySprite;
 };
 

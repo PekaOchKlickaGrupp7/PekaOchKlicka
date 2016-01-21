@@ -20,12 +20,11 @@ Player::~Player()
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 0.33f,8,4);
+	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
 	myIsMoving = false;
-	//mySprite->SetPivot(DX2D::Vector2f(0.5f, 0.5f));
 }
 
 //Update the character
