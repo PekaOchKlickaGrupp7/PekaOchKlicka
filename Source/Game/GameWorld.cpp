@@ -62,7 +62,8 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	//BUG: Why does pivot.x = 0.25 refer to the center of myAnimation.mySprite and not 0.5?
+	//BUG: Why does pivot.x = 0.25 refer to the center
+	//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 0.95f), 0.2f);
 
 	//Test item
@@ -122,6 +123,14 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+
+	if (myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
+		myPlayer.GetPosition().x,
+		myPlayer.GetPosition().y) ) == false)
+	{
+		
+	}
+
 
 	return eStateStatus::eKeepState;
 }
