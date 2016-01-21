@@ -65,9 +65,9 @@ void CGameWorld::Init()
 	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
 
 	//Test item
-	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
+	myTestItem.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
 		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
-	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
+	myTestItem2.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
 		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
 
 	myPlayer.AddItemToInventory(&myTestItem);
@@ -105,8 +105,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			myJson.LoadLevel("Test", myObjects);
 		}*/
 	}
-
-
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
