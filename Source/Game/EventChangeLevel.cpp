@@ -17,11 +17,10 @@ EventChangeLevel::~EventChangeLevel()
 bool EventChangeLevel::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
-	if (myTargetLevelName == "")
+	if (myTargetLevelName != "")
 	{
-		DL_PRINT("Room to change to was empty string");
+		myGameWorld->ChangeLevel(myTargetLevelName);
 	}
-	myGameWorld->ChangeLevel(&myTargetLevelName);
 	return true;
 }
 

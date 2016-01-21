@@ -15,6 +15,7 @@ public:
 	virtual void Reset() = 0;
 
 	ObjectData* GetGameObject(const std::string& aName) const;
+	ObjectData* GetGameObject(const std::string& aName, ObjectData* aParent) const;
 
 	std::string myTarget;
 	EventTypes myType;

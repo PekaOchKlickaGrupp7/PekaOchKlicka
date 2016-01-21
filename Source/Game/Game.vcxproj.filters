@@ -194,6 +194,9 @@
       <Filter>Events\Level</Filter>
     </ClInclude>
     <ClInclude Include="TextTalk.h" />
+    <ClInclude Include="EventNone.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -287,5 +290,8 @@
       <Filter>Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="TextTalk.cpp" />
+    <ClCompile Include="EventNone.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -36,6 +36,34 @@ ObjectData* Event::GetGameObject(const std::string& aName) const
 		{
 			return (*objects)[i];
 		}
+
+		for (unsigned int j = 0; j < (*objects)[i]->myChilds.Size(); ++j)
+		{
+			ObjectData* data = GetGameObject(aName, (*objects)[i]);
+			if (data != nullptr)
+			{
+				return data;
+			}
+		}
+	}
+	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
+	return nullptr;
+}
+
+ObjectData* Event::GetGameObject(const std::string& aName, ObjectData* aParent) const
+{
+	for (unsigned int i = 0; i < aParent->myChilds.Size(); ++i)
+	{
+		if (aParent->myChilds[i]->myName == aName)
+		{
+			return aParent->myChilds[i];
+		}
+
+		ObjectData* data = GetGameObject(aName, aParent->myChilds[i]);
+		if (data != nullptr)
+		{
+			return data;
+		}
 	}
 	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
 	return nullptr;

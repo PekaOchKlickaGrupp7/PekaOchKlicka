@@ -61,8 +61,8 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << argv[i] << std::endl;
 	}
 	std::cout << std::endl;
-	unsigned short windowWidth = 1280;
-	unsigned short windowHeight = 1024;
+	unsigned short windowWidth = 1920;
+	unsigned short windowHeight = 1080;
 
 	if (argc == 2)
 	{

@@ -26,9 +26,9 @@ CGameWorld::~CGameWorld()
 	mySFXRain.Destroy();
 }
 
-void CGameWorld::ChangeLevel(std::string* aString)
+void CGameWorld::ChangeLevel(const std::string& aString)
 {
-	myCurrentRoom = myRooms[*aString];
+	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
 	if (myCurrentRoom == nullptr)
 	{
@@ -41,17 +41,13 @@ void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
 
-	/*std::cout << "Level: " << CGame::myTestLevel << std::endl;
+	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
-		
-		myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
+		DL_PRINT(CGame::myTestLevel.c_str());
+		ChangeLevel(CGame::myTestLevel);
 	}
-	else
-	{
-	myJson.LoadLevel("Smiley_Face", myObjects);
-	}*/
-
+	
 	mySFXRain.Create3D("SFX/rain.wav");
 	mySFXRain.SetLooping(true);
 	//mySFXRain.SetVolume(10.0f);
@@ -93,6 +89,13 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
+		myJson.Load("root.json", myRooms, this);
+
+		if (CGame::myTestLevel.size() > 0)
+		{
+			DL_PRINT(CGame::myTestLevel.c_str());
+			ChangeLevel(CGame::myTestLevel);
+		}
 		/*if (CGame::myTestLevel.size() > 0)
 		{
 			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);

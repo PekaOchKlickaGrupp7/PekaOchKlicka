@@ -10,6 +10,7 @@
 #include "Item.h"
 
 //Events
+#include "EventNone.h"
 #include "EventSetActive.h"
 #include "EventChangeLevel.h"
 
@@ -38,6 +39,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		root.GetAllocator().~MemoryPoolAllocator();
 		return false;
 	}
+	levels = levels["$values"];
 
 	std::string levelName = "";
 
@@ -67,7 +69,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	
 	root.GetAllocator().Clear();
 
-	aGameWorld->ChangeLevel(&levelName);
+	aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
@@ -87,9 +89,9 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		return false;
 	}
 
-	for (unsigned int i = 0; i < level["objects"].Size(); ++i)
+	for (unsigned int i = 0; i < level["objects"]["$values"].Size(); ++i)
 	{
-		LoadObject(level["objects"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
+		LoadObject(level["objects"]["$values"][i], nullptr, aObjects, aRoom, aGameWorld, 0, 0);
 	}
 
 	if (level.HasMember("walkable-areas") == true)
@@ -115,7 +117,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 
 #pragma region Private Methods
 
-void JSON::LoadObject(Value& node, ObjectData* aParentObject, 
+void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y)
 {
 	Value& object = node;
@@ -158,11 +160,11 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myTriggerEnabled = object["events"]["enabled"].GetBool();
 	dataObject->myRadius = static_cast<float>(object["events"]["radius"].GetDouble());
 
-	Value& events = object["events"]["list"];
+	Value& events = object["events"]["list"]["$values"];
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
 		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
-		//Event* event = nullptr;
+		Event* event = nullptr;
 		switch (action)
 		{
 		case EventActions::SetActive:
@@ -170,43 +172,55 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			EventSetActive* setActive = new EventSetActive();
 			setActive->Init(aRoom, aGameWorld);
 
-			setActive->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-			setActive->myTarget = std::string(events[i]["target"].GetString());
-			setActive->myObjectData = dataObject;
-
-			if (events[i].HasMember("Value") == true)
+			Value& extra = events[i]["extra"];
+			if (extra.HasMember("value") == true)
 			{
-				Value& myValue = events[i]["Value"];
+				Value& myValue = extra["value"];
 				if (myValue.IsNull() == true)
 				{
-					//DL_ASSERT("Event SetActive Value is null");
+					DL_ASSERT("Event SetActive Value is null");
 				}
 				setActive->myValue = myValue.GetBool();
 			}
 
-			dataObject->myEvents.Add(setActive);
-			//event = dynamic_cast<Event*>(setActive);
+			//dataObject->myEvents.Add(setActive);
+			event = dynamic_cast<Event*>(setActive);
 			break;
 		}
 		case EventActions::ChangeLevel:
 		{
 			EventChangeLevel* changeLevel = new EventChangeLevel();
 			changeLevel->Init(aRoom, aGameWorld);
-			changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
+			//changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
 
-			changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-			changeLevel->myTarget = std::string(events[i]["target"].GetString());
-			changeLevel->myObjectData = dataObject;
+			//changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+			//changeLevel->myTarget = std::string(events[i]["target"].GetString());
+			//changeLevel->myObjectData = dataObject;
 
-			dataObject->myEvents.Add(changeLevel);
-			//event = dynamic_cast<Event*>(changeLevel);
+			Value& extra = events[i]["extra"];
+			if (extra.HasMember("TargetScene") == true)
+			{
+				Value& myValue = extra["TargetScene"];
+				if (myValue.IsNull() == true)
+				{
+					DL_ASSERT("Event Change Level Value is null");
+				}
+				changeLevel->myTargetLevelName = myValue.GetString();
+			}
+
+			/*dataObject->myEvents.Add(changeLevel);*/
+			event = dynamic_cast<Event*>(changeLevel);
 			break;
 		}
 		default:
-
+			event = new EventNone();
+			event->Init(aRoom, aGameWorld);
 			break;
 		}
-		//dataObject->myEvents.Add(event);
+		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
+		event->myTarget = std::string(events[i]["target"].GetString());
+		event->myObjectData = dataObject;
+		dataObject->myEvents.Add(event);
 	}
 
 	ObjectData* parentData = nullptr;
@@ -215,7 +229,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	if (false && object["item"]["isItem"].GetBool() == true)
 	{
 		//Item* item = new Item();
-		
+
 	}
 	else
 	{
@@ -231,9 +245,9 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		}
 	}
 
-	for (unsigned int j = 0; j < object["childs"].Size(); ++j)
+	for (unsigned int j = 0; j < object["childs"]["$values"].Size(); ++j)
 	{
-		LoadObject(object["childs"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
+		LoadObject(object["childs"]["$values"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
 	}
 }
 /*
