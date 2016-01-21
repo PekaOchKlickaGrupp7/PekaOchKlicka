@@ -20,6 +20,7 @@ public:
 	void Init();
 
 	void ChangeLevel(const std::string& aString);
+	Player* CGameWorld::GetPlayer();
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;

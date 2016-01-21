@@ -248,6 +248,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 					DL_ASSERT("Event Change Level Value is null");
 				}
 				changeLevel->myTargetLevelName = myValue.GetString();
+				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
 			}
 
 			/*dataObject->myEvents.Add(changeLevel);*/
