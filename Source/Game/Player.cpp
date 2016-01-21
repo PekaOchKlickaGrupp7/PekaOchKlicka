@@ -7,7 +7,7 @@ Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
+	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -42,22 +42,22 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
+	
+	myInventory.Update(aDeltaT);
+
 	//Opening/Closing the inventory
-	if (MouseManager::GetInstance()->GetPosition().y >= 
-		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + 
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y) - 
-		myInventory.GetSprite()->GetSize().y)
+	static float inventoryHoverArea = 1.0f - 0.05f;
+	if (myInventory.IsOpen() == false && 
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
-		if (myIsInventoryOpen == false)
-		{
-			myInventory.Open();
-			myIsInventoryOpen = true;
-		}
-		else
-		{
-			myInventory.Close();
-			myIsInventoryOpen = false;
-		}
+		myInventory.SetOpen();
+	}
+
+	if (myInventory.IsOpen() == true && 
+		MouseManager::GetInstance()->GetPosition().y <
+		myInventory.GetFullyOpenPosition().y)
+	{
+		myInventory.SetClose();
 	}
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);

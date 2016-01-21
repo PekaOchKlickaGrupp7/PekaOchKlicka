@@ -10,6 +10,10 @@ Inventory::Inventory()
 	myIsOpen = false;
 
 	myPosition = DX2D::Vector2f(0.0, 0.0);
+	myStartPosition = DX2D::Vector2f(0.0, 0.0);
+	myEndPosition = DX2D::Vector2f(0.0, 0.0);
+
+	float myMovementPerFrame = 0.0f;
 
 	myBackground = nullptr;
 }
@@ -17,12 +21,16 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
+	myContents.DeleteAll();
 }
 
-void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
+void Inventory::Init(const char* aFilePath)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myPosition = aPosition;
+	myEndPosition.y = 1.0f - myBackground->GetSize().y;
+	myStartPosition.y = 1.0f;
+	myPosition.y = myStartPosition.y;
+	myMovementPerFrame = 0.1f;
 }
 
 //Adds an item to the inventory
@@ -34,7 +42,20 @@ void Inventory::Add(Item* aItemToAdd)
 //Removes an item from the inventory
 void Inventory::Remove(Item* aItemToRemove)
 {
-	myContents.RemoveCyclic(aItemToRemove);
+	myContents.DeleteCyclic(aItemToRemove);
+}
+
+//Update the inventory
+void Inventory::Update(float aDeltaTime)
+{
+	if (myIsOpen == true)
+	{
+		Open(aDeltaTime);
+	}
+	else if (myIsOpen == false)
+	{
+		Close(aDeltaTime);
+	}
 }
 
 //Combine one item with another
@@ -103,13 +124,13 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 }
 
 //Opens the inventory
-void Inventory::Open()
+void Inventory::SetOpen()
 {
 	myIsOpen = true;
 }
 
 //Closes the inventory
-void Inventory::Close()
+void Inventory::SetClose()
 {
 	myIsOpen = false;
 }
@@ -118,4 +139,26 @@ void Inventory::Close()
 const DX2D::CSprite* Inventory::GetSprite()
 {
 	return myBackground;
+}
+
+//Check if inventory is open
+bool Inventory::IsOpen()
+{
+	return myIsOpen;
+}
+
+void Inventory::Open(float aDeltaTime)
+{
+	if (myPosition.y >= myEndPosition.y)
+	{
+		myPosition.y -= myMovementPerFrame * aDeltaTime;
+	}
+}
+
+void Inventory::Close(float aDeltaTime)
+{
+	if (myPosition.y <= myStartPosition.y)
+	{
+		myPosition.y += myMovementPerFrame * aDeltaTime;
+	}
 }
