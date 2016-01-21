@@ -5,6 +5,7 @@
 #include "Synchronizer.h"
 
 #include "ResolutionManager.h"
+#include "MouseManager.h"
 
 #include "..\CommonUtilities\GrowingArray.h"
 #include <iostream>
@@ -150,6 +151,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
