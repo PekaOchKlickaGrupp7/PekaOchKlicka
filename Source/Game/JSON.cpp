@@ -262,7 +262,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			talk->myColor = { 1, 0, 1, 1 };
 			talk->myFontPath = "Text/calibril.ttf_sdf";
 			talk->myTextSize = 0.2f;
-			talk->myShowTime = 0.5f;
+			talk->myShowTime = 0.1f;
 			talk->myTarget = "Self";
 			talk->myText = "I'm a box. \nDeal with it.";
 

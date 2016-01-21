@@ -6,6 +6,7 @@
 
 Event::Event()
 {
+	myActive = false;
 }
 
 Event::~Event()
