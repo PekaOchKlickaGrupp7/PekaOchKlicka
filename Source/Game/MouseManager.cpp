@@ -24,8 +24,9 @@ void MouseManager::Update(float aDeltaTime)
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f,  
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f);
 
-	myPosition.x += (myInputManager->GetRelativeMousePos().x) * 0.0005f;
-	myPosition.y += (myInputManager->GetRelativeMousePos().y) * 0.0005f;
+	float aSpeed = 0.0005f;
+	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
+	myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed;
 }
 
 void MouseManager::Render(Synchronizer &aSynchronizer)
