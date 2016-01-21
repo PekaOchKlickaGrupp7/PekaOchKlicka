@@ -52,6 +52,7 @@ private:
 	DX2D::Vector2f myRenderPosition;
 
 	float myMovementSpeed;
+	float myDepthScaleFactor;
 
 	bool myIsMoving;
 	bool myIsInventoryOpen;
