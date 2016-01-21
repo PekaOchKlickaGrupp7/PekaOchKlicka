@@ -58,14 +58,6 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 //Render everything about the player
 void Player::Render(Synchronizer& aSynchronizer)
 {
-	/*
-	RenderCommand command;
-	command.mySprite = mySprite;
-	command.myPosition = myRenderPosition;
-	command.myType = eRenderType::eSprite;
-
-	aSynchronizer.AddRenderCommand(command);
-	*/
 	myAnimation.Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }

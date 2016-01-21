@@ -95,7 +95,6 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 	
-	command.myConvertFromPixelToSpaceNormal = true;
 	command.myType = eRenderType::eSprite;
 
 	command.myPosition.y = 0;

@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "ObjectData.h"
 #include "Room.h"
+#include "MouseManager.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -65,9 +66,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 
 void EventManager::Update(const float aDeltaTime)
 {
-	POINT mousePos = myInputManager->GetMousePos();
-	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
+	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
@@ -80,11 +79,6 @@ void EventManager::Update(const float aDeltaTime)
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
-		if (event == nullptr)
-		{
-			int apa = 0;
-			++apa;
-		}
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->Reset();

@@ -21,5 +21,4 @@ struct RenderCommand
 	DX2D::CCustomShape *myCustomShape;
 	DX2D::CText *myText;
 	eRenderType myType;
-	bool myConvertFromPixelToSpaceNormal = false;
 };
