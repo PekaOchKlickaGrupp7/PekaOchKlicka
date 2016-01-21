@@ -11,6 +11,7 @@ Animation::Animation()
 	myFrame = 0;
 	myFramesPerRow = 0;
 	myPaused = false;
+	//HEJ BERRA
 }
 
 void Animation::Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
