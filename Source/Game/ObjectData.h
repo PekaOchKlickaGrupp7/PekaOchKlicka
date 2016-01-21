@@ -14,6 +14,7 @@ enum EventTypes
 {
 	OnClick,
 	OnHover,
+	OnLeave,
 	OnLoad,
 	Custom
 };
@@ -38,10 +39,12 @@ public:
 	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
 	bool myActive;
 
-	bool myTriggerEnabled = true;
+	bool myTriggerEnabled;
 	HitBox myHitBox;
 	float myRadius;
 	TriggerType myTriggerType;
+
+	bool myIsHovering;
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event*, unsigned int> myEvents;
