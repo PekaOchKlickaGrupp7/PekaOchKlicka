@@ -62,7 +62,7 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.2f);
 
 	//Test item
 	myTestItem.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
@@ -79,14 +79,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	EventManager::GetInstance()->Update(aTimeDelta);
 
-
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
 	}
 	
-	static float aSpeed = 0.01f;
-
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		myJson.Load("root.json", myRooms, this);
@@ -96,20 +93,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			DL_PRINT(CGame::myTestLevel.c_str());
 			ChangeLevel(CGame::myTestLevel);
 		}
-		/*if (CGame::myTestLevel.size() > 0)
-		{
-			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
-		}
-		else
-		{
-			myJson.LoadLevel("Test", myObjects);
-		}*/
 	}
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
-
-	//std::cout << windowSize.right - windowSize.left << std::endl;
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
@@ -136,11 +123,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			}
 		}
 	}
-
-	//command.myType = eRenderType::eSprite;
-	//command.myPosition = myResolutionTestSprite->GetPosition();
-	//command.mySprite = myResolutionTestSprite;
-	//aSynchronizer.AddRenderCommand(command);
 
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;

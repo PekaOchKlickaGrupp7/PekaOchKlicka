@@ -64,10 +64,10 @@ void MainMenuState::InitState()
 	float scaleButtons = 1.f;
 
 	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds",
-		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 5 * 720 / 10.f), scaleButtons));
+		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 0.5f), scaleButtons));
 
 	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds",
-		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 8 * 720 / 10.f), scaleButtons));
+		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 0.75f), scaleButtons));
 
 }
 
@@ -96,7 +96,6 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
 	
-	command.myConvertFromPixelToSpaceNormal = true;
 	command.myType = eRenderType::eSprite;
 
 	command.myPosition.y = 0;
