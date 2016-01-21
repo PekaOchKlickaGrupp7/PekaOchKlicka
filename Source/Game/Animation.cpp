@@ -28,15 +28,15 @@ void Animation::Init(const char* aSpriteFilePath, float aFrameDuration, int aNum
 
 	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
 
+	mySprite->SetPivot(DX2D::Vector2f(0.5f,0.5f));
+
 	UpdateTextureRect();
 
 }
 void Animation::UpdateTextureRect()
 {
-
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
 		mySprite->GetSize().y*(myFrame / myFramesPerRow)));
-
 }
 void Animation::Update(float aDelta)
 {
