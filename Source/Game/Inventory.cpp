@@ -66,8 +66,8 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	command.myPosition = myPosition;
 	command.myType = eRenderType::eSprite;
 
-	float myXOffset = 0.05f;
-	float myYOffset = 0.05f;
+	float myXOffset = 0.02f;
+	float myYOffset = 0.02f;
 
 	if (myIsOpen == true)
 	{
