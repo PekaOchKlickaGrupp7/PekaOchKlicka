@@ -1,6 +1,7 @@
 #pragma once
 #include "Inventory.h"
 #include "Animation.h"
+
 class CU::DirectInput::InputManager;
 
 class Player

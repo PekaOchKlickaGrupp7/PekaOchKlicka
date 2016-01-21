@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "MouseManager.h"
+#include "ResolutionManager.h"
 
 Player::Player()
 {
@@ -48,7 +50,10 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
 	}
 
 	//Opening/Closing the inventory
-	if (aInputManager.KeyPressed(DIK_I))
+	if (MouseManager::GetInstance()->GetPosition().y >= 
+		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + 
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().y) - 
+		myInventory.GetSprite()->GetSize().y)
 	{
 		if (myIsInventoryOpen == false)
 		{
