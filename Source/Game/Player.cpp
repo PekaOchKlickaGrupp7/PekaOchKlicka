@@ -46,7 +46,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 	myInventory.Update(aDeltaT);
 
 	//Opening/Closing the inventory
-	static float inventoryHoverArea = 1.0f - 0.05f;
+	static float inventoryHoverArea = 1.0f - 0.1f;
 	if (myInventory.IsOpen() == false && 
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
@@ -91,10 +91,10 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 			myRenderPosition.x,
 			myRenderPosition.y);
 
-		//DRAW DEBUG ARROW
-		DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			DX2D::Vector2f(characterPos.x, characterPos.y),
-			DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+		////DRAW DEBUG ARROW
+		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+		//	DX2D::Vector2f(characterPos.x, characterPos.y),
+		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
 	}
 	else
 	{
