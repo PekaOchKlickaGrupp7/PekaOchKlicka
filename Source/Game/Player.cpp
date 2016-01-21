@@ -4,7 +4,6 @@
 Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
 	myInventory.Init("Sprites/inventory.png", DX2D::Vector2f(0.0, 0.77));
 	myIsMoving = false;
@@ -30,21 +29,13 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager,
+	const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
 	//Character movement
-	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked())
-	{
-		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-		/ static_cast<float>(windowSize.x);
-		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-		/ static_cast<float>(windowSize.y);
-	}
 	if (myIsMoving == true)
 	{
-		Move(myTargetPosition, myMovementSpeed, aDeltaT);
+		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
 	//Opening/Closing the inventory

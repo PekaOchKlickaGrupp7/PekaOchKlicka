@@ -21,3 +21,4 @@
 #include <tga2d/math/color.h>
 #include "Synchronizer.h"
 #include "../CommonUtilities/InputManager.h"
+#include "MouseManager.h"

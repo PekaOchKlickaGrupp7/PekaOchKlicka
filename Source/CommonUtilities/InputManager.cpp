@@ -50,6 +50,8 @@ namespace CU
 
 		myMouseX = 0;
 		myMouseY = 0;
+		myRelMouseX = 0;
+		myRelMouseY = 0;
 
 		myScreenWidth = aScreenWidth;
 		myScreenHeight = aScreenHeight;
@@ -108,15 +110,18 @@ namespace CU
 
 		void InputManager::Update()
 		{
-		myPreviousMouseState = myMouseState;
-		for (unsigned int i = 0; i < 256; i++)
-		{
-		myPreviousKeyboardState[i] = myKeyboardState[i];
-		}
-		ReadKeyboard();
-		ReadMouse();
-		HandleMouseInput();
-		myScrollWheelPos += GetRelativeScrollWheel();
+			myRelMouseX = 0;
+			myRelMouseY = 0;
+
+			myPreviousMouseState = myMouseState;
+			for (unsigned int i = 0; i < 256; i++)
+			{
+				myPreviousKeyboardState[i] = myKeyboardState[i];
+			}
+			ReadKeyboard();
+			ReadMouse();
+			HandleMouseInput();
+			myScrollWheelPos += GetRelativeScrollWheel();
 		}
 
 		void InputManager::HandleMouseInput()
@@ -130,6 +135,8 @@ namespace CU
 
 		myMouseX += myMouseState.lX;
 		myMouseY += myMouseState.lY;
+		myRelMouseX += myMouseState.lX;
+		myRelMouseY += myMouseState.lY;
 
 		//Restrict mouse to window
 		if (myMouseX < 0)

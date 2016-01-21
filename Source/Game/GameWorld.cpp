@@ -62,7 +62,7 @@ void CGameWorld::Init()
 	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.2f);
+	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.1f);
 
 	//Test item
 	myTestItem.Init("Sprites/inventoryItem.png", "Sprites/inventoryItem.png",
@@ -100,7 +100,24 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
-	myPlayer.Update(myInputManager, aTimeDelta);
+	//Move character if inside nav mesh
+	if (myInputManager.LeftMouseButtonClicked())
+	{
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+		if (myCurrentRoom->GetNavMeshes()[0].
+			PointInsideCheck(Point2f(myTargetPosition.x, myTargetPosition.y)))
+		{
+			myPlayer.SetIsMoving(true);
+		}
+		else
+		{
+			myPlayer.SetIsMoving(false);
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
 	return eStateStatus::eKeepState;
 }
@@ -130,6 +147,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
