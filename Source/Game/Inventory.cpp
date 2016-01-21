@@ -30,7 +30,7 @@ void Inventory::Init(const char* aFilePath)
 	myEndPosition.y = 1.0f - myBackground->GetSize().y;
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
-	myMovementPerFrame = 0.1f;
+	myMovementPerFrame = 0.3f;
 }
 
 //Adds an item to the inventory
