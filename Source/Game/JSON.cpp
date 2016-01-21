@@ -13,6 +13,7 @@
 #include "EventSetActive.h"
 #include "EventChangeLevel.h"
 #include "EventTalk.h"
+#include "EventChangeCursor.h"
 
 using namespace rapidjson;
 
@@ -267,6 +268,15 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			talk->Init(aRoom, aGameWorld);
 
 			event = talk;
+			break;
+		}
+		case EventActions::ChangeCursor:
+		{
+			EventChangeCursor* changeCursor = new EventChangeCursor();
+			changeCursor->myTargetCursor = events[i]["extra"]["cursor"].GetInt();
+			changeCursor->Init(aRoom, aGameWorld);
+
+			event = changeCursor;
 			break;
 		}
 		default:
