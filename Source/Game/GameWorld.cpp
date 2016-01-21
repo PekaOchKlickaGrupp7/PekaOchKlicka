@@ -127,11 +127,13 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
+	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
 		myPlayer.GetPosition().y) ) == false)
 	{
-		
+		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+		myPlayer.SetIsMoving(false);
 	}
 
 
