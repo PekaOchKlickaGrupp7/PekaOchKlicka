@@ -113,8 +113,8 @@ void CGame::InitCallBack()
 {
 	DL_Debug::Debug::Create();
 
-	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(), 
-		*DX2D::CEngine::GetInstance()->GetHWND(), 
+	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(),
+		*DX2D::CEngine::GetInstance()->GetHWND(),
 		DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 
 	myRenderThread = new std::thread(&CGame::Render, this);
