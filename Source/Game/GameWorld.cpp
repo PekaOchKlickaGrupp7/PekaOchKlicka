@@ -150,6 +150,11 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
 
+	/*command.myType = eRenderType::eSprite;
+	command.myPosition = myResolutionTestSprite->GetPosition();
+	command.mySprite = myResolutionTestSprite;
+	aSynchronizer.AddRenderCommand(command);
+*/
 	myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);

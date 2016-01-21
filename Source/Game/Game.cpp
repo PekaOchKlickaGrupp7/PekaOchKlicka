@@ -120,8 +120,20 @@ void CGame::InitCallBack()
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
+	#pragma region Mouse Manager
+	// Create a mouse instance
 	MouseManager::CreateInstance();
-	MouseManager::GetInstance()->Initialize("Sprites/MousePointer.dds", &myInputManager);
+	// Create all file paths to the different cursors
+	CommonUtilities::GrowingArray<std::string> spriteFilePaths;
+	spriteFilePaths.Init(6); // There are six different cursors
+	for (size_t i = 0; i < 6; i++)
+	{
+		std::string tempString = "Sprites/Cursor/" + std::to_string(i) + ".dds";
+		spriteFilePaths.Add(tempString);
+	}
+	// Send the file paths to the mouse manager
+	MouseManager::GetInstance()->Initialize(spriteFilePaths, &myInputManager);
+	#pragma endregion
 
 	SoundManager::GetInstance();
 
@@ -143,7 +155,7 @@ const bool CGame::Update()
 {
 	//std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
 
-	//ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 

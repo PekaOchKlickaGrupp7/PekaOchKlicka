@@ -237,7 +237,7 @@ float DX2D::CEngine::GetWindowRatioInversed() const
 void DX2D::CEngine::SetResolution( const DX2D::Vector2<unsigned int> &aResolution)
 {
 	myWindowSize = aResolution;
-	myWindow->SetResolution(aResolution);
+	//myWindow->SetResolution(aResolution);
 	myDirect3D->SetResolution(aResolution);
 	CalculateRatios();
 }
