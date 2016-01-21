@@ -12,7 +12,8 @@ enum EventActions
 {
 	None,
 	SetActive,
-	ChangeLevel
+	ChangeLevel,
+	Talk
 };
 
 class JSON

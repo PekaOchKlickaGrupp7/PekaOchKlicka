@@ -12,6 +12,7 @@
 #include "EventNone.h"
 #include "EventSetActive.h"
 #include "EventChangeLevel.h"
+#include "EventTalk.h"
 
 using namespace rapidjson;
 
@@ -225,7 +226,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			}
 
 			//dataObject->myEvents.Add(setActive);
-			event = dynamic_cast<Event*>(setActive);
+			event = setActive;
 			break;
 		}
 		case EventActions::ChangeLevel:
@@ -250,7 +251,21 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			}
 
 			/*dataObject->myEvents.Add(changeLevel);*/
-			event = dynamic_cast<Event*>(changeLevel);
+			event = changeLevel;
+			break;
+		}
+		case EventActions::Talk:
+		{
+			EventTalk* talk = new EventTalk();
+			talk->myColor = { 1, 1, 1, 1 };
+			talk->myFontPath = "Text/calibril.ttf_sdf";
+			talk->myShowTime = 5;
+			talk->myTarget = "Self";
+			talk->myText = "Test";
+
+			talk->Init(aRoom, aGameWorld);
+
+			event = talk;
 			break;
 		}
 		default:

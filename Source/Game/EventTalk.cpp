@@ -47,7 +47,6 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 }
 
-
 void EventTalk::Reset()
 {
 	myCurrentTime = 0.0f;
