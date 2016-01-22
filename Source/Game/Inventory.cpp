@@ -62,7 +62,7 @@ void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
 				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
 
-				for (unsigned int j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
+				for (unsigned short j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
 				{
 					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
 					{
