@@ -23,6 +23,13 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myObjects = aCurrentRoom->GetObjectList();
 	myIsSwitchingRoom = true;
+
+	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
+
+	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+	{
+		OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y);
+	}
 }
 
 void EventManager::AddEvent(Event* aEvent)
@@ -60,7 +67,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		//	Remap(aMouseY, 0,
 		//	1080, 0, 1080) / 1080.0f) == true)
 
-		if (aData->myHitBox.IsMouseColliding(
+		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
 			MouseManager::GetInstance()->GetPosition().x,
 			MouseManager::GetInstance()->GetPosition().y) == true)
 		{
@@ -92,6 +99,16 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				}
 			}
 			std::cout << "Left object" << std::endl;
+		}
+		else if (aType == EventTypes::OnLoad)
+		{
+			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			{
+				if (aData->myEvents[j]->myType == aType)
+				{
+					AddEvent(aData->myEvents[j]);
+				}
+			}
 		}
 	}
 	for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
