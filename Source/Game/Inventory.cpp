@@ -7,7 +7,7 @@ Inventory::Inventory()
 {
 	myContents.Init(10);
 	myIsOpen = false;
-	myPosition = DX2D::Vector2f(0.0, 0.0);
+	myPosition = DX2D::Vector2f(0.0, 1.0);
 
 	float myMovementPerFrame = 0.0f;
 

@@ -111,9 +111,12 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 			}
 		}
 	}
-	for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
+	if (aData->myChilds.GetIsInitialized() == true)
 	{
-		OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+		for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
+		{
+			OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+		}
 	}
 }
 
@@ -141,6 +144,10 @@ void EventManager::Update(const float aDeltaTime)
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->myActive = false;
+			for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+			{
+				AddEvent(event->myChilds[j]);
+			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}

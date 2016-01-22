@@ -18,6 +18,8 @@ namespace CommonUtilities
 
 			~GrowingArray();
 
+			bool GetIsInitialized() const { return myIsInitiated; };
+
 			GrowingArray&operator=(const GrowingArray& aGrowingArray);
 			GrowingArray&operator=(GrowingArray&& aGrowingArray);
 
