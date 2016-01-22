@@ -7,6 +7,7 @@
 #include "Room.h"
 #include "GameWorld.h"
 #include "Item.h"
+#include "Inventory.h"
 
 //Events
 #include "EventNone.h"
@@ -155,6 +156,43 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 
 	delete data;
 
+	return true;
+}
+
+bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
+{
+	const char* data = ReadFile(aRootFile.c_str());
+
+	Document items;
+	items.Parse(data);
+
+	if (items.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load items.json.");
+		items.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	Value& inventoryItems = items["inventoryItems"];
+	if (inventoryItems.IsNull() == true)
+	{
+		DL_DEBUG("inventoryItems is not a member of items.json");
+		items.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	for (unsigned int i = 0; i < inventoryItems.Size(); ++i)
+	{
+		Value& item = inventoryItems[i];
+
+		std::string name = item["name"].GetString();
+		const char* path = item["path"].GetString();
+		std::string description = item["description"].GetString();
+		std::string combinableWith = item["combinableWith"].GetString();
+		std::string resultingItem = item["resultingItem"].GetString();
+		bool isCombinable = item["isCombinable"].GetBool();
+		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+	}
 	return true;
 }
 
@@ -342,15 +380,15 @@ void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld*
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
 	Event* event = CreateEventData(aParent, aRoom, aGameWorld);
 	if (aNode != nullptr)
-	{
+		{
 		aNode->myEvents.Add(event);
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
-	{
+			{
 		LoadEvent(event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
-	}
-}
+			}
+		}
 
 void JSON::LoadEvent(Event* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {

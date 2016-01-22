@@ -18,7 +18,6 @@ Player::~Player()
 	myAnimation.Destroy();
 }
 
-//Initialize the character
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
@@ -51,26 +50,24 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
 		myInventory.SetOpen();
-	}
+		}
 
 	if (myInventory.IsOpen() == true && 
 		MouseManager::GetInstance()->GetPosition().y <
 		myInventory.GetFullyOpenPosition().y)
-	{
+		{
 		myInventory.SetClose();
 	}
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
 
-//Render everything about the player
 void Player::Render(Synchronizer& aSynchronizer)
 {
 	myAnimation.Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }
 
-//Move the character
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
 	DX2D::Vector2f characterPos(myPosition);
@@ -102,13 +99,11 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	}
 }
 
-//Set the pivot point of the character
 void Player::SetPivot(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPivot(aPoint);
 }
 
-//Set the characters position
 void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
@@ -116,28 +111,29 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 	myRenderPosition = aPoint;
 }
 
-//Set the characters speed
 void Player::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
 }
 
-//Check if the character is moving, returns (true | false)
 bool Player::GetIsMoving()
 {
 	return myIsMoving;
 }
 
-//Set if the character should move (true | false)
 void Player::SetIsMoving(bool aValue)
 {
 	myIsMoving = aValue;
 }
 
-//Add an item to inventory
 void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
+}
+
+Inventory Player::GetInventory()
+{
+	return myInventory;
 }
 
 DX2D::Vector2f& Player::GetPosition()

@@ -3,6 +3,7 @@
 #include "../CommonUtilities/Macros.h"
 #include "Item.h"
 #include <tga2d/sprite/sprite.h>
+#include "ItemList.h"
 
 class Synchronizer;
 
@@ -17,15 +18,13 @@ public:
 
 	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
-
-	//Removes an item from the inventory
 	void Remove(Item* aItemToRemove);
+	void Combine(Item* aItemToCombine, Item* aItemToCombineWith);
 
 	//Update the inventory
 	void Update(float aDeltaTime);
 	
-	//Combine one item with another, generates a new item and removes the originals
-	void Combine(Item& aItemToCombine, Item& aItemToCombineWith);
+
 
 	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
@@ -44,13 +43,15 @@ public:
 
 	inline DX2D::Vector2f& GetFullyOpenPosition();
 
+	inline ItemList* GetMasterItemList();
+
 private:
 
 	void Open(float aDeltaTime);
 	void Close(float aDeltaTime);
 
-	CommonUtilities::GrowingArray<Item*> myContents;
 
+	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
 
@@ -60,10 +61,15 @@ private:
 	float myMovementPerFrame;
 
 	bool myIsOpen;
+	ItemList *myMasterItemList;
 };
 
+
+inline ItemList* Inventory::GetMasterItemList()
+{
+	return myMasterItemList;
+}
 DX2D::Vector2f& Inventory::GetFullyOpenPosition()
 {
 	return myEndPosition;
 }
-
