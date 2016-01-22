@@ -257,16 +257,26 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			{
 				talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
 			}
-			if (extra.HasMember("text") == true)
+			if (extra.HasMember("wordLength") == true)
 			{
-				talk->myText = extra["text"].GetString();
+				talk->myWordLenght = static_cast<float>(extra["wordLength"].GetDouble());
 			}
-			talk->myColor = { 1, 0, 1, 1 };
-			talk->myFontPath = "Text/calibril.ttf_sdf";
-			talk->myTextSize = 0.2f;
-			talk->myShowTime = 0.1f;
-			talk->myTarget = "Self";
-			talk->myText = "I'm a box. \nDeal with it.";
+			if (extra.HasMember("color") == true)
+			{
+				Value &colorVal = extra["color"];
+				talk->myColor = DX2D::CColor(static_cast<float>(colorVal["r"].GetDouble()),
+					static_cast<float>(colorVal["g"].GetDouble()), 
+					static_cast<float>(colorVal["b"].GetDouble()), 
+					static_cast<float>(colorVal["a"].GetDouble()));
+			}
+			if (extra.HasMember("size") == true)
+			{
+				talk->mySize = static_cast<float>(extra["size"].GetDouble());
+			}
+			if (extra.HasMember("fontPath") == true)
+			{
+				talk->myFontPath = extra["fontPath"].GetString();
+			}
 
 			talk->Init(aRoom, aGameWorld);
 

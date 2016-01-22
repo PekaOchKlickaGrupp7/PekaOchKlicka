@@ -22,7 +22,7 @@ public:
 	float myShowTime;
 	float myWordLenght;
 
-	float myTextSize;
+	float mySize;
 
 protected:
 

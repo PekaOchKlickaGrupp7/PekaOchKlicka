@@ -18,7 +18,7 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	myTextRender = new DX2D::CText(myFontPath.c_str());
 	myTextRender->myColor = myColor;
-	myTextRender->mySize = myTextSize;
+	myTextRender->mySize = mySize;
 	Reset();
 	myIsTalking = true;
 }
@@ -45,7 +45,7 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	command.myType = eRenderType::eText;
 	command.myPosition = myTextRender->myPosition;
 	command.myText = myTextRender;
-	command.myText->mySize = myTextSize;
+	command.myText->mySize = mySize;
 	aSynchronizer.AddRenderCommand(command);
 }
 
