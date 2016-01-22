@@ -12,6 +12,7 @@ Inventory::Inventory()
 	float myMovementPerFrame = 0.0f;
 
 	myBackground = nullptr;
+	myMasterItemList = new ItemList;
 }
 
 Inventory::~Inventory()
