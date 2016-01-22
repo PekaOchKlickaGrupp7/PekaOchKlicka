@@ -253,13 +253,17 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			EventTalk* talk = new EventTalk();
 
+			if (extra.HasMember("text") == true)
+			{
+				talk->myText = extra["text"].GetString();
+			}
 			if (extra.HasMember("length") == true)
 			{
 				talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
 			}
 			if (extra.HasMember("wordLength") == true)
 			{
-				talk->myWordLenght = static_cast<float>(extra["wordLength"].GetDouble());
+				talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
 			}
 			if (extra.HasMember("color") == true)
 			{

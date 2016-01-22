@@ -20,7 +20,7 @@ public:
 
 	bool myIsTalking;
 	float myShowTime;
-	float myWordLenght;
+	float myWordLength;
 
 	float mySize;
 
