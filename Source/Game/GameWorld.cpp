@@ -1,18 +1,19 @@
 #include "stdafx.h"
 #include "GameWorld.h"
+#include <iostream>
+
+#include "..\CommonUtilities\Intersection.h"
+#include "..\CommonUtilities\GrowingArray.h"
 
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
 #include "ResolutionManager.h"
 
-#include "..\CommonUtilities\GrowingArray.h"
-#include <iostream>
 #include "Game.h"
 #include "EventManager.h"
 #include "HitBox.h"
 #include "Room.h"
-#include "..\CommonUtilities\Intersection.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -34,7 +35,7 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 	if (myCurrentRoom == nullptr)
 	{
 		DL_PRINT("Current room is null!");
-}
+	}
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
@@ -171,7 +172,7 @@ void CGameWorld::ItemPickUp()
 {
 	if (myCurrentRoom != nullptr)
 	{
-		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
 		{
 			if (CommonUtilities::Intersection::PointVsRect(
 				Vector2<float>(myTargetPosition.x, myTargetPosition.y)
@@ -204,7 +205,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
 			}
 		}
-		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
 		{
 			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
 		}
