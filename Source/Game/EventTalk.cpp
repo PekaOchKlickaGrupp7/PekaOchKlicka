@@ -16,9 +16,12 @@ EventTalk::~EventTalk()
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
+	myRoom = aRoom;
+	myGameWorld = aGameWorld;
+
 	myTextRender = new DX2D::CText(myFontPath.c_str());
 	myTextRender->myColor = myColor;
-	myTextRender->mySize = myTextSize;
+	myTextRender->mySize = mySize;
 	Reset();
 	myIsTalking = true;
 }
@@ -31,7 +34,7 @@ bool EventTalk::Update(const float aDeltaTime)
 	myTextRender->myPosition = DX2D::Vector2f(object->myX, object->myY);
 	myTextRender->mySize = 1;
 
-	if (myCurrentTime > myShowTime * myWordCount)
+	if (myCurrentTime > myWordLength * myWordCount)
 	{
 		return NewSubString();
 	}
@@ -45,7 +48,7 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	command.myType = eRenderType::eText;
 	command.myPosition = myTextRender->myPosition;
 	command.myText = myTextRender;
-	command.myText->mySize = myTextSize;
+	command.myText->mySize = mySize;
 	aSynchronizer.AddRenderCommand(command);
 }
 

@@ -206,8 +206,10 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	Value& events = object["events"]["list"]["$values"];
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
+		//CreateEventData()
 		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
 		Event* event = nullptr;
+		Value& extra = events[i]["extra"];
 		switch (action)
 		{
 		case EventActions::SetActive:
@@ -215,7 +217,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			EventSetActive* setActive = new EventSetActive();
 			setActive->Init(aRoom, aGameWorld);
 
-			Value& extra = events[i]["extra"];
 			if (extra.HasMember("value") == true)
 			{
 				Value& myValue = extra["value"];
@@ -226,7 +227,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 				setActive->myValue = myValue.GetBool();
 			}
 
-			//dataObject->myEvents.Add(setActive);
 			event = setActive;
 			break;
 		}
@@ -234,13 +234,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			EventChangeLevel* changeLevel = new EventChangeLevel();
 			changeLevel->Init(aRoom, aGameWorld);
-			//changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
 
-			//changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-			//changeLevel->myTarget = std::string(events[i]["target"].GetString());
-			//changeLevel->myObjectData = dataObject;
-
-			Value& extra = events[i]["extra"];
 			if (extra.HasMember("TargetScene") == true)
 			{
 				Value& myValue = extra["TargetScene"];
@@ -252,19 +246,41 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
 			}
 
-			/*dataObject->myEvents.Add(changeLevel);*/
 			event = changeLevel;
 			break;
 		}
 		case EventActions::Talk:
 		{
 			EventTalk* talk = new EventTalk();
-			talk->myColor = { 1, 0, 1, 1 };
-			talk->myFontPath = "Text/calibril.ttf_sdf";
-			talk->myTextSize = 0.2f;
-			talk->myShowTime = 0.1f;
-			talk->myTarget = "Self";
-			talk->myText = "I'm a box. \nDeal with it.";
+
+			if (extra.HasMember("text") == true)
+			{
+				talk->myText = extra["text"].GetString();
+			}
+			if (extra.HasMember("length") == true)
+			{
+				talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
+			}
+			if (extra.HasMember("wordLength") == true)
+			{
+				talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
+			}
+			if (extra.HasMember("color") == true)
+			{
+				Value &colorVal = extra["color"];
+				talk->myColor = DX2D::CColor(static_cast<float>(colorVal["r"].GetDouble()),
+					static_cast<float>(colorVal["g"].GetDouble()), 
+					static_cast<float>(colorVal["b"].GetDouble()), 
+					static_cast<float>(colorVal["a"].GetDouble()));
+			}
+			if (extra.HasMember("size") == true)
+			{
+				talk->mySize = static_cast<float>(extra["size"].GetDouble());
+			}
+			if (extra.HasMember("fontPath") == true)
+			{
+				talk->myFontPath = extra["fontPath"].GetString();
+			}
 
 			talk->Init(aRoom, aGameWorld);
 
@@ -290,6 +306,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		event->myObjectData = dataObject;
 		dataObject->myEvents.Add(event);
 	}
+
+
 
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
