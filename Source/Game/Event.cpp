@@ -2,9 +2,11 @@
 #include "Event.h"
 #include "Room.h"
 #include "..\CommonUtilities\DL_Debug.h"
+#include "Synchronizer.h"
 
 Event::Event()
 {
+	myActive = false;
 }
 
 Event::~Event()
@@ -17,6 +19,11 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myRoom = aRoom;
 	myGameWorld = aGameWorld;
 	myChilds.Init(1);
+}
+
+void Event::Render(Synchronizer &aSynchronizer)
+{
+
 }
 
 ObjectData* Event::GetGameObject(const std::string& aName) const

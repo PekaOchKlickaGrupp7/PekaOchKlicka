@@ -4,12 +4,12 @@
 #include "..\CommonUtilities\GrowingArray.h"
 #include "ResolutionManager.h"
 
-
 class ObjectData;
 class Event;
 
 class InputManager;
 class Room;
+enum EventTypes;
 
 class EventManager
 {
@@ -31,12 +31,14 @@ public:
 		myInstance = nullptr;
 	}
 
+	void OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY);
 	void Init(CU::DirectInput::InputManager* aInputManager) { myInputManager = aInputManager; };
 	void ChangeRoom(Room* aCurrentRoom);
 	float Remap(float value, float from1, float to1, float from2, float to2);
 
 
 	void Update(const float aDeltaTime);
+	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
 	//void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
@@ -52,8 +54,8 @@ private:
 
 	CU::DirectInput::InputManager* myInputManager;
 	Room* myCurrentRoom;
-	bool myLoadingLevel;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
+	bool myIsSwitchingRoom;
 
 	EventManager();
 	~EventManager();

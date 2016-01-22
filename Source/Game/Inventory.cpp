@@ -8,17 +8,27 @@ Inventory::Inventory()
 	myContents.Init(10);
 	myIsOpen = false;
 	myPosition = DX2D::Vector2f(0.0, 0.0);
+	myStartPosition = DX2D::Vector2f(0.0, 0.0);
+	myEndPosition = DX2D::Vector2f(0.0, 0.0);
+
+	float myMovementPerFrame = 0.0f;
+
 	myBackground = nullptr;
 }
 
 Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
+	myContents.DeleteAll();
 }
 
-void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
+void Inventory::Init(const char* aFilePath)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
+	myEndPosition.y = 1.0f - myBackground->GetSize().y;
+	myStartPosition.y = 1.0f;
+	myPosition.y = myStartPosition.y;
+	myMovementPerFrame = 0.3f;
 	myPosition = aPosition;
 
 	myMasterItemList = new ItemList();
@@ -31,9 +41,23 @@ void Inventory::Add(Item* aItemToAdd)
 
 void Inventory::Remove(Item* aItemToRemove)
 {
-	myContents.RemoveCyclic(aItemToRemove);
+	myContents.DeleteCyclic(aItemToRemove);
 }
 
+//Update the inventory
+void Inventory::Update(float aDeltaTime)
+{
+	if (myIsOpen == true)
+	{
+		Open(aDeltaTime);
+	}
+	else if (myIsOpen == false)
+	{
+		Close(aDeltaTime);
+	}
+}
+
+//Combine one item with another
 void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
 	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
@@ -71,10 +95,10 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	command.myPosition = myPosition;
 	command.myType = eRenderType::eSprite;
 
-	float myXOffset = 0.05f;
-	float myYOffset = 0.05f;
+	float myXOffset = 0.02f;
+	float myYOffset = 0.02f;
 
-	if (myIsOpen == true)
+	if (myPosition.y <= myStartPosition.y)
 	{
 		//Add inventory background to rendering
 		aSynchronizer.AddRenderCommand(command);
@@ -107,12 +131,42 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	}
 }
 
-void Inventory::Open()
+//Opens the inventory
+void Inventory::SetOpen()
 {
 	myIsOpen = true;
 }
 
-void Inventory::Close()
+//Closes the inventory
+void Inventory::SetClose()
 {
 	myIsOpen = false;
+}
+
+//Get the inventorys background sprite
+const DX2D::CSprite* Inventory::GetSprite()
+{
+	return myBackground;
+}
+
+//Check if inventory is open
+bool Inventory::IsOpen()
+{
+	return myIsOpen;
+}
+
+void Inventory::Open(float aDeltaTime)
+{
+	if (myPosition.y >= myEndPosition.y)
+	{
+		myPosition.y -= myMovementPerFrame * aDeltaTime;
+	}
+}
+
+void Inventory::Close(float aDeltaTime)
+{
+	if (myPosition.y <= myStartPosition.y)
+	{
+		myPosition.y += myMovementPerFrame * aDeltaTime;
+	}
 }

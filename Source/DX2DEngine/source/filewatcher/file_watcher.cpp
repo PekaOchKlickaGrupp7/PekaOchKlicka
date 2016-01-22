@@ -16,10 +16,14 @@ CFileWatcher::CFileWatcher()
 CFileWatcher::~CFileWatcher()
 {
 	myShouldEndThread = true;
-	while (!myThreadIsDone)
+	if (myThread)
 	{
-		Sleep(1);
+		while (!myThreadIsDone)
+		{
+			Sleep(1);
+		}
 	}
+
 }
 
 

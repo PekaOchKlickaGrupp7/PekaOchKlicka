@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "MouseManager.h"
+#include "ResolutionManager.h"
 
 Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myTargetPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/menu/escMenu/background.dds", DX2D::Vector2f(0.0, 0.0));
+	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -20,58 +21,49 @@ Player::~Player()
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, 0.33f,8,4);
+	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
 	myPosition = aPosition;
+	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
 	myMovementSpeed = aMovementSpeed;
+	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
-	//mySprite->SetPivot(DX2D::Vector2f(0.5f, 0.5f));
 }
 
-void Player::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaT)
+//Update the character
+void Player::Update(CU::DirectInput::InputManager& aInputManager,
+	const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
+	myPreviousPosition = myPosition;
 	//Character movement
-	DX2D::Vector2ui windowSize = DX2D::CEngine::GetInstance()->GetWindowSize();
-	if (aInputManager.LeftMouseButtonClicked())
-	{
-		myIsMoving = true;
-		myTargetPosition.x = static_cast<float>(aInputManager.GetAbsoluteMousePos().x)
-		/ static_cast<float>(windowSize.x);
-		myTargetPosition.y = static_cast<float>(aInputManager.GetAbsoluteMousePos().y)
-		/ static_cast<float>(windowSize.y);
-	}
 	if (myIsMoving == true)
 	{
-		Move(myTargetPosition, myMovementSpeed, aDeltaT);
+		Move(aTargetPos, myMovementSpeed, aDeltaT);
 	}
 
+	
+	myInventory.Update(aDeltaT);
+
 	//Opening/Closing the inventory
-	if (aInputManager.KeyPressed(DIK_I))
+	static float inventoryHoverArea = 1.0f - 0.1f;
+	if (myInventory.IsOpen() == false && 
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
-		if (myIsInventoryOpen == false)
-		{
-			myInventory.Open();
-			myIsInventoryOpen = true;
+		myInventory.SetOpen();
 		}
-		else
+
+	if (myInventory.IsOpen() == true && 
+		MouseManager::GetInstance()->GetPosition().y <
+		myInventory.GetFullyOpenPosition().y)
 		{
-			myInventory.Close();
-			myIsInventoryOpen = false;
-		}
+		myInventory.SetClose();
 	}
+	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
 
 void Player::Render(Synchronizer& aSynchronizer)
 {
-	/*
-	RenderCommand command;
-	command.mySprite = mySprite;
-	command.myPosition = myRenderPosition;
-	command.myType = eRenderType::eSprite;
-
-	aSynchronizer.AddRenderCommand(command);
-	*/
 	myAnimation.Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }
@@ -96,10 +88,10 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 			myRenderPosition.x,
 			myRenderPosition.y);
 
-		//DRAW DEBUG ARROW
-		DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			DX2D::Vector2f(characterPos.x, characterPos.y),
-			DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+		////DRAW DEBUG ARROW
+		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+		//	DX2D::Vector2f(characterPos.x, characterPos.y),
+		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
 	}
 	else
 	{
@@ -116,6 +108,7 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
+	myRenderPosition = aPoint;
 }
 
 void Player::SetSpeed(float aSpeed)
@@ -141,4 +134,14 @@ void Player::AddItemToInventory(Item* aItemToAdd)
 Inventory Player::GetInventory()
 {
 	return myInventory;
+}
+
+DX2D::Vector2f& Player::GetPosition()
+{
+	return myPosition;
+}
+
+DX2D::Vector2f& Player::GetPreviousPosition()
+{
+	return myPreviousPosition;
 }

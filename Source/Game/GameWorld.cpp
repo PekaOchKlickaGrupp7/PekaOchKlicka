@@ -12,6 +12,7 @@
 #include "EventManager.h"
 #include "HitBox.h"
 #include "Room.h"
+#include "..\CommonUtilities\Intersection.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -22,7 +23,6 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	delete myResolutionTestSprite;
 	mySFXRain.Destroy();
 }
 
@@ -30,6 +30,7 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 {
 	myCurrentRoom = myRooms[aString];
 	myCurrentRoom->OnLoad();
+
 	if (myCurrentRoom == nullptr)
 	{
 		DL_PRINT("Current room is null!");
@@ -37,10 +38,14 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
+Player* CGameWorld::GetPlayer()
+{
+	return &myPlayer;
+}
+
 void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
-	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -60,27 +65,18 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
-	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
-	myPlayer.Init("Sprites/Player.dds", DX2D::Vector2f(0.5, 0.5), DX2D::Vector2f(0.5f, 0.5f), 0.01f);
+	//BUG: Why does pivot.x = 0.25 refer to the center
+	//of myAnimation.mySprite and not 0.5? ~Erik
+	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
 
+	/*
 	//Test item
-	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), true, "Test Level");
-	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), true, "Test Level");
 
-	// TEST KOD ///
-	myTestItem.myCombinableWith = "Shovel";
-	myTestItem2.myCombinableWith = "Shovel";
-	myTestItem.myResultingItem = "hallBoy";
 	myPlayer.AddItemToInventory(&myTestItem);
 	myPlayer.AddItemToInventory(&myTestItem2);
-
-	myPlayer.GetInventory().Combine(&myTestItem,
-		&myTestItem2);
-	// _____________ //
+	*/
 }
 
 
@@ -88,14 +84,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 {
 	EventManager::GetInstance()->Update(aTimeDelta);
 
-
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
 	}
 	
-	static float aSpeed = 0.01f;
-
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		myJson.Load("root.json", myRooms, this);
@@ -105,28 +98,93 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			DL_PRINT(CGame::myTestLevel.c_str());
 			ChangeLevel(CGame::myTestLevel);
 		}
-		/*if (CGame::myTestLevel.size() > 0)
-		{
-			myJson.LoadTestLevel(CGame::myTestLevel, myObjects);
 		}
-		else
-		{
-			myJson.LoadLevel("Test", myObjects);
-		}*/
-	}
-
-
 
 	RECT windowSize;
 	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
 
-	//std::cout << windowSize.right - windowSize.left << std::endl;
-
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
-	myPlayer.Update(myInputManager, aTimeDelta);
+	//Move character if inside nav mesh
+	if (myInputManager.LeftMouseButtonClicked())
+	{
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+
+		ItemPickUp();
+
+		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+		{
+		if (myCurrentRoom->GetNavMeshes()[0].
+				PointInsideCheck(Point2f(
+				myTargetPosition.x,
+				myTargetPosition.y)
+				) == true)
+		{
+			myPlayer.SetIsMoving(true);
+		}
+		else
+		{
+			myPlayer.SetIsMoving(false);
+		}
+	}
+	}
+
+	//Makes sure player can not walk through obstacles
+	if (myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
+		myPlayer.GetPosition().x,
+		myPlayer.GetPosition().y)) == false)
+	{
+		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+		myPlayer.SetIsMoving(false);
+	}
+	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
+	{
+		if (myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myPlayer.GetPosition().x,
+			myPlayer.GetPosition().y)
+			) == true
+			||
+			myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myTargetPosition.x,
+			myTargetPosition.y)
+			) == true)
+		{
+			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+			myPlayer.SetIsMoving(false);
+			break;
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+
+
+
 
 	return eStateStatus::eKeepState;
+}
+
+void CGameWorld::ItemPickUp()
+{
+	if (myCurrentRoom != nullptr)
+	{
+		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		{
+			if (CommonUtilities::Intersection::PointVsRect(
+				Vector2<float>(myTargetPosition.x, myTargetPosition.y)
+				, Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x, myCurrentRoom->GetItem(i)->GetPosition().y)
+				,Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().x
+				, myCurrentRoom->GetItem(i)->GetPosition().y + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().y)))
+			{
+				myPlayer.AddItemToInventory(myCurrentRoom->GetItem(i));
+				myCurrentRoom->RemoveItem(i);
+				return;
+			}
+		}
+	}
 }
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
@@ -146,12 +204,13 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
 			}
 		}
+		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		{
+			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
+		}
 	}
 
-	//command.myType = eRenderType::eSprite;
-	//command.myPosition = myResolutionTestSprite->GetPosition();
-	//command.mySprite = myResolutionTestSprite;
-	//aSynchronizer.AddRenderCommand(command);
+	EventManager::GetInstance()->Render(aSynchronizer);
 
 	command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
@@ -159,6 +218,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 
 	myPlayer.Render(aSynchronizer);
+
+	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
 void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)

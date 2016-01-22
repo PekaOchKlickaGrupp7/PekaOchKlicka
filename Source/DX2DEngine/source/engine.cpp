@@ -10,7 +10,6 @@
 #include "text/text_service.h"
 #include "texture/texture_manager.h"
 #include "windows/windows_window.h"
-//#include "FBX/FbxLoader_simple.h"
 #include <windows.h>
 
 
@@ -73,7 +72,6 @@ CEngine::CEngine( const SEngineCreateParameters& aCreateParameters)
 CEngine::~CEngine()
 {
 	SAFE_DELETE(myDirect3D);
-	SAFE_DELETE(myDirect3D);
 	SAFE_DELETE(myWindow);
 	SAFE_DELETE(myRenderer);
 	SAFE_DELETE(myTextureManager);
@@ -82,7 +80,6 @@ CEngine::~CEngine()
 	SAFE_DELETE(myLightManager);
 	SAFE_DELETE(myErrorManager);
 	SAFE_DELETE(myFileWatcher);
-	/*SAFE_DELETE(myFBXLoader);*/
 }
 
 
@@ -151,6 +148,7 @@ void DX2D::CEngine::Shutdown()
 
 void DX2D::CEngine::StartStep()
 {
+	start = std::chrono::system_clock::now();
 	DoStep();
 }
 
@@ -175,29 +173,33 @@ void DX2D::CEngine::DoStep()
 		}
 		else
 		{
-			//myTime->Tick([&]()
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> elapsed = end - start;
+			start = end;
+
+			float deltaTime = static_cast<float>(elapsed.count()) * 0.001f;
+			deltaTime = min(deltaTime, 1.0f / 30.0f);
+
+			myFileWatcher->FlushChanges();
+			myDirect3D->PostRenderFrame();
+			myTextureManager->Update();
+			myTextService->Update();
+			if (myUpdateFunctionToCall)
 			{
-				myFileWatcher->FlushChanges();
-				myDirect3D->PostRenderFrame();
-				myTextureManager->Update();
-
-				if (myUpdateFunctionToCall)
-				{
-					myUpdateFunctionToCall();
-				}
-
-				myTextService->Update();
-				if (myRenderer->DoRender())
-				{
-					if (myDebugDrawer)
-					{
-						myDebugDrawer->Update(0);
-						myDebugDrawer->Render();
-					}
-					myDirect3D->RenderFrame();
-				}
-				myLightManager->PostFrameUpdate();
+				myUpdateFunctionToCall();
 			}
+
+			if (myRenderer->DoRender())
+			{
+				if (myDebugDrawer)
+				{
+					myDebugDrawer->Update(deltaTime);
+					myDebugDrawer->Render();
+				}
+				myDirect3D->RenderFrame();
+			}
+			myLightManager->PostFrameUpdate();
+	
 			std::this_thread::sleep_for(std::chrono::microseconds(1));
 		}
 	}
@@ -237,7 +239,7 @@ float DX2D::CEngine::GetWindowRatioInversed() const
 void DX2D::CEngine::SetResolution( const DX2D::Vector2<unsigned int> &aResolution)
 {
 	myWindowSize = aResolution;
-	myWindow->SetResolution(aResolution);
+	//myWindow->SetResolution(aResolution);
 	myDirect3D->SetResolution(aResolution);
 	CalculateRatios();
 }
@@ -259,11 +261,18 @@ HINSTANCE DX2D::CEngine::GetHInstance() const
 	return myHInstance;
 }
 
+void DX2D::CEngine::SetViewPort(float aTopLeftX, float aTopRightY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth)
+{
+	if (myDirect3D)
+	{
+		myDirect3D->SetViewPort(aTopLeftX, aTopRightY, aWidth, aHeight, aMinDepth, aMaxDepth);
+	}
+}
+
 void DX2D::CEngine::SetFullScreen(bool aFullScreen)
 {
 	if (myDirect3D)
 	{
 		myDirect3D->SetFullScreen(aFullScreen);
 	}
-	
 }

@@ -13,19 +13,52 @@ public:
 	Inventory();
 	~Inventory();
 
-	void Init(const char* aFilePath, DX2D::Vector2f aPosition);
+	//Initialize the inventory
+	void Init(const char* aFilePath);
+
+	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
 	void Remove(Item* aItemToRemove);
 	void Combine(Item* aItemToCombine, Item* aItemToCombineWith);
+
+	//Update the inventory
+	void Update(float aDeltaTime);
+	
+
+
+	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
-	void Open();
-	void Close();
+
+	//Opens the inventory
+	void SetOpen();
+
+	//Closes the inventory
+	void SetClose();
+
+	//Get the inventorys background sprite
+	const DX2D::CSprite* GetSprite();
+
+	//Check if inventory is open
+	bool IsOpen();
+
+	inline DX2D::Vector2f& GetFullyOpenPosition();
+
 	inline ItemList* GetMasterItemList();
 
 private:
+
+	void Open(float aDeltaTime);
+	void Close(float aDeltaTime);
+
+
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
+
+	DX2D::Vector2f myStartPosition;
+	DX2D::Vector2f myEndPosition;
+
+	float myMovementPerFrame;
 
 	bool myIsOpen;
 	ItemList *myMasterItemList;
@@ -35,4 +68,8 @@ private:
 inline ItemList* Inventory::GetMasterItemList()
 {
 	return myMasterItemList;
+}
+DX2D::Vector2f& Inventory::GetFullyOpenPosition()
+{
+	return myEndPosition;
 }

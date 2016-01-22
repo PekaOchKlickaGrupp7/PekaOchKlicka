@@ -37,7 +37,7 @@ private:
 	static ResolutionManager* myResolutionManager;
 	ResolutionManager();
 	void Destroy();
-	void CalculateRatio(int aWindowWidth, int aWindowHeight);
+	void CalculateRatio();
 	RECT RetrieveResolutionScreen();
 	RECT RetrieveResolutionWindow();
 	RECT RetrieveResolutionRender();

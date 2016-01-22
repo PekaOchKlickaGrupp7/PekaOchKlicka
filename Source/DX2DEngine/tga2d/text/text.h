@@ -9,18 +9,21 @@ Use this class to create and show a text
 
 namespace DX2D
 {
+	class CTextService;
 	class CText
 	{
 	public:
 		CText(const char* aPathAndName);
 		~CText();
 		void Render();
+		float GetWidth() const;
 		std::string myText;
 		Vector2f myPosition;
 		float mySize;
 		CColor myColor;
 	private:
 		std::string myPathAndName;
+		CTextService* myTextService;
 	};
 }
 

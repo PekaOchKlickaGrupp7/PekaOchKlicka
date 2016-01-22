@@ -49,7 +49,7 @@ namespace DX2D
         virtual ~CShader();
         virtual bool Init(){ return false; }
         bool CreateShaders(const char* aVertex, const char* aPixel);
-        void Render(CRenderObject* aObject);
+        bool Render(CRenderObject* aObject);
         virtual bool CreateInputLayout( ID3D10Blob* aVS ) { aVS; return false; }
     protected:
         void OnShaderFileModified(std::wstring aFile);

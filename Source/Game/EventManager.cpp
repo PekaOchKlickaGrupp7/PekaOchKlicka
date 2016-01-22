@@ -3,12 +3,15 @@
 #include "Event.h"
 #include "ObjectData.h"
 #include "Room.h"
+#include "MouseManager.h"
+#include <iostream>
 
 EventManager* EventManager::myInstance = nullptr;
 
 EventManager::EventManager()
 {
 	myActiveEvents.Init(128);
+	myIsSwitchingRoom = false;
 }
 
 EventManager::~EventManager()
@@ -19,12 +22,24 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 {
 	myCurrentRoom = aCurrentRoom;
 	myObjects = aCurrentRoom->GetObjectList();
-	myLoadingLevel = false;
+	myIsSwitchingRoom = true;
+
+	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
+
+	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+	{
+		OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y);
+	}
 }
 
 void EventManager::AddEvent(Event* aEvent)
 {
-	myActiveEvents.Add(aEvent);
+	if (aEvent->myActive == false)
+	{
+		aEvent->myActive = true;
+		aEvent->Reset();
+		myActiveEvents.Add(aEvent);
+	}
 }
 
 float EventManager::Remap(float value, float from1, float to1, float from2, float to2)
@@ -32,61 +47,120 @@ float EventManager::Remap(float value, float from1, float to1, float from2, floa
 	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 }
 
-void EventManager::Update(const float aDeltaTime)
+void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY)
 {
-	POINT mousePos = myInputManager->GetMousePos();
-	DX2D::Vector2f mousePosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
-	if (myLoadingLevel == false)
+	if (aData->myActive == true)
 	{
-		if (true || myObjects != nullptr)
+		bool trigger = true;
+		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 		{
-			if (myInputManager->LeftMouseButtonClicked() == true)
+			trigger = false;
+		}
+		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
+		{
+			trigger = false;
+		}
+		//if (aData->myHitBox.IsMouseColliding(
+		//	Remap(aMouseX,
+		//	0, 1920,
+		//	0, 1920) / 1920.0f,
+		//	Remap(aMouseY, 0,
+		//	1080, 0, 1080) / 1080.0f) == true)
+
+		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
+			MouseManager::GetInstance()->GetPosition().x,
+			MouseManager::GetInstance()->GetPosition().y) == true)
+		{
+			if (trigger == true)
 			{
-				for (unsigned int i = 0; i < myObjects->Size(); ++i)
+				if (aType == EventTypes::OnHover)
 				{
-					if ((*myObjects)[i]->myHitBox.IsMouseColliding(
-						Remap(mousePosition.x,
-						0, 1280,
-						0, 1920) / 1920.0f,
-						Remap(mousePosition.y, 0,
-						1024, 0, 1080) / 1080.0f) == true)
+					aData->myIsHovering = true;
+					std::cout << "Collided with object" << std::endl;
+				}
+				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+				{
+					if (aData->myEvents[j]->myType == aType)
 					{
-						for (unsigned int j = 0; j < (*myObjects)[i]->myEvents.Size(); ++j)
-						{
-							if ((*myObjects)[i]->myEvents[j]->myType == EventTypes::OnClick)
-							{
-								AddEvent((*myObjects)[i]->myEvents[j]);
-							}
-						}
-						//std::cout << "Collided with object" << std::endl;
+						AddEvent(aData->myEvents[j]);
 					}
+				}
+				std::cout << "Is inside" << std::endl;
+			}
+		}
+		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
+		{
+			aData->myIsHovering = false;
+			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			{
+				if (aData->myEvents[j]->myType == aType)
+				{
+					AddEvent(aData->myEvents[j]);
+				}
+			}
+			std::cout << "Left object" << std::endl;
+		}
+		else if (aType == EventTypes::OnLoad)
+		{
+			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			{
+				if (aData->myEvents[j]->myType == aType)
+				{
+					AddEvent(aData->myEvents[j]);
 				}
 			}
 		}
 	}
-	else
+	for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
 	{
-		myLoadingLevel = false;
+		OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+	}
+}
+
+void EventManager::Update(const float aDeltaTime)
+{
+	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
+
+	if (myInputManager->LeftMouseButtonClicked() == true)
+	{
+		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		{
+			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y);
+		}
+	}
+
+	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+	{
+		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y);
+		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
-		if (event == nullptr)
-		{
-			int apa = 0;
-			++apa;
-		}
 		if (event->Update(aDeltaTime) == true)
 		{
-			event->Reset();
+			event->myActive = false;
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
+	}
+	if (myIsSwitchingRoom == true)
+	{
+		myIsSwitchingRoom = false;
+		RemoveAllEvents();
+	}
+}
+
+void EventManager::Render(Synchronizer &aSynchronizer)
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		Event* event = myActiveEvents[i];
+		event->Render(aSynchronizer);
 	}
 }
 
 void EventManager::RemoveAllEvents()
 {
-
+	myActiveEvents.RemoveAll();
 }

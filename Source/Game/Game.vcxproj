@@ -169,10 +169,12 @@
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventChangeCursor.h" />
     <ClInclude Include="EventChangeLevel.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventNone.h" />
     <ClInclude Include="EventSetActive.h" />
+    <ClInclude Include="EventTalk.h" />
     <ClInclude Include="fmod.h" />
     <ClInclude Include="fmod.hpp" />
     <ClInclude Include="fmod_codec.h" />
@@ -217,10 +219,12 @@
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventChangeCursor.cpp" />
     <ClCompile Include="EventChangeLevel.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="EventNone.cpp" />
     <ClCompile Include="EventSetActive.cpp" />
+    <ClCompile Include="EventTalk.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameWorld.cpp" />

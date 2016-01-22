@@ -20,6 +20,7 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 	if (myTargetLevelName != "")
 	{
 		myGameWorld->ChangeLevel(myTargetLevelName);
+		myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
 	}
 	return true;
 }
