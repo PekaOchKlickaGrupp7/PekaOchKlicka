@@ -46,6 +46,7 @@ Player* CGameWorld::GetPlayer()
 void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
+	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -70,13 +71,6 @@ void CGameWorld::Init()
 	//BUG: Why does pivot.x = 0.25 refer to the center
 	//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
-
-	/*
-	//Test item
-
-	myPlayer.AddItemToInventory(&myTestItem);
-	myPlayer.AddItemToInventory(&myTestItem2);
-	*/
 }
 
 
@@ -107,7 +101,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//Move character if inside nav mesh
 	if (myInputManager.LeftMouseButtonClicked())
-	{
+		{
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
@@ -127,7 +121,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		else
 		{
 			myPlayer.SetIsMoving(false);
-		}
+	}
 	}
 	}
 

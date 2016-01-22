@@ -8,8 +8,6 @@ Inventory::Inventory()
 	myContents.Init(10);
 	myIsOpen = false;
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myStartPosition = DX2D::Vector2f(0.0, 0.0);
-	myEndPosition = DX2D::Vector2f(0.0, 0.0);
 
 	float myMovementPerFrame = 0.0f;
 
@@ -25,13 +23,6 @@ Inventory::~Inventory()
 void Inventory::Init(const char* aFilePath)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myEndPosition.y = 1.0f - myBackground->GetSize().y;
-	myStartPosition.y = 1.0f;
-	myPosition.y = myStartPosition.y;
-	myMovementPerFrame = 0.3f;
-	myPosition = aPosition;
-
-	myMasterItemList = new ItemList();
 }
 
 void Inventory::Add(Item* aItemToAdd)
