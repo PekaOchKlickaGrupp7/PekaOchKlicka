@@ -48,7 +48,9 @@ Player* CGameWorld::GetPlayer()
 
 void CGameWorld::Init()
 {
-	myJson.Load("root.json", myRooms, this);
+	std::string name = "";
+	//ResolutionManager::GetInstance()->Update(0, 0);
+	myJson.Load("root.json", myRooms, this, name);
 	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
@@ -56,6 +58,10 @@ void CGameWorld::Init()
 	{
 		DL_PRINT(CGame::myTestLevel.c_str());
 		ChangeLevel(CGame::myTestLevel);
+	}
+	else
+	{
+		ChangeLevel(name);
 	}
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
@@ -87,17 +93,19 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		myJson.Load("root.json", myRooms, this);
+		std::string name = "";
+		myJson.Load("root.json", myRooms, this, name);
 
 		if (CGame::myTestLevel.size() > 0)
 		{
 			DL_PRINT(CGame::myTestLevel.c_str());
 			ChangeLevel(CGame::myTestLevel);
 		}
+		else
+		{
+			ChangeLevel(name);
 		}
-
-	RECT windowSize;
-	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
+	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 

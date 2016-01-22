@@ -165,7 +165,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 JSON::JSON() { }
 JSON::~JSON() { }
 
-bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld)
+bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld, std::string& aName)
 {
 	const char* data = ReadFile(aRootFile.c_str());
 
@@ -207,7 +207,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		
 		if (i == 0)
 		{
-			levelName = name;
+			aName = name;
 		}
 
 		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
@@ -215,7 +215,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	
 	root.GetAllocator().Clear();
 
-	aGameWorld->ChangeLevel(levelName);
+	//aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
