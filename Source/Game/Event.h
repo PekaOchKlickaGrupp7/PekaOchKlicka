@@ -25,6 +25,7 @@ public:
 	ObjectData* myObjectData;
 
 	CommonUtilities::GrowingArray<Event*, unsigned int> myChilds;
+	bool myActive;
 protected:
 	Room* myRoom;
 	CGameWorld* myGameWorld;

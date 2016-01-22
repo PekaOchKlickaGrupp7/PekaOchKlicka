@@ -34,8 +34,12 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 
 void EventManager::AddEvent(Event* aEvent)
 {
-	aEvent->Reset();
-	myActiveEvents.Add(aEvent);
+	if (aEvent->myActive == false)
+	{
+		aEvent->myActive = true;
+		aEvent->Reset();
+		myActiveEvents.Add(aEvent);
+	}
 }
 
 float EventManager::Remap(float value, float from1, float to1, float from2, float to2)
@@ -136,7 +140,7 @@ void EventManager::Update(const float aDeltaTime)
 		Event* event = myActiveEvents[i];
 		if (event->Update(aDeltaTime) == true)
 		{
-			event->Reset();
+			event->myActive = false;
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
