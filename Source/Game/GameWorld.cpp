@@ -112,23 +112,25 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
 		{
-		if (myCurrentRoom->GetNavMeshes()[0].
-				PointInsideCheck(Point2f(
-				myTargetPosition.x,
-				myTargetPosition.y)
-				) == true)
-		{
-			myPlayer.SetIsMoving(true);
+			if (myCurrentRoom->GetNavMeshes()[0].
+					PointInsideCheck(Point2f(
+					myTargetPosition.x,
+					myTargetPosition.y)
+					) == true)
+			{
+				myPlayer.SetIsMoving(true);
+			}
+			else
+			{
+				myPlayer.SetIsMoving(false);
+			}
 		}
-		else
-		{
-			myPlayer.SetIsMoving(false);
-	}
-	}
 	}
 
+	//TEST FOR COMMITING TEST
+
 	//Makes sure player can not walk through obstacles
-	if (myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
+	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
 		myPlayer.GetPosition().y)) == false)
 	{
@@ -231,9 +233,13 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 			command.mySprite->SetColor({ 1, 1, 1, 1 });
 			aSynchronizer.AddRenderCommand(command);
 		}
-		for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
+
+		if (aNode->myChilds.GetIsInitialized() == true)
 		{
-			RenderLevel(aSynchronizer, aNode->myChilds[j]);
+			for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
+			{
+				RenderLevel(aSynchronizer, aNode->myChilds[j]);
+			}
 		}
 	}
 }

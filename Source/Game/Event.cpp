@@ -44,12 +44,15 @@ ObjectData* Event::GetGameObject(const std::string& aName) const
 			return (*objects)[i];
 		}
 
-		for (unsigned int j = 0; j < (*objects)[i]->myChilds.Size(); ++j)
+		if ((*objects)[i]->myChilds.GetIsInitialized() == true)
 		{
-			ObjectData* data = GetGameObject(aName, (*objects)[i]);
-			if (data != nullptr)
+			for (unsigned int j = 0; j < (*objects)[i]->myChilds.Size(); ++j)
 			{
-				return data;
+				ObjectData* data = GetGameObject(aName, (*objects)[i]);
+				if (data != nullptr)
+				{
+					return data;
+				}
 			}
 		}
 	}

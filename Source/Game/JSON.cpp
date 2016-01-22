@@ -412,18 +412,18 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	}
 
 	ObjectData* parentData = nullptr;
-	dataObject->myChilds.Init(12);
+	//dataObject->myChilds.Init(12);
 
-		if (aParentObject == nullptr)
-		{
-			aObjects->Add(dataObject);
-			parentData = (*aObjects)[aObjects->Size() - 1];
-		}
-		else
-		{
-			aParentObject->myChilds.Add(dataObject);
-			parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
-		}
+	if (aParentObject == nullptr)
+	{
+		aObjects->Add(dataObject);
+		parentData = (*aObjects)[aObjects->Size() - 1];
+	}
+	else
+	{
+		aParentObject->myChilds.Add(dataObject);
+		parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
+	}
 
 	for (unsigned int j = 0; j < object["childs"]["$values"].Size(); ++j)
 	{
@@ -451,6 +451,10 @@ void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRo
 	Event* event = CreateEventData(aNode, aParent, aRoom, aGameWorld);
 	if (aEvent != nullptr)
 	{
+		if (aEvent->myChilds.GetIsInitialized() == false)
+		{
+			aEvent->myChilds.Init(12);
+		}
 		aEvent->myChilds.Add(event);
 	}
 
