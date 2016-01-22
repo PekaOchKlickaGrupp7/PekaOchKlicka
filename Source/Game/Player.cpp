@@ -7,7 +7,6 @@ Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -28,6 +27,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	myMovementSpeed = aMovementSpeed;
 	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
+	myInventory.Init("Sprites/inventory.png");
 }
 
 //Update the character
