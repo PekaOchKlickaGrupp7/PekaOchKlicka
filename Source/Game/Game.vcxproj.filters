@@ -70,6 +70,9 @@
     <Filter Include="Events\Conversation">
       <UniqueIdentifier>{ec67dc03-1638-485e-b7e0-838074b6c09f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Sound">
+      <UniqueIdentifier>{cb61019f-047e-43ba-8db4-689ae6fb3cab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -203,9 +206,6 @@
     <ClInclude Include="MouseManager.h">
       <Filter>System\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="ItemList.h">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
-    </ClInclude>
     <ClInclude Include="EventChangeCursor.h">
       <Filter>Events\Mouse</Filter>
     </ClInclude>
@@ -215,6 +215,8 @@
     <ClInclude Include="SoundFileHandler.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="ItemList.h" />
+    <ClInclude Include="EventPlaySound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -321,8 +323,7 @@
     <ClCompile Include="SoundFileHandler.cpp">
       <Filter>System\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="ItemList.cpp">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
-    </ClCompile>
+    <ClCompile Include="ItemList.cpp" />
+    <ClCompile Include="EventPlaySound.cpp" />
   </ItemGroup>
 </Project>

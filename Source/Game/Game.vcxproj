@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />

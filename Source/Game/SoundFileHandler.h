@@ -61,6 +61,6 @@ private:
 
 	static SoundFileHandler* mySoundFileHandler;
 
-	CommonUtilities::GrowingArray<Sound> mySounds;
+	CommonUtilities::GrowingArray<Sound, int> mySounds;
 };
 

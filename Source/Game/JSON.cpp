@@ -15,6 +15,13 @@
 #include "EventChangeLevel.h"
 #include "EventTalk.h"
 #include "EventChangeCursor.h"
+#include "EventPlaySound.h"
+
+enum class eSound
+{
+	eRain,
+	eJaguar,
+};
 
 using namespace rapidjson;
 
@@ -111,6 +118,35 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		changeCursor->Init(aRoom, aGameWorld);
 
 		event = changeCursor;
+		break;
+	}
+	case EventActions::PlaySound:
+	{
+		EventPlaySound* sound = new EventPlaySound();
+		if (extra.HasMember("id") == true)
+		{
+			sound->myTargetSound = extra["id"].GetInt();
+		}
+		if (extra.HasMember("volume") == true)
+		{
+			sound->myVolume = static_cast<float>(extra["volume"].GetDouble());
+		}
+		if (extra.HasMember("looping") == true)
+		{
+			sound->myIsLooping = extra["looping"].GetBool();
+		}
+		if (extra.HasMember("is3D") == true)
+		{
+			sound->myIs3D = extra["is3D"].GetBool();
+		}
+		if (extra.HasMember("positionX") == true && extra.HasMember("positionY") == true)
+		{
+			sound->myPosition = DX2D::Vector2f(static_cast<float>(extra["positionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["positionY"].GetDouble()) / 1080.0f);
+		}
+
+		sound->Init(aRoom, aGameWorld);
+
+		event = sound;
 		break;
 	}
 	default:
@@ -433,7 +469,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
-	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
 	Event* event = CreateEventData(aNode, aParent, aRoom, aGameWorld);
 	if (aNode != nullptr)
 	{

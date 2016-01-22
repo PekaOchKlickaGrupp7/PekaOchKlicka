@@ -1,0 +1,39 @@
+#include "stdafx.h"
+#include "EventPlaySound.h"
+#include "SoundFileHandler.h"
+
+EventPlaySound::EventPlaySound()
+{
+}
+
+bool EventPlaySound::Update(const float aDeltaTime)
+{
+	(aDeltaTime);
+
+
+
+	if (myIs3D)
+	{
+		// not yet
+		// Get3DSound
+		// set looping
+		// set position
+		// (myObjectData->myX + myPosition.x) * 10.0f;
+	}
+	else
+	{
+		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->SetLooping(myIsLooping);
+		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->Play();
+	}
+	return true;
+}
+
+void EventPlaySound::Reset()
+{
+
+}
+
+
+EventPlaySound::~EventPlaySound()
+{
+}
