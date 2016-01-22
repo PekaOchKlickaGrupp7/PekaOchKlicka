@@ -54,18 +54,18 @@ void MouseManager::Update(float aDeltaTime)
 	{
 		myPosition.x = 0;
 	}
-	else if ((myPosition.x + mySprite->GetSize().x) >= 1)
+	else if ((myPosition.x /*+ mySprite->GetSize().x*/) >= 1)
 	{
-		myPosition.x = 1 - mySprite->GetSize().x;
+		myPosition.x = 1 /*- /*mySprite->GetSize().x*/;
 	}
 	
 	if (myPosition.y <= 0)
 	{
 		myPosition.y = 0;
 	}
-	else if ((myPosition.y + mySprite->GetSize().y) >= 1)
+	else if ((myPosition.y /*+ mySprite->GetSize().y*/) >= 1)
 	{
-		myPosition.y = 1 - mySprite->GetSize().y;
+		myPosition.y = 1 /*- /*mySprite->GetSize().y*/;
 	}
 
 	//std::cout << myPosition.x << " " << myPosition.y << std::endl;
