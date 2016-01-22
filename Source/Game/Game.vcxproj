@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventChangeLevel.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="TextTalk.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventChangeLevel.cpp" />

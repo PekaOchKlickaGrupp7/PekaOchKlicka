@@ -40,6 +40,7 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
+	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -66,12 +67,20 @@ void CGameWorld::Init()
 
 	//Test item
 	myTestItem.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
+		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), true, "Test Level");
 	myTestItem2.Init("Sprites/TestItems/GraveShovel.png", "Sprites/TestItems/GraveShovel_inventory.png",
-		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), false, "Test Level");
+		"Shovel", "A Shovel", DX2D::Vector2f(0.2f, 0.7f), true, "Test Level");
 
+	// TEST KOD ///
+	myTestItem.myCombinableWith = "Shovel";
+	myTestItem2.myCombinableWith = "Shovel";
+	myTestItem.myResultingItem = "hallBoy";
 	myPlayer.AddItemToInventory(&myTestItem);
 	myPlayer.AddItemToInventory(&myTestItem2);
+
+	myPlayer.GetInventory().Combine(&myTestItem,
+		&myTestItem2);
+	// _____________ //
 }
 
 

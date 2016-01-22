@@ -199,6 +199,9 @@
     <ClInclude Include="MouseManager.h">
       <Filter>System\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -296,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>System\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

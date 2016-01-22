@@ -3,66 +3,53 @@
 #include "../CommonUtilities/GrowingArray.h"
 #include <string>
 #include <tga2d/sprite/sprite.h>
+#include "ItemList.h"
 
 class Item
 {
 public:
 	Item();
-
+	Item(const Item* aItem);
+	Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
+		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable);
 	~Item();
 
-	//Initialize the item
 	void Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
 		const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
 		const std::string& aLevelToSpawnIn);
 
-	//Sets the items position on the screen
+
 	void SetPosition(DX2D::Vector2f& aPosition);
-
-	//Sets if the item can be combined with something else (true / false)
 	void SetCombinable(bool aCombinableStatus);
-
-	//Set the standard sprite to be the sprite made for the inventory
 	void SetToInventorySprite();
-
-	//Set the standard sprite to be the sprite made for the world
 	void SetToWorldSprite();
-
-	//Adds the items sprite to the rendering buffer
 	void Render(Synchronizer& aSynchronizer);
 
-	//Gets the list of item names that this item can be combined with
-	CommonUtilities::GrowingArray<std::string>& GetList();
-
-	//Gets the items sprite
 	inline DX2D::CSprite* GetSprite();
-
-	//Gets the items name
 	inline std::string& GetName();
-
-	//Gets the items Description
 	inline std::string& GetDescription();
-
-	//Gets the items position
 	inline DX2D::Vector2f& GetPosition();
+	inline std::string Item::GetNameOfResultingItem();
 
-	//Gets a list of what this item can be combined with
-	inline CommonUtilities::GrowingArray<std::string>& GetCombinableWithList();
+	//inline CommonUtilities::GrowingArray<std::string>& GetCombinableWithList();
 
-	//Checks if the item can be combined with something else (true / false)
+	//CommonUtilities::GrowingArray<std::string>& GetList();
+
 	inline bool IsCombinable();
-
-	//Checks if the item has been clicked (true / false)
 	inline bool IsClicked();
-
 	bool operator ==(const Item& aItem);
+
+
+
+	std::string myCombinableWith;
+	std::string myResultingItem; //after combining
 
 private:
 
 	void InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath);
 
-	CommonUtilities::GrowingArray<std::string> myCombinableWithList;
-	DX2D::CSprite* mySprite;
+	//CommonUtilities::GrowingArray<std::string> myCombinableWithList;
+	DX2D::CSprite* mySprite; //what is this - as opposed to the other two?
 	DX2D::CSprite* myWorldSprite;
 	DX2D::CSprite* myInventorySprite;
 
@@ -74,7 +61,13 @@ private:
 
 	bool myIsCombinable;
 	bool myIsClicked;
+
 };
+
+std::string Item::GetNameOfResultingItem()
+{
+	return myResultingItem;
+}
 
 //Gets the items sprite
 DX2D::CSprite* Item::GetSprite()
@@ -101,10 +94,10 @@ DX2D::Vector2f& Item::GetPosition()
 }
 
 //Gets a list of what this item can be combined with
-CommonUtilities::GrowingArray<std::string>& Item::GetCombinableWithList()
-{
-	return myCombinableWithList;
-}
+//CommonUtilities::GrowingArray<std::string>& Item::GetCombinableWithList()
+//{
+//	return myCombinableWithList;
+//}
 
 //Checks if the item can be combined with something else (true / false)
 bool Item::IsCombinable()

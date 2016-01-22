@@ -6,11 +6,8 @@
 Inventory::Inventory()
 {
 	myContents.Init(10);
-
 	myIsOpen = false;
-
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-
 	myBackground = nullptr;
 }
 
@@ -23,32 +20,40 @@ void Inventory::Init(const char* aFilePath, DX2D::Vector2f aPosition)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
 	myPosition = aPosition;
+
+	myMasterItemList = new ItemList();
 }
 
-//Adds an item to the inventory
 void Inventory::Add(Item* aItemToAdd)
 {
 	myContents.Add(aItemToAdd);
 }
 
-//Removes an item from the inventory
 void Inventory::Remove(Item* aItemToRemove)
 {
 	myContents.RemoveCyclic(aItemToRemove);
 }
 
-//Combine one item with another
-void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
+void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
-	if ((aItemToCombine.IsCombinable() == true && aItemToCombineWith.IsCombinable() == true))
+	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
 	{
-		//Compare the first items list of combinable item names with the name of the second item
-		for (unsigned short i = 0; i < aItemToCombine.GetList().Size(); ++i)
+		for (unsigned int i = 0; i < myContents.Size(); ++i)
 		{
-			std::string name = aItemToCombine.GetList()[i];
-			if (aItemToCombineWith.GetName() == name)
+			std::string name = aItemToCombine->GetName();
+			if (aItemToCombineWith->GetName() == name)
 			{
+				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
+				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
 
+				for (unsigned int j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
+				{
+					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
+					{
+						myContents.Add(new Item(myMasterItemList->GetItemList()[j]));
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -102,13 +107,11 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	}
 }
 
-//Opens the inventory
 void Inventory::Open()
 {
 	myIsOpen = true;
 }
 
-//Closes the inventory
 void Inventory::Close()
 {
 	myIsOpen = false;
