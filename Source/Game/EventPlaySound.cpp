@@ -8,6 +8,8 @@ EventPlaySound::EventPlaySound()
 
 bool EventPlaySound::Update(const float aDeltaTime)
 {
+	(aDeltaTime);
+
 	if (myIs3D)
 	{
 		// not yet
