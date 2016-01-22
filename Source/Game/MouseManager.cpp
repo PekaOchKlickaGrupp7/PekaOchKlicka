@@ -43,8 +43,6 @@ void MouseManager::Update(float aDeltaTime)
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f);
 
 	float aSpeed = 0.0005f;
-
-	
 	
 
 	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
