@@ -28,6 +28,11 @@ bool EventPlaySound::Update(const float aDeltaTime)
 	return true;
 }
 
+void EventPlaySound::Reset()
+{
+
+}
+
 
 EventPlaySound::~EventPlaySound()
 {
