@@ -137,7 +137,6 @@
     <ClInclude Include="ResolutionManager.h">
       <Filter>System\Monitor</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="JSON.h">
       <Filter>System\JSON</Filter>
     </ClInclude>

@@ -204,7 +204,6 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateStack.h" />
