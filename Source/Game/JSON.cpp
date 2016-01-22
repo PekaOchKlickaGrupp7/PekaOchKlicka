@@ -121,7 +121,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		break;
 	}
 	case EventActions::PlaySound:
-
+	{
 		EventPlaySound* sound = new EventPlaySound();
 		if (extra.HasMember("id") == true)
 		{
@@ -148,6 +148,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		event = sound;
 		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
@@ -468,7 +469,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
-	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
 	Event* event = CreateEventData(aNode, aParent, aRoom, aGameWorld);
 	if (aNode != nullptr)
 	{
