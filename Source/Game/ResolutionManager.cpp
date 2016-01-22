@@ -145,7 +145,7 @@ void ResolutionManager::CalculateRatio(int aWindowWidth, int aWindowHeight)
 	// translate and scale (set viewport and scale)
 	if (myVirtualScreenSize.y * hRatio > myRealScreenSize.y)
 	{
-		myResViewport.SetViewport(static_cast<float>(viewPortX), static_cast<float>(viewPortY), static_cast<float>(myRealScreenSize.x), static_cast<float>(myRealScreenSize.y), 0, 1, myRatio);
+		myResViewport.SetViewport(static_cast<float>(viewPortX), static_cast<float>(viewPortY), static_cast<float>(myRealScreenSize.x), static_cast<float>(myRealScreenSize.y), 0, 1);
 		myRenderAreaPosition.x = viewPortX;
 		myRenderAreaDimensions.x = myRealScreenSize.x;
 		myRenderAreaPosition.y = viewPortY;
@@ -153,7 +153,7 @@ void ResolutionManager::CalculateRatio(int aWindowWidth, int aWindowHeight)
 	}
 	else
 	{
-		myResViewport.SetViewport(static_cast<float>(viewPortX), static_cast<float>(viewPortY), static_cast<float>(viewPortWidth), static_cast<float>(viewPortHeight), 0, 1, myRatio);
+		myResViewport.SetViewport(static_cast<float>(viewPortX), static_cast<float>(viewPortY), static_cast<float>(viewPortWidth), static_cast<float>(viewPortHeight), 0, 1);
 		myRenderAreaPosition.x = viewPortX;
 		myRenderAreaDimensions.x = viewPortWidth;
 		myRenderAreaPosition.y = viewPortY;

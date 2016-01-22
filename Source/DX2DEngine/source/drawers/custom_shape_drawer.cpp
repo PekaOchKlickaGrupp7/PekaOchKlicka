@@ -210,7 +210,10 @@ int CCustomShapeDrawer::UpdateVertexes( CRenderObjectCustom* aObject )
 
 void DX2D::CCustomShapeDrawer::Draw( CRenderObjectCustom* aObject )
 {
-    Render( aObject );
+	if (!Render(aObject))
+	{
+		return;
+	}
     myEngine.GetContext()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
     int tris = SetShaderParameters( aObject );

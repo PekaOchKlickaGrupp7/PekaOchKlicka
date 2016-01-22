@@ -23,6 +23,12 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
 
+	mySpriteInteractive[eMouse(eInteractive::eTalkTo)]->SetPivot({ 0.5f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::eExamine)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eChooseOption)]->SetPivot({ 0.6f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::ePickUp)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eGrabAndDrag)]->SetPivot({ 0.5f, 0.0f });
+
 	myPosition = { 0.5f - (mySprite->GetSize().x*0.5f), 0.5f - (mySprite->GetSize().y*0.5f) };
 	mySprite->SetPosition(myPosition);
 	mySprite->SetPivot({ 0.5f, 0.5f });

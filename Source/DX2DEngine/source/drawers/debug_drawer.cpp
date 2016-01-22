@@ -146,7 +146,7 @@ void CDebugDrawer::Update(float aTimeDelta)
 	
 	fpsText.append("FPS: ");
 
-	int fps = aTimeDelta == 0 ? static_cast<int>(MAX((int)(1.0f / aTimeDelta), 0.0f)) : 0;
+	int fps = static_cast<int>(aTimeDelta > 0 ? 1.0f / aTimeDelta : 0.0f);
 
 	int avgFps = static_cast<int>(CalcAverageTick(fps));
 

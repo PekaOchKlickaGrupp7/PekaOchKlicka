@@ -11,7 +11,7 @@ It takes care of creating everything necessary for window handling and rendering
 
 #include <functional>
 #include "math/Color.h"
-
+#include <chrono>
 
 // Forward declarations
 //
@@ -105,6 +105,7 @@ namespace DX2D
         CFileWatcher* GetFileWatcher(){ return myFileWatcher; }
 
         bool GetIsDebugSystemsActive() const { return myCreateParameters.myActivateDebugSystems; }
+		void SetViewPort(float aTopLeftX, float aTopRightY, float aWidth, float aHeight, float aMinDepth = 0.0f, float aMaxDepth = 1.0f);
 
 		//CFbxLoader* GetFBXLoader() const { return myFBXLoader; }
 
@@ -143,5 +144,7 @@ namespace DX2D
 		bool myRunEngine;
 		float myWindowRatio;
 		float myWindowRatioInversed;
+
+		std::chrono::system_clock::time_point start;
     };
 }

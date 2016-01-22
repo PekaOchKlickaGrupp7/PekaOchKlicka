@@ -7,6 +7,7 @@
 using namespace DX2D;
 
 CText::CText(const char* aPathAndName)
+: myTextService(&DX2D::CEngine::GetInstance()->GetTextService())
 {
 	myColor.Set(1, 1, 1, 1);
 	mySize = 0.5f;
@@ -21,5 +22,18 @@ CText::~CText()
 
 void DX2D::CText::Render()
 {
-	DX2D::CEngine::GetInstance()->GetTextService().AddTextToRender(myText, myPosition, myColor, mySize, myPathAndName); 
+	if (!myTextService)
+	{
+		return;
+	}
+	myTextService->AddTextToRender(myText, myPosition, myColor, mySize, myPathAndName);
+}
+
+float DX2D::CText::GetWidth() const
+{
+	if (!myTextService)
+	{
+		return 0.0f;
+	}
+	return myTextService->GetSentenceWidth(myText, mySize, myPathAndName);
 }
