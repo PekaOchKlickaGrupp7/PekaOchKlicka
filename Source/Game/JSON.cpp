@@ -17,6 +17,12 @@
 #include "EventChangeCursor.h"
 #include "EventPlaySound.h"
 
+enum class eSound
+{
+	eRain,
+	eJaguar,
+};
+
 using namespace rapidjson;
 
 Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
@@ -114,6 +120,34 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = changeCursor;
 		break;
 	}
+	case EventActions::PlaySound:
+
+		EventPlaySound* sound = new EventPlaySound();
+		if (extra.HasMember("id") == true)
+		{
+			sound->myTargetSound = extra["id"].GetInt();
+		}
+		if (extra.HasMember("volume") == true)
+		{
+			sound->myVolume = static_cast<float>(extra["volume"].GetDouble());
+		}
+		if (extra.HasMember("looping") == true)
+		{
+			sound->myIsLooping = extra["looping"].GetBool();
+		}
+		if (extra.HasMember("is3D") == true)
+		{
+			sound->myIs3D = extra["is3D"].GetBool();
+		}
+		if (extra.HasMember("positionX") == true && extra.HasMember("positionY") == true)
+		{
+			sound->myPosition = DX2D::Vector2f(static_cast<float>(extra["positionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["positionY"].GetDouble()) / 1080.0f);
+		}
+
+		sound->Init(aRoom, aGameWorld);
+
+		event = sound;
+		break;
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);

@@ -15,7 +15,8 @@ enum EventActions
 	SetActive,
 	ChangeLevel,
 	Talk,
-	ChangeCursor
+	ChangeCursor,
+	PlaySound
 };
 
 class JSON
