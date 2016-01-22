@@ -15,6 +15,7 @@
 #include "EventChangeLevel.h"
 #include "EventTalk.h"
 #include "EventChangeCursor.h"
+#include "EventPlaySound.h"
 
 using namespace rapidjson;
 
