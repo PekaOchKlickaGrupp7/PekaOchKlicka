@@ -17,10 +17,10 @@ void NavPolygon::AddPoint(Point2f aPoint)
 
 bool NavPolygon::PointInsideCheck(const Point2f& aPointToCheck)
 {
-	int j = myPoints.Size() - 1;
+	unsigned short j = myPoints.Size() - 1;
 	bool oddNumberOfNodes = false;
 
-	for (int i = 0; i < myPoints.Size(); i++)
+	for (unsigned short i = 0; i < myPoints.Size(); i++)
 	{
 		if (myPoints[i].y < aPointToCheck.y
 			&& myPoints[j].y >= aPointToCheck.y

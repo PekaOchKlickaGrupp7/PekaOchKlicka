@@ -7,6 +7,7 @@ class Room;
 class ObjectData;
 class CGameWorld;
 class Event;
+class Inventory;
 
 enum EventActions
 {
@@ -26,6 +27,9 @@ public:
 	bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld);
 	
 	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
+
+	bool LoadItems(const std::string& aRootFile, Inventory aInventory);
+
 private:
 	bool LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld);
 	void LoadObject(rapidjson::Value& node, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y);
