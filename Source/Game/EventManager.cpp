@@ -160,7 +160,7 @@ void EventManager::Update(const float aDeltaTime)
 		RemoveAllEvents();
 	}
 }
-ö
+
 void EventManager::Render(Synchronizer &aSynchronizer)
 {
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
