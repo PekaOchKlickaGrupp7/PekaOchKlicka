@@ -1,0 +1,28 @@
+{
+	"inventoryItems" :[
+		{
+			"name" : "yoshi",
+			"path" : "Sprites/inventoryItem.png",
+			"description" : "en ful liten yoshi",
+			"combinableWith" : "yoshi2",
+			"resultingItem" : "hallBoy",
+			"isCombinable" : true
+		},
+		{
+			"name" : "yoshi2",
+			"path" : "Sprites/inventoryItem.png",
+			"description" : "en söt liten yoshi",
+			"combinableWith" : "yoshi",
+			"resultingItem" : "hallBoy",
+			"isCombinable" : true
+		},
+		{
+			"name" : "hallBoy",
+			"path" : "Sprites/hallBoy.png",
+			"description" : "den halligaste hallpojken av dem alla",
+			"combinableWith" : "NONE",
+			"resultingItem" : "NONE",
+			"isCombinable" : false
+		}
+	]
+}

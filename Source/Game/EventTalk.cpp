@@ -31,8 +31,9 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	myTextRender->myPosition = DX2D::Vector2f(object->myX, object->myY);
-	myTextRender->mySize = 1;
+	float x = object->myX + (object->myHitBox.myWidth / 2);
+
+	myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
 
 	if (myCurrentTime > myWordLength * myWordCount)
 	{
@@ -79,10 +80,14 @@ bool EventTalk::NewSubString()
 		}
 		else
 		{
-			myTextRender->myText = " ";
-			myWordCount = 0;
-			myIsTalking = false;
-			return true;
+			if (myCurrentTime >= myShowTime)
+			{
+				myTextRender->myText = " ";
+				myWordCount = 0;
+				myIsTalking = false;
+				return true;
+			}
+			return false;
 		}
 	}
 }

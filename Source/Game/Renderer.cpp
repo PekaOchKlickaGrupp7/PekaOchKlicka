@@ -15,7 +15,7 @@ Renderer::~Renderer()
 
 void Renderer::Render(Synchronizer& aSynchronizer)
 {
-	for (int i = 0; i < aSynchronizer.GetSize(); ++i)
+	for (unsigned short i = 0; i < aSynchronizer.GetSize(); ++i)
 	{
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{

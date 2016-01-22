@@ -71,8 +71,8 @@ void ResolutionManager::CalculateRatio()
 {
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
-	float screen_width = returnedResolution.right;
-	float screen_height = returnedResolution.bottom;
+	float screen_width = static_cast<float>(returnedResolution.right);
+	float screen_height = static_cast<float>(returnedResolution.bottom);
 
 	float virtual_width = 1920;
 	float virtual_height = 1080;

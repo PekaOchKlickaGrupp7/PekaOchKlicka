@@ -1,14 +1,12 @@
 #include "stdafx.h"
 #include "Item.h"
-
+#include "JSON.h"
 
 Item::Item()
 {
 	mySprite = nullptr;
 	myWorldSprite = nullptr;
 	myInventorySprite = nullptr;
-
-	myCombinableWithList.Init(4);
 
 	myName = "";
 	myDescription = "";
@@ -20,13 +18,46 @@ Item::Item()
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
 
+Item::Item(const Item* aItem)
+{
+	mySprite = aItem->mySprite;
+	myWorldSprite = aItem->myWorldSprite;
+	myInventorySprite = aItem->myInventorySprite;
+
+	myName = aItem->myName;
+	myDescription = aItem->myDescription;
+	myLevelToSpawnIn = aItem->myLevelToSpawnIn;
+
+	myIsCombinable = aItem->myIsCombinable;
+	myIsClicked = aItem->myIsClicked;
+
+	myPosition = aItem->myPosition;
+}
+
+//only what is needed for the inventory-part of items.
+Item::Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
+	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable)
+{
+	myName = aName;
+	InitSprites(nullptr, aInventorySpritePath);
+	myDescription = aDescription;
+	myIsCombinable = aIsCombinable;
+	myCombinableWith = aCombinableWith;
+	myResultingItem = aResultingItem;
+	myLevelToSpawnIn = "Test Level";
+
+	myPosition = DX2D::Vector2f(0.0f, 0.0f);
+	mySprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
+	myWorldSprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
+	myInventorySprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
+}
+
 Item::~Item()
 {
 	SAFE_DELETE(myWorldSprite);
 	SAFE_DELETE(myInventorySprite);
 }
 
-//Initialize the item
 void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
 	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
 	const std::string& aLevelToSpawnIn)
@@ -43,7 +74,6 @@ void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, 
 	myIsClicked = false;
 }
 
-//Initialize sprites
 void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)
 {
 	myWorldSprite = new DX2D::CSprite(aWorldSpritePath);
@@ -53,13 +83,11 @@ void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySprit
 	mySprite = myWorldSprite;
 }
 
-//Sets the items position on the screen
 void Item::SetPosition(DX2D::Vector2f& aPosition)
 {
 	myPosition = aPosition;
 }
 
-//Sets if the item can be combined with something else (true / false)
 void Item::SetCombinable(bool aCombinableStatus)
 {
 	myIsCombinable = aCombinableStatus;
@@ -77,7 +105,6 @@ void Item::SetToWorldSprite()
 	mySprite = myWorldSprite;
 }
 
-//Adds the items sprite to the rendering buffer
 void Item::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
@@ -89,10 +116,10 @@ void Item::Render(Synchronizer& aSynchronizer)
 }
 
 //Gets the list of item names that this item can be combined with
-CommonUtilities::GrowingArray<std::string>& Item::GetList()
-{
-	return myCombinableWithList;
-}
+//CommonUtilities::GrowingArray<std::string>& Item::GetList()
+//{
+//	return myCombinableWithList;
+//}
 
 bool Item::operator ==(const Item& aItem)
 {

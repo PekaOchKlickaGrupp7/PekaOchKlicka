@@ -78,6 +78,7 @@ void NPC::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDelt
 //Set the pivot point of the character
 void NPC::SetPivot(const DX2D::Vector2f& aPoint)
 {
+	(aPoint);
 	//mySprite->SetPivot(aPoint);
 }
 
