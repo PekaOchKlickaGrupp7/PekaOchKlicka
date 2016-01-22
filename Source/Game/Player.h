@@ -18,8 +18,7 @@ public:
 	void Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT);
 
 	//Update the character
-	void Update(CU::DirectInput::InputManager& aInputManager,
-		const DX2D::Vector2f& aTargetPos, float aDeltaT);
+	void Update(const DX2D::Vector2f& aTargetPos, float aDeltaT);
 
 	//Set the pivot point of the character
 	void SetPivot(const DX2D::Vector2f& aPoint);
