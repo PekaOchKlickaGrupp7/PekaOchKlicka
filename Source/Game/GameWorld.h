@@ -34,8 +34,6 @@ private:
 
 	JSON myJson;
 
-	Sound mySFXRain;
-
 	Player myPlayer;
 
 	DX2D::Vector2f myTargetPosition;

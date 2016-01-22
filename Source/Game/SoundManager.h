@@ -11,6 +11,14 @@ class SoundManager
 public:
 	~SoundManager();
 
+	static void CreateInstance()
+	{
+		if (mySoundManager == nullptr)
+		{
+			mySoundManager = new SoundManager();
+		}
+	}
+
 	static SoundManager* const GetInstance()
 	{
 		if (mySoundManager == nullptr)

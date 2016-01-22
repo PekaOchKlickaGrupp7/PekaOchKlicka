@@ -15,7 +15,7 @@ Sound::~Sound()
 
 void Sound::Destroy()
 {
-	myChannel->stop();
+	//myChannel->stop(); // Apparently releasing a sound will release the channel.
 	mySFX->release();
 }
 

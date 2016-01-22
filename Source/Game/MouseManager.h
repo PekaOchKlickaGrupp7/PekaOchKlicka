@@ -79,15 +79,6 @@ private:
 	// This is the current sprite
 	DX2D::CSprite* mySprite;
 
-	CommonUtilities::GrowingArray<DX2D::CSprite*, int> mySpriteInteractive;
-
-	// Interactive mouse cursor
-	//DX2D::CSprite* mySpriteInteractive_TalkTo;
-	//DX2D::CSprite* mySpriteInteractive_Examine;
-	//DX2D::CSprite* mySpriteInteractive_ChooseOption;
-	//DX2D::CSprite* mySpriteInteractive_Regular;
-	//DX2D::CSprite* mySpriteInteractive_PickUp;
-	//DX2D::CSprite* mySpriteInteractive_GrabAndDrag;
-	// End of interactive mouse cursor
+	CommonUtilities::GrowingArray<DX2D::CSprite*> mySpriteInteractive;
 };
 

@@ -206,6 +206,7 @@
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundFileHandler.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StateStack.h" />
     <ClInclude Include="StateStackProxy.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundFileHandler.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="StateStackProxy.cpp" />
