@@ -23,7 +23,6 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	delete myResolutionTestSprite;
 	mySFXRain.Destroy();
 }
 
@@ -66,7 +65,6 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
-	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
@@ -219,11 +217,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
 
-	/*command.myType = eRenderType::eSprite;
-	command.myPosition = myResolutionTestSprite->GetPosition();
-	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
-*/
 	myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
