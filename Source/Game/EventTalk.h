@@ -20,6 +20,8 @@ public:
 
 	bool myIsTalking;
 	float myShowTime;
+	float myWordLenght;
+
 	float myTextSize;
 
 protected:
