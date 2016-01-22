@@ -11,7 +11,7 @@ void SoundFileHandler::Load(CommonUtilities::GrowingArray<std::string> &someSoun
 {
 	mySounds.Init(someSoundPaths.Size());
 
-	for (size_t i = 0; i < someSoundPaths.Size(); i++)
+	for (unsigned short i = 0; i < someSoundPaths.Size(); i++)
 	{
 		Sound aSoundToAdd;
 		aSoundToAdd.Create(someSoundPaths[i].c_str());
