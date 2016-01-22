@@ -31,10 +31,6 @@ public:
 	inline DX2D::Vector2f& GetPosition();
 	inline std::string Item::GetNameOfResultingItem();
 
-	//inline CommonUtilities::GrowingArray<std::string>& GetCombinableWithList();
-
-	//CommonUtilities::GrowingArray<std::string>& GetList();
-
 	inline bool IsCombinable();
 	inline bool IsClicked();
 	bool operator ==(const Item& aItem);
@@ -48,8 +44,7 @@ private:
 
 	void InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath);
 
-	//CommonUtilities::GrowingArray<std::string> myCombinableWithList;
-	DX2D::CSprite* mySprite; //what is this - as opposed to the other two?
+	DX2D::CSprite* mySprite;
 	DX2D::CSprite* myWorldSprite;
 	DX2D::CSprite* myInventorySprite;
 

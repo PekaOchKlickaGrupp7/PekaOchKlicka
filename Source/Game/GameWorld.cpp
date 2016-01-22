@@ -127,8 +127,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	//TEST FOR COMMITING TEST
-
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
@@ -157,7 +155,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+	myPlayer.Update(myTargetPosition, aTimeDelta);
 
 
 

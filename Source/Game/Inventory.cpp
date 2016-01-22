@@ -7,6 +7,7 @@ Inventory::Inventory()
 {
 	myContents.Init(10);
 	myIsOpen = false;
+	myIsClicked = false;
 	myPosition = DX2D::Vector2f(0.0, 1.0);
 
 	float myMovementPerFrame = 0.0f;
@@ -47,6 +48,12 @@ void Inventory::Update(float aDeltaTime)
 	{
 		Close(aDeltaTime);
 	}
+}
+
+//Check where in the inventory the user clicks and trigger appropiate actions
+bool Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
+{
+	return myIsClicked;
 }
 
 //Combine one item with another
@@ -152,6 +159,11 @@ void Inventory::Open(float aDeltaTime)
 	if (myPosition.y >= myEndPosition.y)
 	{
 		myPosition.y -= myMovementPerFrame * aDeltaTime;
+	}
+
+	if (MouseManager::GetInstance()->GetPosition().y >= myPosition.y)
+	{
+		myIsClicked = true;
 	}
 }
 

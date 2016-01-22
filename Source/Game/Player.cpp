@@ -31,8 +31,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager,
-	const DX2D::Vector2f& aTargetPos, float aDeltaT)
+void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
 	myPreviousPosition = myPosition;
 	//Character movement
@@ -50,14 +49,15 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
 		myInventory.SetOpen();
-		}
+	}
 
 	if (myInventory.IsOpen() == true && 
 		MouseManager::GetInstance()->GetPosition().y <
 		myInventory.GetFullyOpenPosition().y)
-		{
+	{
 		myInventory.SetClose();
 	}
+
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
