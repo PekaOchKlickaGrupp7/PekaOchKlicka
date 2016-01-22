@@ -144,9 +144,12 @@ void EventManager::Update(const float aDeltaTime)
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->myActive = false;
-			for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+			if (event->myChilds.GetIsInitialized() == true)
 			{
-				AddEvent(event->myChilds[j]);
+				for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+				{
+					AddEvent(event->myChilds[j]);
+				}
 			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
@@ -157,7 +160,7 @@ void EventManager::Update(const float aDeltaTime)
 		RemoveAllEvents();
 	}
 }
-
+ö
 void EventManager::Render(Synchronizer &aSynchronizer)
 {
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
