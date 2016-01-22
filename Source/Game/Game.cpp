@@ -9,12 +9,16 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
-#include "SoundManager.h"
-#include "EventManager.h"
-#include <iostream>
 
+#include "SoundManager.h"
+#include "SoundFileHandler.h"
+
+#include "EventManager.h"
 #include "ResolutionManager.h"
 #include "MouseManager.h"
+
+#include <iostream>
+
 
 using namespace std::placeholders;
 
@@ -46,6 +50,7 @@ CGame::~CGame()
 	delete myRenderThread;
 	myRenderThread = nullptr;
 
+	SoundFileHandler::DestroyInstance();
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
 }
@@ -135,12 +140,30 @@ void CGame::InitCallBack()
 	MouseManager::GetInstance()->Initialize(spriteFilePaths, &myInputManager);
 	#pragma endregion
 
-	SoundManager::GetInstance();
+	#pragma region Sound Manager
+	
+	SoundManager::CreateInstance();
+	SoundFileHandler::CreateInstance();
+
+	CommonUtilities::GrowingArray<std::string> soundFilePaths;
+	soundFilePaths.Init(2); // Number of soundFX
+	for (size_t i = 0; i < 2; i++)
+	{
+		std::string tempString = "Sound/SoundFX/" + std::to_string(i) + ".ogg";
+		soundFilePaths.Add(tempString);
+	}
+
+	SoundFileHandler::GetInstance()->Load(soundFilePaths);
+
+	#pragma endregion
+
+	#pragma region Event Manager
 
 	EventManager::CreateInstance();
 	EventManager::GetInstance()->Init(&myInputManager);
 
-	//ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	#pragma endregion
+
 	if (myTestLevel.size() > 0)
 	{
 		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
@@ -153,8 +176,6 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	//std::cout << "Render x: " << DX2D::CEngine::GetInstance()->GetRenderSize().x << " Render y: " << DX2D::CEngine::GetInstance()->GetRenderSize().y << std::endl;
-
 	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));

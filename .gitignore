@@ -194,3 +194,7 @@ Bin/Logs/*
 *.lib
 Bin/fmodoutput.wav
 *.idb
+*.pkf
+*.xmp
+*.wav
+*.mp3

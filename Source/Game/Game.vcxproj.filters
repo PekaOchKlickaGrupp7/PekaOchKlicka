@@ -211,6 +211,9 @@
     <ClInclude Include="EventTalk.h">
       <Filter>Events\Conversation</Filter>
     </ClInclude>
+    <ClInclude Include="SoundFileHandler.h">
+      <Filter>System\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -314,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="EventTalk.cpp">
       <Filter>Events\Conversation</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundFileHandler.cpp">
+      <Filter>System\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,6 +14,9 @@
 #include "Room.h"
 #include "..\CommonUtilities\Intersection.h"
 
+#include "SoundFileHandler.h"
+
+
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
 {
@@ -23,7 +26,6 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	mySFXRain.Destroy();
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -53,17 +55,16 @@ void CGameWorld::Init()
 		DL_PRINT(CGame::myTestLevel.c_str());
 		ChangeLevel(CGame::myTestLevel);
 	}
-	
-	mySFXRain.Create3D("SFX/rain.wav");
-	mySFXRain.SetLooping(true);
-	//mySFXRain.SetVolume(10.0f);
-	mySFXRain.Play();
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
 	text->myPosition = DX2D::Vector2f(0.5f, 0.02f);
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
+
+	Sound &SFXRain = *SoundFileHandler::GetInstance()->GetSound(eSoundInt(eSound::eRain));
+	SFXRain.SetLooping(true);
+	SFXRain.Play();
 
 
 	//Create the player character
