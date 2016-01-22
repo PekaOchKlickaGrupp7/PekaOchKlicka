@@ -10,12 +10,15 @@ bool EventPlaySound::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
 
+
+
 	if (myIs3D)
 	{
 		// not yet
 		// Get3DSound
 		// set looping
 		// set position
+		// (myObjectData->myX + myPosition.x) * 10.0f;
 	}
 	else
 	{
