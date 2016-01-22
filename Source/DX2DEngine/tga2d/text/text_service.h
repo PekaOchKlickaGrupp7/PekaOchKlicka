@@ -49,13 +49,16 @@ namespace DX2D
 		~CTextService();
 
 		void Init();
+		
+		//void Render();
+
 		void Update();
-		void Render();
 
 		void InitAndLoad(std::string aFontPathAndName);
 		void AddTextToRender(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName);
+		float GetSentenceWidth(const std::string& aText, float aSize, const std::string& aName);
 	private:
-
+		void UpdateTextAndDraw(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName);
 		struct STextToRender
 		{
 			Vector2f mySize;
@@ -65,7 +68,7 @@ namespace DX2D
 			CColor myColor;
 		};
 
-		void BuildText(SText* aText, std::vector<STextToRender>& aTextBuffer);
+		void BuildText(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName, std::vector<STextToRender>& aTextBuffer);
 		void InitTexture();
 		
 		float minS;

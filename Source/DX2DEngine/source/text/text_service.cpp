@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 
-#define MAX_SPRITES 2000
+#define MAX_SPRITES 20000
 
 using namespace DX2D;
 
@@ -121,59 +121,89 @@ void CTextService::Update()
 	{
 		return;
 	}
-	for (std::map<std::string, SFontData*>::iterator iterator = myFontDatas.begin(); iterator != myFontDatas.end(); iterator++) 
+	for (std::map<std::string, SFontData*>::iterator iterator = myFontDatas.begin(); iterator != myFontDatas.end(); iterator++)
 	{
 		if (iterator->second)
 		{
 			iterator->second->myBatch->ClearAll();
 		}
-		
 	}
-	myTextsToRender.ResetCount();
 	myCurrentSprite = 0;
-
-	SText* text = myTextsToRender.GetNext();
-	while (text && myTextsToDraw > 0)
-	{
-
-		SFontData* fontData = myFontDatas[text->myName];
-		if (!fontData)
-		{
-			break;
-		}
-
-		BuildText(text, fontData->myTextBuffer);
-
-		for (STextToRender& vertex : fontData->myTextBuffer)
-		{
-			if (myCurrentSprite < MAX_SPRITES)
-			{
-				DX2D::CSprite* sprite = mySprites[myCurrentSprite];
-				sprite->SetPosition(vertex.myPosition);
-				sprite->SetSize(vertex.mySize);
-				sprite->SetColor(vertex.myColor);
-				sprite->SetUVOffset(vertex.myUV);
-				sprite->SetUVScale(vertex.uvScale);
-				fontData->myBatch->AddObject(sprite);
-				myCurrentSprite++;
-			}
-		}
-		fontData->myTextBuffer.clear();
-
-
-		text = myTextsToRender.GetNext();
-		myTextsToDraw--;
-	}
-
-
-	Render();
-	myTextsToRender.ResetCount();
-	myTextsToDraw = 0;
 }
 
-void CTextService::BuildText(SText* aText, std::vector<STextToRender>& aTextBuffer)
+
+float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize, const std::string& aName)
 {
-	SFontData* fontData = myFontDatas[aText->myName];
+	if (aText.size() <= 0)
+	{
+		return 0.0f;
+	}
+	SFontData* fontData = myFontDatas[aName];
+	if (!fontData || !myIsLoaded)
+	{
+		return 0;
+	}
+	float nextX = 0.0f;
+	for (unsigned int i = 0; i < aText.size(); i++)
+	{
+		int aChar = aText[i];
+		aChar = aChar < 0 ? 63 : aChar;
+		const fontChar& theChar = fontData->myFontChars[aChar];
+
+
+		float sizeX = (theChar.width_ / (float)fontData->myTexture->myImageSize.x);
+		float sizeY = (theChar.height_ / (float)fontData->myTexture->myImageSize.y);
+
+
+
+		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / (float)CEngine::GetInstance()->GetWindowSize().x))) * aSize) * 0.6f;
+	}
+
+	return nextX;
+
+}
+
+
+void CTextService::UpdateTextAndDraw(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName)
+{
+	if (!myIsLoaded)
+	{
+		return;
+	}
+	
+	SFontData* fontData = myFontDatas[aName];
+	if (!fontData)
+	{
+		return;
+	}
+
+	BuildText(aText, aPosition, aColor, aSize, aName, fontData->myTextBuffer);
+	fontData->myBatch->ClearAll();
+	for (STextToRender& vertex : fontData->myTextBuffer)
+	{
+		if (myCurrentSprite < MAX_SPRITES)
+		{
+			DX2D::CSprite* sprite = mySprites[myCurrentSprite];
+			sprite->SetPosition(vertex.myPosition);
+			sprite->SetSize(vertex.mySize);
+			sprite->SetColor(vertex.myColor);
+			sprite->SetUVOffset(vertex.myUV);
+			sprite->SetUVScale(vertex.uvScale);
+			fontData->myBatch->AddObject(sprite);
+			myCurrentSprite++;
+		}
+	}
+	fontData->myTextBuffer.clear();
+
+
+	fontData->myBatch->Render();
+//	Render();
+
+}
+
+void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName, std::vector<STextToRender>& aTextBuffer)
+{
+	SFontData* fontData = myFontDatas[aName];
 	if (!fontData || !myIsLoaded)
 	{
 		return;
@@ -181,9 +211,9 @@ void CTextService::BuildText(SText* aText, std::vector<STextToRender>& aTextBuff
 	float nextX = 0.0f;
 	float nextY = 0.0f;
 
-	for (unsigned int i = 0; i< aText->myText.size(); i++)
+	for (unsigned int i = 0; i< aText.size(); i++)
 	{
-		int aChar = aText->myText[i];
+		int aChar = aText[i];
 
 
 
@@ -194,15 +224,10 @@ void CTextService::BuildText(SText* aText, std::vector<STextToRender>& aTextBuff
 		maxS = theChar.sMax_;
 		minT = theChar.tMax_;
 
-
-		float aSize = aText->mySize;
-
-
-
 		bool isNewLine = aChar == 10;
 		if (isNewLine)
 		{
-			nextY += aSize * 0.05f;
+			nextY += aSize * 0.15f;
 			nextX = 0;
 			continue;
 		}
@@ -219,12 +244,12 @@ void CTextService::BuildText(SText* aText, std::vector<STextToRender>& aTextBuff
 		size.y = (sizeY)* aSize;
 
 		STextToRender renderText;
-		renderText.myPosition.Set((aText->myPosition.x + nextX), nextY + aText->myPosition.y - (offset.y * aSize));
+		renderText.myPosition.Set((aPosition.x + nextX), nextY + aPosition.y - (offset.y * aSize));
 		renderText.mySize = size;
 		renderText.myUV.Set(minS, maxT);
 		renderText.uvScale.x = sizeX;
 		renderText.uvScale.y = sizeY;
-		renderText.myColor = aText->myColor;
+		renderText.myColor = aColor;
 
 		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / (float)CEngine::GetInstance()->GetWindowSize().x))) * aSize) * 0.6f;
 
@@ -237,32 +262,7 @@ void CTextService::BuildText(SText* aText, std::vector<STextToRender>& aTextBuff
 }
 
 
-void CTextService::Render()
-{
-	for (int i = 0; i < myTextsToRender.NextCount(); i++)
-	{
-		SText* text = myTextsToRender.GetAt(i);
-		SFontData* fontData = myFontDatas[text->myName];
-		if (!fontData)
-		{
-			continue;
-		}
-
-		fontData->myBatch->Render();
-	}
-}
-
 void CTextService::AddTextToRender(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName)
 {
-	SText* text = myTextsToRender.GetNext();
-	if (!text)
-	{
-		return;
-	}
-	text->myText = aText;
-	text->myPosition = aPosition;
-	text->mySize = aSize;
-	text->myColor = aColor;
-	text->myName = aName;
-	myTextsToDraw++;
+	UpdateTextAndDraw(aText, aPosition, aColor, aSize, aName);
 }

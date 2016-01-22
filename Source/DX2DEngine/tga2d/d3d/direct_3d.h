@@ -58,9 +58,9 @@ namespace DX2D
 
 		void SetResolution(DX2D::Vector2<unsigned int> aResolution);
 		void SetFullScreen(bool aFullScreen);
+		void SetViewPort(float aTopLeftX, float aTopRightY, float aWidth, float aHeight, float aMinDepth = 0.0f, float aMaxDepth = 1.0f);
 
 		D3D11_VIEWPORT &GetViewport();
-		void SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth, float aSetRatio);
 
 		Matrix44 myCorrectedWorldWatrix;
 		Matrix44 myWorldWatrix;

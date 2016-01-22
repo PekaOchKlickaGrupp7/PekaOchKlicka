@@ -7,7 +7,6 @@ Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myInventory.Init("Sprites/inventory.png");
 	myIsMoving = false;
 	myIsInventoryOpen = false;
 }
@@ -18,7 +17,6 @@ Player::~Player()
 	myAnimation.Destroy();
 }
 
-//Initialize the character
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
@@ -29,6 +27,7 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	myMovementSpeed = aMovementSpeed;
 	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
+	myInventory.Init("Sprites/inventory.png");
 }
 
 //Update the character
@@ -46,31 +45,29 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager,
 	myInventory.Update(aDeltaT);
 
 	//Opening/Closing the inventory
-	static float inventoryHoverArea = 1.0f - 0.05f;
+	static float inventoryHoverArea = 1.0f - 0.1f;
 	if (myInventory.IsOpen() == false && 
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
 		myInventory.SetOpen();
-	}
+		}
 
 	if (myInventory.IsOpen() == true && 
 		MouseManager::GetInstance()->GetPosition().y <
 		myInventory.GetFullyOpenPosition().y)
-	{
+		{
 		myInventory.SetClose();
 	}
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
 
-//Render everything about the player
 void Player::Render(Synchronizer& aSynchronizer)
 {
 	myAnimation.Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }
 
-//Move the character
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
 	DX2D::Vector2f characterPos(myPosition);
@@ -91,10 +88,10 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 			myRenderPosition.x,
 			myRenderPosition.y);
 
-		//DRAW DEBUG ARROW
-		DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			DX2D::Vector2f(characterPos.x, characterPos.y),
-			DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+		////DRAW DEBUG ARROW
+		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+		//	DX2D::Vector2f(characterPos.x, characterPos.y),
+		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
 	}
 	else
 	{
@@ -102,13 +99,11 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	}
 }
 
-//Set the pivot point of the character
 void Player::SetPivot(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPivot(aPoint);
 }
 
-//Set the characters position
 void Player::SetPosition(const DX2D::Vector2f& aPoint)
 {
 	//mySprite->SetPosition(aPoint);
@@ -116,28 +111,29 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 	myRenderPosition = aPoint;
 }
 
-//Set the characters speed
 void Player::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
 }
 
-//Check if the character is moving, returns (true | false)
 bool Player::GetIsMoving()
 {
 	return myIsMoving;
 }
 
-//Set if the character should move (true | false)
 void Player::SetIsMoving(bool aValue)
 {
 	myIsMoving = aValue;
 }
 
-//Add an item to inventory
 void Player::AddItemToInventory(Item* aItemToAdd)
 {
 	myInventory.Add(aItemToAdd);
+}
+
+Inventory Player::GetInventory()
+{
+	return myInventory;
 }
 
 DX2D::Vector2f& Player::GetPosition()

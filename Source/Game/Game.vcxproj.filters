@@ -137,7 +137,6 @@
     <ClInclude Include="ResolutionManager.h">
       <Filter>System\Monitor</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="JSON.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
@@ -198,12 +197,14 @@
     <ClInclude Include="EventChangeLevel.h">
       <Filter>Events\Level</Filter>
     </ClInclude>
-    <ClInclude Include="TextTalk.h" />
     <ClInclude Include="EventNone.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="MouseManager.h">
       <Filter>System\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeCursor.h">
       <Filter>Events\Mouse</Filter>
@@ -302,7 +303,6 @@
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
-    <ClCompile Include="TextTalk.cpp" />
     <ClCompile Include="EventNone.cpp">
       <Filter>Events</Filter>
     </ClCompile>
@@ -314,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="EventTalk.cpp">
       <Filter>Events\Conversation</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Game Objects\Items &amp; Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -28,7 +28,6 @@ public:
 private:
 	void ItemPickUp();
 	DX2D::CText* text;
-	DX2D::CSprite* myResolutionTestSprite;
 
 	std::map<std::string, Room*> myRooms;
 	Room* myCurrentRoom;

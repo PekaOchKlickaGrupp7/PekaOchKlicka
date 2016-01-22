@@ -244,11 +244,11 @@ void DX2D::CShader::OnShaderFileModified(std::wstring aFile)
 
 }
 
-void DX2D::CShader::Render(CRenderObject* aObject)
+bool DX2D::CShader::Render(CRenderObject* aObject)
 {
-	if (!myVertexShader || !myPixelShader)
+	if (!myVertexShader || !myPixelShader || !myIsReadyToRender)
 	{
-		return;
+		return false;
 	}
 	CDirectEngine& engine = myEngine->GetDirect3D();
 	engine.GetContext()->VSSetShader(myVertexShader, NULL, 0);
@@ -260,6 +260,7 @@ void DX2D::CShader::Render(CRenderObject* aObject)
 	textures[0] = myEngine->GetTextureManager().GetNoiseTexture();
 	engine.GetContext()->PSSetShaderResources(0, 1, textures);
 	DoOneFrameUpdates(aObject);
+	return true;
 }
 
 void DX2D::CShader::DoOneFrameUpdates(CRenderObject* aObject)

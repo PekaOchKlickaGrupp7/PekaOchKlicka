@@ -4,8 +4,8 @@
 
 ObjectData::ObjectData()
 {
+	myIsHovering = false;
 }
-
 
 ObjectData::~ObjectData()
 {

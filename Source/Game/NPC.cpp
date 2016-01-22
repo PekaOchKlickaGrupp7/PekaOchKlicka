@@ -64,10 +64,10 @@ void NPC::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDelt
 			myRenderPosition.x,
 			myRenderPosition.y);
 
-		//DRAW DEBUG ARROW
-		DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			DX2D::Vector2f(characterPos.x, characterPos.y),
-			DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+		////DRAW DEBUG ARROW
+		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+		//	DX2D::Vector2f(characterPos.x, characterPos.y),
+		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
 	}
 	else
 	{
@@ -78,6 +78,7 @@ void NPC::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDelt
 //Set the pivot point of the character
 void NPC::SetPivot(const DX2D::Vector2f& aPoint)
 {
+	(aPoint);
 	//mySprite->SetPivot(aPoint);
 }
 

@@ -6,16 +6,13 @@
 Inventory::Inventory()
 {
 	myContents.Init(10);
-
 	myIsOpen = false;
-
 	myPosition = DX2D::Vector2f(0.0, 0.0);
-	myStartPosition = DX2D::Vector2f(0.0, 0.0);
-	myEndPosition = DX2D::Vector2f(0.0, 0.0);
 
 	float myMovementPerFrame = 0.0f;
 
 	myBackground = nullptr;
+	myMasterItemList = new ItemList;
 }
 
 Inventory::~Inventory()
@@ -27,19 +24,13 @@ Inventory::~Inventory()
 void Inventory::Init(const char* aFilePath)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myEndPosition.y = 1.0f - myBackground->GetSize().y;
-	myStartPosition.y = 1.0f;
-	myPosition.y = myStartPosition.y;
-	myMovementPerFrame = 0.3f;
 }
 
-//Adds an item to the inventory
 void Inventory::Add(Item* aItemToAdd)
 {
 	myContents.Add(aItemToAdd);
 }
 
-//Removes an item from the inventory
 void Inventory::Remove(Item* aItemToRemove)
 {
 	myContents.DeleteCyclic(aItemToRemove);
@@ -59,17 +50,26 @@ void Inventory::Update(float aDeltaTime)
 }
 
 //Combine one item with another
-void Inventory::Combine(Item& aItemToCombine, Item& aItemToCombineWith)
+void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
-	if ((aItemToCombine.IsCombinable() == true && aItemToCombineWith.IsCombinable() == true))
+	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
 	{
-		//Compare the first items list of combinable item names with the name of the second item
-		for (unsigned short i = 0; i < aItemToCombine.GetList().Size(); ++i)
+		for (unsigned int i = 0; i < myContents.Size(); ++i)
 		{
-			std::string name = aItemToCombine.GetList()[i];
-			if (aItemToCombineWith.GetName() == name)
+			std::string name = aItemToCombine->GetName();
+			if (aItemToCombineWith->GetName() == name)
 			{
+				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
+				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
 
+				for (unsigned short j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
+				{
+					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
+					{
+						myContents.Add(new Item(myMasterItemList->GetItemList()[j]));
+						break;
+					}
+				}
 			}
 		}
 	}

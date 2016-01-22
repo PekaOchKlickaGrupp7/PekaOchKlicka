@@ -23,6 +23,12 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
 
+	mySpriteInteractive[eMouse(eInteractive::eTalkTo)]->SetPivot({ 0.5f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::eExamine)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eChooseOption)]->SetPivot({ 0.6f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::ePickUp)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eGrabAndDrag)]->SetPivot({ 0.5f, 0.0f });
+
 	myPosition = { 0.5f - (mySprite->GetSize().x*0.5f), 0.5f - (mySprite->GetSize().y*0.5f) };
 	mySprite->SetPosition(myPosition);
 	mySprite->SetPivot({ 0.5f, 0.5f });
@@ -37,8 +43,6 @@ void MouseManager::Update(float aDeltaTime)
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f);
 
 	float aSpeed = 0.0005f;
-
-	
 	
 
 	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
@@ -48,21 +52,21 @@ void MouseManager::Update(float aDeltaTime)
 	{
 		myPosition.x = 0;
 	}
-	else if ((myPosition.x + mySprite->GetSize().x) >= 1)
+	else if ((myPosition.x /*+ mySprite->GetSize().x*/) >= 1)
 	{
-		myPosition.x = 1 - mySprite->GetSize().x;
+		myPosition.x = 1 /*- /*mySprite->GetSize().x*/;
 	}
 	
 	if (myPosition.y <= 0)
 	{
 		myPosition.y = 0;
 	}
-	else if ((myPosition.y + mySprite->GetSize().y) >= 1)
+	else if ((myPosition.y /*+ mySprite->GetSize().y*/) >= 1)
 	{
-		myPosition.y = 1 - mySprite->GetSize().y;
+		myPosition.y = 1 /*- /*mySprite->GetSize().y*/;
 	}
 
-	std::cout << myPosition.x << " " << myPosition.y << std::endl;
+	//std::cout << myPosition.x << " " << myPosition.y << std::endl;
 }
 
 void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)

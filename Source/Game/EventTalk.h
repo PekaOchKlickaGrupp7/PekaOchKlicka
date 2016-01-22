@@ -13,7 +13,6 @@ public:
 	virtual void Reset() override;
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
-
 	std::string myText;
 	std::string myFontPath;
 
@@ -21,7 +20,9 @@ public:
 
 	bool myIsTalking;
 	float myShowTime;
-	float myTextSize;
+	float myWordLength;
+
+	float mySize;
 
 protected:
 

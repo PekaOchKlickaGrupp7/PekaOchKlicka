@@ -8,7 +8,7 @@ namespace DX2D
 	{
 	public:
 		D3D11_VIEWPORT &GetViewport();
-		void SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth, float aSetRatio);
+		void SetViewPort(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth);
 	};
 }
 
@@ -21,9 +21,9 @@ ResolutionViewPort::ResolutionViewPort()
 //	return DX2D::CEngine::GetInstance()->GetDirect3D().GetViewport();
 //}
 
-void ResolutionViewPort::SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth, float aSetRatio)
+void ResolutionViewPort::SetViewport(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth, float aMaxDepth)
 {
-	DX2D::CEngine::GetInstance()->GetDirect3D().SetViewport(aTopLeftX, aTopLeftY, aWidth, aHeight, aMinDepth, aMaxDepth, aSetRatio);
+	DX2D::CEngine::GetInstance()->GetDirect3D().SetViewPort(aTopLeftX, aTopLeftY, aWidth, aHeight, aMinDepth, aMaxDepth);
 }
 
 

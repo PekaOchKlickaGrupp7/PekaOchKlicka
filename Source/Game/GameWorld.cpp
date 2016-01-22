@@ -1,18 +1,19 @@
 #include "stdafx.h"
 #include "GameWorld.h"
+#include <iostream>
+
+#include "..\CommonUtilities\Intersection.h"
+#include "..\CommonUtilities\GrowingArray.h"
 
 #include "StateStackProxy.h"
 #include "Synchronizer.h"
 
 #include "ResolutionManager.h"
 
-#include "..\CommonUtilities\GrowingArray.h"
-#include <iostream>
 #include "Game.h"
 #include "EventManager.h"
 #include "HitBox.h"
 #include "Room.h"
-#include "..\CommonUtilities\Intersection.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -23,7 +24,6 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
-	delete myResolutionTestSprite;
 	mySFXRain.Destroy();
 }
 
@@ -35,7 +35,7 @@ void CGameWorld::ChangeLevel(const std::string& aString)
 	if (myCurrentRoom == nullptr)
 	{
 		DL_PRINT("Current room is null!");
-}
+	}
 	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
 }
 
@@ -47,6 +47,7 @@ Player* CGameWorld::GetPlayer()
 void CGameWorld::Init()
 {
 	myJson.Load("root.json", myRooms, this);
+	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -66,19 +67,11 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
-	myResolutionTestSprite = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
 	//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
-
-	/*
-	//Test item
-
-	myPlayer.AddItemToInventory(&myTestItem);
-	myPlayer.AddItemToInventory(&myTestItem2);
-	*/
 }
 
 
@@ -109,7 +102,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	//Move character if inside nav mesh
 	if (myInputManager.LeftMouseButtonClicked())
-	{
+		{
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
 
@@ -129,7 +122,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		else
 		{
 			myPlayer.SetIsMoving(false);
-		}
+	}
 	}
 	}
 
@@ -175,7 +168,7 @@ void CGameWorld::ItemPickUp()
 {
 	if (myCurrentRoom != nullptr)
 	{
-		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
 		{
 			if (CommonUtilities::Intersection::PointVsRect(
 				Vector2<float>(myTargetPosition.x, myTargetPosition.y)
@@ -208,7 +201,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
 			}
 		}
-		for (unsigned int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
+		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
 		{
 			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
 		}
@@ -221,11 +214,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
 
-	/*command.myType = eRenderType::eSprite;
-	command.myPosition = myResolutionTestSprite->GetPosition();
-	command.mySprite = myResolutionTestSprite;
-	aSynchronizer.AddRenderCommand(command);
-*/
 	myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);

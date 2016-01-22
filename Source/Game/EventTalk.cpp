@@ -16,9 +16,12 @@ EventTalk::~EventTalk()
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
+	myRoom = aRoom;
+	myGameWorld = aGameWorld;
+
 	myTextRender = new DX2D::CText(myFontPath.c_str());
 	myTextRender->myColor = myColor;
-	myTextRender->mySize = myTextSize;
+	myTextRender->mySize = mySize;
 	Reset();
 	myIsTalking = true;
 }
@@ -28,10 +31,11 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	myTextRender->myPosition = DX2D::Vector2f(object->myX, object->myY);
-	myTextRender->mySize = 1;
+	float x = object->myX + (object->myHitBox.myWidth / 2);
 
-	if (myCurrentTime > myShowTime * myWordCount)
+	myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
+
+	if (myCurrentTime > myWordLength * myWordCount)
 	{
 		return NewSubString();
 	}
@@ -45,7 +49,7 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	command.myType = eRenderType::eText;
 	command.myPosition = myTextRender->myPosition;
 	command.myText = myTextRender;
-	command.myText->mySize = myTextSize;
+	command.myText->mySize = mySize;
 	aSynchronizer.AddRenderCommand(command);
 }
 
@@ -76,10 +80,14 @@ bool EventTalk::NewSubString()
 		}
 		else
 		{
-			myTextRender->myText = " ";
-			myWordCount = 0;
-			myIsTalking = false;
-			return true;
+			if (myCurrentTime >= myShowTime)
+			{
+				myTextRender->myText = " ";
+				myWordCount = 0;
+				myIsTalking = false;
+				return true;
+			}
+			return false;
 		}
 	}
 }

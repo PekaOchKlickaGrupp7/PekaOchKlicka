@@ -7,6 +7,7 @@
 #include "Room.h"
 #include "GameWorld.h"
 #include "Item.h"
+#include "Inventory.h"
 
 //Events
 #include "EventNone.h"
@@ -17,44 +18,110 @@
 
 using namespace rapidjson;
 
-Event* JSON::CreateEventData(Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
+Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
 	Event* event = nullptr;
+	Value& extra = aParent["extra"];
 	switch (action)
 	{
 	case EventActions::SetActive:
 	{
 		EventSetActive* setActive = new EventSetActive();
 		setActive->Init(aRoom, aGameWorld);
-		if (aParent.HasMember("Value") == true)
+
+		if (extra.HasMember("value") == true)
 		{
-			Value& myValue = aParent["Value"];
+			Value& myValue = extra["value"];
 			if (myValue.IsNull() == true)
 			{
-				//DL_ASSERT("Event SetActive Value is null");
+				DL_ASSERT("Event SetActive Value is null");
 			}
 			setActive->myValue = myValue.GetBool();
 		}
 
-		event = dynamic_cast<Event*>(setActive);
+		event = setActive;
 		break;
 	}
 	case EventActions::ChangeLevel:
 	{
 		EventChangeLevel* changeLevel = new EventChangeLevel();
 		changeLevel->Init(aRoom, aGameWorld);
-		changeLevel->myTargetLevelName = aParent["TargetSceneName"].GetString();
 
-		event = dynamic_cast<Event*>(changeLevel);
+		if (extra.HasMember("TargetScene") == true)
+		{
+			Value& myValue = extra["TargetScene"];
+			if (myValue.IsNull() == true)
+			{
+				DL_ASSERT("Event Change Level Value is null");
+			}
+			changeLevel->myTargetLevelName = myValue.GetString();
+			changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
+		}
+
+		event = changeLevel;
+		break;
+	}
+	case EventActions::Talk:
+	{
+		EventTalk* talk = new EventTalk();
+
+		if (extra.HasMember("text") == true)
+		{
+			talk->myText = extra["text"].GetString();
+		}
+		if (extra.HasMember("length") == true)
+		{
+			talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
+		}
+		if (extra.HasMember("wordLength") == true)
+		{
+			talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
+		}
+		if (extra.HasMember("color") == true)
+		{
+			Value &colorVal = extra["color"];
+			talk->myColor = DX2D::CColor(static_cast<float>(colorVal["r"].GetDouble()),
+				static_cast<float>(colorVal["g"].GetDouble()),
+				static_cast<float>(colorVal["b"].GetDouble()),
+				static_cast<float>(colorVal["a"].GetDouble()));
+		}
+		if (extra.HasMember("size") == true)
+		{
+			talk->mySize = static_cast<float>(extra["size"].GetDouble());
+		}
+		if (extra.HasMember("fontPath") == true)
+		{
+			talk->myFontPath = extra["fontPath"].GetString();
+		}
+
+		talk->Init(aRoom, aGameWorld);
+
+		event = talk;
+		break;
+	}
+	case EventActions::ChangeCursor:
+	{
+		EventChangeCursor* changeCursor = new EventChangeCursor();
+		if (extra.HasMember("cursor") == true)
+		{
+			changeCursor->myTargetCursor = extra["cursor"].GetInt();
+		}
+
+		changeCursor->Init(aRoom, aGameWorld);
+
+		event = changeCursor;
 		break;
 	}
 	default:
-
+		event = new EventNone();
+		event->Init(aRoom, aGameWorld);
 		break;
 	}
 	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
 	event->myTarget = std::string(aParent["target"].GetString());
+	event->myObjectData = aData;
+	
 
 	return event;
 }
@@ -158,6 +225,43 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 	return true;
 }
 
+bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
+{
+	const char* data = ReadFile(aRootFile.c_str());
+
+	Document items;
+	items.Parse(data);
+
+	if (items.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load items.json.");
+		items.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	Value& inventoryItems = items["inventoryItems"];
+	if (inventoryItems.IsNull() == true)
+	{
+		DL_DEBUG("inventoryItems is not a member of items.json");
+		items.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	for (unsigned int i = 0; i < inventoryItems.Size(); ++i)
+	{
+		Value& item = inventoryItems[i];
+
+		std::string name = item["name"].GetString();
+		const char* path = item["path"].GetString();
+		std::string description = item["description"].GetString();
+		std::string combinableWith = item["combinableWith"].GetString();
+		std::string resultingItem = item["resultingItem"].GetString();
+		bool isCombinable = item["isCombinable"].GetBool();
+		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+	}
+	return true;
+}
+
 #pragma region Private Methods
 
 void JSON::LoadObject(Value& node, ObjectData* aParentObject,
@@ -206,8 +310,10 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	Value& events = object["events"]["list"]["$values"];
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
-		EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
+		LoadEvent(dataObject, events[i], aRoom, aGameWorld);
+		/*EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
 		Event* event = nullptr;
+		Value& extra = events[i]["extra"];
 		switch (action)
 		{
 		case EventActions::SetActive:
@@ -215,7 +321,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			EventSetActive* setActive = new EventSetActive();
 			setActive->Init(aRoom, aGameWorld);
 
-			Value& extra = events[i]["extra"];
 			if (extra.HasMember("value") == true)
 			{
 				Value& myValue = extra["value"];
@@ -226,7 +331,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 				setActive->myValue = myValue.GetBool();
 			}
 
-			//dataObject->myEvents.Add(setActive);
 			event = setActive;
 			break;
 		}
@@ -234,13 +338,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		{
 			EventChangeLevel* changeLevel = new EventChangeLevel();
 			changeLevel->Init(aRoom, aGameWorld);
-			//changeLevel->myTargetLevelName = events[i]["CHANGE_LEVEL_TargetScene"].GetString();
 
-			//changeLevel->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-			//changeLevel->myTarget = std::string(events[i]["target"].GetString());
-			//changeLevel->myObjectData = dataObject;
-
-			Value& extra = events[i]["extra"];
 			if (extra.HasMember("TargetScene") == true)
 			{
 				Value& myValue = extra["TargetScene"];
@@ -252,19 +350,41 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
 			}
 
-			/*dataObject->myEvents.Add(changeLevel);*/
 			event = changeLevel;
 			break;
 		}
 		case EventActions::Talk:
 		{
 			EventTalk* talk = new EventTalk();
-			talk->myColor = { 1, 1, 1, 1 };
-			talk->myFontPath = "Text/calibril.ttf_sdf";
-			talk->myTextSize = 0.4f;
-			talk->myShowTime = 0.5f;
-			talk->myTarget = "Self";
-			talk->myText = "Fisk Fisk Fisk Fisk Fsik";
+
+			if (extra.HasMember("text") == true)
+			{
+				talk->myText = extra["text"].GetString();
+			}
+			if (extra.HasMember("length") == true)
+			{
+				talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
+			}
+			if (extra.HasMember("wordLength") == true)
+			{
+				talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
+			}
+			if (extra.HasMember("color") == true)
+			{
+				Value &colorVal = extra["color"];
+				talk->myColor = DX2D::CColor(static_cast<float>(colorVal["r"].GetDouble()),
+					static_cast<float>(colorVal["g"].GetDouble()), 
+					static_cast<float>(colorVal["b"].GetDouble()), 
+					static_cast<float>(colorVal["a"].GetDouble()));
+			}
+			if (extra.HasMember("size") == true)
+			{
+				talk->mySize = static_cast<float>(extra["size"].GetDouble());
+			}
+			if (extra.HasMember("fontPath") == true)
+			{
+				talk->myFontPath = extra["fontPath"].GetString();
+			}
 
 			talk->Init(aRoom, aGameWorld);
 
@@ -288,19 +408,12 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
 		event->myTarget = std::string(events[i]["target"].GetString());
 		event->myObjectData = dataObject;
-		dataObject->myEvents.Add(event);
+		dataObject->myEvents.Add(event);*/
 	}
 
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
 
-	if (false && object["item"]["isItem"].GetBool() == true)
-	{
-		//Item* item = new Item();
-
-	}
-	else
-	{
 		if (aParentObject == nullptr)
 		{
 			aObjects->Add(dataObject);
@@ -311,7 +424,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 			aParentObject->myChilds.Add(dataObject);
 			parentData = aParentObject->myChilds[aParentObject->myChilds.Size() - 1];
 		}
-	}
 
 	for (unsigned int j = 0; j < object["childs"]["$values"].Size(); ++j)
 	{
@@ -322,7 +434,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
-	Event* event = CreateEventData(aParent, aRoom, aGameWorld);
+	Event* event = CreateEventData(aNode, aParent, aRoom, aGameWorld);
 	if (aNode != nullptr)
 	{
 		aNode->myEvents.Add(event);
@@ -330,21 +442,21 @@ void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld*
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
 	{
-		LoadEvent(event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
+		LoadEvent(aNode, event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
 	}
 }
 
-void JSON::LoadEvent(Event* aNode, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
+void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
-	Event* event = CreateEventData(aParent, aRoom, aGameWorld);
-	if (aNode != nullptr)
+	Event* event = CreateEventData(aNode, aParent, aRoom, aGameWorld);
+	if (aEvent != nullptr)
 	{
-		aNode->myChilds.Add(event);
+		aEvent->myChilds.Add(event);
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
 	{
-		LoadEvent(event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
+		LoadEvent(aNode, event, aParent["childs"]["$values"][i], aRoom, aGameWorld);
 	}
 }
 
