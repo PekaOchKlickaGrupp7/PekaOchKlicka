@@ -157,6 +157,10 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
+	std::string name = "";
+	//ResolutionManager::GetInstance()->Update(0, 0);
+	//myJson.Load("root.json", myRooms, this, name);
+
 	#pragma region Event Manager
 
 	EventManager::CreateInstance();
@@ -164,14 +168,14 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	if (myTestLevel.size() > 0)
+	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	/*if (myTestLevel.size() > 0)
 	{
-		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 	}
 	else
 	{
-	myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
-	}
+		myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
+	}*/
 }
 
 const bool CGame::Update()

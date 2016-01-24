@@ -70,10 +70,11 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
+	/*
 	Sound &SFXRain = *SoundFileHandler::GetInstance()->GetSound(eSoundInt(eSound::eRain));
 	SFXRain.SetLooping(true);
 	SFXRain.Play();
-
+	*/
 
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
@@ -202,10 +203,11 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 			{
 				//RenderPlayer();
+				myPlayer.Render(aSynchronizer);
 			}
 			else
 			{
-				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
+				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
 		}
 		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
@@ -216,17 +218,17 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 
-	command.myType = eRenderType::eText;
+	/*command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
-
-	myPlayer.Render(aSynchronizer);
+*/
+	//myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
-void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
+void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
 {
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
@@ -234,7 +236,11 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 	{
 		if (aNode->mySprite != nullptr)
 		{
-			command.myPosition = DX2D::Vector2f(aNode->myX, aNode->myY);
+			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
+			aNode->mySprite->SetSize(DX2D::Vector2f(aNode->myScaleX, aNode->myScaleY));
+			aNode->mySprite->SetRotation(aNode->myRotation);
+
+			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
 			command.mySprite = aNode->mySprite;
 			command.mySprite->SetColor({ 1, 1, 1, 1 });
 			aSynchronizer.AddRenderCommand(command);
@@ -244,7 +250,7 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 		{
 			for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
 			{
-				RenderLevel(aSynchronizer, aNode->myChilds[j]);
+				RenderObject(aSynchronizer, aNode->myChilds[j], 0, 0); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
 			}
 		}
 	}

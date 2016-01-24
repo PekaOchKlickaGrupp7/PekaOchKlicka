@@ -32,8 +32,8 @@ public:
 
 	void ObjectData::Update(float aDeltaTime);
 
-
 	DX2D::CSprite* mySprite;
+	DX2D::CSprite* myOriginalSprite;
 
 	std::string myName;
 	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;

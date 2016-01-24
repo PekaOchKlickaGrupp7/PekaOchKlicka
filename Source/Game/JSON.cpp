@@ -16,6 +16,7 @@
 #include "EventTalk.h"
 #include "EventChangeCursor.h"
 #include "EventPlaySound.h"
+#include "EventChangeImage.h"
 
 enum class eSound
 {
@@ -120,7 +121,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = changeCursor;
 		break;
 	}
-	case EventActions::PlaySound:
+	case EventActions::PlaySoundFile:
 	{
 		EventPlaySound* sound = new EventPlaySound();
 		if (extra.HasMember("id") == true)
@@ -149,6 +150,16 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = sound;
 		break;
 	}
+	case EventActions::ChangeImage:
+	{
+		EventChangeImage* changeImage = new EventChangeImage();
+		changeImage->myImagePath = extra["image"].GetString();
+
+		changeImage->Init(aRoom, aGameWorld);
+
+		event = changeImage;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
@@ -157,7 +168,6 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
 	event->myTarget = std::string(aParent["target"].GetString());
 	event->myObjectData = aData;
-	
 
 	return event;
 }
@@ -320,8 +330,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	if (std::string(object["image"].GetString()).size() > 0)
 	{
-		std::cout << object["image"].GetString() << std::endl;
 		dataObject->mySprite = new DX2D::CSprite(object["image"].GetString());
+		dataObject->myOriginalSprite = dataObject->mySprite;
 		dataObject->mySprite->SetPivot(DX2D::Vector2f(dataObject->myPivotX, dataObject->myPivotY));
 		dataObject->mySprite->SetSize(DX2D::Vector2f(dataObject->myScaleX, dataObject->myScaleY));
 		dataObject->mySprite->SetRotation(dataObject->myRotation);
@@ -448,7 +458,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	}
 
 	ObjectData* parentData = nullptr;
-	//dataObject->myChilds.Init(12);
+	dataObject->myChilds.Init(12);
 
 	if (aParentObject == nullptr)
 	{
