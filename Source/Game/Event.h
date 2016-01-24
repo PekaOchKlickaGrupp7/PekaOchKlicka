@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "ObjectData.h"
 
 class Room;

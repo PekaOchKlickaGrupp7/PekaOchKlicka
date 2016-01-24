@@ -17,7 +17,10 @@ enum EventActions
 	Talk,
 	ChangeCursor,
 	PlaySoundFile,
-	ChangeImage
+	ChangeImage,
+	ChangeToOriginalImage,
+	Delay,
+	IfVariable
 };
 
 class JSON

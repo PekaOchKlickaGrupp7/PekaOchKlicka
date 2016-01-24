@@ -17,6 +17,8 @@
 #include "EventChangeCursor.h"
 #include "EventPlaySound.h"
 #include "EventChangeImage.h"
+#include "EventDelay.h"
+#include "EventChangeToOriginalImage.h"
 
 enum class eSound
 {
@@ -153,11 +155,35 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	case EventActions::ChangeImage:
 	{
 		EventChangeImage* changeImage = new EventChangeImage();
-		changeImage->myImagePath = extra["image"].GetString();
+		if (extra.HasMember("image") == true)
+		{
+			changeImage->myImagePath = extra["image"].GetString();
+		}
 
 		changeImage->Init(aRoom, aGameWorld);
 
 		event = changeImage;
+		break;
+	}
+	case EventActions::Delay:
+	{
+		EventDelay* delay = new EventDelay();
+		if (extra.HasMember("delay") == true)
+		{
+			delay->myDelay = static_cast<float>(extra["delay"].GetDouble());
+		}
+		delay->Init(aRoom, aGameWorld);
+
+		event = delay;
+		break;
+	}
+	case EventActions::ChangeToOriginalImage:
+	{
+		EventChangeToOriginalImage* changeToOriginalImage = new EventChangeToOriginalImage();
+
+		changeToOriginalImage->Init(aRoom, aGameWorld);
+
+		event = changeToOriginalImage;
 		break;
 	}
 	default:
