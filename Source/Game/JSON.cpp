@@ -125,6 +125,10 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		{
 			sound->myTargetSound = extra["path"].GetString();
 		}
+		if (extra.HasMember("SoundName") == true)
+		{
+			//sound->myIdentifier = extra["SoundName"].GetString();
+		}
 		if (extra.HasMember("volume") == true)
 		{
 			sound->myVolume = static_cast<float>(extra["volume"].GetDouble());
