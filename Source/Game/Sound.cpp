@@ -32,8 +32,11 @@ void Sound::Create3D(const char* aFile)
 
 void Sound::Play(DX2D::Vector2f aPosition)
 {
-	myPosition = aPosition;
-	myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
+	if (myChannel->isPlaying == false)
+	{
+		myPosition = aPosition;
+		myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
+	}
 }
 
 void Sound::SetPosition(float aX, float aY, float aZ)
