@@ -49,7 +49,6 @@ Player* CGameWorld::GetPlayer()
 void CGameWorld::Init()
 {
 	std::string name = "";
-	//ResolutionManager::GetInstance()->Update(0, 0);
 	myJson.Load("root.json", myRooms, this, name);
 	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
@@ -69,12 +68,6 @@ void CGameWorld::Init()
 	text->myPosition = DX2D::Vector2f(0.5f, 0.02f);
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
-
-	/*
-	Sound &SFXRain = *SoundFileHandler::GetInstance()->GetSound(eSoundInt(eSound::eRain));
-	SFXRain.SetLooping(true);
-	SFXRain.Play();
-	*/
 
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
@@ -166,9 +159,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayer.Update(myTargetPosition, aTimeDelta);
 
-
-
-
 	return eStateStatus::eKeepState;
 }
 
@@ -217,13 +207,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	}
 
 	EventManager::GetInstance()->Render(aSynchronizer);
-
-	/*command.myType = eRenderType::eText;
-	command.myPosition = text->myPosition;
-	command.myText = text;
-	aSynchronizer.AddRenderCommand(command);
-*/
-	//myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }

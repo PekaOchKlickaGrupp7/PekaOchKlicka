@@ -24,7 +24,6 @@ public:
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
-	//void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
 	void ItemPickUp();
 	DX2D::CText* text;

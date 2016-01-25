@@ -69,6 +69,24 @@ void MouseManager::Update(float aDeltaTime)
 	//std::cout << myPosition.x << " " << myPosition.y << std::endl;
 }
 
+bool MouseManager::ButtonClicked(eMouseButtons aButton)
+{
+	switch (aButton)
+	{
+	case eMouseButtons::eLeft:
+		return myInputManager->LeftMouseButtonClicked();
+		break;
+	case eMouseButtons::eRight:
+		return myInputManager->RightMouseButtonClicked();
+		break;
+	case eMouseButtons::eCenter:
+		return myInputManager->MiddleMouseButtonClicked();
+		break;
+	default:
+		return false;
+		break;
+	}
+}
 void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)
 {
 	mySprite = mySpriteInteractive[eMouse(aInteractiveMode)];

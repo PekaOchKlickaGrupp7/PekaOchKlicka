@@ -58,6 +58,12 @@ void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
 		myInventory.SetClose();
 	}
 
+
+	if (myInventory.IsOpen() == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
+	{
+		myInventory.OnClick(MouseManager::GetInstance()->GetPosition());
+	}
+
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
