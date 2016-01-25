@@ -7,6 +7,9 @@ Sound::Sound()
 	myPosition = { 0.0f, 0.0f };
 	mySFX = nullptr;
 	myIdentifier = "";
+
+
+	myChannel = nullptr;
 }
 
 
@@ -32,8 +35,11 @@ void Sound::Create3D(const char* aFile)
 
 void Sound::Play(DX2D::Vector2f aPosition)
 {
-	bool aBool;
-	myChannel->isPlaying(&aBool);
+	bool aBool = false;
+	if (myChannel != nullptr)
+	{
+		myChannel->isPlaying(&aBool);
+	}
 	if (aBool == false)
 	{
 		myPosition = aPosition;
