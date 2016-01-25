@@ -189,6 +189,11 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	{
 		EventStopSound* stopSoundEvent = new EventStopSound();
 
+		if (extra.HasMember("SoundName") == true)
+		{
+			stopSoundEvent->myTargetSound = extra["SoundName"].GetString();
+		}
+
 		stopSoundEvent->Init(aRoom, aGameWorld);
 		event = stopSoundEvent;
 		break;
