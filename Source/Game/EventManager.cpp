@@ -42,7 +42,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		bool trigger = true;
 		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 		{
-			trigger = true;
+			trigger = false;
 		}
 		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
 		{
@@ -124,7 +124,7 @@ void EventManager::Update(const float aDeltaTime)
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->myActive = false;
-			if (event->myChilds.GetIsInitialized() == true)
+			if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 			{
 				for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
 				{

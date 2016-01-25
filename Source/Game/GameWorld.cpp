@@ -27,6 +27,10 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
+	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); ++iterator)
+	{
+		delete iterator->second;
+	}
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
