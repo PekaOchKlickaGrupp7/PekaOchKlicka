@@ -21,13 +21,6 @@
 #include "EventChangeToOriginalImage.h"
 #include "EventStopSound.h"
 
-enum class eSound
-{
-	eRain,
-	eJaguar,
-	eDoor,
-};
-
 using namespace rapidjson;
 
 Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
@@ -130,7 +123,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		EventPlaySound* sound = new EventPlaySound();
 		if (extra.HasMember("path") == true)
 		{
-			sound->myTargetSound = extra["path"].GetInt();
+			sound->myTargetSound = extra["path"].GetString();
 		}
 		if (extra.HasMember("volume") == true)
 		{
