@@ -6,6 +6,7 @@ Sound::Sound()
 {
 	myPosition = { 0.0f, 0.0f };
 	mySFX = nullptr;
+	myIdentifier = "";
 }
 
 
@@ -19,8 +20,9 @@ void Sound::Destroy()
 	mySFX->release();
 }
 
-void Sound::Create(const char* aFile)
+void Sound::Create(const char* aFile, std::string &anIdentifier)
 {
+	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound(aFile);
 }
 void Sound::Create3D(const char* aFile)

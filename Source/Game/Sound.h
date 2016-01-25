@@ -5,7 +5,7 @@ class Sound
 {
 public:
 	Sound();
-	void Create(const char* aFile);
+	void Create(const char* aFile, std::string &anIdentifier);
 	void Create3D(const char* aFile);
 	void SetLooping(bool aBool) { myIsLooping = aBool; };
 	void Play(DX2D::Vector2f aPosition = { 0.0f, 0.0f });
@@ -25,5 +25,6 @@ private:
 	bool myIsLooping = false;
 	FMOD::Sound* mySFX;
 	DX2D::Vector2f myPosition;
+	std::string myIdentifier;
 };
 
