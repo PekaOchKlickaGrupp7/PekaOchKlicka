@@ -13,7 +13,9 @@ Inventory::Inventory()
 	myStartPosition = DX2D::Vector2f(0.0, 0.0);
 	myEndPosition = DX2D::Vector2f(0.0, 0.0);
 
-	float myMovementPerFrame = 0.0f;
+	myMovementPerFrame = 0.0f;
+	myXOffset = 0.02f;
+	myYOffset = 0.02f;
 
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
@@ -45,11 +47,11 @@ void Inventory::Remove(Item* aItemToRemove)
 }
 
 //Update the inventory
-void Inventory::Update(float aDeltaTime)
+void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime)
 {
 	if (myIsOpen == true)
 	{
-		Open(aDeltaTime);
+		Open(aDeltaTime, aInputManager);
 	}
 	else if (myIsOpen == false)
 	{
@@ -58,7 +60,7 @@ void Inventory::Update(float aDeltaTime)
 }
 
 //Check where in the inventory the user clicks and trigger appropiate actions
-bool Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
+bool Inventory::IsClicked()
 {
 	return myIsClicked;
 }
@@ -100,9 +102,6 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 	command.mySprite = myBackground;
 	command.myPosition = myPosition;
 	command.myType = eRenderType::eSprite;
-
-	float myXOffset = 0.02f;
-	float myYOffset = 0.02f;
 
 	if (myPosition.y <= myStartPosition.y)
 	{
@@ -161,14 +160,15 @@ bool Inventory::IsOpen()
 	return myIsOpen;
 }
 
-void Inventory::Open(float aDeltaTime)
+void Inventory::Open(float aDeltaTime, CU::DirectInput::InputManager& aInputManager)
 {
 	if (myPosition.y >= myEndPosition.y)
 	{
 		myPosition.y -= myMovementPerFrame * aDeltaTime;
 	}
 
-	if (MouseManager::GetInstance()->GetPosition().y >= myPosition.y)
+	if (MouseManager::GetInstance()->GetPosition().y >= myPosition.y &&
+		aInputManager.LeftMouseButtonClicked() == true)
 	{
 		myIsClicked = true;
 	}
@@ -176,6 +176,7 @@ void Inventory::Open(float aDeltaTime)
 
 void Inventory::Close(float aDeltaTime)
 {
+	myIsClicked = false;
 	if (myPosition.y <= myStartPosition.y)
 	{
 		myPosition.y += myMovementPerFrame * aDeltaTime;

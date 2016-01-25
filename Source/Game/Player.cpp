@@ -31,17 +31,9 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
 	myPreviousPosition = myPosition;
-	//Character movement
-	if (myIsMoving == true)
-	{
-		Move(aTargetPos, myMovementSpeed, aDeltaT);
-	}
-
-	
-	myInventory.Update(aDeltaT);
 
 	//Opening/Closing the inventory
 	static float inventoryHoverArea = 1.0f - 0.1f;
@@ -58,6 +50,10 @@ void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
 		myInventory.SetClose();
 	}
 
+	myInventory.Update(aInputManager, aDeltaT);
+
+	Move(aTargetPos, myMovementSpeed, aDeltaT);
+
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
@@ -70,32 +66,39 @@ void Player::Render(Synchronizer& aSynchronizer)
 
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
-	DX2D::Vector2f characterPos(myPosition);
-	//Calculate distance between target and object
-	DX2D::Vector2f delta = DX2D::Vector2f(
-		characterPos.x - aTargetPosition.x,
-		characterPos.y - aTargetPosition.y);
-	//Pythagoras to get the vector distance
-	float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
-	if (distance > 0.01f)
-	{
-		//Divide the X & Y distances with the vector distance to get a normalized direction vector
-		delta.Normalize();
-		//Move the object
-		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
-		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
-		myPosition=DX2D::Vector2f(
-			myRenderPosition.x,
-			myRenderPosition.y);
-
-		////DRAW DEBUG ARROW
-		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-		//	DX2D::Vector2f(characterPos.x, characterPos.y),
-		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
-	}
-	else
+	if (myInventory.IsClicked() == true)
 	{
 		myIsMoving = false;
+	}
+	else if (myIsMoving == true)
+	{
+		DX2D::Vector2f characterPos(myPosition);
+		//Calculate distance between target and object
+		DX2D::Vector2f delta = DX2D::Vector2f(
+			characterPos.x - aTargetPosition.x,
+			characterPos.y - aTargetPosition.y);
+		//Pythagoras to get the vector distance
+		float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
+		if (distance > 0.01f)
+		{
+			//Divide the X & Y distances with the vector distance to get a normalized direction vector
+			delta.Normalize();
+			//Move the object
+			myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
+			myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
+			myPosition = DX2D::Vector2f(
+				myRenderPosition.x,
+				myRenderPosition.y);
+
+			////DRAW DEBUG ARROW
+			//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+			//	DX2D::Vector2f(characterPos.x, characterPos.y),
+			//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+		}
+		else
+		{
+			myIsMoving = false;
+		}
 	}
 }
 

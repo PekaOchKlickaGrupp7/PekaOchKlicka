@@ -155,7 +155,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myTargetPosition, aTimeDelta);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
 
 
