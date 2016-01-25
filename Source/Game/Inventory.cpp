@@ -7,6 +7,7 @@ Inventory::Inventory()
 {
 	myContents.Init(10);
 	myIsOpen = false;
+	myIsClicked = false;
 	myPosition = DX2D::Vector2f(0.0, 1.0);
 
 	myStartPosition = DX2D::Vector2f(0.0, 0.0);
@@ -220,5 +221,9 @@ void Inventory::Close(float aDeltaTime)
 	if (myPosition.y <= myStartPosition.y)
 	{
 		myPosition.y += myMovementPerFrame * aDeltaTime;
+	}
+	else
+	{
+		myPosition.y = myStartPosition.y;
 	}
 }

@@ -70,6 +70,7 @@ private:
 	float myYOffset;
 
 	bool myIsOpen;
+	bool myIsClicked;
 };
 
 
