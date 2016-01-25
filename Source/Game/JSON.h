@@ -20,7 +20,8 @@ enum EventActions
 	ChangeImage,
 	ChangeToOriginalImage,
 	Delay,
-	IfVariable
+	IfVariable,
+	StopSound
 };
 
 class JSON

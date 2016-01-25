@@ -9,7 +9,7 @@ EventChangeToOriginalImage::~EventChangeToOriginalImage()
 {
 }
 
-bool EventChangeToOriginalImage::Update(const float aDeltaTime)
+bool EventChangeToOriginalImage::Update(const float)
 {
 	myObjectData->mySprite = myObjectData->myOriginalSprite;
 	return true;

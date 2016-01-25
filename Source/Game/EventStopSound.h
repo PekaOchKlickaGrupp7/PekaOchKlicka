@@ -1,12 +1,11 @@
 #pragma once
 #include "Event.h"
-class EventPlaySound :
+class EventStopSound :
 	public Event
 {
 public:
-	EventPlaySound();
+	EventStopSound();
 
-	virtual void Init(Room* aRoom, CGameWorld* aGameWorld) override;
 	virtual bool Update(const float aDeltaTime) override;
 	virtual void Reset() override;
 
@@ -15,8 +14,7 @@ public:
 	bool myIsLooping;
 	bool myIs3D;
 	DX2D::Vector2f myPosition;
-	std::string myIdentifier;
 
-	virtual ~EventPlaySound();
+	virtual ~EventStopSound();
 };
 

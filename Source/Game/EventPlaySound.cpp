@@ -6,6 +6,14 @@ EventPlaySound::EventPlaySound()
 {
 }
 
+void EventPlaySound::Init(Room* aRoom, CGameWorld* aGameWorld)
+{
+	myRoom = aRoom;
+	myGameWorld = aGameWorld;
+
+	SoundFileHandler::GetInstance()->Load(myTargetSound, myIdentifier);
+}
+
 bool EventPlaySound::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
@@ -22,8 +30,8 @@ bool EventPlaySound::Update(const float aDeltaTime)
 	}
 	else
 	{
-		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->SetLooping(myIsLooping);
-		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->Play();
+		SoundFileHandler::GetInstance()->GetSound(myIdentifier)->SetLooping(myIsLooping);
+		SoundFileHandler::GetInstance()->GetSound(myIdentifier)->Play();
 	}
 	return true;
 }

@@ -19,12 +19,7 @@
 #include "EventChangeImage.h"
 #include "EventDelay.h"
 #include "EventChangeToOriginalImage.h"
-
-enum class eSound
-{
-	eRain,
-	eJaguar,
-};
+#include "EventStopSound.h"
 
 using namespace rapidjson;
 
@@ -126,9 +121,13 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	case EventActions::PlaySoundFile:
 	{
 		EventPlaySound* sound = new EventPlaySound();
-		if (extra.HasMember("id") == true)
+		if (extra.HasMember("path") == true)
 		{
-			sound->myTargetSound = extra["id"].GetInt();
+			sound->myTargetSound = extra["path"].GetString();
+		}
+		if (extra.HasMember("SoundName") == true)
+		{
+			sound->myIdentifier = extra["SoundName"].GetString();
 		}
 		if (extra.HasMember("volume") == true)
 		{
@@ -184,6 +183,19 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		changeToOriginalImage->Init(aRoom, aGameWorld);
 
 		event = changeToOriginalImage;
+		break;
+	}
+	case EventActions::StopSound:
+	{
+		EventStopSound* stopSoundEvent = new EventStopSound();
+
+		if (extra.HasMember("SoundName") == true)
+		{
+			stopSoundEvent->myTargetSound = extra["SoundName"].GetString();
+		}
+
+		stopSoundEvent->Init(aRoom, aGameWorld);
+		event = stopSoundEvent;
 		break;
 	}
 	default:
