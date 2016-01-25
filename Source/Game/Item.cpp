@@ -17,7 +17,7 @@ Item::Item()
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
-
+/*
 Item::Item(const Item* aItem)
 {
 	mySprite = aItem->mySprite;
@@ -33,13 +33,13 @@ Item::Item(const Item* aItem)
 
 	myPosition = aItem->myPosition;
 }
-
+*/
 //only what is needed for the inventory-part of items.
 Item::Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
 	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable)
 {
 	myName = aName;
-	InitSprites(nullptr, aInventorySpritePath);
+	InitSprites(aInventorySpritePath, aInventorySpritePath);
 	myDescription = aDescription;
 	myIsCombinable = aIsCombinable;
 	myCombinableWith = aCombinableWith;
@@ -47,9 +47,6 @@ Item::Item(const std::string& aName, const char* aInventorySpritePath, const std
 	myLevelToSpawnIn = "Test Level";
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
-	mySprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
-	myWorldSprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
-	myInventorySprite = new DX2D::CSprite("Sprites/TestItems/GraveShovel_inventory.png");
 }
 
 Item::~Item()

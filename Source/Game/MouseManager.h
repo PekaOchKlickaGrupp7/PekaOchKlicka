@@ -15,6 +15,12 @@ enum class eInteractive
 	ePickUp,
 	eGrabAndDrag
 };
+enum class eMouseButtons
+{
+	eLeft,
+	eRight,
+	eCenter
+};
 
 // This is actually very handy. I don't have to static_cast all the time.
 template <typename T>
@@ -58,6 +64,7 @@ public:
 	void Initialize(CommonUtilities::GrowingArray<std::string> &aFilePath, CU::DirectInput::InputManager* aInputManager);
 	void Render(Synchronizer &aSynchronizer);
 	void Update(float aDeltaTime);
+	bool ButtonClicked(eMouseButtons aButton);
 
 	DX2D::Vector2f &GetPosition()
 	{ 

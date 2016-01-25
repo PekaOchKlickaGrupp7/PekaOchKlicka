@@ -1,18 +1,18 @@
 {
 	"inventoryItems" :[
 		{
-			"name" : "yoshi",
-			"path" : "Sprites/inventoryItem.png",
-			"description" : "en ful liten yoshi",
-			"combinableWith" : "yoshi2",
+			"name" : "yoshiG",
+			"path" : "Sprites/Green.dds",
+			"description" : "en grön liten yoshi",
+			"combinableWith" : "yoshiR",
 			"resultingItem" : "hallBoy",
 			"isCombinable" : true
 		},
 		{
-			"name" : "yoshi2",
-			"path" : "Sprites/inventoryItem.png",
-			"description" : "en söt liten yoshi",
-			"combinableWith" : "yoshi",
+			"name" : "yoshiR",
+			"path" : "Sprites/Red.dds",
+			"description" : "en röd liten yoshi",
+			"combinableWith" : "yoshiG",
 			"resultingItem" : "hallBoy",
 			"isCombinable" : true
 		},
