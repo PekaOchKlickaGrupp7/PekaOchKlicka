@@ -16,12 +16,11 @@
 #include "EventTalk.h"
 #include "EventChangeCursor.h"
 #include "EventPlaySound.h"
-
-enum class eSound
-{
-	eRain,
-	eJaguar,
-};
+#include "EventChangeImage.h"
+#include "EventDelay.h"
+#include "EventChangeToOriginalImage.h"
+#include "EventStopSound.h"
+#include "EventChangeSoundPosition.h"
 
 using namespace rapidjson;
 
@@ -120,12 +119,16 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = changeCursor;
 		break;
 	}
-	case EventActions::PlaySound:
+	case EventActions::PlaySoundFile:
 	{
 		EventPlaySound* sound = new EventPlaySound();
-		if (extra.HasMember("id") == true)
+		if (extra.HasMember("path") == true)
 		{
-			sound->myTargetSound = extra["id"].GetInt();
+			sound->myTargetSound = extra["path"].GetString();
+		}
+		if (extra.HasMember("SoundName") == true)
+		{
+			sound->myIdentifier = extra["SoundName"].GetString();
 		}
 		if (extra.HasMember("volume") == true)
 		{
@@ -149,6 +152,70 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = sound;
 		break;
 	}
+	case EventActions::ChangeImage:
+	{
+		EventChangeImage* changeImage = new EventChangeImage();
+		if (extra.HasMember("image") == true)
+		{
+			changeImage->myImagePath = extra["image"].GetString();
+		}
+
+		changeImage->Init(aRoom, aGameWorld);
+
+		event = changeImage;
+		break;
+	}
+	case EventActions::Delay:
+	{
+		EventDelay* delay = new EventDelay();
+		if (extra.HasMember("delay") == true)
+		{
+			delay->myDelay = static_cast<float>(extra["delay"].GetDouble());
+		}
+		delay->Init(aRoom, aGameWorld);
+
+		event = delay;
+		break;
+	}
+	case EventActions::ChangeToOriginalImage:
+	{
+		EventChangeToOriginalImage* changeToOriginalImage = new EventChangeToOriginalImage();
+
+		changeToOriginalImage->Init(aRoom, aGameWorld);
+
+		event = changeToOriginalImage;
+		break;
+	}
+	case EventActions::StopSound:
+	{
+		EventStopSound* stopSoundEvent = new EventStopSound();
+
+		if (extra.HasMember("SoundName") == true)
+		{
+			stopSoundEvent->myTargetSound = extra["SoundName"].GetString();
+		}
+
+		stopSoundEvent->Init(aRoom, aGameWorld);
+		event = stopSoundEvent;
+		break;
+	}
+	case EventActions::ChangeSoundPosition:
+	{
+		EventChangeSoundPosition* changePositionEvent = new EventChangeSoundPosition();
+
+		if (extra.HasMember("offsetPositionX") == true)
+		{
+			changePositionEvent->myPosition.x = extra["offsetPositionX"].GetInt();
+		}
+		if (extra.HasMember("offsetPositionY") == true)
+		{
+			changePositionEvent->myPosition.y = extra["offsetPositionY"].GetInt();
+		}
+
+		changePositionEvent->Init(aRoom, aGameWorld);
+		event = changePositionEvent;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
@@ -157,7 +224,6 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
 	event->myTarget = std::string(aParent["target"].GetString());
 	event->myObjectData = aData;
-	
 
 	return event;
 }
@@ -165,7 +231,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 JSON::JSON() { }
 JSON::~JSON() { }
 
-bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld)
+bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRooms, CGameWorld* aGameWorld, std::string& aName)
 {
 	const char* data = ReadFile(aRootFile.c_str());
 
@@ -207,7 +273,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		
 		if (i == 0)
 		{
-			levelName = name;
+			aName = name;
 		}
 
 		LoadLevel(level["path"].GetString(), room->GetObjectList(), room, aGameWorld);
@@ -215,7 +281,7 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 	
 	root.GetAllocator().Clear();
 
-	aGameWorld->ChangeLevel(levelName);
+	//aGameWorld->ChangeLevel(levelName);
 
 	delete data;
 
@@ -320,8 +386,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	if (std::string(object["image"].GetString()).size() > 0)
 	{
-		std::cout << object["image"].GetString() << std::endl;
 		dataObject->mySprite = new DX2D::CSprite(object["image"].GetString());
+		dataObject->myOriginalSprite = dataObject->mySprite;
 		dataObject->mySprite->SetPivot(DX2D::Vector2f(dataObject->myPivotX, dataObject->myPivotY));
 		dataObject->mySprite->SetSize(DX2D::Vector2f(dataObject->myScaleX, dataObject->myScaleY));
 		dataObject->mySprite->SetRotation(dataObject->myRotation);
@@ -448,7 +514,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	}
 
 	ObjectData* parentData = nullptr;
-	//dataObject->myChilds.Init(12);
+	dataObject->myChilds.Init(12);
 
 	if (aParentObject == nullptr)
 	{

@@ -15,7 +15,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myInputManager = aInputManager;
 
 	mySpriteInteractive.Init(6); // There are six different cursors
-	for (size_t i = 0; i < aFilePath.Size(); i++)
+	for (int i = 0; i < aFilePath.Size(); i++)
 	{
 		mySprite = new DX2D::CSprite(aFilePath[i].c_str());
 		mySpriteInteractive.Add(mySprite);
@@ -36,12 +36,12 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myInputManager->SetHideMouse(true);
 }
 
-void MouseManager::Update(float aDeltaTime)
+void MouseManager::Update(float)
 {
 	myInputManager->SetAbsoluteMousePos(
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f,  
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f);
-
+		
 	float aSpeed = 0.0005f;
 	
 
@@ -69,6 +69,24 @@ void MouseManager::Update(float aDeltaTime)
 	//std::cout << myPosition.x << " " << myPosition.y << std::endl;
 }
 
+bool MouseManager::ButtonClicked(eMouseButtons aButton)
+{
+	switch (aButton)
+	{
+	case eMouseButtons::eLeft:
+		return myInputManager->LeftMouseButtonClicked();
+		break;
+	case eMouseButtons::eRight:
+		return myInputManager->RightMouseButtonClicked();
+		break;
+	case eMouseButtons::eCenter:
+		return myInputManager->MiddleMouseButtonClicked();
+		break;
+	default:
+		return false;
+		break;
+	}
+}
 void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)
 {
 	mySprite = mySpriteInteractive[eMouse(aInteractiveMode)];

@@ -166,7 +166,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventChangeImage.h" />
+    <ClInclude Include="EventChangeSoundPosition.h" />
+    <ClInclude Include="EventChangeToOriginalImage.h" />
+    <ClInclude Include="EventDelay.h" />
+    <ClInclude Include="EventFadeColor.h" />
+    <ClInclude Include="EventIfVariable.h" />
     <ClInclude Include="EventPlaySound.h" />
+    <ClInclude Include="EventStopSound.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -216,7 +223,14 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventChangeImage.cpp" />
+    <ClCompile Include="EventChangeSoundPosition.cpp" />
+    <ClCompile Include="EventChangeToOriginalImage.cpp" />
+    <ClCompile Include="EventDelay.cpp" />
+    <ClCompile Include="EventFadeColor.cpp" />
+    <ClCompile Include="EventIfVariable.cpp" />
     <ClCompile Include="EventPlaySound.cpp" />
+    <ClCompile Include="EventStopSound.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />

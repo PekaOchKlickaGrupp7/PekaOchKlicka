@@ -24,10 +24,11 @@ public:
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
-	void RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode);
 private:
 	void ItemPickUp();
 	DX2D::CText* text;
+
+	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	std::map<std::string, Room*> myRooms;
 	Room* myCurrentRoom;

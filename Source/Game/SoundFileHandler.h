@@ -2,12 +2,7 @@
 
 #include "Sound.h"
 #include "SoundManager.h"
-
-enum class eSound
-{
-	eRain,
-	eJaguar,
-};
+#include <map>
 
 // To avoid static_cast-ing all the time.
 template <typename T>
@@ -49,11 +44,11 @@ public:
 	}
 
 
-	void Load(CommonUtilities::GrowingArray<std::string> &someSoundPaths);
-	Sound* GetSound(int anID){ return &mySounds[anID]; };
+	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D);
+	Sound* GetSound(std::string &anID){ return &mySounds[anID]; };
 
-	void DestroySound(int anID){ mySounds[anID].Destroy(); };
-	void DestroyAll() { for (int i = 0; i < mySounds.Size(); ++i) mySounds[i].Destroy(); };
+	void DestroySound(std::string &anID){ mySounds[anID].Destroy(); };
+	void DestroyAll();
 
 	~SoundFileHandler();
 private:
@@ -61,6 +56,6 @@ private:
 
 	static SoundFileHandler* mySoundFileHandler;
 
-	CommonUtilities::GrowingArray<Sound, int> mySounds;
+	std::map<std::string, Sound> mySounds;
 };
 

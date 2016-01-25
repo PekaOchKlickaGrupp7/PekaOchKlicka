@@ -9,7 +9,7 @@ class Item
 {
 public:
 	Item();
-	Item(const Item* aItem);
+	//Item(const Item* aItem);
 	Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
 		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable);
 	~Item();
@@ -27,18 +27,14 @@ public:
 
 	inline DX2D::CSprite* GetSprite();
 	inline std::string& GetName();
+	inline std::string& GetCombinableItem();
 	inline std::string& GetDescription();
 	inline DX2D::Vector2f& GetPosition();
-	inline std::string Item::GetNameOfResultingItem();
+	inline std::string& Item::GetNameOfResultingItem();
 
 	inline bool IsCombinable();
 	inline bool IsClicked();
 	bool operator ==(const Item& aItem);
-
-
-
-	std::string myCombinableWith;
-	std::string myResultingItem; //after combining
 
 private:
 
@@ -54,16 +50,23 @@ private:
 	std::string myDescription;
 	std::string myLevelToSpawnIn;
 
+	std::string myCombinableWith;
+	std::string myResultingItem; //after combining
+
 	bool myIsCombinable;
 	bool myIsClicked;
 
 };
 
-std::string Item::GetNameOfResultingItem()
+std::string& Item::GetNameOfResultingItem()
 {
 	return myResultingItem;
 }
 
+std::string& Item::GetCombinableItem()
+{
+	return myCombinableWith;
+}
 //Gets the items sprite
 DX2D::CSprite* Item::GetSprite()
 {

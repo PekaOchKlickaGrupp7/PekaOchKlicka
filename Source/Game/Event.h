@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "ObjectData.h"
 
 class Room;
@@ -26,6 +25,7 @@ public:
 
 	CommonUtilities::GrowingArray<Event*, unsigned int> myChilds;
 	bool myActive;
+	bool myAutoActivateRecursive;
 protected:
 	Room* myRoom;
 	CGameWorld* myGameWorld;

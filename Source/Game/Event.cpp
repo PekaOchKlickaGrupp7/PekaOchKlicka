@@ -7,6 +7,7 @@
 Event::Event()
 {
 	myActive = false;
+	myAutoActivateRecursive = true;
 }
 
 Event::~Event()

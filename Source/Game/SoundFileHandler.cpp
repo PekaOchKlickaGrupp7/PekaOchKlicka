@@ -7,15 +7,24 @@ SoundFileHandler::SoundFileHandler()
 {
 }
 
-void SoundFileHandler::Load(CommonUtilities::GrowingArray<std::string> &someSoundPaths)
+void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D)
 {
-	mySounds.Init(someSoundPaths.Size());
-
-	for (unsigned short i = 0; i < someSoundPaths.Size(); i++)
+	if (mySounds.find(anIdentifier) == mySounds.end())
 	{
 		Sound aSoundToAdd;
-		aSoundToAdd.Create(someSoundPaths[i].c_str());
-		mySounds.Add(aSoundToAdd);
+		if (aIs3D == false)
+		{
+			aSoundToAdd.Create(aSoundPath.c_str(), anIdentifier);
+		}
+		else
+		{
+			aSoundToAdd.Create3D(aSoundPath.c_str(), anIdentifier);
+		}
+		mySounds[anIdentifier] = aSoundToAdd;
+	}
+	else
+	{
+		// did find
 	}
 }
 
@@ -23,3 +32,12 @@ void SoundFileHandler::Load(CommonUtilities::GrowingArray<std::string> &someSoun
 SoundFileHandler::~SoundFileHandler()
 {
 }
+
+void SoundFileHandler::DestroyAll() 
+{ 
+	for (std::map<std::string, Sound>::iterator i = mySounds.begin(); i != mySounds.end(); ++i)
+	{
+		i->second.Destroy();
+	}
+	mySounds.clear();
+};

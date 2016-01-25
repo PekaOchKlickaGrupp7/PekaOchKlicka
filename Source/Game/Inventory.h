@@ -20,12 +20,14 @@ public:
 	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
 	void Remove(Item* aItemToRemove);
-	void Combine(Item* aItemToCombine, Item* aItemToCombineWith);
+	bool Combine(Item* aItemToCombine, Item* aItemToCombineWith);
 
 	//Update the inventory
 	void Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime);
 
 	//Check where in the inventory the user clicks and trigger appropiate actions
+	void OnClick(DX2D::Vector2f& aPointerPosition);
+
 	bool IsClicked();
 
 	//Render the inventory through the synchronizer
@@ -58,6 +60,8 @@ private:
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
 
+	Item* mySelectedItem;
+
 	DX2D::Vector2f myStartPosition;
 	DX2D::Vector2f myEndPosition;
 
@@ -66,7 +70,6 @@ private:
 	float myYOffset;
 
 	bool myIsOpen;
-	bool myIsClicked;
 };
 
 

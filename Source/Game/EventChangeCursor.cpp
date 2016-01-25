@@ -7,7 +7,7 @@ EventChangeCursor::EventChangeCursor()
 {
 }
 
-bool EventChangeCursor::Update(const float aDeltaTime)
+bool EventChangeCursor::Update(const float)
 {
 	MouseManager::GetInstance()->SetInteractiveMode(static_cast<eInteractive>(myTargetCursor));
 	return true;

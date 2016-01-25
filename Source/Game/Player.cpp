@@ -54,6 +54,12 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	Move(aTargetPos, myMovementSpeed, aDeltaT);
 
+
+	if (myInventory.IsOpen() == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
+	{
+		myInventory.OnClick(MouseManager::GetInstance()->GetPosition());
+	}
+
 	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimation.Update(aDeltaT);
 }
@@ -72,34 +78,34 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	}
 	else if (myIsMoving == true)
 	{
-		DX2D::Vector2f characterPos(myPosition);
-		//Calculate distance between target and object
-		DX2D::Vector2f delta = DX2D::Vector2f(
-			characterPos.x - aTargetPosition.x,
-			characterPos.y - aTargetPosition.y);
-		//Pythagoras to get the vector distance
-		float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
-		if (distance > 0.01f)
-		{
-			//Divide the X & Y distances with the vector distance to get a normalized direction vector
-			delta.Normalize();
-			//Move the object
-			myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
-			myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
+	DX2D::Vector2f characterPos(myPosition);
+	//Calculate distance between target and object
+	DX2D::Vector2f delta = DX2D::Vector2f(
+		characterPos.x - aTargetPosition.x,
+		characterPos.y - aTargetPosition.y);
+	//Pythagoras to get the vector distance
+	float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
+	if (distance > 0.01f)
+	{
+		//Divide the X & Y distances with the vector distance to get a normalized direction vector
+		delta.Normalize();
+		//Move the object
+		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
+		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
 			myPosition = DX2D::Vector2f(
-				myRenderPosition.x,
-				myRenderPosition.y);
+			myRenderPosition.x,
+			myRenderPosition.y);
 
-			////DRAW DEBUG ARROW
-			//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			//	DX2D::Vector2f(characterPos.x, characterPos.y),
-			//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
-		}
-		else
-		{
-			myIsMoving = false;
-		}
+		////DRAW DEBUG ARROW
+		//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
+		//	DX2D::Vector2f(characterPos.x, characterPos.y),
+		//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
 	}
+	else
+	{
+		myIsMoving = false;
+	}
+}
 }
 
 void Player::SetPivot(const DX2D::Vector2f& aPoint)

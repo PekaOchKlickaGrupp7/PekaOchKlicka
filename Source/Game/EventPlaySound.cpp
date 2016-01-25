@@ -6,25 +6,34 @@ EventPlaySound::EventPlaySound()
 {
 }
 
+void EventPlaySound::Init(Room* aRoom, CGameWorld* aGameWorld)
+{
+	myRoom = aRoom;
+	myGameWorld = aGameWorld;
+
+	SoundFileHandler::GetInstance()->Load(myTargetSound, myIdentifier, myIs3D);
+}
+
 bool EventPlaySound::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
 
+	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
 
+	SoundPtr->SetVolume(myVolume);
+	SoundPtr->SetLooping(myIsLooping);
 
 	if (myIs3D)
 	{
-		// not yet
-		// Get3DSound
-		// set looping
-		// set position
-		// (myObjectData->myX + myPosition.x) * 10.0f;
+		ObjectData* Target = GetGameObject(myTarget);
+		if (Target != nullptr)
+		{
+			DX2D::Vector2f Position = { (Target->myX + myPosition.x) * 10.0f, 5.0f };
+			SoundPtr->SetPosition(Position);
+		}
 	}
-	else
-	{
-		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->SetLooping(myIsLooping);
-		SoundFileHandler::GetInstance()->GetSound(myTargetSound)->Play();
-	}
+
+	SoundPtr->Play();
 	return true;
 }
 

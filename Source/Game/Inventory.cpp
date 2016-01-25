@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "Inventory.h"
 #include "Synchronizer.h"
-
+#include "..\CommonUtilities\Intersection.h"
 
 Inventory::Inventory()
 {
 	myContents.Init(10);
 	myIsOpen = false;
-	myIsClicked = false;
 	myPosition = DX2D::Vector2f(0.0, 1.0);
 
 	myStartPosition = DX2D::Vector2f(0.0, 0.0);
@@ -19,6 +18,7 @@ Inventory::Inventory()
 
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
+	mySelectedItem = nullptr;
 }
 
 Inventory::~Inventory()
@@ -34,6 +34,9 @@ void Inventory::Init(const char* aFilePath)
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
+	myContents.Add(new Item(*myMasterItemList->GetItemList()[0]));
+	myContents.Add(new Item(*myMasterItemList->GetItemList()[1]));
+	mySelectedItem = nullptr;
 }
 
 void Inventory::Add(Item* aItemToAdd)
@@ -60,30 +63,57 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 }
 
 //Check where in the inventory the user clicks and trigger appropiate actions
+void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
+{
+	for (int i = 0; i < myContents.Size(); ++i)
+	{
+		if (CommonUtilities::Intersection::PointVsRect(
+			Vector2<float>(aPointerPosition.x, aPointerPosition.y)
+			, Vector2<float>(myContents[i]->GetPosition().x, myContents[i]->GetPosition().y)
+			, Vector2<float>(myContents[i]->GetPosition().x + myContents[i]->GetSprite()->GetSize().x
+			, myContents[i]->GetPosition().y + myContents[i]->GetSprite()->GetSize().y)))
+		{
+			if (mySelectedItem == nullptr)
+			{
+				mySelectedItem = myContents[i];
+				return;
+			}
+			else
+			{
+				if (Combine(mySelectedItem, myContents[i]) == true)
+				{
+					mySelectedItem = nullptr;
+					return;
+				}
+			}
+		}
+	}
+}
+
 bool Inventory::IsClicked()
 {
 	return myIsClicked;
 }
-
 //Combine one item with another
-void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
+bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
 	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
 	{
 		for (unsigned int i = 0; i < myContents.Size(); ++i)
 		{
-			std::string name = aItemToCombine->GetName();
+			std::string name = aItemToCombine->GetCombinableItem();
 			if (aItemToCombineWith->GetName() == name)
 			{
-				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
-				myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
-
 				for (unsigned short j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
 				{
 					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
 					{
-						myContents.Add(new Item(myMasterItemList->GetItemList()[j]));
-						break;
+						myContents.DeleteCyclicAtIndex(myContents.Find(aItemToCombine));
+						myContents.DeleteCyclicAtIndex(myContents.Find(aItemToCombineWith));
+
+						myContents.Add(new Item(*myMasterItemList->GetItemList()[j]));
+						mySelectedItem = nullptr;
+						return true;
 					}
 				}
 			}
@@ -91,6 +121,7 @@ void Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 	}
 	else
 	{
+		return false;
 		//Trigger message to indicate that they cant be combined
 	}
 }
@@ -133,6 +164,15 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 			
 			myContents[i]->Render(aSynchronizer);
 		}
+	
+	}
+
+	if (mySelectedItem != nullptr)
+	{
+		command.mySprite = mySelectedItem->GetSprite();
+		command.myPosition = MouseManager::GetInstance()->GetPosition();
+
+		aSynchronizer.AddRenderCommand(command);
 	}
 }
 

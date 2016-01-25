@@ -6,6 +6,10 @@ Sound::Sound()
 {
 	myPosition = { 0.0f, 0.0f };
 	mySFX = nullptr;
+	myIdentifier = "";
+
+
+	myChannel = nullptr;
 }
 
 
@@ -19,19 +23,29 @@ void Sound::Destroy()
 	mySFX->release();
 }
 
-void Sound::Create(const char* aFile)
+void Sound::Create(const char* aFile, std::string &anIdentifier)
 {
+	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound(aFile);
 }
-void Sound::Create3D(const char* aFile)
+void Sound::Create3D(const char* aFile, std::string &anIdentifier)
 {
+	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound3D(aFile);
 }
 
 void Sound::Play(DX2D::Vector2f aPosition)
 {
-	myPosition = aPosition;
-	myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
+	bool aBool = false;
+	if (myChannel != nullptr)
+	{
+		myChannel->isPlaying(&aBool);
+	}
+	if (aBool == false)
+	{
+		myPosition = aPosition;
+		myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
+	}
 }
 
 void Sound::SetPosition(float aX, float aY, float aZ)
