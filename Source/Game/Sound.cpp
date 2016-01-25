@@ -28,8 +28,9 @@ void Sound::Create(const char* aFile, std::string &anIdentifier)
 	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound(aFile);
 }
-void Sound::Create3D(const char* aFile)
+void Sound::Create3D(const char* aFile, std::string &anIdentifier)
 {
+	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound3D(aFile);
 }
 

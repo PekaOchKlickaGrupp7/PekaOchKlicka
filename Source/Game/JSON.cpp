@@ -20,6 +20,7 @@
 #include "EventDelay.h"
 #include "EventChangeToOriginalImage.h"
 #include "EventStopSound.h"
+#include "EventChangeSoundPosition.h"
 
 using namespace rapidjson;
 
@@ -196,6 +197,23 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		stopSoundEvent->Init(aRoom, aGameWorld);
 		event = stopSoundEvent;
+		break;
+	}
+	case EventActions::ChangeSoundPosition:
+	{
+		EventChangeSoundPosition* changePositionEvent = new EventChangeSoundPosition();
+
+		if (extra.HasMember("offsetPositionX") == true)
+		{
+			changePositionEvent->myPosition.x = extra["offsetPositionX"].GetInt();
+		}
+		if (extra.HasMember("offsetPositionY") == true)
+		{
+			changePositionEvent->myPosition.y = extra["offsetPositionY"].GetInt();
+		}
+
+		changePositionEvent->Init(aRoom, aGameWorld);
+		event = changePositionEvent;
 		break;
 	}
 	default:

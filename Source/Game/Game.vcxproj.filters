@@ -238,6 +238,7 @@
       <Filter>Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventFadeColor.h" />
+    <ClInclude Include="EventChangeSoundPosition.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,5 +365,6 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventFadeColor.cpp" />
+    <ClCompile Include="EventChangeSoundPosition.cpp" />
   </ItemGroup>
 </Project>

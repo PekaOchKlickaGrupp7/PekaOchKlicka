@@ -44,7 +44,7 @@ public:
 	}
 
 
-	void Load(std::string &aSoundPath, std::string &anIdentifier);
+	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D);
 	Sound* GetSound(std::string &anID){ return &mySounds[anID]; };
 
 	void DestroySound(std::string &anID){ mySounds[anID].Destroy(); };

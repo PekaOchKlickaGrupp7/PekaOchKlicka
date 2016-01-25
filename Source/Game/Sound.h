@@ -6,7 +6,7 @@ class Sound
 public:
 	Sound();
 	void Create(const char* aFile, std::string &anIdentifier);
-	void Create3D(const char* aFile);
+	void Create3D(const char* aFile, std::string &anIdentifier);
 	void SetLooping(bool aBool) { myIsLooping = aBool; };
 	void Play(DX2D::Vector2f aPosition = { 0.0f, 0.0f });
 	void Pause();

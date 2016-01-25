@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EventChangeImage.h" />
+    <ClInclude Include="EventChangeSoundPosition.h" />
     <ClInclude Include="EventChangeToOriginalImage.h" />
     <ClInclude Include="EventDelay.h" />
     <ClInclude Include="EventFadeColor.h" />
@@ -223,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventChangeImage.cpp" />
+    <ClCompile Include="EventChangeSoundPosition.cpp" />
     <ClCompile Include="EventChangeToOriginalImage.cpp" />
     <ClCompile Include="EventDelay.cpp" />
     <ClCompile Include="EventFadeColor.cpp" />

@@ -7,12 +7,19 @@ SoundFileHandler::SoundFileHandler()
 {
 }
 
-void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier)
+void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D)
 {
 	if (mySounds.find(anIdentifier) == mySounds.end())
 	{
 		Sound aSoundToAdd;
-		aSoundToAdd.Create(aSoundPath.c_str(), anIdentifier);
+		if (aIs3D == false)
+		{
+			aSoundToAdd.Create(aSoundPath.c_str(), anIdentifier);
+		}
+		else
+		{
+			aSoundToAdd.Create3D(aSoundPath.c_str(), anIdentifier);
+		}
 		mySounds[anIdentifier] = aSoundToAdd;
 	}
 	else
