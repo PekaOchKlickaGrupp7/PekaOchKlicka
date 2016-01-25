@@ -128,9 +128,9 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	case EventActions::PlaySoundFile:
 	{
 		EventPlaySound* sound = new EventPlaySound();
-		if (extra.HasMember("id") == true)
+		if (extra.HasMember("path") == true)
 		{
-			sound->myTargetSound = extra["id"].GetInt();
+			sound->myTargetSound = extra["path"].GetInt();
 		}
 		if (extra.HasMember("volume") == true)
 		{
