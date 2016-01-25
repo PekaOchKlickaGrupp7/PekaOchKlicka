@@ -127,7 +127,7 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		}
 		if (extra.HasMember("SoundName") == true)
 		{
-			//sound->myIdentifier = extra["SoundName"].GetString();
+			sound->myIdentifier = extra["SoundName"].GetString();
 		}
 		if (extra.HasMember("volume") == true)
 		{
