@@ -146,8 +146,8 @@ void CGame::InitCallBack()
 	SoundFileHandler::CreateInstance();
 
 	CommonUtilities::GrowingArray<std::string> soundFilePaths;
-	soundFilePaths.Init(2); // Number of soundFX
-	for (size_t i = 0; i < 2; i++)
+	soundFilePaths.Init(3); // Number of soundFX
+	for (size_t i = 0; i < 3; i++)
 	{
 		std::string tempString = "Sound/SoundFX/" + std::to_string(i) + ".ogg";
 		soundFilePaths.Add(tempString);

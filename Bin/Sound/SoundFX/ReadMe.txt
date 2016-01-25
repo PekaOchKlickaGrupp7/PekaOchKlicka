@@ -7,3 +7,4 @@ NOTICE: Every sound that has the intention of being used in-engine must be a .og
 
 0.ogg - rain (normalized)
 1.ogg - jaguar (normalized)
+2.ogg - door 1 (normalized)

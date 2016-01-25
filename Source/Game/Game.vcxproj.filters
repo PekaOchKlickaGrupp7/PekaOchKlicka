@@ -216,7 +216,9 @@
       <Filter>System\Sound</Filter>
     </ClInclude>
     <ClInclude Include="ItemList.h" />
-    <ClInclude Include="EventPlaySound.h" />
+    <ClInclude Include="EventPlaySound.h">
+      <Filter>Events\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -324,6 +326,8 @@
       <Filter>System\Sound</Filter>
     </ClCompile>
     <ClCompile Include="ItemList.cpp" />
-    <ClCompile Include="EventPlaySound.cpp" />
+    <ClCompile Include="EventPlaySound.cpp">
+      <Filter>Events\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

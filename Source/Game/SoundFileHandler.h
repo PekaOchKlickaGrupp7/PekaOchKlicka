@@ -7,6 +7,7 @@ enum class eSound
 {
 	eRain,
 	eJaguar,
+	eDoor1,
 };
 
 // To avoid static_cast-ing all the time.
