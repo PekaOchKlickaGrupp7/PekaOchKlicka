@@ -63,6 +63,8 @@ void CGameWorld::Init()
 		ChangeLevel(name);
 	}
 
+	myDoQuit = false;
+
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
 	text->myPosition = DX2D::Vector2f(0.5f, 0.02f);
@@ -159,7 +161,17 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
 
+	if (myDoQuit == true)
+	{
+		return eStateStatus::ePopMainState;
+	}
+
 	return eStateStatus::eKeepState;
+}
+
+void CGameWorld::Quit()
+{
+	myDoQuit = true;
 }
 
 void CGameWorld::ItemPickUp()

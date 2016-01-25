@@ -21,6 +21,7 @@
 #include "EventChangeToOriginalImage.h"
 #include "EventStopSound.h"
 #include "EventChangeSoundPosition.h"
+#include "EventQuit.h"
 
 using namespace rapidjson;
 
@@ -214,6 +215,15 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		changePositionEvent->Init(aRoom, aGameWorld);
 		event = changePositionEvent;
+		break;
+	}
+	case EventActions::Quit:
+	{
+		EventQuit* quitEvent = new EventQuit();
+
+		quitEvent->Init(aRoom, aGameWorld);
+
+		event = quitEvent;
 		break;
 	}
 	default:

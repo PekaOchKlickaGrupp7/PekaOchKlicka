@@ -22,11 +22,15 @@ public:
 	void ChangeLevel(const std::string& aString);
 	Player* CGameWorld::GetPlayer();
 
+	void Quit();
+
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 private:
 	void ItemPickUp();
 	DX2D::CText* text;
+
+	bool myDoQuit;
 
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 

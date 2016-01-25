@@ -237,8 +237,15 @@
     <ClInclude Include="EventIfVariable.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventFadeColor.h" />
-    <ClInclude Include="EventChangeSoundPosition.h" />
+    <ClInclude Include="EventChangeSoundPosition.h">
+      <Filter>Events\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFadeColor.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQuit.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,7 +371,14 @@
     <ClCompile Include="EventIfVariable.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventFadeColor.cpp" />
-    <ClCompile Include="EventChangeSoundPosition.cpp" />
+    <ClCompile Include="EventChangeSoundPosition.cpp">
+      <Filter>Events\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="EventFadeColor.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQuit.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
