@@ -18,7 +18,7 @@ void EventChangeImage::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myNewSprite = new DX2D::CSprite(myImagePath.c_str());
 }
 
-bool EventChangeImage::Update(const float aDeltaTime)
+bool EventChangeImage::Update(const float)
 {
 	if (myImagePath != "")
 	{

@@ -10,7 +10,7 @@ EventIfVariable::~EventIfVariable()
 {
 }
 
-bool EventIfVariable::Update(const float aDeltaTime)
+bool EventIfVariable::Update(const float)
 {
 	return true;
 }

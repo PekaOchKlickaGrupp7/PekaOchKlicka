@@ -73,6 +73,9 @@
     <Filter Include="Events\Sound">
       <UniqueIdentifier>{cb61019f-047e-43ba-8db4-689ae6fb3cab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Utilities">
+      <UniqueIdentifier>{1630017b-f2ce-47f2-aaa8-f80297d99222}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -219,13 +222,22 @@
     <ClInclude Include="EventPlaySound.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="EventChangeImage.h" />
-    <ClInclude Include="EventChangeToOriginalImage.h" />
-    <ClInclude Include="EventDelay.h" />
-    <ClInclude Include="EventIfVariable.h" />
     <ClInclude Include="EventStopSound.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="EventChangeImage.h">
+      <Filter>Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EventChangeToOriginalImage.h">
+      <Filter>Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDelay.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventIfVariable.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFadeColor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -336,12 +348,21 @@
     <ClCompile Include="EventPlaySound.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="EventChangeImage.cpp" />
-    <ClCompile Include="EventChangeToOriginalImage.cpp" />
-    <ClCompile Include="EventDelay.cpp" />
-    <ClCompile Include="EventIfVariable.cpp" />
     <ClCompile Include="EventStopSound.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="EventChangeImage.cpp">
+      <Filter>Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventChangeToOriginalImage.cpp">
+      <Filter>Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDelay.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventIfVariable.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventFadeColor.cpp" />
   </ItemGroup>
 </Project>

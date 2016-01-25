@@ -36,7 +36,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myInputManager->SetHideMouse(true);
 }
 
-void MouseManager::Update(float aDeltaTime)
+void MouseManager::Update(float)
 {
 	myInputManager->SetAbsoluteMousePos(
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f,  
