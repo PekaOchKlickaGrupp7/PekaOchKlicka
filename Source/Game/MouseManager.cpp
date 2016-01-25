@@ -33,15 +33,15 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	mySprite->SetPosition(myPosition);
 	mySprite->SetPivot({ 0.5f, 0.5f });
 
-	myInputManager->SetHideMouse(true);
+	//myInputManager->SetHideMouse(true);
 }
 
 void MouseManager::Update(float aDeltaTime)
 {
-	myInputManager->SetAbsoluteMousePos(
+	/*myInputManager->SetAbsoluteMousePos(
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f,  
 		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f);
-
+		*/
 	float aSpeed = 0.0005f;
 	
 

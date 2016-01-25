@@ -166,6 +166,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventChangeImage.h" />
+    <ClInclude Include="EventChangeToOriginalImage.h" />
+    <ClInclude Include="EventDelay.h" />
+    <ClInclude Include="EventIfVariable.h" />
     <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
@@ -216,6 +220,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventChangeImage.cpp" />
+    <ClCompile Include="EventChangeToOriginalImage.cpp" />
+    <ClCompile Include="EventDelay.cpp" />
+    <ClCompile Include="EventIfVariable.cpp" />
     <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />

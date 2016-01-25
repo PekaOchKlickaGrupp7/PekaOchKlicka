@@ -23,13 +23,6 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myObjects = aCurrentRoom->GetObjectList();
 	myIsSwitchingRoom = true;
-
-	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
-
-	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
-	{
-		OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y);
-	}
 }
 
 void EventManager::AddEvent(Event* aEvent)
@@ -40,11 +33,6 @@ void EventManager::AddEvent(Event* aEvent)
 		aEvent->Reset();
 		myActiveEvents.Add(aEvent);
 	}
-}
-
-float EventManager::Remap(float value, float from1, float to1, float from2, float to2)
-{
-	return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 }
 
 void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY)
@@ -60,12 +48,6 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		{
 			trigger = false;
 		}
-		//if (aData->myHitBox.IsMouseColliding(
-		//	Remap(aMouseX,
-		//	0, 1920,
-		//	0, 1920) / 1920.0f,
-		//	Remap(aMouseY, 0,
-		//	1080, 0, 1080) / 1080.0f) == true)
 
 		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
 			MouseManager::GetInstance()->GetPosition().x,
@@ -110,12 +92,13 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				}
 			}
 		}
-	}
-	if (aData->myChilds.GetIsInitialized() == true)
-	{
-		for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
+
+		if (aData->myChilds.GetIsInitialized() == true)
 		{
-			OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+			for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
+			{
+				OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+			}
 		}
 	}
 }
@@ -158,6 +141,11 @@ void EventManager::Update(const float aDeltaTime)
 	{
 		myIsSwitchingRoom = false;
 		RemoveAllEvents();
+
+		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		{
+			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y);
+		}
 	}
 }
 

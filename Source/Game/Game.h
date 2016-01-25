@@ -8,6 +8,7 @@
 #include "Synchronizer.h"
 #include <thread>
 #include "Renderer.h"
+#include "JSON.h"
 
 #include "StateStack.h"
 #include "StateStackProxy.h"
@@ -30,6 +31,9 @@ private:
 	void Render();
 
 	bool myIsFullscreen;
+
+	//JSON myJson;
+	std::map<std::string, Room*> myRooms;
 
 	StateStack myStateStack;
 	StateStackProxy myStateStackProxy;

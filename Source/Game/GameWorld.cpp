@@ -48,7 +48,9 @@ Player* CGameWorld::GetPlayer()
 
 void CGameWorld::Init()
 {
-	myJson.Load("root.json", myRooms, this);
+	std::string name = "";
+	//ResolutionManager::GetInstance()->Update(0, 0);
+	myJson.Load("root.json", myRooms, this, name);
 	myJson.LoadItems("items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
@@ -57,6 +59,10 @@ void CGameWorld::Init()
 		DL_PRINT(CGame::myTestLevel.c_str());
 		ChangeLevel(CGame::myTestLevel);
 	}
+	else
+	{
+		ChangeLevel(name);
+	}
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
@@ -64,10 +70,11 @@ void CGameWorld::Init()
 	text->myColor.Set(1, 1, 1, 1.0f);
 	text->mySize = 0.4f;
 
+	/*
 	Sound &SFXRain = *SoundFileHandler::GetInstance()->GetSound(eSoundInt(eSound::eRain));
 	SFXRain.SetLooping(true);
 	SFXRain.Play();
-
+	*/
 
 	//Create the player character
 	//BUG: Why does pivot.x = 0.25 refer to the center
@@ -87,17 +94,19 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		myJson.Load("root.json", myRooms, this);
+		std::string name = "";
+		myJson.Load("root.json", myRooms, this, name);
 
 		if (CGame::myTestLevel.size() > 0)
 		{
 			DL_PRINT(CGame::myTestLevel.c_str());
 			ChangeLevel(CGame::myTestLevel);
 		}
+		else
+		{
+			ChangeLevel(name);
 		}
-
-	RECT windowSize;
-	GetWindowRect(*DX2D::CEngine::GetInstance()->GetHWND(), &windowSize);
+	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 
@@ -127,8 +136,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	//TEST FOR COMMITING TEST
-
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
@@ -157,7 +164,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+	myPlayer.Update(myTargetPosition, aTimeDelta);
 
 
 
@@ -196,10 +203,11 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 			{
 				//RenderPlayer();
+				myPlayer.Render(aSynchronizer);
 			}
 			else
 			{
-				RenderLevel(aSynchronizer, (*myCurrentRoom->GetObjectList())[i]);
+				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
 		}
 		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
@@ -210,17 +218,17 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 
-	command.myType = eRenderType::eText;
+	/*command.myType = eRenderType::eText;
 	command.myPosition = text->myPosition;
 	command.myText = text;
 	aSynchronizer.AddRenderCommand(command);
-
-	myPlayer.Render(aSynchronizer);
+*/
+	//myPlayer.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
-void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
+void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
 {
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
@@ -228,7 +236,11 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 	{
 		if (aNode->mySprite != nullptr)
 		{
-			command.myPosition = DX2D::Vector2f(aNode->myX, aNode->myY);
+			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
+			aNode->mySprite->SetSize(DX2D::Vector2f(aNode->myScaleX, aNode->myScaleY));
+			aNode->mySprite->SetRotation(aNode->myRotation);
+
+			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
 			command.mySprite = aNode->mySprite;
 			command.mySprite->SetColor({ 1, 1, 1, 1 });
 			aSynchronizer.AddRenderCommand(command);
@@ -238,7 +250,7 @@ void CGameWorld::RenderLevel(Synchronizer& aSynchronizer, ObjectData* aNode)
 		{
 			for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
 			{
-				RenderLevel(aSynchronizer, aNode->myChilds[j]);
+				RenderObject(aSynchronizer, aNode->myChilds[j], 0, 0); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
 			}
 		}
 	}

@@ -31,13 +31,16 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	float x = object->myX + (object->myHitBox.myWidth / 2);
-
-	myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
-
-	if (myCurrentTime > myWordLength * myWordCount)
+	if (object != nullptr)
 	{
-		return NewSubString();
+		float x = object->myX + (object->myHitBox.myWidth / 2);
+
+		myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
+
+		if (myCurrentTime > myWordLength * myWordCount)
+		{
+			return NewSubString();
+		}
 	}
 
 	return false;

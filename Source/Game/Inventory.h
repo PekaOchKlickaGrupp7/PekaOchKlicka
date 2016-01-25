@@ -23,8 +23,9 @@ public:
 
 	//Update the inventory
 	void Update(float aDeltaTime);
-	
 
+	//Check where in the inventory the user clicks and trigger appropiate actions
+	bool OnClick(DX2D::Vector2f& aPointerPosition);
 
 	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
@@ -50,6 +51,7 @@ private:
 	void Open(float aDeltaTime);
 	void Close(float aDeltaTime);
 
+	ItemList *myMasterItemList;
 
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
 	DX2D::CSprite* myBackground;
@@ -61,7 +63,7 @@ private:
 	float myMovementPerFrame;
 
 	bool myIsOpen;
-	ItemList *myMasterItemList;
+	bool myIsClicked;
 };
 
 
