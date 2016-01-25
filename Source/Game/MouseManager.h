@@ -79,6 +79,6 @@ private:
 	// This is the current sprite
 	DX2D::CSprite* mySprite;
 
-	CommonUtilities::GrowingArray<DX2D::CSprite*> mySpriteInteractive;
+	CommonUtilities::GrowingArray<DX2D::CSprite*, int> mySpriteInteractive;
 };
 

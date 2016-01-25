@@ -5,18 +5,14 @@ SoundFileHandler* SoundFileHandler::mySoundFileHandler = nullptr;
 
 SoundFileHandler::SoundFileHandler()
 {
+	mySounds.Init(10);
 }
 
-void SoundFileHandler::Load(CommonUtilities::GrowingArray<std::string> &someSoundPaths)
+void SoundFileHandler::Load(std::string aSoundPath)
 {
-	mySounds.Init(someSoundPaths.Size());
-
-	for (unsigned short i = 0; i < someSoundPaths.Size(); i++)
-	{
-		Sound aSoundToAdd;
-		aSoundToAdd.Create(someSoundPaths[i].c_str());
-		mySounds.Add(aSoundToAdd);
-	}
+	Sound aSoundToAdd;
+	aSoundToAdd.Create(aSoundPath.c_str());
+	mySounds.Add(aSoundToAdd);
 }
 
 

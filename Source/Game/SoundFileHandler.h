@@ -50,7 +50,7 @@ public:
 	}
 
 
-	void Load(CommonUtilities::GrowingArray<std::string> &someSoundPaths);
+	void Load(std::string aSoundPath);
 	Sound* GetSound(int anID){ return &mySounds[anID]; };
 
 	void DestroySound(int anID){ mySounds[anID].Destroy(); };

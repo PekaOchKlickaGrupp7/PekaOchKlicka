@@ -19,11 +19,13 @@
 #include "EventChangeImage.h"
 #include "EventDelay.h"
 #include "EventChangeToOriginalImage.h"
+#include "EventStopSound.h"
 
 enum class eSound
 {
 	eRain,
 	eJaguar,
+	eDoor,
 };
 
 using namespace rapidjson;
@@ -184,6 +186,14 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		changeToOriginalImage->Init(aRoom, aGameWorld);
 
 		event = changeToOriginalImage;
+		break;
+	}
+	case EventActions::StopSound:
+	{
+		EventStopSound* stopSoundEvent = new EventStopSound();
+
+		stopSoundEvent->Init(aRoom, aGameWorld);
+		event = stopSoundEvent;
 		break;
 	}
 	default:
