@@ -14,8 +14,12 @@ CWindowsWindow::~CWindowsWindow(void)
 {
 }
 
-bool CWindowsWindow::Init(Vector2<unsigned int> aWindowSize, HWND*& aHwnd, const std::wstring& aAppName, HINSTANCE& aHInstanceToFill)
+bool CWindowsWindow::Init(Vector2<unsigned int> aWindowSize, HWND*& aHwnd, SEngineCreateParameters* aSetting, HINSTANCE& aHInstanceToFill)
 {
+	if (!aSetting)
+	{
+		return false;
+	}
 	HINSTANCE instance = GetModuleHandle(NULL);
 	aHInstanceToFill = instance;
 	ZeroMemory(&myWindowClass, sizeof(WNDCLASSEX));
@@ -33,12 +37,25 @@ bool CWindowsWindow::Init(Vector2<unsigned int> aWindowSize, HWND*& aHwnd, const
 	RECT wr = {0, 0, aWindowSize.x, aWindowSize.y};    // set the size, but not the position
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
 
+	DWORD windowStyle = 0;
+	switch (aSetting->myWindowSetting)
+	{
+	case EWindowSetting_Overlapped:
+		windowStyle = WS_OVERLAPPEDWINDOW;
+		break;	
+	case EWindowSetting_Borderless:
+		windowStyle = WS_POPUP | WS_MINIMIZEBOX;
+		break;
+	default:
+		break;
+	}
+
 	if (!aHwnd)
 	{
 		myWindowHandle = CreateWindowEx(WS_EX_CLIENTEDGE,
 			L"WindowClass1",    // name of the window class
-			aAppName.c_str(),    // title of the window
-			WS_OVERLAPPEDWINDOW,    // window style
+			aSetting->myApplicationName.c_str(),    // title of the window
+			windowStyle,    // window style
 			CW_USEDEFAULT,    // x-position of the window
 			CW_USEDEFAULT,    // y-position of the window
 			wr.right - wr.left,    // width of the window
@@ -47,6 +64,7 @@ bool CWindowsWindow::Init(Vector2<unsigned int> aWindowSize, HWND*& aHwnd, const
 			NULL,    // we aren't using menus, NULL
 			instance,    // application handle
 			NULL);    // used with multiple windows, NULL
+		
 		ShowWindow(myWindowHandle, true);
 		aHwnd = &myWindowHandle;
 	}

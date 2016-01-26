@@ -17,7 +17,9 @@ namespace DX2D
 		~CSpriteBatch();
 		void Init(const char* aTexturePath = nullptr);
 		bool AddObject(CSprite* aSpriteObject);
-		void Render(bool aRenderAll = true);
+		void RemoveObject(CSprite* aSpriteObject, bool aAlsoDelete = false);
+
+		void Render();
 
 		void DeleteAll();
 

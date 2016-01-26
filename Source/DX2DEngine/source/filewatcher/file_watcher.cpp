@@ -4,12 +4,12 @@
 
 using namespace DX2D;
 
-CFileWatcher::CFileWatcher()
+CFileWatcher::CFileWatcher(bool aSouldBeActive)
 	: myThread(nullptr)
 	, myShouldEndThread(false)
 	, myThreadIsDone(false)
+	, myIsActive(aSouldBeActive)
 {
-
 }
 
 
@@ -29,6 +29,10 @@ CFileWatcher::~CFileWatcher()
 
 void CFileWatcher::FlushChanges()
 {
+	if (!myIsActive || !myThread)
+	{
+		return;
+	}
 	std::lock_guard<std::mutex> guard(myMutex);
 
 
@@ -66,7 +70,7 @@ void CFileWatcher::UpdateChanges(const std::wstring& aDir)
 		OnFolderChange(aDir);
 		myMutex.unlock();
 	
-		Sleep(10);
+		Sleep(10); // No need to hog too much performance
 	}
 	myThreadIsDone = true;
 }
@@ -138,6 +142,10 @@ void CFileWatcher::OnFileChange(std::wstring& aFile)
 
 bool CFileWatcher::WatchFileChangeWithDependencies(std::wstring aFile, callback_function_file aFunctionToCallOnChange)
 {
+	if (!myIsActive)
+	{
+		return false;
+	}
 	std::ifstream stream(aFile);
 	if (!stream.good())
 	{
@@ -173,6 +181,10 @@ bool CFileWatcher::WatchFileChangeWithDependencies(std::wstring aFile, callback_
 
 bool CFileWatcher::WatchFileChange(std::wstring aFile, callback_function_file aFunctionToCallOnChange)
 {
+	if (!myIsActive)
+	{
+		return false;
+	}
 	std::ifstream stream(aFile);
 	if (!stream.good())
 	{

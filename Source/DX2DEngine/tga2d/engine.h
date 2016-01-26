@@ -37,9 +37,28 @@ namespace DX2D
 	typedef std::function<void()> callback_function_update;
     typedef std::function<void(std::string)> callback_function_log;
 	typedef std::function<void(std::string)> callback_function_error;
+
+	enum EWindowSetting
+	{
+		EWindowSetting_Overlapped,
+		EWindowSetting_Borderless,
+	};
     struct SEngineCreateParameters
     {
-		SEngineCreateParameters(){ myHwnd = nullptr; myHInstance = nullptr;  myWindowWidth = 800; myWindowHeight = 600; myEnableVSync = false; myMaxRenderedObjectsPerFrame = 100000; myRenderWidth = myWindowWidth; myRenderHeight = myWindowHeight; myErrorFunction = nullptr; myStartInFullScreen = false; }
+		SEngineCreateParameters()
+		{ 
+			myHwnd = nullptr; 
+			myHInstance = nullptr;  
+			myWindowWidth = 800; 
+			myWindowHeight = 600; 
+			myEnableVSync = false; 
+			myMaxRenderedObjectsPerFrame = 100000;  // Legacy, not used
+			myRenderWidth = myWindowWidth; 
+			myRenderHeight = myWindowHeight; 
+			myErrorFunction = nullptr; 
+			myStartInFullScreen = false;
+			myWindowSetting = EWindowSetting_Overlapped;
+		}
         callback_function myInitFunctionToCall;
         callback_function_update myUpdateFunctionToCall;
         callback_function_log myLogFunction;
@@ -56,7 +75,8 @@ namespace DX2D
         std::wstring myApplicationName;
         bool myEnableVSync;
 		bool myStartInFullScreen;
-        int myMaxRenderedObjectsPerFrame;
+        int myMaxRenderedObjectsPerFrame; // Legacy, not used
+		EWindowSetting myWindowSetting;
     };
 
 
@@ -71,7 +91,7 @@ namespace DX2D
         CEngine &operator =( const CEngine &anOther ) = delete;
         static void CreateInstance( const SEngineCreateParameters& aCreateParameters);
         static CEngine* GetInstance() {return myInstance;}
-        static void Destroy();
+        static void DestroyInstance();
 
         bool Start();
 		void Shutdown();
@@ -97,7 +117,7 @@ namespace DX2D
 		float GetWindowRatioInversed() const;
         CDirectEngine& GetDirect3D() const { return *myDirect3D; }
 
-        void SetResolution(const DX2D::Vector2<unsigned int> &aResolution);
+        void SetResolution(const DX2D::Vector2<unsigned int> &aResolution, bool aAlsoSetWindowSize = true);
 
         HWND* GetHWND() const;
         HINSTANCE GetHInstance() const;

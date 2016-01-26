@@ -35,17 +35,15 @@ void DX2D::CTexturedQuadBatch::Init(const char* aTexturePath)
 	}
 }
 
-void DX2D::CTexturedQuadBatch::Render(CSpriteBatch* aBatch, bool aRenderAll)
+void DX2D::CTexturedQuadBatch::Render(CSpriteBatch* aBatch)
 {
 	mySpriteBatch = aBatch;
-	myShouldRenderAll = aRenderAll;
 	myEngine->GetRenderer().AddToRender(this);
 }
 
 void DX2D::CTexturedQuadBatch::Draw(CDirectEngine* aRenderer)
 {
 	aRenderer->DoDraw(this);
-	myShouldRenderAll = false;
 }
 
 void DX2D::CTexturedQuadBatch::SetMap(EShaderMap aMapType, const char* aPath)

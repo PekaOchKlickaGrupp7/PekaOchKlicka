@@ -52,10 +52,10 @@ namespace DX2D
 		/*
 		aX = The texture region top-left corner X-coordinate.
 		aY = The texture region top-left corner Y-coordinate.
-		aWidth = The texture region width.
-		aHeight = The texture region height.
+		aEndX =  The texture region top-right corner X-coordinate.
+		aEndY = The texture region bottom-right corner X-coordinate.
 		*/
-		void SetTextureRect(float aX, float aY, float aWidth, float aHeight);
+		void SetTextureRect(float aStartX, float aStartY, float aEndX, float aEndY);
 		STextureRext* GetTextureRect();
 
 		bool HasSameTextureAs(CSprite* aSprite) const;
@@ -67,6 +67,7 @@ namespace DX2D
 
 		bool HasChangedSize() const {return myHasChangedSize;}
 
+		/* If this sprite is rendered by a spritebatch, this is useful to not render the sprite but keep it in the batch*/
 		void SetShouldRender(bool aShouldRender){ myShouldRender = aShouldRender; }
 		bool GetShouldRender(){ return myShouldRender; }
 

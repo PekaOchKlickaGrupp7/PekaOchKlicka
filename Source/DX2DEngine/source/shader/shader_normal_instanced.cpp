@@ -85,16 +85,14 @@ int CShaderNormalInstanced::SetShaderParameters(std::vector<CSprite*>& someSprit
 	for (unsigned int i = 0; i < someSprites.size(); i++)
 	{
 		CSprite* sprite = someSprites[i];
-		if (!aBatch->ShouldRenderAll())
+
+		if (!sprite->GetShouldRender())
 		{
-			if (!sprite->GetShouldRender())
-			{
-				continue;
-			}
-			if (!sprite->myShouldRenderBatched)
-			{
-				continue;
-			}
+			continue;
+		}
+		if (!sprite->myShouldRenderBatched)
+		{
+			continue;
 		}
 
 

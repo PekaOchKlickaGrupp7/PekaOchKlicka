@@ -149,13 +149,6 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 		int aChar = aText[i];
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
-
-
-		float sizeX = (theChar.width_ / (float)fontData->myTexture->myImageSize.x);
-		float sizeY = (theChar.height_ / (float)fontData->myTexture->myImageSize.y);
-
-
-
 		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / (float)CEngine::GetInstance()->GetWindowSize().x))) * aSize) * 0.6f;
 	}
 

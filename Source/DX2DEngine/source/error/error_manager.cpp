@@ -4,6 +4,12 @@
 #include <cstdarg>
 using namespace DX2D;
 
+
+#define CONSOLE_TEXT_COLOR_RED 12
+#define CONSOLE_TEXT_COLOR_YELLOW 14
+#define CONSOLE_TEXT_COLOR_GREEN 10
+#define CONSOLE_TEXT_COLOR_WHITE 15
+
 CErrorManager::CErrorManager()
 {
 }
@@ -44,6 +50,7 @@ std::string string_vsprintf(const char* format, std::va_list args)
 
 void DX2D::CErrorManager::ErrorPrint(const char* aFile, int aline, const char* aFormat, ...)
 {
+	SetConsoleColor(CONSOLE_TEXT_COLOR_RED);
 	std::string file = std::string(aFile);
 	const size_t last_slash_idx = file.find_last_of("\\/");
 	if (std::string::npos != last_slash_idx)
@@ -63,11 +70,13 @@ void DX2D::CErrorManager::ErrorPrint(const char* aFile, int aline, const char* a
 	vfprintf(stderr, aFormat, argptr);
 	va_end(argptr);
 	std::cout << std::endl;
+	SetConsoleColor(CONSOLE_TEXT_COLOR_WHITE);
 }
 
 
 void DX2D::CErrorManager::InfoPrint( const char* aFormat, ... )
 {
+	SetConsoleColor(CONSOLE_TEXT_COLOR_GREEN);
 	va_list argptr;
 	va_start(argptr, aFormat);
 
@@ -80,6 +89,37 @@ void DX2D::CErrorManager::InfoPrint( const char* aFormat, ... )
 	vfprintf(stderr, aFormat, argptr);
 	va_end(argptr);
 	std::cout << std::endl;
+	SetConsoleColor(CONSOLE_TEXT_COLOR_WHITE);
 }
 
+
+
+void DX2D::CErrorManager::InfoTip(const char* aFormat, ...)
+{
+	SetConsoleColor(CONSOLE_TEXT_COLOR_YELLOW);
+	va_list argptr;
+	va_start(argptr, aFormat);
+
+	std::string str{ string_vsprintf(aFormat, argptr) };
+	for (unsigned int i = 0; i < myLogFunctions.size(); i++)
+	{
+		myLogFunctions[i](str);
+	}
+
+	vfprintf(stderr, aFormat, argptr);
+	va_end(argptr);
+	std::cout << std::endl;
+	SetConsoleColor(CONSOLE_TEXT_COLOR_WHITE);
+}
+
+void DX2D::CErrorManager::SetConsoleColor(int aColor)
+{
+	HANDLE  hConsole;
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (!hConsole)
+	{
+		return;
+	}
+	SetConsoleTextAttribute(hConsole, static_cast<WORD>(aColor));
+}
 

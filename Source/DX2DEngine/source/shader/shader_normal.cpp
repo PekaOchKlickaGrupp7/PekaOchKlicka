@@ -74,7 +74,7 @@ bool DX2D::CShaderNormal::CreateInputLayout(ID3D10Blob* aVS)
 
 void CShaderNormal::SetShaderParameters(CRenderObjectSprite* aObject, ID3D11Buffer* aObjectBuffer, ID3D11Buffer* aVertexBuffer)
 {
-	if (!aObjectBuffer)
+	if (!aObjectBuffer || !aObject)
 	{
 		return;
 	}

@@ -86,9 +86,9 @@ const Vector2f& DX2D::CSprite::GetPivot() const
 }
 
 
-void DX2D::CSprite::SetTextureRect( float aX, float aY, float aWidth, float aHeight )
+void DX2D::CSprite::SetTextureRect(float aStartX, float aStartY, float aEndX, float aEndY)
 {
-	myQuad->SetTextureRect(aX, aY, aWidth, aHeight);
+	myQuad->SetTextureRect(aStartX, aStartY, aEndX, aEndY);
 }
 
 STextureRext* DX2D::CSprite::GetTextureRect()

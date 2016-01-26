@@ -50,12 +50,12 @@ void DX2D::CTexturedQuad::Render()
 	myEngine->GetRenderer().AddToRender(this);
 }
 
-void DX2D::CTexturedQuad::SetTextureRect( float aX, float aY, float aWidth, float aHeight )
+void DX2D::CTexturedQuad::SetTextureRect(float aStartX, float aStartY, float aEndX, float aEndY)
 {
-	myTextureRect.myX = aX;
-	myTextureRect.myY = aY;
-	myTextureRect.myWidth = aWidth;
-	myTextureRect.myHeight = aHeight;
+	myTextureRect.myX = aStartX;
+	myTextureRect.myY = aStartY;
+	myTextureRect.myWidth = aEndX;
+	myTextureRect.myHeight = aEndY;
 	VertexChanged();
 }
 

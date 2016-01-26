@@ -4,48 +4,65 @@
 #include "engine.h"
 #include "d3d/direct_3d.h"
 #include "render/render_object.h"
+#include "sprite/textured_quad.h"
+#include "d3d/direct_3d.h"
+#include "texture/texture.h"
 
 using namespace DX2D;
 
-CRenderer::CRenderer(int aMaxRenderObjectPerFrame)
+CRenderer::CRenderer(bool aActivateDebug)
+	:myActivateDebug(aActivateDebug)
 {
-	myMaxRenderObjectPerFrame = aMaxRenderObjectPerFrame;
-	CRenderObject** p1 = (CRenderObject**)std::malloc(myMaxRenderObjectPerFrame * sizeof(CRenderObject));
-	for (int i = 0; i < myMaxRenderObjectPerFrame; i++)
-	{
-		p1[i] = nullptr;
-	}
-	myToRenderObjects = p1;
 }
 
 
 CRenderer::~CRenderer()
 {
-	free(myToRenderObjects);
 }
 
 void CRenderer::AddToRender( CRenderObject* aObject )
 {
 	CDirectEngine& direct3D = CEngine::GetInstance()->GetDirect3D();
 	direct3D.Draw(aObject);
-	// This code is crippled in order for the students to make use of writing their own theaded rendering
-	/*if (myCurrentCount >= myMaxRenderObjectPerFrame)
-	{
-		ERROR_AUTO_PRINT("%s%i", "To many object rendered at the same frame! Max is: ", myMaxRenderObjectPerFrame);
-		return;
-	}
-	myToRenderObjects[myCurrentCount] = aObject;
-	myCurrentCount++;*/
+
 }
 
-bool CRenderer::DoRender() // At the moment not used, crippled for the greater good = Threaded rendering labben
+void DX2D::CRenderer::AddToRender(CTexturedQuad* aObject)
 {
 	CDirectEngine& direct3D = CEngine::GetInstance()->GetDirect3D();
-	for (int i = 0; i < myCurrentCount; i++)
-	{
-		direct3D.Draw(myToRenderObjects[i]);
-	}
+	direct3D.Draw(aObject);
 
-	myCurrentCount = 0;
-	return true;
+	if (myActivateDebug)
+	{
+		OptimisationMap::iterator iter = myRenderedSpritesOfSameType.find(aObject->myTexture->myResource);
+		if (iter == myRenderedSpritesOfSameType.end())
+		{
+			myRenderedSpritesOfSameType[aObject->myTexture->myResource].myPath = aObject->myTexture->myPath;
+		}
+		myRenderedSpritesOfSameType[aObject->myTexture->myResource].myCount++;
+	}
+	
 }
+
+#define RENDER_WARN_COUNT 20
+void DX2D::CRenderer::Update()
+{
+	if (myActivateDebug)
+	{
+		for (OptimisationMap::iterator iter = myRenderedSpritesOfSameType.begin(); iter != myRenderedSpritesOfSameType.end(); iter++)
+		{
+			if (iter->second.myCount > RENDER_WARN_COUNT)
+			{
+				if (!iter->second.myHasWarned)
+				{
+					INFO_TIP("%s%s%s%i%s%s%i%s%s", "Optimisation warning! Texture: ", iter->second.myPath.c_str(), " was rendered more than ", RENDER_WARN_COUNT, " this frame", "(", iter->second.myCount, ")!", " Consider making it a spritebath");
+				}
+				iter->second.myHasWarned = true;
+				
+			}
+			iter->second.myCount = 0;
+		}
+
+	}
+}
+
