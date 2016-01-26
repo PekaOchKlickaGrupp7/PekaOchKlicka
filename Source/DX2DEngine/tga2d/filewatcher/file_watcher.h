@@ -13,7 +13,7 @@ namespace DX2D
 	class CFileWatcher
 	{
 	public:
-		CFileWatcher();
+		CFileWatcher(bool aSouldBeActive);
 		~CFileWatcher();
 
 		/* Will check the file for includes and add them as well*/
@@ -44,6 +44,7 @@ namespace DX2D
 		std::mutex myMutex;
 		bool myShouldEndThread;
 		bool myThreadIsDone;
+		bool myIsActive;
 	};
 
 }

@@ -133,8 +133,6 @@ bool DX2D::CShader::CreateShaders(const char* aVertex, const char* aPixel)
 		}
 	}
 
-	
-
 	VS->Release();
 	VS = 0;
 

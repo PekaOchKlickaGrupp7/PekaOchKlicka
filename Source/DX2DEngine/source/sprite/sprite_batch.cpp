@@ -55,13 +55,47 @@ bool CSpriteBatch::AddObject(CSprite* aSpriteObject)
 }
 
 
-void DX2D::CSpriteBatch::Render(bool aRenderAll)
+void DX2D::CSpriteBatch::RemoveObject(CSprite* aSpriteObject, bool aAlsoDelete)
+{
+	for (unsigned int i = 0; i < mySprites.size(); i++)
+	{
+		std::vector<CSprite*>& sprites = mySprites[i];
+		std::vector<CSprite*>::iterator iter = sprites.begin();
+		while (iter != sprites.end())
+		{
+			if (aSpriteObject == (*iter))
+			{
+				iter = sprites.erase(iter);
+				if (aAlsoDelete)
+				{
+					SAFE_DELETE(aSpriteObject);
+				}
+				
+				myCurrentSpriteCount--;
+				myCurrentSpriteCount = MAX(myCurrentSpriteCount, 0);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+	}
+}
+
+void DX2D::CSpriteBatch::Render()
 {
 	if (!myCurrentSpriteCount)
 	{
 		return;
 	}
-	myQuadBatch->Render(this, aRenderAll);
+	if (!myQuadBatch)
+	{
+		ERROR_AUTO_PRINT("%s", "SpriteBatch not inited! Can not render!");
+		return;
+	}
+
+	myQuadBatch->Render(this);
+
 }
 
 CSprite* DX2D::CSpriteBatch::GetNext()

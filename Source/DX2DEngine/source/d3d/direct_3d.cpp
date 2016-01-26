@@ -38,7 +38,8 @@ CDirectEngine::CDirectEngine()
     :mySwapchain( nullptr ),
     myDevice( nullptr ),
     myDeviceContext( nullptr ),
-    myBackbuffer( nullptr )
+    myBackbuffer( nullptr ),
+	mySampleState(nullptr)
 {
     myClearColor.myR = 0.5f;
     myClearColor.myG = 0.2f;
@@ -80,8 +81,10 @@ bool CDirectEngine::CollectAdapters( Vector2<unsigned int> aWindowSize, Vector2<
     HRESULT result = S_OK;
     IDXGIFactory* factory;
 
-    DXGI_MODE_DESC* displayModeList;
-    unsigned int numModes, i, denominator = 0;
+    DXGI_MODE_DESC* displayModeList = nullptr;
+	unsigned int numModes = 0;
+	unsigned int i = 0;
+	unsigned int denominator = 0;
     unsigned int numerator = 0;
     result = CreateDXGIFactory( __uuidof( IDXGIFactory ), (void**)&factory );
     if( FAILED( result ) )
@@ -89,7 +92,7 @@ bool CDirectEngine::CollectAdapters( Vector2<unsigned int> aWindowSize, Vector2<
         return false;
     }
     // Use the factory to create an adapter for the primary graphics interface (video card).
-    IDXGIAdapter* adapter;
+    IDXGIAdapter* adapter = nullptr;
     int adapterIndex = 0;
     std::vector<DXGI_ADAPTER_DESC> myAdapterDescs;
     std::vector<IDXGIAdapter*> myAdapters;
@@ -116,7 +119,7 @@ bool CDirectEngine::CollectAdapters( Vector2<unsigned int> aWindowSize, Vector2<
     INFO_PRINT( "%s%ls", "Using primary graphic card: ", myAdapterDescs[0].Description );
 
     // Enumerate the primary adapter output (monitor).
-    IDXGIOutput* pOutput;
+    IDXGIOutput* pOutput = nullptr;
     if( myAdapters[0]->EnumOutputs( 0, &pOutput ) == DXGI_ERROR_NOT_FOUND )
     {
         return false;
@@ -519,9 +522,9 @@ bool CDirectEngine::CompileShader( const char* aShader, const char* aMainFunctio
     HRESULT result;
     ID3D10Blob *errorMessage = nullptr;
 
-	UINT flags = D3DCOMPILE_PREFER_FLOW_CONTROL | D3DCOMPILE_SKIP_OPTIMIZATION;
+	UINT flags = 0;
 #if defined( DEBUG ) || defined( _DEBUG )
-	flags |= D3DCOMPILE_DEBUG;
+	flags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION | D3DCOMPILE_PREFER_FLOW_CONTROL;
 #endif
 
 	result = D3DCompileFromFile(DX2D::ConvertCharArrayToLPCWSTR(aShader), 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, aMainFunction, aTarget, flags, 0, &aCodeBlob, &errorMessage);
@@ -656,7 +659,7 @@ void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution
 {
     myWindowSize = aResolution;
 
-	CEngine::GetInstance()->myWindowSize = aResolution;
+	//CEngine::GetInstance()->myWindowSize = aResolution;
 	CEngine::GetInstance()->myRenderSize = aResolution;
 
     myDeviceContext->OMSetRenderTargets( 0, 0, 0 );
@@ -669,7 +672,7 @@ void DX2D::CDirectEngine::SetResolution( DX2D::Vector2<unsigned int> aResolution
     // Perform error handling here!
 
     // Get buffer and create a render-target-view.
-    ID3D11Texture2D* pBuffer;
+    ID3D11Texture2D* pBuffer = nullptr;
     hr = mySwapchain->GetBuffer( 0, __uuidof( ID3D11Texture2D ),
         (void**)&pBuffer );
     // Perform error handling here!

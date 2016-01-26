@@ -83,7 +83,7 @@ CEngine::~CEngine()
 }
 
 
-void DX2D::CEngine::Destroy()
+void DX2D::CEngine::DestroyInstance()
 {
 	if (myInstance != nullptr)
 	{
@@ -96,9 +96,9 @@ bool CEngine::Start()
 {
 	INFO_PRINT("%s", "---TGA 2D Starting, dream big and dare to fail---");
 	INFO_PRINT("%s", "Creating window");
-	myFileWatcher = new CFileWatcher();
+	myFileWatcher = new CFileWatcher(myCreateParameters.myActivateDebugSystems);
 	myWindow = new CWindowsWindow();
-	if (!myWindow->Init(myWindowSize, myHwnd, myCreateParameters.myApplicationName, myHInstance))
+	if (!myWindow->Init(myWindowSize, myHwnd, &myCreateParameters, myHInstance))
 	{
 		ERROR_AUTO_PRINT("%s", "Window failed to be created!");
 		return false;
@@ -113,7 +113,7 @@ bool CEngine::Start()
 
 	myDirect3D->SetClearColor(myClearColor);
 
-	myRenderer = new CRenderer(myCreateParameters.myMaxRenderedObjectsPerFrame);
+	myRenderer = new CRenderer(myCreateParameters.myActivateDebugSystems);
 	myTextureManager = new CTextureManager();
 	myTextureManager->Init();
 
@@ -137,7 +137,7 @@ bool CEngine::Start()
 
 	StartStep();
 
-	Destroy();
+	DestroyInstance();
 	return true;
 }
 
@@ -167,7 +167,6 @@ void DX2D::CEngine::DoStep()
 			if(msg.message == WM_QUIT)
 			{
 				INFO_PRINT("%s", "Exiting...");
-				SAFE_DELETE(myInstance);
 				break;
 			}
 		}
@@ -189,15 +188,14 @@ void DX2D::CEngine::DoStep()
 				myUpdateFunctionToCall();
 			}
 
-			if (myRenderer->DoRender())
+			myRenderer->Update();
+			if (myDebugDrawer)
 			{
-				if (myDebugDrawer)
-				{
-					myDebugDrawer->Update(deltaTime);
-					myDebugDrawer->Render();
-				}
-				myDirect3D->RenderFrame();
+				myDebugDrawer->Update(deltaTime);
+				myDebugDrawer->Render();
 			}
+			myDirect3D->RenderFrame();
+			
 			myLightManager->PostFrameUpdate();
 	
 			std::this_thread::sleep_for(std::chrono::microseconds(1));
@@ -236,10 +234,15 @@ float DX2D::CEngine::GetWindowRatioInversed() const
 }
 
 
-void DX2D::CEngine::SetResolution( const DX2D::Vector2<unsigned int> &aResolution)
+
+void DX2D::CEngine::SetResolution(const DX2D::Vector2<unsigned int> &aResolution, bool aAlsoSetWindowSize)
 {
 	myWindowSize = aResolution;
-	//myWindow->SetResolution(aResolution);
+	aAlsoSetWindowSize = false;
+	if (aAlsoSetWindowSize)
+	{
+		myWindow->SetResolution(aResolution);
+	}
 	myDirect3D->SetResolution(aResolution);
 	CalculateRatios();
 }

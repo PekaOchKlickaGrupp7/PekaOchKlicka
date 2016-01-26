@@ -18,12 +18,11 @@ namespace DX2D
 		void Init(const char* aTexturePath);
 
 		/* Render the whole batch, if aRenderAll is false, the individual sprites can choose to be rendered or not, see CSprite::SetShouldRender() */
-		void Render(CSpriteBatch* aBatch, bool aRenderAll);
+		void Render(CSpriteBatch* aBatch);
 		
 		CSpriteBatch* GetSpriteBatch() const{return mySpriteBatch;}
 		CTexture* myTexture;
 		Vector2f mySize;
-		bool ShouldRenderAll() const { return myShouldRenderAll; }
 		void SetMap(EShaderMap aMapType, const char* aPath);
 		CTexture* myMaps[MAP_MAX];
 	private:
@@ -32,7 +31,6 @@ namespace DX2D
 		
 		CEngine* myEngine;	
 		CSpriteBatch* mySpriteBatch;
-		bool myShouldRenderAll;
 		
 		
 	};

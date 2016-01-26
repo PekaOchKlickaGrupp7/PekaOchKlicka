@@ -23,7 +23,7 @@ namespace DX2D
 		~CTexturedQuad(void);
 		void Init(const char* aTexturePath);
 		void Render();
-		void SetTextureRect(float aX, float aY, float aWidth, float aHeight);
+		void SetTextureRect(float aStartX, float aStartY, float aEndX, float aEndY);
 		CEngine* myEngine;	
 		CTexture* myTexture;
 

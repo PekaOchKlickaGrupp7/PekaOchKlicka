@@ -57,7 +57,7 @@ CTexture* CTextureManager::GetTexture(const char* aTexturePath)
 			&resource);
 		if (!FAILED(hr))
 		{
-			ERROR_AUTO_PRINT("%s %s", "Non dds txture loaded, please consider using dds as it will be more optimized! ", aTexturePath);
+			INFO_TIP("%s %s", "Non dds txture loaded, please consider using dds as it will be more optimized! ", aTexturePath);
 		}
 	}
 	

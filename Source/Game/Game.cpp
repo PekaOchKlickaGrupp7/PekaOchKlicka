@@ -214,7 +214,8 @@ void CGame::UpdateCallBack()
 	mySynchronizer.LogicIsDone();
 	if (myQuit == true)
 	{
-		DX2D::CEngine::Destroy();
+		//DX2D::CEngine::DestroyInstance();
+		DX2D::CEngine::GetInstance()->DestroyInstance();
 	}
 	else
 	{
