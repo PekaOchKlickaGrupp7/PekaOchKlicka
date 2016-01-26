@@ -31,17 +31,9 @@ void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 }
 
 //Update the character
-void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT)
 {
 	myPreviousPosition = myPosition;
-	//Character movement
-	if (myIsMoving == true)
-	{
-		Move(aTargetPos, myMovementSpeed, aDeltaT);
-	}
-
-	
-	myInventory.Update(aDeltaT);
 
 	//Opening/Closing the inventory
 	static float inventoryHoverArea = 1.0f - 0.1f;
@@ -57,6 +49,10 @@ void Player::Update(const DX2D::Vector2f& aTargetPos, float aDeltaT)
 	{
 		myInventory.SetClose();
 	}
+
+	myInventory.Update(aInputManager, aDeltaT);
+
+	Move(aTargetPos, myMovementSpeed, aDeltaT);
 
 
 	if (myInventory.IsOpen() == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
@@ -76,6 +72,12 @@ void Player::Render(Synchronizer& aSynchronizer)
 
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
+	if (myInventory.IsClicked() == true)
+	{
+		myIsMoving = false;
+	}
+	else if (myIsMoving == true)
+	{
 	DX2D::Vector2f characterPos(myPosition);
 	//Calculate distance between target and object
 	DX2D::Vector2f delta = DX2D::Vector2f(
@@ -90,7 +92,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 		//Move the object
 		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
 		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
-		myPosition=DX2D::Vector2f(
+			myPosition = DX2D::Vector2f(
 			myRenderPosition.x,
 			myRenderPosition.y);
 
@@ -103,6 +105,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	{
 		myIsMoving = false;
 	}
+}
 }
 
 void Player::SetPivot(const DX2D::Vector2f& aPoint)

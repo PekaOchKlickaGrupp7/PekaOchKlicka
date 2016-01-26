@@ -21,6 +21,8 @@
 #include "EventChangeToOriginalImage.h"
 #include "EventStopSound.h"
 #include "EventChangeSoundPosition.h"
+#include "EventQuit.h"
+#include "EventIfVariable.h"
 
 using namespace rapidjson;
 
@@ -214,6 +216,28 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		changePositionEvent->Init(aRoom, aGameWorld);
 		event = changePositionEvent;
+		break;
+	}
+	case EventActions::Quit:
+	{
+		EventQuit* quitEvent = new EventQuit();
+
+		quitEvent->Init(aRoom, aGameWorld);
+
+		event = quitEvent;
+		break;
+	}
+	case EventActions::IfVariable:
+	{
+		EventIfVariable* var = new EventIfVariable();
+
+		var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
+		var->myVariable = extra["VariableName"].GetString();
+		var->myVariableValue = extra["VariableValue"].GetString();
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
 		break;
 	}
 	default:

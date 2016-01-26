@@ -6,6 +6,7 @@
 #include "ItemList.h"
 
 class Synchronizer;
+class InputManager;
 
 class Inventory
 {
@@ -22,10 +23,12 @@ public:
 	bool Combine(Item* aItemToCombine, Item* aItemToCombineWith);
 
 	//Update the inventory
-	void Update(float aDeltaTime);
+	void Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime);
 
 	//Check where in the inventory the user clicks and trigger appropiate actions
 	void OnClick(DX2D::Vector2f& aPointerPosition);
+
+	bool IsClicked();
 
 	//Render the inventory through the synchronizer
 	void Render(Synchronizer& aSynchronizer);
@@ -48,7 +51,7 @@ public:
 
 private:
 
-	void Open(float aDeltaTime);
+	void Open(float aDeltaTime, CU::DirectInput::InputManager& aInputManager);
 	void Close(float aDeltaTime);
 
 	ItemList *myMasterItemList;
@@ -63,8 +66,11 @@ private:
 	DX2D::Vector2f myEndPosition;
 
 	float myMovementPerFrame;
+	float myXOffset;
+	float myYOffset;
 
 	bool myIsOpen;
+	bool myIsClicked;
 };
 
 

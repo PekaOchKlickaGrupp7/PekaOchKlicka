@@ -27,6 +27,10 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 CGameWorld::~CGameWorld()
 {
 	delete text;
+	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); ++iterator)
+	{
+		delete iterator->second;
+	}
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -62,6 +66,8 @@ void CGameWorld::Init()
 	{
 		ChangeLevel(name);
 	}
+
+	myDoQuit = false;
 
 	text = new DX2D::CText("Text/calibril.ttf_sdf");
 	text->myText = "Test";
@@ -157,9 +163,19 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myTargetPosition, aTimeDelta);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+
+	if (myDoQuit == true)
+	{
+		return eStateStatus::ePopMainState;
+	}
 
 	return eStateStatus::eKeepState;
+}
+
+void CGameWorld::Quit()
+{
+	myDoQuit = true;
 }
 
 void CGameWorld::ItemPickUp()

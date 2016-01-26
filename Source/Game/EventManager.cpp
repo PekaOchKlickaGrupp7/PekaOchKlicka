@@ -58,7 +58,6 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnHover)
 				{
 					aData->myIsHovering = true;
-					std::cout << "Collided with object" << std::endl;
 				}
 				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 				{
@@ -67,7 +66,6 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 						AddEvent(aData->myEvents[j]);
 					}
 				}
-				std::cout << "Is inside" << std::endl;
 			}
 		}
 		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
@@ -80,7 +78,6 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 					AddEvent(aData->myEvents[j]);
 				}
 			}
-			std::cout << "Left object" << std::endl;
 		}
 		else if (aType == EventTypes::OnLoad)
 		{
@@ -127,7 +124,7 @@ void EventManager::Update(const float aDeltaTime)
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->myActive = false;
-			if (event->myChilds.GetIsInitialized() == true)
+			if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 			{
 				for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
 				{

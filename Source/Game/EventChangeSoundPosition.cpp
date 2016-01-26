@@ -26,8 +26,14 @@ bool EventChangeSoundPosition::Update(const float aDeltaTime)
 		DX2D::Vector2f Position = { (Target->myX + myPosition.x) * 10.0f, 5.0f };
 		SoundPtr->SetPosition(Position);
 	}
+	return true;
 }
 
+
+void EventChangeSoundPosition::Reset()
+{
+
+}
 
 EventChangeSoundPosition::~EventChangeSoundPosition()
 {
