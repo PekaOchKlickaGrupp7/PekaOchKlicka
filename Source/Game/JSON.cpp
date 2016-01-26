@@ -280,6 +280,15 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = var;
 		break;
 	}
+	/*case EventActions::SetVariable:
+	{
+		EventSetVariable* var = new EventSetVariable();
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}*/
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
