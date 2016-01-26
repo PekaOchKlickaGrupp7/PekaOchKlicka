@@ -209,11 +209,11 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		if (extra.HasMember("offsetPositionX") == true)
 		{
-			changePositionEvent->myPosition.x = extra["offsetPositionX"].GetInt();
+			changePositionEvent->myPosition.x = static_cast<float>(extra["offsetPositionX"].GetDouble());
 		}
 		if (extra.HasMember("offsetPositionY") == true)
 		{
-			changePositionEvent->myPosition.y = extra["offsetPositionY"].GetInt();
+			changePositionEvent->myPosition.y = static_cast<float>(extra["offsetPositionY"].GetDouble());
 		}
 
 		changePositionEvent->Init(aRoom, aGameWorld);

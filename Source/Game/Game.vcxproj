@@ -171,6 +171,7 @@
     <ClInclude Include="EventChangeToOriginalImage.h" />
     <ClInclude Include="EventDelay.h" />
     <ClInclude Include="EventFadeColor.h" />
+    <ClInclude Include="EventFadePosition.h" />
     <ClInclude Include="EventIfVariable.h" />
     <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="EventQuit.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="EventChangeToOriginalImage.cpp" />
     <ClCompile Include="EventDelay.cpp" />
     <ClCompile Include="EventFadeColor.cpp" />
+    <ClCompile Include="EventFadePosition.cpp" />
     <ClCompile Include="EventIfVariable.cpp" />
     <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="EventQuit.cpp" />

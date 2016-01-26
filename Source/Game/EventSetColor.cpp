@@ -10,7 +10,7 @@ EventSetColor::~EventSetColor()
 {
 }
 
-bool EventSetColor::Update(const float aDeltaTime)
+bool EventSetColor::Update(const float)
 {
 	ObjectData* object = GetGameObject(myTarget);
 	if (object != nullptr)

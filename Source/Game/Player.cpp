@@ -110,6 +110,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 
 void Player::SetPivot(const DX2D::Vector2f& aPoint)
 {
+	(aPoint);
 	//mySprite->SetPivot(aPoint);
 }
 
