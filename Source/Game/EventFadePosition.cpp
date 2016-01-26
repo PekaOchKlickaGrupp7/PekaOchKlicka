@@ -12,7 +12,7 @@ EventFadePosition::~EventFadePosition()
 
 bool EventFadePosition::Update(const float aDeltaTime)
 {
-
+	(aDeltaTime);
 	return true;
 }
 

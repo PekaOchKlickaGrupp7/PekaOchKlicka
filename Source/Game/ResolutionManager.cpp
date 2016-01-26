@@ -93,8 +93,8 @@ void ResolutionManager::CalculateRatio()
 	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(width), static_cast<unsigned int>(height) });
 	myResViewport.SetViewport((vp_x), (vp_y), (width), (height), 0.0f, 1.0f);
 
-	myRenderAreaDimensions.x = width;
-	myRenderAreaDimensions.y = height;
-	myRenderAreaPosition.x = vp_x;
-	myRenderAreaPosition.y = vp_y;
+	myRenderAreaDimensions.x = static_cast<int>(width);
+	myRenderAreaDimensions.y = static_cast<int>(height);
+	myRenderAreaPosition.x = static_cast<int>(vp_x);
+	myRenderAreaPosition.y = static_cast<int>(vp_y);
 }
