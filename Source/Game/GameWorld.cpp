@@ -241,7 +241,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 
 			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
 			command.mySprite = aNode->mySprite;
-			command.mySprite->SetColor({ 1, 1, 1, 1 });
+			command.mySprite->SetColor(aNode->myColor);
 			aSynchronizer.AddRenderCommand(command);
 		}
 
@@ -249,7 +249,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 		{
 			for (unsigned int j = 0; j < aNode->myChilds.Size(); ++j)
 			{
-				RenderObject(aSynchronizer, aNode->myChilds[j], 0, 0); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
+				RenderObject(aSynchronizer, aNode->myChilds[j], aRelativeX + aNode->myX, aRelativeY + aNode->myY); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
 			}
 		}
 	}

@@ -23,6 +23,8 @@
 #include "EventChangeSoundPosition.h"
 #include "EventQuit.h"
 #include "EventIfVariable.h"
+#include "EventFadeColor.h"
+#include "EventSetColor.h"
 
 using namespace rapidjson;
 
@@ -207,11 +209,11 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 
 		if (extra.HasMember("offsetPositionX") == true)
 		{
-			changePositionEvent->myPosition.x = extra["offsetPositionX"].GetInt();
+			changePositionEvent->myPosition.x = static_cast<float>(extra["offsetPositionX"].GetDouble());
 		}
 		if (extra.HasMember("offsetPositionY") == true)
 		{
-			changePositionEvent->myPosition.y = extra["offsetPositionY"].GetInt();
+			changePositionEvent->myPosition.y = static_cast<float>(extra["offsetPositionY"].GetDouble());
 		}
 
 		changePositionEvent->Init(aRoom, aGameWorld);
@@ -231,10 +233,48 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	{
 		EventIfVariable* var = new EventIfVariable();
 
-		var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
-		var->myVariable = extra["VariableName"].GetString();
-		var->myVariableValue = extra["VariableValue"].GetString();
+		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
+		{
+			var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
+			var->myVariable = extra["VariableName"].GetString();
+			var->myVariableValue = extra["VariableValue"].GetString();
+		}
 
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::FadeColor:
+	{
+		EventFadeColor* var = new EventFadeColor();
+
+		if (extra.HasMember("Duration") == true && extra.HasMember("TargetColor") == true)
+		{
+			var->myFadeTime = static_cast<float>(extra["Duration"].GetDouble());
+			Value& value = extra["TargetColor"];
+			var->myTargetColor.myR = static_cast<float>(value["r"].GetDouble());
+			var->myTargetColor.myG = static_cast<float>(value["g"].GetDouble());
+			var->myTargetColor.myB = static_cast<float>(value["b"].GetDouble());
+			var->myTargetColor.myA = static_cast<float>(value["a"].GetDouble());
+		}
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::SetColor:
+	{
+		EventSetColor* var = new EventSetColor();
+
+		if (extra.HasMember("TargetColor") == true)
+		{
+			Value& value = extra["TargetColor"];
+			var->myTargetColor.myR = static_cast<float>(value["r"].GetDouble());
+			var->myTargetColor.myG = static_cast<float>(value["g"].GetDouble());
+			var->myTargetColor.myB = static_cast<float>(value["b"].GetDouble());
+			var->myTargetColor.myA = static_cast<float>(value["a"].GetDouble());
+		}
 		var->Init(aRoom, aGameWorld);
 
 		event = var;
@@ -402,8 +442,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	dataObject->myScaleX = static_cast<float>(object["sx"].GetDouble());
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
-	dataObject->myX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
-	dataObject->myY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
+	dataObject->myX = (static_cast<float>(object["x"].GetDouble())) / 1920.0f;
+	dataObject->myY = (static_cast<float>(object["y"].GetDouble())) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
@@ -437,104 +477,6 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	for (unsigned int i = 0; i < events.Size(); ++i)
 	{
 		LoadEvent(dataObject, events[i], aRoom, aGameWorld);
-		/*EventActions action = static_cast<EventActions>(events[i]["action"].GetInt());
-		Event* event = nullptr;
-		Value& extra = events[i]["extra"];
-		switch (action)
-		{
-		case EventActions::SetActive:
-		{
-			EventSetActive* setActive = new EventSetActive();
-			setActive->Init(aRoom, aGameWorld);
-
-			if (extra.HasMember("value") == true)
-			{
-				Value& myValue = extra["value"];
-				if (myValue.IsNull() == true)
-				{
-					DL_ASSERT("Event SetActive Value is null");
-				}
-				setActive->myValue = myValue.GetBool();
-			}
-
-			event = setActive;
-			break;
-		}
-		case EventActions::ChangeLevel:
-		{
-			EventChangeLevel* changeLevel = new EventChangeLevel();
-			changeLevel->Init(aRoom, aGameWorld);
-
-			if (extra.HasMember("TargetScene") == true)
-			{
-				Value& myValue = extra["TargetScene"];
-				if (myValue.IsNull() == true)
-				{
-					DL_ASSERT("Event Change Level Value is null");
-				}
-				changeLevel->myTargetLevelName = myValue.GetString();
-				changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
-			}
-
-			event = changeLevel;
-			break;
-		}
-		case EventActions::Talk:
-		{
-			EventTalk* talk = new EventTalk();
-
-			if (extra.HasMember("text") == true)
-			{
-				talk->myText = extra["text"].GetString();
-			}
-			if (extra.HasMember("length") == true)
-			{
-				talk->myShowTime = static_cast<float>(extra["length"].GetDouble());
-			}
-			if (extra.HasMember("wordLength") == true)
-			{
-				talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
-			}
-			if (extra.HasMember("color") == true)
-			{
-				Value &colorVal = extra["color"];
-				talk->myColor = DX2D::CColor(static_cast<float>(colorVal["r"].GetDouble()),
-					static_cast<float>(colorVal["g"].GetDouble()), 
-					static_cast<float>(colorVal["b"].GetDouble()), 
-					static_cast<float>(colorVal["a"].GetDouble()));
-			}
-			if (extra.HasMember("size") == true)
-			{
-				talk->mySize = static_cast<float>(extra["size"].GetDouble());
-			}
-			if (extra.HasMember("fontPath") == true)
-			{
-				talk->myFontPath = extra["fontPath"].GetString();
-			}
-
-			talk->Init(aRoom, aGameWorld);
-
-			event = talk;
-			break;
-		}
-		case EventActions::ChangeCursor:
-		{
-			EventChangeCursor* changeCursor = new EventChangeCursor();
-			changeCursor->myTargetCursor = events[i]["extra"]["cursor"].GetInt();
-			changeCursor->Init(aRoom, aGameWorld);
-
-			event = changeCursor;
-			break;
-		}
-		default:
-			event = new EventNone();
-			event->Init(aRoom, aGameWorld);
-			break;
-		}
-		event->myType = static_cast<EventTypes>(events[i]["type"].GetInt());
-		event->myTarget = std::string(events[i]["target"].GetString());
-		event->myObjectData = dataObject;
-		dataObject->myEvents.Add(event);*/
 	}
 
 	ObjectData* parentData = nullptr;

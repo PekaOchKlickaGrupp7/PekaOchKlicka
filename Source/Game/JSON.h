@@ -23,7 +23,9 @@ enum EventActions
 	IfVariable,
 	StopSound,
 	ChangeSoundPosition,
-	Quit
+	Quit,
+	FadeColor,
+	SetColor
 };
 
 class JSON

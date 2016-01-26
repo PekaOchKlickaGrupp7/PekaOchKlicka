@@ -22,7 +22,7 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myChilds.Init(1);
 }
 
-void Event::Render(Synchronizer &aSynchronizer)
+void Event::Render(Synchronizer &)
 {
 
 }

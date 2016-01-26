@@ -66,7 +66,7 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 //Check where in the inventory the user clicks and trigger appropiate actions
 void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 {
-	for (int i = 0; i < myContents.Size(); ++i)
+	for (unsigned int i = 0; i < myContents.Size(); ++i)
 	{
 		if (CommonUtilities::Intersection::PointVsRect(
 			Vector2<float>(aPointerPosition.x, aPointerPosition.y)
@@ -119,6 +119,7 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 				}
 			}
 		}
+		return false;
 	}
 	else
 	{
