@@ -246,6 +246,9 @@
     <ClInclude Include="EventQuit.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventSetColor.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -378,6 +381,9 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventQuit.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetColor.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

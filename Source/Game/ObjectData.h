@@ -30,14 +30,13 @@ public:
 	ObjectData();
 	~ObjectData();
 
-	void ObjectData::Update(float aDeltaTime);
-
 	DX2D::CSprite* mySprite;
 	DX2D::CSprite* myOriginalSprite;
 
 	std::string myName;
 	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
 	bool myActive;
+	DX2D::CColor myColor;
 
 	bool myTriggerEnabled;
 	HitBox myHitBox;
@@ -48,5 +47,9 @@ public:
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event*, unsigned int> myEvents;
+	CommonUtilities::GrowingArray<bool, unsigned int> myBoolVariables;
+	CommonUtilities::GrowingArray<std::string, unsigned int> myStringVariables;
+	CommonUtilities::GrowingArray<int, unsigned int> myFloatVariables;
+	CommonUtilities::GrowingArray<int, unsigned int> myIntVariables;
 };
 

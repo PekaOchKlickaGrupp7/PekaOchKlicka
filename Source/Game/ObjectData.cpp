@@ -4,7 +4,8 @@
 
 ObjectData::ObjectData()
 {
-	myIsHovering = false;
+	myIsHovering = false; 
+	myColor = { 1, 1, 1, 1 };
 }
 
 ObjectData::~ObjectData()
@@ -17,9 +18,4 @@ ObjectData::~ObjectData()
 	}
 	myChilds.~GrowingArray();
 	myEvents.~GrowingArray();
-}
-
-void ObjectData::Update(float aDeltaTime)
-{
-	(aDeltaTime);
 }
