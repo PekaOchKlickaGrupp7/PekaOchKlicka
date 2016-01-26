@@ -507,7 +507,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	if (aParentObject == nullptr)
 	{
 		aObjects->Add(dataObject);
-		parentData = (*aObjects)[aObjects->Size() - 1];
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *aObjects;
+		parentData = objects[objects.Size() - 1];
 	}
 	else
 	{
