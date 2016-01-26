@@ -246,6 +246,10 @@
     <ClInclude Include="EventQuit.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventFadeColor.h" />
+    <ClInclude Include="EventChangeSoundPosition.h">
+      <Filter>Events\Sound</Filter>
+    </ClInclude>
     <ClInclude Include="EventSetColor.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
@@ -385,6 +389,10 @@
     </ClCompile>
     <ClCompile Include="EventSetColor.cpp">
       <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventFadeColor.cpp" />
+    <ClCompile Include="EventChangeSoundPosition.cpp">
+      <Filter>Events\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
