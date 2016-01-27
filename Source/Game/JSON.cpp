@@ -22,17 +22,22 @@
 #include "EventStopSound.h"
 #include "EventChangeSoundPosition.h"
 #include "EventQuit.h"
-#include "EventIfVariable.h"
+#include "EventIfGlobalVariable.h"
 #include "EventFadeColor.h"
 #include "EventSetColor.h"
 #include "EventFadePosition.h"
 #include "EventToggleFullscreen.h"
+#include "EventSetGlobalVariable.h"
 
 using namespace rapidjson;
 
 Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
+	if (action == 20)
+	{
+		DL_PRINT("Here");
+	}
 	Event* event = nullptr;
 	Value& extra = aParent["extra"];
 	switch (action)
@@ -231,9 +236,25 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = quitEvent;
 		break;
 	}
-	case EventActions::IfVariable:
+	case EventActions::SetGlobalVariable:
 	{
-		EventIfVariable* var = new EventIfVariable();
+		EventSetGlobalVariable* var = new EventSetGlobalVariable();
+
+		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
+		{
+			var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
+			var->myVariable = extra["VariableName"].GetString();
+			var->myVariableValue = extra["VariableValue"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::IfGlobalVariable:
+	{
+		EventIfGlobalVariable* var = new EventIfGlobalVariable();
 
 		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
 		{

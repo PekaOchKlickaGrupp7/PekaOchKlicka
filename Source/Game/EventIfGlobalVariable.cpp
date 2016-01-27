@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "EventIfVariable.h"
+#include "EventIfGlobalVariable.h"
 #include <sstream>
 
-EventIfVariable::EventIfVariable()
+EventIfGlobalVariable::EventIfGlobalVariable()
 {
 	myVariableType = IfVariableType::eNone;
 	myVariable = "";
 	myVariableValue = "";
 }
 
-EventIfVariable::~EventIfVariable()
+EventIfGlobalVariable::~EventIfGlobalVariable()
 {
 }
 
-void EventIfVariable::Init(Room* aRoom, CGameWorld* aGameWorld)
+void EventIfGlobalVariable::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	myRoom = aRoom;
 	myGameWorld = aGameWorld;
@@ -36,7 +36,7 @@ void EventIfVariable::Init(Room* aRoom, CGameWorld* aGameWorld)
 	}
 }
 
-bool EventIfVariable::Update(const float)
+bool EventIfGlobalVariable::Update(const float)
 {
 	switch (myVariableType)
 	{
@@ -60,6 +60,6 @@ bool EventIfVariable::Update(const float)
 	return true;
 }
 
-void EventIfVariable::Reset()
+void EventIfGlobalVariable::Reset()
 {
 }

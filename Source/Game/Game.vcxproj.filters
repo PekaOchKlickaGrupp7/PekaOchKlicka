@@ -237,9 +237,6 @@
     <ClInclude Include="EventDelay.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventIfVariable.h">
-      <Filter>Events\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="EventChangeSoundPosition.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
@@ -263,6 +260,10 @@
     <ClInclude Include="EventVariablesManager.h">
       <Filter>System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="EventIfGlobalVariable.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSetGlobalVariable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -385,9 +386,6 @@
     <ClCompile Include="EventDelay.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventIfVariable.cpp">
-      <Filter>Events\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="EventChangeSoundPosition.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
@@ -410,5 +408,9 @@
     <ClCompile Include="EventVariablesManager.cpp">
       <Filter>System\Events</Filter>
     </ClCompile>
+    <ClCompile Include="EventIfGlobalVariable.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetGlobalVariable.cpp" />
   </ItemGroup>
 </Project>

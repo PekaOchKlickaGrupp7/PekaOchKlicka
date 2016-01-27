@@ -28,6 +28,9 @@ enum EventActions
 	SetColor,
 	FadePosition,
 	SetPosition,
+	SetVariable,
+	IfGlobalVariable,
+	SetGlobalVariable,
 	ToggleFullscreen
 };
 

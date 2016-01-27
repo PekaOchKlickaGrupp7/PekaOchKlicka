@@ -10,12 +10,12 @@ enum IfVariableType
 	Float
 };
 
-class EventIfVariable :
+class EventIfGlobalVariable :
 	public Event
 {
 public:
-	EventIfVariable();
-	virtual ~EventIfVariable();
+	EventIfGlobalVariable();
+	virtual ~EventIfGlobalVariable();
 
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld) override;
 	virtual bool Update(const float aDeltaTime) override;
