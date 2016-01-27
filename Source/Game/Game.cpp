@@ -53,6 +53,8 @@ CGame::~CGame()
 	SoundFileHandler::DestroyInstance();
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
+
+	DX2D::CEngine::GetInstance()->DestroyInstance();
 }
 
 
@@ -214,8 +216,7 @@ void CGame::UpdateCallBack()
 	mySynchronizer.LogicIsDone();
 	if (myQuit == true)
 	{
-		//DX2D::CEngine::DestroyInstance();
-		DX2D::CEngine::GetInstance()->DestroyInstance();
+		DX2D::CEngine::GetInstance()->Shutdown();
 	}
 	else
 	{

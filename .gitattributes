@@ -34,7 +34,6 @@
 #*.modelproj merge=binary
 #*.sqlproj   merge=binary
 #*.wwaproj   merge=binary
-*.json merge=astextplain
 
 ###############################################################################
 # behavior for image files
@@ -62,4 +61,3 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
-*.json diff=

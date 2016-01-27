@@ -9,6 +9,7 @@ namespace DX2D
 	class CRenderObject;
 	class CTexturedQuad;
 	class CLight;
+	class CDirectEngine;
 	class CRenderer
 	{
 	public:
@@ -35,5 +36,6 @@ namespace DX2D
 		
 		typedef std::map<ID3D11ShaderResourceView*, SOptimTip> OptimisationMap;
 		OptimisationMap myRenderedSpritesOfSameType;
+		CDirectEngine* myDXEngine;
 	};
 }
