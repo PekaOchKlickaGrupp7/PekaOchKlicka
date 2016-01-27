@@ -63,7 +63,6 @@ bool EventSetGlobalVariable::Update(const float)
 	}
 	case eNone:
 	default:
-		myAutoActivateRecursive = false;
 		break;
 	}
 	return true;

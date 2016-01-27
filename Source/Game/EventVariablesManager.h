@@ -17,7 +17,6 @@ public:
 
 	static void DestroyInstance()
 	{
-		myEventVariablesManager->Destroy();
 		delete myEventVariablesManager;
 	}
 
@@ -40,8 +39,6 @@ private:
 	static EventVariablesManager* myEventVariablesManager;
 
 	EventVariablesManager();
-
-	void Destroy();
 
 	std::map<std::string, bool>			myBoolVariables;
 	std::map<std::string, int>			myIntVariables;
