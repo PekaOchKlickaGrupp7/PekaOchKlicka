@@ -43,54 +43,22 @@ bool EventSetGlobalVariable::Update(const float)
 	{
 	case Bool:
 	{
-		bool value = false;
-		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
-		{
-			myAutoActivateRecursive = value == myBoolValue;
-		}
-		else
-		{
-			myAutoActivateRecursive = false;
-		}
+		EventVariablesManager::GetInstance()->SetVariable(myBoolValue, myVariable);
 		break;
 	}
 	case String:
 	{
-		std::string str = "";
-		if (EventVariablesManager::GetInstance()->GetVariable(str, myVariable) == true)
-		{
-			myAutoActivateRecursive = str == myVariableValue;
-		}
-		else
-		{
-			myAutoActivateRecursive = false;
-		}
+		EventVariablesManager::GetInstance()->SetVariable(myVariableValue, myVariable);
 		break;
 	}
 	case Int:
 	{
-		int value = 0;
-		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
-		{
-			myAutoActivateRecursive = value == myIntValue;
-		}
-		else
-		{
-			myAutoActivateRecursive = false;
-		}
+		EventVariablesManager::GetInstance()->SetVariable(myIntValue, myVariable);
 		break;
 	}
 	case Float:
 	{
-		float value = 0;
-		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
-		{
-			myAutoActivateRecursive = value == myFloatValue;
-		}
-		else
-		{
-			myAutoActivateRecursive = false;
-		}
+		EventVariablesManager::GetInstance()->SetVariable(myFloatValue, myVariable);
 		break;
 	}
 	case eNone:

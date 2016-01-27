@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EventIfGlobalVariable.h"
 #include <sstream>
+#include "EventVariablesManager.h"
 
 EventIfGlobalVariable::EventIfGlobalVariable()
 {
@@ -41,17 +42,57 @@ bool EventIfGlobalVariable::Update(const float)
 	switch (myVariableType)
 	{
 	case Bool:
-		myAutoActivateRecursive = myBoolValue;
+	{
+		bool value = false;
+		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
+		{
+			myAutoActivateRecursive = value == myBoolValue;
+		}
+		else
+		{
+			myAutoActivateRecursive = false;
+		}
 		break;
+	}
 	case String:
-		myAutoActivateRecursive = myVariableValue == "Test";
+	{
+		std::string str = "";
+		if (EventVariablesManager::GetInstance()->GetVariable(str, myVariable) == true)
+		{
+			myAutoActivateRecursive = str == myVariableValue;
+		}
+		else
+		{
+			myAutoActivateRecursive = false;
+		}
 		break;
+	}
 	case Int:
-		myAutoActivateRecursive = myIntValue == 1;
+	{
+		int value = 0;
+		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
+		{
+			myAutoActivateRecursive = value == myIntValue;
+		}
+		else
+		{
+			myAutoActivateRecursive = false;
+		}
 		break;
+	}
 	case Float:
-		myAutoActivateRecursive = myFloatValue == 1.0f;
+	{
+		float value = 0;
+		if (EventVariablesManager::GetInstance()->GetVariable(value, myVariable) == true)
+		{
+			myAutoActivateRecursive = value == myFloatValue;
+		}
+		else
+		{
+			myAutoActivateRecursive = false;
+		}
 		break;
+	}
 	case eNone:
 	default:
 		myAutoActivateRecursive = false;

@@ -263,7 +263,9 @@
     <ClInclude Include="EventIfGlobalVariable.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventSetGlobalVariable.h" />
+    <ClInclude Include="EventSetGlobalVariable.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -411,6 +413,8 @@
     <ClCompile Include="EventIfGlobalVariable.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventSetGlobalVariable.cpp" />
+    <ClCompile Include="EventSetGlobalVariable.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
