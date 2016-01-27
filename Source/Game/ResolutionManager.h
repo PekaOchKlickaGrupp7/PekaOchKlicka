@@ -27,11 +27,16 @@ public:
 	DX2D::Vector2<int> &GetRenderAreaPosition() { return myRenderAreaPosition; };
 	DX2D::Vector2<int> &GetRenderAreaDimension() { return myRenderAreaDimensions; };
 
-	void Initialize(DX2D::Vector2<int> aVirtualScreenSize = { 1280, 1024 });
+
+	void ToggleFullscreen();
+	void Initialize(DX2D::Vector2<int> aVirtualScreenSize = { 1920, 1080 });
 	DX2D::Vector2<int> GetMonitorResolution() { return myRealScreenSize; };
 	void Update(int aWindowWidth, int aWindowHeight);
 	void RenderLetterbox();
 	float GetRatio(){ return myRatio; };
+
+	bool GetIsFullscreen() { return myIsFullscreen; };
+	void SetFullscreen(bool aSet) { myIsFullscreen = aSet; };
 	
 private:
 	static ResolutionManager* myResolutionManager;
@@ -53,5 +58,7 @@ private:
 	DX2D::Vector2<int> myRenderAreaDimensions;
 
 	float myRenderRatio;
+
+	bool myIsFullscreen;
 };
 

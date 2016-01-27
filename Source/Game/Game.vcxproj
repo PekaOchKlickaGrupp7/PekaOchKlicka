@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventToggleFullscreen.h" />
     <ClInclude Include="EventChangeImage.h" />
     <ClInclude Include="EventChangeSoundPosition.h" />
     <ClInclude Include="EventChangeToOriginalImage.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="EventQuit.h" />
     <ClInclude Include="EventSetColor.h" />
     <ClInclude Include="EventStopSound.h" />
+    <ClInclude Include="EventVariablesManager.h" />
     <ClInclude Include="FadeState.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
@@ -227,6 +229,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventToggleFullscreen.cpp" />
     <ClCompile Include="EventChangeImage.cpp" />
     <ClCompile Include="EventChangeSoundPosition.cpp" />
     <ClCompile Include="EventChangeToOriginalImage.cpp" />
@@ -238,6 +241,7 @@
     <ClCompile Include="EventQuit.cpp" />
     <ClCompile Include="EventSetColor.cpp" />
     <ClCompile Include="EventStopSound.cpp" />
+    <ClCompile Include="EventVariablesManager.cpp" />
     <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />

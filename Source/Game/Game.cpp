@@ -17,6 +17,7 @@
 #include "EventManager.h"
 #include "ResolutionManager.h"
 #include "MouseManager.h"
+#include "EventVariablesManager.h"
 
 #include <iostream>
 
@@ -55,6 +56,8 @@ CGame::~CGame()
 	SoundFileHandler::DestroyInstance();
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
+	EventVariablesManager::DestroyInstance();
+	ResolutionManager::DestroyInstance();
 
 	DX2D::CEngine::GetInstance()->DestroyInstance();
 }
@@ -62,7 +65,6 @@ CGame::~CGame()
 
 void CGame::Init(const char** argv, const int argc)
 {
-	myIsFullscreen = false;
 	ResolutionManager::GetInstance()->Initialize();
 
 	std::cout << std::endl;
@@ -73,19 +75,6 @@ void CGame::Init(const char** argv, const int argc)
 	std::cout << std::endl;
 	unsigned short windowWidth = 1920;
 	unsigned short windowHeight = 1080;
-
-	if (argc == 2)
-	{
-		//Test level
-		std::string str = argv[1];
-		while (str.find("%") != str.npos)
-		{
-			str = str.replace(str.find("%"), 1, " ");
-		}
-
-		myTestLevel = str;
-		std::cout << "Level: " << myTestLevel << std::endl; 
-	}
 
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
@@ -116,12 +105,29 @@ void CGame::Init(const char** argv, const int argc)
 	versionNumber.pop_back();
 
 	std::wstring appname(versionNumber.begin(), versionNumber.end());
-	createParameters.myStartInFullScreen = myIsFullscreen;
+	ResolutionManager::GetInstance()->SetFullscreen(true);
 #ifdef _DEBUG
 	createParameters.myActivateDebugSystems = true;
-	createParameters.myStartInFullScreen = myIsFullscreen;
+	ResolutionManager::GetInstance()->SetFullscreen(false);
 #endif
 
+	if (argc == 2)
+	{
+		//Test level
+		std::string str = argv[1];
+		while (str.find("%") != str.npos)
+		{
+			str = str.replace(str.find("%"), 1, " ");
+		}
+
+		myTestLevel = str;
+		std::cout << "Level: " << myTestLevel << std::endl;
+
+		ResolutionManager::GetInstance()->SetFullscreen(false);
+	}
+
+
+	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;
 
@@ -192,13 +198,6 @@ const bool CGame::Update()
 	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
-
-
-	if (myInputManager.KeyPressed(DIK_F1) == true)
-	{
-		myIsFullscreen = !myIsFullscreen;
-		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
-	}
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)

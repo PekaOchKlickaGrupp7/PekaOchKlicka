@@ -37,6 +37,8 @@ RECT ResolutionManager::RetrieveResolutionRender()
 
 void ResolutionManager::Initialize(DX2D::Vector2<int> aVirtualScreenSize)
 {
+
+	myIsFullscreen = false;
 	myRealScreenSize = { static_cast<int>(RetrieveResolutionScreen().right),
 		static_cast<int>(RetrieveResolutionScreen().bottom) };
 
@@ -66,6 +68,12 @@ ResolutionManager::~ResolutionManager()
 {
 }
 
+void ResolutionManager::ToggleFullscreen()
+{
+	myIsFullscreen = !myIsFullscreen;
+	DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
+	CalculateRatio();
+}
 
 void ResolutionManager::CalculateRatio()
 {
