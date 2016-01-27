@@ -35,7 +35,7 @@ void EventManager::AddEvent(Event* aEvent)
 	}
 }
 
-void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY)
+void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY)
 {
 	if (aData->myActive == true)
 	{
@@ -51,13 +51,17 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 
 		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
 			MouseManager::GetInstance()->GetPosition().x,
-			MouseManager::GetInstance()->GetPosition().y) == true)
+			MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
 		{
 			if (trigger == true)
 			{
 				if (aType == EventTypes::OnHover)
 				{
 					aData->myIsHovering = true;
+				}
+				if (aType == EventTypes::OnClick && aData->myName == "Play")
+				{
+					trigger = false;
 				}
 				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 				{
@@ -92,13 +96,9 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 
 		if (aData->myChilds.GetIsInitialized() == true)
 		{
-			if (aData->myChilds.Size() > 0)
-			{
-				trigger = false;
-			}
 			for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
 			{
-				OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
+				OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY, aRelativeX + aData->myX, aRelativeY + aData->myY);
 			}
 		}
 	}
@@ -112,14 +112,14 @@ void EventManager::Update(const float aDeltaTime)
 	{
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
-			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y);
+			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0);
 		}
 	}
 
 	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 	{
-		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y);
-		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y);
+		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
+		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y, 0, 0);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
@@ -145,7 +145,7 @@ void EventManager::Update(const float aDeltaTime)
 
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
-			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y);
+			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
 		}
 	}
 }

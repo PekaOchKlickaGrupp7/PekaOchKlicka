@@ -294,8 +294,11 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	{
 		EventFadePosition* var = new EventFadePosition();
 
-		var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
-		var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		if (extra.HasMember("Duration") == true && extra.HasMember("TargetPositionX") == true && extra.HasMember("TargetPositionY") == true)
+		{
+			var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
+			var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		}
 
 		var->Init(aRoom, aGameWorld);
 
@@ -466,6 +469,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
 	dataObject->myX = (static_cast<float>(object["x"].GetDouble())) / 1920.0f;
 	dataObject->myY = (static_cast<float>(object["y"].GetDouble())) / 1080.0f;
+	dataObject->myGlobalX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
+	dataObject->myGlobalY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
@@ -528,10 +533,6 @@ void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld*
 	if (aNode != nullptr)
 	{
 		aNode->myEvents.Add(event);
-		if (aNode->myName == "Play")
-		{
-			DL_PRINT("Here");
-		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
@@ -550,10 +551,6 @@ void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRo
 			aEvent->myChilds.Init(12);
 		}
 		aEvent->myChilds.Add(event);
-		if (aNode->myName == "Play")
-		{
-			DL_PRINT("Here");
-		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
