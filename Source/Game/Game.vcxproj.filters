@@ -76,6 +76,9 @@
     <Filter Include="Events\Utilities">
       <UniqueIdentifier>{1630017b-f2ce-47f2-aaa8-f80297d99222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Options">
+      <UniqueIdentifier>{2a9984d9-3700-4518-b106-57742d9cc3b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -234,9 +237,6 @@
     <ClInclude Include="EventDelay.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventIfVariable.h">
-      <Filter>Events\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="EventChangeSoundPosition.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
@@ -249,7 +249,21 @@
     <ClInclude Include="EventSetColor.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventFadePosition.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
+    <ClInclude Include="FadeState.h" />
+    <ClInclude Include="EventToggleFullscreen.h">
+      <Filter>Events\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="EventVariablesManager.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventIfGlobalVariable.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSetGlobalVariable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -372,9 +386,6 @@
     <ClCompile Include="EventDelay.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventIfVariable.cpp">
-      <Filter>Events\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="EventChangeSoundPosition.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
@@ -390,5 +401,16 @@
     <ClCompile Include="EventFadePosition.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="FadeState.cpp" />
+    <ClCompile Include="EventToggleFullscreen.cpp">
+      <Filter>Events\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="EventVariablesManager.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventIfGlobalVariable.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetGlobalVariable.cpp" />
   </ItemGroup>
 </Project>

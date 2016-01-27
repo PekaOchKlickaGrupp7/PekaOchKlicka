@@ -166,17 +166,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventSetGlobalVariable.h" />
+    <ClInclude Include="EventToggleFullscreen.h" />
     <ClInclude Include="EventChangeImage.h" />
     <ClInclude Include="EventChangeSoundPosition.h" />
     <ClInclude Include="EventChangeToOriginalImage.h" />
     <ClInclude Include="EventDelay.h" />
     <ClInclude Include="EventFadeColor.h" />
     <ClInclude Include="EventFadePosition.h" />
-    <ClInclude Include="EventIfVariable.h" />
+    <ClInclude Include="EventIfGlobalVariable.h" />
     <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="EventQuit.h" />
     <ClInclude Include="EventSetColor.h" />
     <ClInclude Include="EventStopSound.h" />
+    <ClInclude Include="EventVariablesManager.h" />
+    <ClInclude Include="FadeState.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -226,17 +230,21 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventSetGlobalVariable.cpp" />
+    <ClCompile Include="EventToggleFullscreen.cpp" />
     <ClCompile Include="EventChangeImage.cpp" />
     <ClCompile Include="EventChangeSoundPosition.cpp" />
     <ClCompile Include="EventChangeToOriginalImage.cpp" />
     <ClCompile Include="EventDelay.cpp" />
     <ClCompile Include="EventFadeColor.cpp" />
     <ClCompile Include="EventFadePosition.cpp" />
-    <ClCompile Include="EventIfVariable.cpp" />
+    <ClCompile Include="EventIfGlobalVariable.cpp" />
     <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="EventQuit.cpp" />
     <ClCompile Include="EventSetColor.cpp" />
     <ClCompile Include="EventStopSound.cpp" />
+    <ClCompile Include="EventVariablesManager.cpp" />
+    <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />

@@ -22,16 +22,22 @@
 #include "EventStopSound.h"
 #include "EventChangeSoundPosition.h"
 #include "EventQuit.h"
-#include "EventIfVariable.h"
+#include "EventIfGlobalVariable.h"
 #include "EventFadeColor.h"
 #include "EventSetColor.h"
 #include "EventFadePosition.h"
+#include "EventToggleFullscreen.h"
+#include "EventSetGlobalVariable.h"
 
 using namespace rapidjson;
 
 Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
+	if (action == 20)
+	{
+		DL_PRINT("Here");
+	}
 	Event* event = nullptr;
 	Value& extra = aParent["extra"];
 	switch (action)
@@ -230,9 +236,25 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = quitEvent;
 		break;
 	}
-	case EventActions::IfVariable:
+	case EventActions::SetGlobalVariable:
 	{
-		EventIfVariable* var = new EventIfVariable();
+		EventSetGlobalVariable* var = new EventSetGlobalVariable();
+
+		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
+		{
+			var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
+			var->myVariable = extra["VariableName"].GetString();
+			var->myVariableValue = extra["VariableValue"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::IfGlobalVariable:
+	{
+		EventIfGlobalVariable* var = new EventIfGlobalVariable();
 
 		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
 		{
@@ -294,8 +316,20 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	{
 		EventFadePosition* var = new EventFadePosition();
 
-		var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
-		var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		if (extra.HasMember("Duration") == true && extra.HasMember("TargetPositionX") == true && extra.HasMember("TargetPositionY") == true)
+		{
+			var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
+			var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::ToggleFullscreen:
+	{
+		EventToggleFullscreen* var = new EventToggleFullscreen();
 
 		var->Init(aRoom, aGameWorld);
 
@@ -466,6 +500,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
 	dataObject->myX = (static_cast<float>(object["x"].GetDouble())) / 1920.0f;
 	dataObject->myY = (static_cast<float>(object["y"].GetDouble())) / 1080.0f;
+	dataObject->myGlobalX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
+	dataObject->myGlobalY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
@@ -528,10 +564,6 @@ void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld*
 	if (aNode != nullptr)
 	{
 		aNode->myEvents.Add(event);
-		if (aNode->myName == "Play")
-		{
-			DL_PRINT("Here");
-		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
@@ -550,10 +582,6 @@ void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRo
 			aEvent->myChilds.Init(12);
 		}
 		aEvent->myChilds.Add(event);
-		if (aNode->myName == "Play")
-		{
-			DL_PRINT("Here");
-		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)

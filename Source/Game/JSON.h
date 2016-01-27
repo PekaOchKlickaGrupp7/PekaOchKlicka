@@ -27,7 +27,11 @@ enum EventActions
 	FadeColor,
 	SetColor,
 	FadePosition,
-	SetPosition
+	SetPosition,
+	SetVariable,
+	IfGlobalVariable,
+	SetGlobalVariable,
+	ToggleFullscreen
 };
 
 class JSON

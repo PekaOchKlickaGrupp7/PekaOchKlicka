@@ -8,6 +8,9 @@
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
 
+#include "rapidjson\document.h"
+#include "..\CommonUtilities\DL_Debug.h"
+
 #include "ResolutionManager.h"
 #include "MouseManager.h"
 
@@ -59,18 +62,48 @@ eStateStatus MainMenuState::Update(float aTimeDelta)
 
 void MainMenuState::InitState()
 {
-	myBackground = new DX2D::CSprite("Sprites/menu/background.dds");
+	LoadJson();
+}
 
-	myTitle = new DX2D::CSprite("Sprites/menu/title.dds");
+void MainMenuState::LoadJson()
+{
+	const char* data = ReadFile("Menu.json");
+	rapidjson::Document root;
+	root.Parse(data);
 
-	float scaleButtons = 1.f;
+	if (root.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load Menu.json.");
+		root.GetAllocator().~MemoryPoolAllocator();
+		return;
+	}
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::PLAY, "Sprites/menu/play.dds",
-		"Sprites/menu/playHighlight.dds", Vector2<float>(0, 0.5f), scaleButtons));
+	myBackground = new DX2D::CSprite(root["background"].GetString());
+	myTitle = new DX2D::CSprite(root["title"].GetString());
 
-	myButtons.Add(new MenuImageItem(MenuItem::eAction::EXIT, "Sprites/menu/exit.dds",
-		"Sprites/menu/exitHighlight.dds", Vector2<float>(0, 0.8f), scaleButtons));
+	rapidjson::Value& menuButtons = root["Buttons"];
 
+	if (menuButtons.IsNull() == true)
+	{
+		DL_DEBUG("Buttons is not a member of Menu.json");
+		root.GetAllocator().~MemoryPoolAllocator();
+		return;
+	}
+
+	for (unsigned int i = 0; i < menuButtons.Size(); ++i)
+	{
+		rapidjson::Value& button = menuButtons[i];
+
+		std::string selection = button["selection"].GetString();
+		const char* path = button["path"].GetString();
+		const char* highlightPath = button["highlightPath"].GetString();
+		float positionX = static_cast<float>(button["positionX"].GetDouble());
+		float positionY = static_cast<float>(button["positionY"].GetDouble());
+
+		myButtons.Add(new MenuImageItem(GetActionType(selection), path,
+			highlightPath, Vector2<float>(positionX, positionY), 1));
+	}
+	delete data;
 }
 
 void MainMenuState::CalcHighlights()
@@ -115,3 +148,41 @@ void MainMenuState::Render(Synchronizer& aSynchronizer)
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
+MenuItem::eAction MainMenuState::GetActionType(std::string& aSelection)
+{
+	if (aSelection == "play")
+	{
+		return MenuItem::eAction::PLAY;
+	}
+
+	if (aSelection == "exit")
+	{
+		return MenuItem::eAction::EXIT;
+	}
+
+	return MenuItem::eAction::NONE;
+}
+
+const char* MainMenuState::ReadFile(const char* aFile)
+{
+	std::ifstream input(aFile);
+
+	std::string str((std::istreambuf_iterator<char>(input)),
+		std::istreambuf_iterator<char>());
+
+	char* data = new char[str.length() + 1];
+	int a = 0;
+	for (unsigned int i = 0; i < str.length(); ++i)
+	{
+		if (str[i] != 0)
+		{
+			data[a] = str[i];
+			a++;
+		}
+	}
+
+	data[a] = '\0';
+	input.close();
+
+	return data;
+}

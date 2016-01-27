@@ -24,6 +24,7 @@ bool EventFadePosition::Update(const float aDeltaTime)
 	myTime += aDeltaTime;
 
 	ObjectData* object = GetGameObject(myTarget);
+
 	if (object != nullptr)
 	{
 		DX2D::Vector2f pos = {	Lerp(myPrevPosition.x, object->myX + myTargetOffset.x, myTime / myDuration),
