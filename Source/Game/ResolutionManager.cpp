@@ -37,7 +37,6 @@ RECT ResolutionManager::RetrieveResolutionRender()
 
 void ResolutionManager::Initialize(DX2D::Vector2<int> aVirtualScreenSize)
 {
-
 	myIsFullscreen = false;
 	myRealScreenSize = { static_cast<int>(RetrieveResolutionScreen().right),
 		static_cast<int>(RetrieveResolutionScreen().bottom) };
@@ -55,7 +54,14 @@ void ResolutionManager::Update()
 {
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
-	CalculateRatio();
+	CalculateRatio(returnedResolution);
+}
+
+void ResolutionManager::SetupWindow()
+{
+	RECT returnedResolution;
+	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
+	CalculateRatio(returnedResolution);
 }
 
 void ResolutionManager::RenderLetterbox()
@@ -71,13 +77,17 @@ void ResolutionManager::ToggleFullscreen()
 {
 	myIsFullscreen = !myIsFullscreen;
 	DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
-	CalculateRatio();
-}
 
-void ResolutionManager::CalculateRatio()
-{
+
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
+
+	CalculateRatio(returnedResolution);
+}
+
+void ResolutionManager::CalculateRatio(RECT aResolution)
+{
+	RECT returnedResolution = aResolution;
 	float screen_width = static_cast<float>(returnedResolution.right);
 	float screen_height = static_cast<float>(returnedResolution.bottom);
 

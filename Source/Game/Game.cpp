@@ -180,6 +180,7 @@ void CGame::InitCallBack()
 
 	EventManager::CreateInstance();
 	EventManager::GetInstance()->Init(&myInputManager);
+	//EventVariablesManager::GetInstance();
 
 	#pragma endregion
 	if (myTestLevel.size() > 0)
@@ -190,6 +191,8 @@ void CGame::InitCallBack()
 	{
 		myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
 	}
+
+	ResolutionManager::GetInstance()->SetupWindow();
 }
 
 const bool CGame::Update()
