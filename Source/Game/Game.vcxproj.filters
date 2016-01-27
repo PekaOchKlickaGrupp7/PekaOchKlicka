@@ -76,6 +76,9 @@
     <Filter Include="Events\Utilities">
       <UniqueIdentifier>{1630017b-f2ce-47f2-aaa8-f80297d99222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events\Options">
+      <UniqueIdentifier>{2a9984d9-3700-4518-b106-57742d9cc3b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -254,6 +257,12 @@
     </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
     <ClInclude Include="FadeState.h" />
+    <ClInclude Include="EventToggleFullscreen.h">
+      <Filter>Events\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="EventVariablesManager.h">
+      <Filter>System\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -395,5 +404,11 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="FadeState.cpp" />
+    <ClCompile Include="EventToggleFullscreen.cpp">
+      <Filter>Events\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="EventVariablesManager.cpp">
+      <Filter>System\Events</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

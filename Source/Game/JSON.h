@@ -27,7 +27,8 @@ enum EventActions
 	FadeColor,
 	SetColor,
 	FadePosition,
-	SetPosition
+	SetPosition,
+	ToggleFullscreen
 };
 
 class JSON

@@ -26,6 +26,7 @@
 #include "EventFadeColor.h"
 #include "EventSetColor.h"
 #include "EventFadePosition.h"
+#include "EventToggleFullscreen.h"
 
 using namespace rapidjson;
 
@@ -299,6 +300,15 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 			var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
 			var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
 		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::ToggleFullscreen:
+	{
+		EventToggleFullscreen* var = new EventToggleFullscreen();
 
 		var->Init(aRoom, aGameWorld);
 

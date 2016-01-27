@@ -17,9 +17,11 @@
 #include "EventManager.h"
 #include "ResolutionManager.h"
 #include "MouseManager.h"
+#include "EventVariablesManager.h"
 
 #include <iostream>
 
+#include "..\Launcher\VersionNo.h"
 
 using namespace std::placeholders;
 
@@ -54,6 +56,8 @@ CGame::~CGame()
 	SoundFileHandler::DestroyInstance();
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
+	EventVariablesManager::DestroyInstance();
+	ResolutionManager::DestroyInstance();
 
 	DX2D::CEngine::GetInstance()->DestroyInstance();
 }
@@ -61,7 +65,6 @@ CGame::~CGame()
 
 void CGame::Init(const char** argv, const int argc)
 {
-	myIsFullscreen = false;
 	ResolutionManager::GetInstance()->Initialize();
 
 	std::cout << std::endl;
@@ -73,20 +76,6 @@ void CGame::Init(const char** argv, const int argc)
 	unsigned short windowWidth = 1920;
 	unsigned short windowHeight = 1080;
 
-	if (argc == 2)
-	{
-		//Test level
-		std::string str = argv[1];
-		while (str.find("%") != str.npos)
-		{
-			str = str.replace(str.find("%"), 1, " ");
-		}
-
-
-		myTestLevel = str;
-		std::cout << "Level: " << myTestLevel << std::endl; 
-	}
-
 	DX2D::SEngineCreateParameters createParameters;
 	createParameters.myActivateDebugSystems = false;
 	createParameters.myInitFunctionToCall = std::bind(&CGame::InitCallBack, this);
@@ -96,17 +85,49 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
-	createParameters.myStartInFullScreen = false;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
-	std::wstring appname = L"Peka Och Klicka Grupp 7";
-	//createParameters.myStartInFullScreen = myIsFullscreen;
+	int version[] = { PRODUCTVER };
+
+	std::string versionNumber = "Giraffspelet* v";
+	#ifdef _DEBUG
+
+	versionNumber = "Giraffspelet* Debug v";
+
+	#endif
+
+	int count = sizeof(version) / sizeof(version[0]);
+	for (int i = 0; i < count; i++)
+	{
+		versionNumber += std::to_string(version[i]);
+		versionNumber += ".";
+	}
+	versionNumber.pop_back();
+
+	std::wstring appname(versionNumber.begin(), versionNumber.end());
+	ResolutionManager::GetInstance()->SetFullscreen(true);
 #ifdef _DEBUG
 	createParameters.myActivateDebugSystems = true;
-	//createParameters.myStartInFullScreen = myIsFullscreen;
-	appname = L"Peka Och Klicka Grupp 7 DEBUG";
+	ResolutionManager::GetInstance()->SetFullscreen(false);
 #endif
 
+	if (argc == 2)
+	{
+		//Test level
+		std::string str = argv[1];
+		while (str.find("%") != str.npos)
+		{
+			str = str.replace(str.find("%"), 1, " ");
+		}
+
+		myTestLevel = str;
+		std::cout << "Level: " << myTestLevel << std::endl;
+
+		ResolutionManager::GetInstance()->SetFullscreen(false);
+	}
+
+
+	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;
 
@@ -176,13 +197,6 @@ const bool CGame::Update()
 	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
-
-
-	if (myInputManager.KeyPressed(DIK_F1) == true)
-	{
-		myIsFullscreen = !myIsFullscreen;
-		DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
-	}
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)

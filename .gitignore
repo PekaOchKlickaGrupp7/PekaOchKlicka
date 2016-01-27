@@ -198,3 +198,5 @@ Bin/fmodoutput.wav
 *.xmp
 *.wav
 *.mp3
+/Source/DX2DEngine/.svn
+/Source/Launcher/.svn

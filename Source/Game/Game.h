@@ -30,8 +30,6 @@ private:
 	const bool Update();
 	void Render();
 
-	bool myIsFullscreen;
-
 	//JSON myJson;
 	std::map<std::string, Room*> myRooms;
 
