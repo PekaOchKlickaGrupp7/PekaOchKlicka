@@ -25,6 +25,7 @@
 #include "EventIfVariable.h"
 #include "EventFadeColor.h"
 #include "EventSetColor.h"
+#include "EventFadePosition.h"
 
 using namespace rapidjson;
 
@@ -289,6 +290,18 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = var;
 		break;
 	}*/
+	case EventActions::FadePosition:
+	{
+		EventFadePosition* var = new EventFadePosition();
+
+		var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
+		var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
@@ -494,7 +507,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	if (aParentObject == nullptr)
 	{
 		aObjects->Add(dataObject);
-		parentData = (*aObjects)[aObjects->Size() - 1];
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *aObjects;
+		parentData = objects[objects.Size() - 1];
 	}
 	else
 	{
@@ -514,6 +528,10 @@ void JSON::LoadEvent(ObjectData* aNode, Value& aParent, Room* aRoom, CGameWorld*
 	if (aNode != nullptr)
 	{
 		aNode->myEvents.Add(event);
+		if (aNode->myName == "Play")
+		{
+			DL_PRINT("Here");
+		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
@@ -532,6 +550,10 @@ void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRo
 			aEvent->myChilds.Init(12);
 		}
 		aEvent->myChilds.Add(event);
+		if (aNode->myName == "Play")
+		{
+			DL_PRINT("Here");
+		}
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)

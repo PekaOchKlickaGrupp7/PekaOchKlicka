@@ -7,10 +7,10 @@ namespace DX2D
 {
 	struct STextureRext
 	{
-		float myX;
-		float myY;
-		float myWidth;
-		float myHeight;
+		float myStartX;
+		float myStartY;
+		float myEndX;
+		float myEndY;
 	};
 	struct ID3D11Resource;
 	class CEngine;

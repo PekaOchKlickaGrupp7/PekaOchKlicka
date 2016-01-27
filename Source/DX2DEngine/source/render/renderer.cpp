@@ -12,6 +12,7 @@ using namespace DX2D;
 
 CRenderer::CRenderer(bool aActivateDebug)
 	:myActivateDebug(aActivateDebug)
+	, myDXEngine(&CEngine::GetInstance()->GetDirect3D())
 {
 }
 
@@ -22,15 +23,13 @@ CRenderer::~CRenderer()
 
 void CRenderer::AddToRender( CRenderObject* aObject )
 {
-	CDirectEngine& direct3D = CEngine::GetInstance()->GetDirect3D();
-	direct3D.Draw(aObject);
+	myDXEngine->Draw(aObject);
 
 }
 
 void DX2D::CRenderer::AddToRender(CTexturedQuad* aObject)
 {
-	CDirectEngine& direct3D = CEngine::GetInstance()->GetDirect3D();
-	direct3D.Draw(aObject);
+	myDXEngine->Draw(aObject);
 
 	if (myActivateDebug)
 	{

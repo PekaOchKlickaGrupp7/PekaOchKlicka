@@ -92,6 +92,10 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 
 		if (aData->myChilds.GetIsInitialized() == true)
 		{
+			if (aData->myChilds.Size() > 0)
+			{
+				trigger = false;
+			}
 			for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
 			{
 				OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY);
