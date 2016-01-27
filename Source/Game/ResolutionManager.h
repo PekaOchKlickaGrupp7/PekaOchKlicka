@@ -20,7 +20,6 @@ public:
 
 	static void DestroyInstance()
 	{
-		myResolutionManager->Destroy();
 		delete myResolutionManager;
 	}
 
@@ -41,7 +40,6 @@ public:
 private:
 	static ResolutionManager* myResolutionManager;
 	ResolutionManager();
-	void Destroy();
 	void CalculateRatio();
 	RECT RetrieveResolutionScreen();
 	RECT RetrieveResolutionWindow();

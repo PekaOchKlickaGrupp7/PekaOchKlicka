@@ -66,6 +66,7 @@ void ResolutionManager::RenderLetterbox()
 
 ResolutionManager::~ResolutionManager()
 {
+
 }
 
 void ResolutionManager::ToggleFullscreen()
