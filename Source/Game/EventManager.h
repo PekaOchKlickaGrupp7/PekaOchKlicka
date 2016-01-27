@@ -31,7 +31,7 @@ public:
 		myInstance = nullptr;
 	}
 
-	void OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY);
+	void OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY);
 	void Init(CU::DirectInput::InputManager* aInputManager) { myInputManager = aInputManager; };
 	void ChangeRoom(Room* aCurrentRoom);
 	float Remap(float value, float from1, float to1, float from2, float to2);

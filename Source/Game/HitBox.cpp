@@ -20,7 +20,7 @@ void HitBox::Init(ObjectData* aObject)
 	myObject = aObject;
 }
 
-bool HitBox::IsMouseColliding(const float aX, const float aY)
+bool HitBox::IsMouseColliding(const float aX, const float aY, const float aRelativeX, const float aRelativeY)
 {
 	if (myObject->myActive == false || myObject->myTriggerEnabled == false)
 	{
@@ -32,11 +32,11 @@ bool HitBox::IsMouseColliding(const float aX, const float aY)
 	}
 	if (myObject->myTriggerType == TriggerType::Box)
 	{
-		return CommonUtilities::AxisAlignedBoundingBox(aX, aY, 0, 0, myObject->myX + myX, myObject->myY + myY, myWidth, myHeight);
+		return CommonUtilities::AxisAlignedBoundingBox(aX, aY, 0, 0, (myObject->myX + myX) + aRelativeX, (myObject->myY + myY) + aRelativeY, myWidth, myHeight);
 	}
 	else
 	{
-		return CommonUtilities::CircleCollision(1.0f, aX * 1920.0f, aY * 1080.0f, myObject->myRadius, (myObject->myX + myX) * 1920.0f, (myObject->myY + myY) * 1080.0f);
+		return CommonUtilities::CircleCollision(1.0f, aX * 1920.0f, aY * 1080.0f, myObject->myRadius, ((myObject->myX + myX) + aRelativeX) * 1920.0f, ((myObject->myY + myY) + aRelativeY) * 1080.0f);
 	}
 }
 

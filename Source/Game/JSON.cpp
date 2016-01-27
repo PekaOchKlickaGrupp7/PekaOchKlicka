@@ -294,8 +294,11 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	{
 		EventFadePosition* var = new EventFadePosition();
 
-		var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
-		var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		if (extra.HasMember("Duration") == true && extra.HasMember("TargetPositionX") == true && extra.HasMember("TargetPositionY") == true)
+		{
+			var->myDuration = static_cast<float>(extra["Duration"].GetDouble());
+			var->myTargetOffset = { static_cast<float>(extra["TargetPositionX"].GetDouble()) / 1920.0f, static_cast<float>(extra["TargetPositionY"].GetDouble()) / 1080.0f };
+		}
 
 		var->Init(aRoom, aGameWorld);
 

@@ -11,7 +11,7 @@ public:
 
 	void Init(ObjectData* aEvent);
 	void Parse(const std::string& aString);
-	bool IsMouseColliding(const float aX, const float aY);
+	bool IsMouseColliding(const float aX, const float aY, const float aRelativeX, const float aRelativeY);
 
 	ObjectData* myObject;
 	float myX, myY, myWidth, myHeight;
