@@ -25,7 +25,9 @@ public:
 
 private:
 	void CalcHighlights();
-
+	void LoadJson();
+	const char* ReadFile(const char* aFile);
+	MenuItem::eAction GetActionType(std::string& aSelection);
 	MenuItem::eAction mySelection;
 
 	DX2D::CSprite* myBackground;

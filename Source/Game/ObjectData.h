@@ -34,7 +34,7 @@ public:
 	DX2D::CSprite* myOriginalSprite;
 
 	std::string myName;
-	float myX, myY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
+	float myX, myY, myGlobalX, myGlobalY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
 	bool myActive;
 	DX2D::CColor myColor;
 

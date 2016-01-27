@@ -41,7 +41,7 @@ void MouseManager::Update(float)
 	myInputManager->SetAbsoluteMousePos(
 		static_cast<int>((ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f),  
 		static_cast<int>((ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f));
-	
+
 	float aSpeed = 0.0005f;
 	
 

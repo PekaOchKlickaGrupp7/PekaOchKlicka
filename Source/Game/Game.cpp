@@ -9,6 +9,7 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
+#include "FadeState.h"
 
 #include "SoundManager.h"
 #include "SoundFileHandler.h"
@@ -176,7 +177,7 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
 	/*if (myTestLevel.size() > 0)
 	{
 	}
