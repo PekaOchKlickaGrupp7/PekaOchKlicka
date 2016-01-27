@@ -51,10 +51,8 @@ void ResolutionManager::Initialize(DX2D::Vector2<int> aVirtualScreenSize)
 	myRatio = 16 / 9;
 }
 
-void ResolutionManager::Update(int aWindowWidth, int aWindowHeight)
+void ResolutionManager::Update()
 {
-	(aWindowWidth);
-	(aWindowHeight);
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
 	CalculateRatio();

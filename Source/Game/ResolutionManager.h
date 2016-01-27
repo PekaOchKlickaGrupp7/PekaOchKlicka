@@ -30,7 +30,7 @@ public:
 	void ToggleFullscreen();
 	void Initialize(DX2D::Vector2<int> aVirtualScreenSize = { 1920, 1080 });
 	DX2D::Vector2<int> GetMonitorResolution() { return myRealScreenSize; };
-	void Update(int aWindowWidth, int aWindowHeight);
+	void Update();
 	void RenderLetterbox();
 	float GetRatio(){ return myRatio; };
 
