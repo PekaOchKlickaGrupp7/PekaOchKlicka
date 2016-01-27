@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "VersionNo.h"
+#include <string>
+#include <stringapiset.h>
 
 void Init(const char** argv, const int argc);
 
@@ -28,19 +31,31 @@ int main(const int argc, const char** argv)
 #else
 int WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, char*, int /*nShowCmd*/)
 {	
-	const char* value = "";
-	Init(&value, 0);
+	Init();
 	return 0;
 }
 #endif
 #pragma endregion MainFunction
 
-
-void Init(const char** argv, const int argc)
-{
+void Init(const char** argv, const int argc) 
+{ 
 	CGame myGame;
-	myGame.Init(argv, argc);
+	    
+	int version[] = { PRODUCTVER }; 
+	std::string versionNumber;   
+	 
+	int count = sizeof(version) / sizeof(version[0]);  
+	for (int i = 0; i < count; i++)
+	{
+		versionNumber += std::to_string(version[i]); 
+		versionNumber += ",";
+	} 
+	versionNumber.pop_back();  
 
+	
+
+	myGame.Init(argv, argc); 
+	 
 
 }
 

@@ -19,6 +19,7 @@
 
 #include <iostream>
 
+#include "..\Launcher\VersionNo.h"
 
 using namespace std::placeholders;
 
@@ -81,7 +82,6 @@ void CGame::Init(const char** argv, const int argc)
 			str = str.replace(str.find("%"), 1, " ");
 		}
 
-
 		myTestLevel = str;
 		std::cout << "Level: " << myTestLevel << std::endl; 
 	}
@@ -97,12 +97,28 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myRenderWidth = windowWidth;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
-	std::wstring appname = L"Peka Och Klicka Grupp 7";
+	int version[] = { PRODUCTVER };
+
+	std::string versionNumber = "Giraffspelet* v";
+	#ifdef _DEBUG
+
+	versionNumber = "Giraffspelet* Debug v";
+
+	#endif
+
+	int count = sizeof(version) / sizeof(version[0]);
+	for (int i = 0; i < count; i++)
+	{
+		versionNumber += std::to_string(version[i]);
+		versionNumber += ".";
+	}
+	versionNumber.pop_back();
+
+	std::wstring appname(versionNumber.begin(), versionNumber.end());
 	createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
 	createParameters.myActivateDebugSystems = true;
 	createParameters.myStartInFullScreen = myIsFullscreen;
-	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
 	createParameters.myApplicationName = appname;
