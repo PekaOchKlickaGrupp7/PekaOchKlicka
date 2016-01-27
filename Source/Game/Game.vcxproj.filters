@@ -250,6 +250,7 @@
       <Filter>Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
+    <ClInclude Include="FadeState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -390,5 +391,6 @@
     <ClCompile Include="EventFadePosition.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="FadeState.cpp" />
   </ItemGroup>
 </Project>
