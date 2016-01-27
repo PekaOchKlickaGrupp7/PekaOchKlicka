@@ -194,7 +194,8 @@ void CGame::InitCallBack()
 
 const bool CGame::Update()
 {
-	ResolutionManager::GetInstance()->Update(DX2D::CEngine::GetInstance()->GetWindowSize().x, DX2D::CEngine::GetInstance()->GetWindowSize().y);
+	//ResolutionManager::GetInstance()->Update();
+
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
