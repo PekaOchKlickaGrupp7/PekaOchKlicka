@@ -96,13 +96,14 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myWindowWidth = windowWidth;
 	createParameters.myRenderHeight = windowHeight;
 	createParameters.myRenderWidth = windowWidth;
+	createParameters.myStartInFullScreen = false;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
 	std::wstring appname = L"Peka Och Klicka Grupp 7";
-	createParameters.myStartInFullScreen = myIsFullscreen;
+	//createParameters.myStartInFullScreen = myIsFullscreen;
 #ifdef _DEBUG
 	createParameters.myActivateDebugSystems = true;
-	createParameters.myStartInFullScreen = myIsFullscreen;
+	//createParameters.myStartInFullScreen = myIsFullscreen;
 	appname = L"Peka Och Klicka Grupp 7 DEBUG";
 #endif
 
