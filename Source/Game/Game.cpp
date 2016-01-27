@@ -57,7 +57,7 @@ CGame::~CGame()
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
 	EventVariablesManager::DestroyInstance();
-	//ResolutionManager::DestroyInstance();
+	ResolutionManager::DestroyInstance();
 
 	DX2D::CEngine::GetInstance()->DestroyInstance();
 }
