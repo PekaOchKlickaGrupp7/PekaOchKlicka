@@ -15,10 +15,10 @@ CTexturedQuad::CTexturedQuad(void)
 {
 	myEngine = CEngine::GetInstance();
 
-	myTextureRect.myX = 0.0f;
-	myTextureRect.myY = 0.0f;
-	myTextureRect.myWidth = 1.0f;
-	myTextureRect.myHeight = 1.0f;
+	myTextureRect.myStartX = 0.0f;
+	myTextureRect.myStartY = 0.0f;
+	myTextureRect.myEndX = 1.0f;
+	myTextureRect.myEndY = 1.0f;
 	myVertexesDirty = false;
 	for (int i = 0; i < MAP_MAX; i++)
 	{
@@ -52,10 +52,10 @@ void DX2D::CTexturedQuad::Render()
 
 void DX2D::CTexturedQuad::SetTextureRect(float aStartX, float aStartY, float aEndX, float aEndY)
 {
-	myTextureRect.myX = aStartX;
-	myTextureRect.myY = aStartY;
-	myTextureRect.myWidth = aEndX;
-	myTextureRect.myHeight = aEndY;
+	myTextureRect.myStartX = aStartX;
+	myTextureRect.myStartY = aStartY;
+	myTextureRect.myEndX = aEndX;
+	myTextureRect.myEndY = aEndY;
 	VertexChanged();
 }
 

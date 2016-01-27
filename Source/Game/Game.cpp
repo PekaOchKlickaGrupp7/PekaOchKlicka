@@ -9,6 +9,7 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
+#include "FadeState.h"
 
 #include "SoundManager.h"
 #include "SoundFileHandler.h"
@@ -53,6 +54,8 @@ CGame::~CGame()
 	SoundFileHandler::DestroyInstance();
 	SoundManager::DestroyInstance();
 	EventManager::DestroyInstance();
+
+	DX2D::CEngine::GetInstance()->DestroyInstance();
 }
 
 
@@ -158,7 +161,7 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
 	/*if (myTestLevel.size() > 0)
 	{
 	}
@@ -214,8 +217,7 @@ void CGame::UpdateCallBack()
 	mySynchronizer.LogicIsDone();
 	if (myQuit == true)
 	{
-		//DX2D::CEngine::DestroyInstance();
-		DX2D::CEngine::GetInstance()->DestroyInstance();
+		DX2D::CEngine::GetInstance()->Shutdown();
 	}
 	else
 	{

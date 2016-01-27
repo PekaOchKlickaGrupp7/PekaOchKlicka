@@ -85,10 +85,7 @@ CEngine::~CEngine()
 
 void DX2D::CEngine::DestroyInstance()
 {
-	if (myInstance != nullptr)
-	{
-		myInstance->Shutdown();
-	}
+	SAFE_DELETE(myInstance);
 }
 
 
@@ -238,7 +235,6 @@ float DX2D::CEngine::GetWindowRatioInversed() const
 void DX2D::CEngine::SetResolution(const DX2D::Vector2<unsigned int> &aResolution, bool aAlsoSetWindowSize)
 {
 	myWindowSize = aResolution;
-	aAlsoSetWindowSize = false;
 	if (aAlsoSetWindowSize)
 	{
 		myWindow->SetResolution(aResolution);

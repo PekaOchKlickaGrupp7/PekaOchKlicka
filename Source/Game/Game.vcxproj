@@ -177,6 +177,7 @@
     <ClInclude Include="EventQuit.h" />
     <ClInclude Include="EventSetColor.h" />
     <ClInclude Include="EventStopSound.h" />
+    <ClInclude Include="FadeState.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="EventQuit.cpp" />
     <ClCompile Include="EventSetColor.cpp" />
     <ClCompile Include="EventStopSound.cpp" />
+    <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />

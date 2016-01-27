@@ -32,6 +32,11 @@ CSpriteBatch::~CSpriteBatch(void)
 
 void CSpriteBatch::Init(const char* aTexturePath)
 {
+	if (myQuadBatch)
+	{
+		INFO_PRINT("%s%s", "Initing an already inited batch! Texture: ", aTexturePath);
+		return;
+	}
 	myQuadBatch = new CTexturedQuadBatch();
 	myQuadBatch->Init(aTexturePath);
 }

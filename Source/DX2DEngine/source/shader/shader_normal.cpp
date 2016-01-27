@@ -155,41 +155,41 @@ void CShaderNormal::UpdateVertexes(CTexturedQuad* aQuad, ID3D11Buffer* aVertexBu
 	const float startSize = 1.0f;
 
 	float theZ = 0.0f;
-	dataVertexPtr[0].X = -0;
+	dataVertexPtr[0].X = 0;
 	dataVertexPtr[0].Y = -startSize;
 	dataVertexPtr[0].Z = theZ;
-	dataVertexPtr[0].texX = textureRect.myX;
-	dataVertexPtr[0].texY = textureRect.myHeight;
+	dataVertexPtr[0].texX = textureRect.myStartX;
+	dataVertexPtr[0].texY = textureRect.myEndY;
 
-	dataVertexPtr[1].X = -0;
-	dataVertexPtr[1].Y = -0;
+	dataVertexPtr[1].X = 0;
+	dataVertexPtr[1].Y = 0;
 	dataVertexPtr[1].Z = theZ;
-	dataVertexPtr[1].texX = textureRect.myX;
-	dataVertexPtr[1].texY = textureRect.myY;
+	dataVertexPtr[1].texX = textureRect.myStartX;
+	dataVertexPtr[1].texY = textureRect.myStartY;
 
 	dataVertexPtr[2].X = startSize;
 	dataVertexPtr[2].Y = -startSize;
 	dataVertexPtr[2].Z = theZ;
-	dataVertexPtr[2].texX = textureRect.myWidth;
-	dataVertexPtr[2].texY = textureRect.myHeight;
+	dataVertexPtr[2].texX = textureRect.myEndX;
+	dataVertexPtr[2].texY = textureRect.myEndY;
 
 	dataVertexPtr[3].X = startSize;
-	dataVertexPtr[3].Y = -0;
+	dataVertexPtr[3].Y = 0;
 	dataVertexPtr[3].Z = theZ;
-	dataVertexPtr[3].texX = textureRect.myWidth;
-	dataVertexPtr[3].texY = textureRect.myY;
+	dataVertexPtr[3].texX = textureRect.myEndX;
+	dataVertexPtr[3].texY = textureRect.myStartY;
 
 	dataVertexPtr[4].X = startSize;
 	dataVertexPtr[4].Y = -startSize;
 	dataVertexPtr[4].Z = theZ;
-	dataVertexPtr[4].texX = textureRect.myWidth;
-	dataVertexPtr[4].texY = textureRect.myHeight;
+	dataVertexPtr[4].texX = textureRect.myEndX;
+	dataVertexPtr[4].texY = textureRect.myEndY;
 
-	dataVertexPtr[5].X = -0;
-	dataVertexPtr[5].Y = -0;
+	dataVertexPtr[5].X = 0;
+	dataVertexPtr[5].Y = 0;
 	dataVertexPtr[5].Z = theZ;
-	dataVertexPtr[5].texX = textureRect.myX;
-	dataVertexPtr[5].texY = textureRect.myY;
+	dataVertexPtr[5].texX = textureRect.myStartX;
+	dataVertexPtr[5].texY = textureRect.myStartY;
 
 	myDirect3dEngine->GetContext()->Unmap(aVertexBuffer, 0);
 }
