@@ -180,6 +180,7 @@
     <ClInclude Include="EventSetColor.h" />
     <ClInclude Include="EventStopSound.h" />
     <ClInclude Include="EventVariablesManager.h" />
+    <ClInclude Include="EventWalkTo.h" />
     <ClInclude Include="FadeState.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="EventSetColor.cpp" />
     <ClCompile Include="EventStopSound.cpp" />
     <ClCompile Include="EventVariablesManager.cpp" />
+    <ClCompile Include="EventWalkTo.cpp" />
     <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />

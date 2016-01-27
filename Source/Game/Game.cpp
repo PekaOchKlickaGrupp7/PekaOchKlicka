@@ -184,7 +184,7 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	myTestLevel = "optionsmenu";
+	myTestLevel = "test";
 	if (myTestLevel.size() > 0)
 	{
 		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));

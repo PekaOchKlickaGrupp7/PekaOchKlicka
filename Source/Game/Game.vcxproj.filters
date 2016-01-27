@@ -266,6 +266,9 @@
     <ClInclude Include="EventSetGlobalVariable.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventWalkTo.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -414,6 +417,9 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventSetGlobalVariable.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventWalkTo.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

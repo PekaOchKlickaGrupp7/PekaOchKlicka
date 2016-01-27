@@ -173,6 +173,13 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	return eStateStatus::eKeepState;
 }
 
+void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
+{
+	myTargetPosition.x = aPoint.x;
+	myTargetPosition.y = aPoint.y;
+	myPlayer.SetIsMoving(true);
+}
+
 void CGameWorld::Quit()
 {
 	myDoQuit = true;
