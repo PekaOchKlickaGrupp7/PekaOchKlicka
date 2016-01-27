@@ -161,15 +161,14 @@ void CGame::InitCallBack()
 	EventManager::GetInstance()->Init(&myInputManager);
 
 	#pragma endregion
-
-	myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
-	/*if (myTestLevel.size() > 0)
+	if (myTestLevel.size() > 0)
 	{
+		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 	}
 	else
 	{
-		myStateStack.PushMainGameState(new MainMenuState(myStateStackProxy, myInputManager, myTimerManager));
-	}*/
+		myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
+	}
 }
 
 const bool CGame::Update()
