@@ -84,7 +84,6 @@ void CGameWorld::Init()
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
-	EventManager::GetInstance()->Update(aTimeDelta);
 
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
@@ -134,6 +133,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 			}
 		}
 	}
+
+	EventManager::GetInstance()->Update(aTimeDelta);
 
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
