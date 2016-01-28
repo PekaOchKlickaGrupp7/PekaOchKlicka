@@ -184,7 +184,6 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-
 	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
 	ResolutionManager::GetInstance()->SetupWindow();
