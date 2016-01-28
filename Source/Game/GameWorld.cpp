@@ -188,6 +188,11 @@ void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 	myPlayer.SetIsMoving(true);
 }
 
+const Vector2f CGameWorld::GetPlayerTargetPosition() const
+{
+	return Vector2f(myTargetPosition.x, myTargetPosition.y);
+}
+
 void CGameWorld::Quit()
 {
 	myDoQuit = true;

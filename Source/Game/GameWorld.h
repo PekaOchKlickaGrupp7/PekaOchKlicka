@@ -23,6 +23,7 @@ public:
 	void ChangeLevel(const std::string& aString);
 	Player* CGameWorld::GetPlayer();
 	void SetPlayerTargetPosition(Point2f aPoint);
+	const Vector2f GetPlayerTargetPosition() const;
 
 	void Quit();
 
