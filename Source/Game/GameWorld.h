@@ -19,6 +19,7 @@ public:
 
 	void Init();
 
+	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);
 	Player* CGameWorld::GetPlayer();
 	void SetPlayerTargetPosition(Point2f aPoint);

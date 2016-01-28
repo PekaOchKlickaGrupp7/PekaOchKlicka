@@ -54,14 +54,22 @@ void ResolutionManager::Update()
 {
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
-	CalculateRatio(returnedResolution);
+	CalculateRatio(returnedResolution, false);
+}
+
+void ResolutionManager::SetupWindow(int aX, int aY)
+{
+	RECT returnedResolution;
+	returnedResolution.right = aX;
+	returnedResolution.bottom = aY;
+	CalculateRatio(returnedResolution, true);
 }
 
 void ResolutionManager::SetupWindow()
 {
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
-	CalculateRatio(returnedResolution);
+	CalculateRatio(returnedResolution, false);
 }
 
 void ResolutionManager::RenderLetterbox()
@@ -82,10 +90,10 @@ void ResolutionManager::ToggleFullscreen()
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
 
-	CalculateRatio(returnedResolution);
+	CalculateRatio(returnedResolution, false);
 }
 
-void ResolutionManager::CalculateRatio(RECT aResolution)
+void ResolutionManager::CalculateRatio(RECT aResolution, bool aChangeWindow)
 {
 	RECT returnedResolution = aResolution;
 	float screen_width = static_cast<float>(returnedResolution.right);
@@ -107,7 +115,7 @@ void ResolutionManager::CalculateRatio(RECT aResolution)
 
 	float vp_x = (screen_width / 2) - (width / 2);
 	float vp_y = (screen_height / 2) - (height / 2);
-	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(width), static_cast<unsigned int>(height) }, false);
+	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(width), static_cast<unsigned int>(height) }, aChangeWindow);
 	myResViewport.SetViewport((vp_x), (vp_y), (width), (height), 0.0f, 1.0f);
 
 	myRenderAreaDimensions.x = static_cast<int>(width);
