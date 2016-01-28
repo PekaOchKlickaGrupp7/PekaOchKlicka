@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "MouseManager.h"
 #include <iostream>
+#include "GameWorld.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -141,12 +142,15 @@ void EventManager::Update(const float aDeltaTime)
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
+
 		RemoveAllEvents();
 
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
 		}
+
+		myGameWorld->DoChangeLevel(myCurrentRoom);
 	}
 }
 
