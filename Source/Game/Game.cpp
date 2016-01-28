@@ -184,15 +184,8 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	//myTestLevel = "";
-	if (myTestLevel.size() > 0)
-	{
-		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
-	}
-	else
-	{
-		myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
-	}
+
+	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
 
 	ResolutionManager::GetInstance()->SetupWindow();
 }
