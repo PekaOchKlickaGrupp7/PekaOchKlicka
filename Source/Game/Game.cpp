@@ -151,7 +151,7 @@ void CGame::InitCallBack()
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
 	#pragma region Mouse Manager
-	// Create a mouse instance
+
 	MouseManager::CreateInstance();
 	// Create all file paths to the different cursors
 	CommonUtilities::GrowingArray<std::string> spriteFilePaths;
@@ -184,7 +184,7 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	myTestLevel = "test";
+	//myTestLevel = "";
 	if (myTestLevel.size() > 0)
 	{
 		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
