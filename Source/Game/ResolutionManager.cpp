@@ -59,10 +59,11 @@ void ResolutionManager::Update()
 
 void ResolutionManager::SetupWindow(int aX, int aY)
 {
+	DX2D::CEngine::GetInstance()->SetResolution(DX2D::Vector2<unsigned int>(aX, aY), true);
+
 	RECT returnedResolution;
-	returnedResolution.right = aX;
-	returnedResolution.bottom = aY;
-	CalculateRatio(returnedResolution, true);
+	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
+	CalculateRatio(returnedResolution, false);
 }
 
 void ResolutionManager::SetupWindow()

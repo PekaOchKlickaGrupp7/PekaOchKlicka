@@ -40,6 +40,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 {
 	if (aData->myActive == true)
 	{
+		/*
 		bool trigger = true;
 		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 		{
@@ -49,38 +50,46 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		{
 			trigger = false;
 		}
+		*/
 
-		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
-			MouseManager::GetInstance()->GetPosition().x,
-			MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
+		if (aType == EventTypes::OnClick || aType == EventTypes::OnHover || aType == EventTypes::OnLeave)
 		{
-			if (trigger == true)
+			if (aData->myHitBox.IsMouseColliding(MouseManager::GetInstance()->GetPosition().x, MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
 			{
-				if (aType == EventTypes::OnHover)
+				if (aType == EventTypes::OnClick)
+				{
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					{
+						if (aData->myEvents[j]->myType == EventTypes::OnClick)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
+					}
+				}
+				else if (aData->myIsHovering == false)
 				{
 					aData->myIsHovering = true;
-				}
-				if (aType == EventTypes::OnClick && aData->myName == "Play")
-				{
-					trigger = false;
-				}
-				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
-				{
-					if (aData->myEvents[j]->myType == aType)
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 					{
-						AddEvent(aData->myEvents[j]);
+						if (aData->myEvents[j]->myType == EventTypes::OnHover)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
 					}
 				}
 			}
-		}
-		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
-		{
-			aData->myIsHovering = false;
-			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			else
 			{
-				if (aData->myEvents[j]->myType == aType)
+				if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 				{
-					AddEvent(aData->myEvents[j]);
+					aData->myIsHovering = false;
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					{
+						if (aData->myEvents[j]->myType == EventTypes::OnLeave)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
+					}
 				}
 			}
 		}
@@ -120,7 +129,6 @@ void EventManager::Update(const float aDeltaTime)
 	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 	{
 		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
-		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y, 0, 0);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
@@ -139,6 +147,7 @@ void EventManager::Update(const float aDeltaTime)
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
+
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
