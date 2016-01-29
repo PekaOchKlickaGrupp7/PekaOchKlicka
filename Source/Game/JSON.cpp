@@ -30,6 +30,7 @@
 #include "EventSetGlobalVariable.h"
 #include "EventWalkTo.h"
 #include "EventHideMouse.h"
+#include "EventSetCinematic.h"
 
 using namespace rapidjson;
 
@@ -350,6 +351,20 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		if (extra.HasMember("hide") == true)
 		{
 			var->myHideGameMouse = extra["hide"].GetBool();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::SetCinematic:
+	{
+		EventSetCinematic* var = new EventSetCinematic();
+
+		if (extra.HasMember("on") == true)
+		{
+			var->mySetOn = extra["on"].GetBool();
 		}
 
 		var->Init(aRoom, aGameWorld);

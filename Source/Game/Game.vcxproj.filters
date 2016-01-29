@@ -256,6 +256,9 @@
     <ClInclude Include="EventHideMouse.h">
       <Filter>Events\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="EventSetCinematic.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -401,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="EventHideMouse.cpp">
       <Filter>Events\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetCinematic.cpp">
+      <Filter>Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

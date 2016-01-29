@@ -33,7 +33,8 @@ enum EventActions
 	SetGlobalVariable,
 	ToggleFullscreen,
 	WalkTo,
-	HideMouse
+	HideMouse,
+	SetCinematic
 };
 
 class JSON

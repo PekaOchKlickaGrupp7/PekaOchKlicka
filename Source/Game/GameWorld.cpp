@@ -67,17 +67,17 @@ void CGameWorld::Init()
 	}
 
 	myDoQuit = false;
+	myPlayerCanMove = true;
 
 	myTextFPS = new DX2D::CText("Text/calibril.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.6f;
-	
 
-//Create the player character
-//BUG: Why does pivot.x = 0.25 refer to the center
-//of myAnimation.mySprite and not 0.5? ~Erik
-myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
+	//Create the player character
+	//BUG: Why does pivot.x = 0.25 refer to the center
+	//of myAnimation.mySprite and not 0.5? ~Erik
+	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
 }
 
 
@@ -108,9 +108,13 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
-	EventManager::GetInstance()->Update(aTimeDelta);
 
-	PlayerMovement(aTimeDelta);
+	if (myCurrentRoom != nullptr)
+	{
+		PlayerMovement(aTimeDelta);
+	}
+
+	EventManager::GetInstance()->Update(aTimeDelta);
 
 	if (myDoQuit == true)
 	{
@@ -130,6 +134,11 @@ void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 const Vector2f CGameWorld::GetPlayerTargetPosition() const
 {
 	return Vector2f(myTargetPosition.x, myTargetPosition.y);
+}
+
+void CGameWorld::SetCinematicMode(bool aOn)
+{
+	myPlayerCanMove = !aOn;
 }
 
 void CGameWorld::Quit()
@@ -247,7 +256,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 void CGameWorld::PlayerMovement(float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if (myInputManager.LeftMouseButtonClicked())
+	if (myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
 	{
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
@@ -307,8 +316,12 @@ void CGameWorld::PlayerMovement(float aTimeDelta)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 		{
-			(*myCurrentRoom->GetObjectList())[i]->myX = myPlayer.GetPosition().x;
-			(*myCurrentRoom->GetObjectList())[i]->myY = myPlayer.GetPosition().y;
+			DX2D::Vector2f playerPos = myPlayer.GetPosition();
+			(*myCurrentRoom->GetObjectList())[i]->myX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myY = playerPos.y;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalY = playerPos.y;
+			break;
 		}
 	}
 }

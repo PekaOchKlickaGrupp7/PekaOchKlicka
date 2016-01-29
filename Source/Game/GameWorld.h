@@ -25,6 +25,7 @@ public:
 	Player* CGameWorld::GetPlayer();
 	void SetPlayerTargetPosition(Point2f aPoint);
 	const Vector2f GetPlayerTargetPosition() const;
+	void SetCinematicMode(bool aOn = true);
 
 	void Quit();
 
@@ -37,6 +38,7 @@ private:
 	DX2D::CText* myTextFPS;
 
 	bool myDoQuit;
+	bool myPlayerCanMove;
 
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 

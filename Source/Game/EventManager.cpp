@@ -93,7 +93,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				}
 			}
 		}
-		else if (aType == EventTypes::OnLoad)
+		else
 		{
 			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 			{

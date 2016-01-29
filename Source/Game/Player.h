@@ -23,6 +23,7 @@ public:
 	//Set the pivot point of the character
 	void SetPivot(const DX2D::Vector2f& aPoint);
 	void SetPosition(const DX2D::Vector2f& aPoint);
+	void SetPreviousPosition(const DX2D::Vector2f& aPoint);
 	void SetSpeed(float aSpeed);
 	bool GetIsMoving();
 	void SetIsMoving(bool aValue);

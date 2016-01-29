@@ -168,6 +168,11 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 	myRenderPosition = aPoint;
 }
 
+void Player::SetPreviousPosition(const DX2D::Vector2f& aPoint)
+{
+	myPreviousPosition = aPoint;
+}
+
 void Player::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
