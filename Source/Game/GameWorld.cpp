@@ -143,6 +143,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
 		myPlayer.SetIsMoving(false);
 	}
+
+	//If character accidentally gets outside the nav mesh move him back inside
 	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
 	{
 		if (myCurrentRoom->GetNavMeshes()[i].
