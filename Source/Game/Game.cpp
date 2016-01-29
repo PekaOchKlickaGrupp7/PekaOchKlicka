@@ -123,10 +123,13 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << "Level: " << myTestLevel << std::endl;
 
 		ResolutionManager::GetInstance()->SetFullscreen(false);
+
 	}
 
 
 	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
+	std::string str = std::string("IsFullscreen");
+	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), str);
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;
 
@@ -178,15 +181,26 @@ void CGame::InitCallBack()
 	#pragma region Event Manager
 
 	EventManager::CreateInstance();
-	EventManager::GetInstance()->Init(&myInputManager);
+
+	CGameWorld* GameWorld = new CGameWorld(myStateStackProxy, myInputManager, myTimerManager);
+
+	EventManager::GetInstance()->Init(&myInputManager, GameWorld);
 	//EventVariablesManager::GetInstance();
 
 	#pragma endregion
 
 
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	myStateStack.PushMainGameState(GameWorld);
 
+
+	if (ResolutionManager::GetInstance()->GetIsFullscreen() == false)
+	{
+		ResolutionManager::GetInstance()->SetupWindow(960, 540);
+	}
+	else
+	{
 	ResolutionManager::GetInstance()->SetupWindow();
+}
 }
 
 const bool CGame::Update()

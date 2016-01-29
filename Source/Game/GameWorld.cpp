@@ -33,16 +33,15 @@ CGameWorld::~CGameWorld()
 	}
 }
 
+void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
+{
+	myCurrentRoom = aCurrentRoom;
+}
+
 void CGameWorld::ChangeLevel(const std::string& aString)
 {
-	myCurrentRoom = myRooms[aString];
-	myCurrentRoom->OnLoad();
-
-	if (myCurrentRoom == nullptr)
-	{
-		DL_PRINT("Current room is null!");
-	}
-	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
+	myCurrentRoom = nullptr;
+	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
 }
 
 Player* CGameWorld::GetPlayer()
@@ -144,6 +143,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
 		myPlayer.SetIsMoving(false);
 	}
+
+	//If character accidentally gets outside the nav mesh move him back inside
 	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
 	{
 		if (myCurrentRoom->GetNavMeshes()[i].
@@ -187,6 +188,11 @@ void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 	myTargetPosition.x = aPoint.x;
 	myTargetPosition.y = aPoint.y;
 	myPlayer.SetIsMoving(true);
+}
+
+const Vector2f CGameWorld::GetPlayerTargetPosition() const
+{
+	return Vector2f(myTargetPosition.x, myTargetPosition.y);
 }
 
 void CGameWorld::Quit()

@@ -83,7 +83,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	myPreviousPosition = myPosition;
 
 	//Opening/Closing the inventory
-	static float inventoryHoverArea = 1.0f - 0.1f;
+	static float inventoryHoverArea = 1.0f - 0.01f;
 	if (myInventory.IsOpen() == false && 
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
