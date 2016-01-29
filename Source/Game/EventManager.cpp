@@ -147,7 +147,7 @@ void EventManager::Update(const float aDeltaTime)
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
-
+	
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
