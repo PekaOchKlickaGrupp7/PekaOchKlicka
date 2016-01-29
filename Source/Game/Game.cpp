@@ -9,7 +9,6 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
-#include "FadeState.h"
 
 #include "SoundManager.h"
 #include "SoundFileHandler.h"

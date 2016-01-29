@@ -36,7 +36,7 @@ public:
 	void SetIsMoving(bool aValue);
 
 private:
-	Animation myAnimation;
+	//Animation myAnimation;
 
 	DX2D::Vector2f myPosition;
 	DX2D::Vector2f myTargetPosition;
