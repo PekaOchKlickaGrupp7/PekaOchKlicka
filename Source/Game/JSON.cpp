@@ -29,6 +29,7 @@
 #include "EventToggleFullscreen.h"
 #include "EventSetGlobalVariable.h"
 #include "EventWalkTo.h"
+#include "EventHideMouse.h"
 
 using namespace rapidjson;
 
@@ -336,6 +337,20 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	case EventActions::WalkTo:
 	{
 		EventWalkTo* var = new EventWalkTo();
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::HideMouse:
+	{
+		EventHideMouse* var = new EventHideMouse();
+
+		if (extra.HasMember("hide") == true)
+		{
+			var->myHideGameMouse = extra["hide"].GetBool();
+		}
 
 		var->Init(aRoom, aGameWorld);
 

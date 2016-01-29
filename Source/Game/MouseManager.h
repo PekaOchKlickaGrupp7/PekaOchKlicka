@@ -66,6 +66,9 @@ public:
 	void Update(float aDeltaTime);
 	bool ButtonClicked(eMouseButtons aButton);
 
+	void SetHideGameMouse(bool aSet) { myHideGameMouse = aSet; };
+	bool GetHideGameMouse() { return myHideGameMouse; };
+
 	DX2D::Vector2f &GetPosition()
 	{ 
 		return myPosition;
@@ -82,6 +85,7 @@ private:
 	CU::DirectInput::InputManager* myInputManager;
 	
 	DX2D::Vector2f myPosition;
+	bool myHideGameMouse;
 
 	// This is the current sprite
 	DX2D::CSprite* mySprite;

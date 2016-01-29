@@ -32,7 +32,8 @@ enum EventActions
 	IfGlobalVariable,
 	SetGlobalVariable,
 	ToggleFullscreen,
-	WalkTo
+	WalkTo,
+	HideMouse
 };
 
 class JSON
