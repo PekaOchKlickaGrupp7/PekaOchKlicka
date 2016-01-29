@@ -1,6 +1,6 @@
 #pragma once
 #include <tga2d/Engine.h>
-#include "MainMenuState.h"
+
 #include "..\CommonUtilities\TimerManager.h"
 #include "..\CommonUtilities\InputManager.h"
 #include "..\CommonUtilities\DL_Debug.h"

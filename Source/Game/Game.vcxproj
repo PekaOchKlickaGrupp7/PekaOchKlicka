@@ -181,7 +181,6 @@
     <ClInclude Include="EventStopSound.h" />
     <ClInclude Include="EventVariablesManager.h" />
     <ClInclude Include="EventWalkTo.h" />
-    <ClInclude Include="FadeState.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -212,9 +211,6 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="LevelData.h" />
-    <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MenuImageItem.h" />
-    <ClInclude Include="MenuItem.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderCommand.h" />
@@ -246,7 +242,6 @@
     <ClCompile Include="EventStopSound.cpp" />
     <ClCompile Include="EventVariablesManager.cpp" />
     <ClCompile Include="EventWalkTo.cpp" />
-    <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -268,9 +263,6 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="LevelData.cpp" />
-    <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MenuImageItem.cpp" />
-    <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
