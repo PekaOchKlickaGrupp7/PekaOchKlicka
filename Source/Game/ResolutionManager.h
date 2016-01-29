@@ -36,11 +36,14 @@ public:
 
 	bool GetIsFullscreen() { return myIsFullscreen; };
 	void SetFullscreen(bool aSet) { myIsFullscreen = aSet; };
+
+	void SetupWindow(int aX, int aY);
+	void SetupWindow();
 	
 private:
 	static ResolutionManager* myResolutionManager;
 	ResolutionManager();
-	void CalculateRatio();
+	void CalculateRatio(RECT aResolution, bool aChangeWindow);
 	RECT RetrieveResolutionScreen();
 	RECT RetrieveResolutionWindow();
 	RECT RetrieveResolutionRender();

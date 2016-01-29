@@ -37,7 +37,6 @@ RECT ResolutionManager::RetrieveResolutionRender()
 
 void ResolutionManager::Initialize(DX2D::Vector2<int> aVirtualScreenSize)
 {
-
 	myIsFullscreen = false;
 	myRealScreenSize = { static_cast<int>(RetrieveResolutionScreen().right),
 		static_cast<int>(RetrieveResolutionScreen().bottom) };
@@ -55,7 +54,22 @@ void ResolutionManager::Update()
 {
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
-	CalculateRatio();
+	CalculateRatio(returnedResolution, false);
+}
+
+void ResolutionManager::SetupWindow(int aX, int aY)
+{
+	RECT returnedResolution;
+	returnedResolution.right = aX;
+	returnedResolution.bottom = aY;
+	CalculateRatio(returnedResolution, true);
+}
+
+void ResolutionManager::SetupWindow()
+{
+	RECT returnedResolution;
+	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
+	CalculateRatio(returnedResolution, false);
 }
 
 void ResolutionManager::RenderLetterbox()
@@ -71,13 +85,17 @@ void ResolutionManager::ToggleFullscreen()
 {
 	myIsFullscreen = !myIsFullscreen;
 	DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
-	CalculateRatio();
-}
 
-void ResolutionManager::CalculateRatio()
-{
+
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
+
+	CalculateRatio(returnedResolution, false);
+}
+
+void ResolutionManager::CalculateRatio(RECT aResolution, bool aChangeWindow)
+{
+	RECT returnedResolution = aResolution;
 	float screen_width = static_cast<float>(returnedResolution.right);
 	float screen_height = static_cast<float>(returnedResolution.bottom);
 
@@ -97,7 +115,7 @@ void ResolutionManager::CalculateRatio()
 
 	float vp_x = (screen_width / 2) - (width / 2);
 	float vp_y = (screen_height / 2) - (height / 2);
-	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(width), static_cast<unsigned int>(height) }, false);
+	DX2D::CEngine::GetInstance()->SetResolution({ static_cast<unsigned int>(width), static_cast<unsigned int>(height) }, aChangeWindow);
 	myResViewport.SetViewport((vp_x), (vp_y), (width), (height), 0.0f, 1.0f);
 
 	myRenderAreaDimensions.x = static_cast<int>(width);

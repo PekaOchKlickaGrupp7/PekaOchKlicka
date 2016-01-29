@@ -124,10 +124,13 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << "Level: " << myTestLevel << std::endl;
 
 		ResolutionManager::GetInstance()->SetFullscreen(false);
+
 	}
 
 
 	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
+	std::string str = std::string("IsFullscreen");
+	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), str);
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;
 
@@ -151,7 +154,7 @@ void CGame::InitCallBack()
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
 
 	#pragma region Mouse Manager
-	// Create a mouse instance
+
 	MouseManager::CreateInstance();
 	// Create all file paths to the different cursors
 	CommonUtilities::GrowingArray<std::string> spriteFilePaths;
@@ -179,17 +182,26 @@ void CGame::InitCallBack()
 	#pragma region Event Manager
 
 	EventManager::CreateInstance();
-	EventManager::GetInstance()->Init(&myInputManager);
+
+	CGameWorld* GameWorld = new CGameWorld(myStateStackProxy, myInputManager, myTimerManager);
+
+	EventManager::GetInstance()->Init(&myInputManager, GameWorld);
+	//EventVariablesManager::GetInstance();
 
 	#pragma endregion
-	if (myTestLevel.size() > 0)
+
+
+	myStateStack.PushMainGameState(GameWorld);
+
+
+	if (ResolutionManager::GetInstance()->GetIsFullscreen() == false)
 	{
-		myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+		ResolutionManager::GetInstance()->SetupWindow(960, 540);
 	}
 	else
 	{
-		myStateStack.PushMainGameState(new FadeState(myStateStackProxy, myInputManager, myTimerManager));
-	}
+	ResolutionManager::GetInstance()->SetupWindow();
+}
 }
 
 const bool CGame::Update()

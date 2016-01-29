@@ -7,11 +7,7 @@ EventVariablesManager* EventVariablesManager::myEventVariablesManager = nullptr;
 
 EventVariablesManager::EventVariablesManager()
 {
-}
 
-void EventVariablesManager::Destroy()
-{
-	delete myEventVariablesManager;
 }
 
 EventVariablesManager::~EventVariablesManager()

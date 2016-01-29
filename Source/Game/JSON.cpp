@@ -28,16 +28,13 @@
 #include "EventFadePosition.h"
 #include "EventToggleFullscreen.h"
 #include "EventSetGlobalVariable.h"
+#include "EventWalkTo.h"
 
 using namespace rapidjson;
 
 Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGameWorld* aGameWorld)
 {
 	EventActions action = static_cast<EventActions>(aParent["action"].GetInt());
-	if (action == 20)
-	{
-		DL_PRINT("Here");
-	}
 	Event* event = nullptr;
 	Value& extra = aParent["extra"];
 	switch (action)
@@ -330,6 +327,15 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	case EventActions::ToggleFullscreen:
 	{
 		EventToggleFullscreen* var = new EventToggleFullscreen();
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::WalkTo:
+	{
+		EventWalkTo* var = new EventWalkTo();
 
 		var->Init(aRoom, aGameWorld);
 
