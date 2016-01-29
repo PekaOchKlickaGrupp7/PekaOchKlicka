@@ -26,7 +26,7 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 
 CGameWorld::~CGameWorld()
 {
-	delete text;
+	delete myTextFPS;
 	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); ++iterator)
 	{
 		delete iterator->second;
@@ -68,21 +68,23 @@ void CGameWorld::Init()
 
 	myDoQuit = false;
 
-text = new DX2D::CText("Text/calibril.ttf_sdf");
-text->myText = "Test";
-text->myPosition = DX2D::Vector2f(0.5f, 0.02f);
-text->myColor.Set(1, 1, 1, 1.0f);
-text->mySize = 0.4f;
+	myTextFPS = new DX2D::CText("Text/calibril.ttf_sdf");
+	myTextFPS->myPosition = { 0.5f, 0.05f };
+	myTextFPS->myText = "FPS: ";
+	myTextFPS->mySize = 0.6f;
+	
 
-//Create the player character
-//BUG: Why does pivot.x = 0.25 refer to the center
-//of myAnimation.mySprite and not 0.5? ~Erik
-myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
+	//Create the player character
+	//BUG: Why does pivot.x = 0.25 refer to the center
+	//of myAnimation.mySprite and not 0.5? ~Erik
+	myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
 }
 
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
+	myTextFPS->myText = "FPS " + std::to_string(myTimerManager.GetMasterTimer().GetFPS());
+	myTextFPS->myPosition = { 0.5f - myTextFPS->GetWidth() / 2, 0.05f };
 
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
@@ -274,6 +276,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 	MouseManager::GetInstance()->Render(aSynchronizer);
+	myTextFPS->Render();
 }
 
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)

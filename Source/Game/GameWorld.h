@@ -7,6 +7,7 @@
 #include "JSON.h"
 #include "Player.h"
 #include "Item.h"
+#include <tga2d\text\text.h>
 
 class Room;
 
@@ -31,7 +32,7 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 private:
 	void ItemPickUp();
-	DX2D::CText* text;
+	DX2D::CText* myTextFPS;
 
 	bool myDoQuit;
 
