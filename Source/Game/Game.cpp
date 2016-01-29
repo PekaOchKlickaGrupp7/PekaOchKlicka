@@ -9,7 +9,6 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
-#include "FadeState.h"
 
 #include "SoundManager.h"
 #include "SoundFileHandler.h"
@@ -107,7 +106,6 @@ void CGame::Init(const char** argv, const int argc)
 	std::wstring appname(versionNumber.begin(), versionNumber.end());
 	ResolutionManager::GetInstance()->SetFullscreen(true);
 #ifdef _DEBUG
-	createParameters.myActivateDebugSystems = true;
 	ResolutionManager::GetInstance()->SetFullscreen(false);
 #endif
 

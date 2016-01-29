@@ -2,19 +2,7 @@
 #include "Animation.h"
 
 
-Animation::Animation()
-{
-	myFrameDuration = 0;
-	myCurentFrameDuration = 0;
-	mySprite = nullptr;
-	myNumberOfFrames = 0;
-	myFrame = 0;
-	myFramesPerRow = 0;
-	myPaused = false;
-	//HEJ BERRA
-}
-
-void Animation::Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
+Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
 	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
@@ -32,8 +20,9 @@ void Animation::Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 	mySprite->SetPivot(aPivot);
 
 	UpdateTextureRect();
-
+	//HEJ BERRA
 }
+
 void Animation::UpdateTextureRect()
 {
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),

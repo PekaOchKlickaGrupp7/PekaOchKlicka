@@ -15,6 +15,9 @@ Renderer::~Renderer()
 
 void Renderer::Render(Synchronizer& aSynchronizer)
 {
+	CommonUtilities::GrowingArray<RenderCommand, int> textBuffer;
+	textBuffer.Init(10);
+
 	for (unsigned short i = 0; i < aSynchronizer.GetSize(); ++i)
 	{
 		switch (aSynchronizer.GetRenderCommand(i).myType)
@@ -28,11 +31,16 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 			aSynchronizer.GetRenderCommand(i).myCustomShape->Render();
 			break;
 		case eRenderType::eText:
-			aSynchronizer.GetRenderCommand(i).myText->myPosition = aSynchronizer.GetRenderCommand(i).myPosition;
-			aSynchronizer.GetRenderCommand(i).myText->Render();
+			textBuffer.Add(aSynchronizer.GetRenderCommand(i));
 			break;
 		default:
 			break;
 		}
+	}
+
+	for (int i = 0; i < textBuffer.Size(); i++)
+	{
+		textBuffer[i].myText->myPosition = textBuffer[i].myPosition;
+		textBuffer[i].myText->Render();
 	}
 }

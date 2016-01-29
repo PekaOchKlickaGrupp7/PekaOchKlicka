@@ -1,6 +1,7 @@
 #pragma once
 #include "Inventory.h"
 #include "Animation.h"
+#include "rapidjson\document.h"
 
 class CU::DirectInput::InputManager;
 
@@ -11,8 +12,7 @@ public:
 	~Player();
 
 
-	void Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition, 
-		DX2D::Vector2f aPivotPoint, float aMovementSpeed);
+	void Init(DX2D::Vector2f aPosition);
 
 	void Render(Synchronizer& aSynchronizer);
 	void Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT);
@@ -33,11 +33,13 @@ public:
 	DX2D::Vector2f& GetPreviousPosition();
 
 private:
+	void LoadAnimations(rapidjson::Value& aAnimations);
+	const char* ReadFile(const char* aFile);
 
 	Inventory myInventory;
 
-	Animation myAnimation;
-
+	CommonUtilities::GrowingArray<Animation*, int> myAnimations;
+	int myCurentAnimation;
 	DX2D::Vector2f myPosition;
 	DX2D::Vector2f myPreviousPosition;
 	DX2D::Vector2f myRenderPosition;

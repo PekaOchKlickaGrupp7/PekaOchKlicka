@@ -30,6 +30,8 @@ public:
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
+	void PlayerMovement(float aTimeDelta);
+
 private:
 	void ItemPickUp();
 	DX2D::CText* myTextFPS;

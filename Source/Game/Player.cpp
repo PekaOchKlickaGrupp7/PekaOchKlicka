@@ -2,6 +2,10 @@
 #include "Player.h"
 #include "MouseManager.h"
 #include "ResolutionManager.h"
+#include <fstream>
+#include "..\CommonUtilities\DL_Debug.h"
+
+using namespace rapidjson;
 
 Player::Player()
 {
@@ -9,25 +13,68 @@ Player::Player()
 	myMovementSpeed = 1.0f;
 	myIsMoving = false;
 	myIsInventoryOpen = false;
+	myAnimations.Init(10);
+	myCurentAnimation = 0;
 }
 
 
 Player::~Player()
 { 
-	myAnimation.Destroy();
+	myAnimations.DeleteAll();
 }
 
-void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
-	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
+void Player::Init(DX2D::Vector2f aPosition)
 {
-	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
+	const char* data = ReadFile("JSON/Player.json");
+	rapidjson::Document root;
+	root.Parse(data);
+
+	if (root.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load Player.json.");
+		root.GetAllocator().~MemoryPoolAllocator();
+		return;
+	}
+
+	myMovementSpeed = static_cast<float>(root["movmentSpeed"].GetDouble());
+
+
+	rapidjson::Value& animations = root["animation"];
+
+	if (animations.IsNull() == true)
+	{
+		DL_DEBUG("Animation is not a member of Player.json");
+		root.GetAllocator().~MemoryPoolAllocator();
+		return;
+	}
+
+	LoadAnimations(animations);
+
+	delete data;
+
 	myPosition = aPosition;
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
-	myMovementSpeed = aMovementSpeed;
 	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
 	myInventory.Init("Sprites/inventory.png");
+}
+
+void Player::LoadAnimations(rapidjson::Value& aAnimations)
+{
+	for (unsigned int i = 0; i < aAnimations.Size(); ++i)
+	{
+	rapidjson::Value& animation = aAnimations[i];
+
+	const char* path = animation["path"].GetString();
+
+	int frames = animation["frames"].GetInt();
+	int framesPerRow = animation["framesPerRow"].GetInt();
+	float animationSpeed = static_cast<float>(animation["animationSpeed"].GetDouble());
+	
+	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.25f, 1.0f), animationSpeed, frames, framesPerRow));
+
+	}
 }
 
 //Update the character
@@ -36,7 +83,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	myPreviousPosition = myPosition;
 
 	//Opening/Closing the inventory
-	static float inventoryHoverArea = 1.0f - 0.1f;
+	static float inventoryHoverArea = 1.0f - 0.01f;
 	if (myInventory.IsOpen() == false && 
 		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
 	{
@@ -60,13 +107,13 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		myInventory.OnClick(MouseManager::GetInstance()->GetPosition());
 	}
 
-	myAnimation.SetSize(myPosition.y * myDepthScaleFactor);
-	myAnimation.Update(aDeltaT);
+	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
+	myAnimations[myCurentAnimation]->Update(aDeltaT);
 }
 
 void Player::Render(Synchronizer& aSynchronizer)
 {
-	myAnimation.Render(aSynchronizer, myRenderPosition);
+	myAnimations[myCurentAnimation]->Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }
 
@@ -154,4 +201,28 @@ DX2D::Vector2f& Player::GetPosition()
 DX2D::Vector2f& Player::GetPreviousPosition()
 {
 	return myPreviousPosition;
+}
+
+const char* Player::ReadFile(const char* aFile)
+{
+	std::ifstream input(aFile);
+
+	std::string str((std::istreambuf_iterator<char>(input)),
+		std::istreambuf_iterator<char>());
+
+	char* data = new char[str.length() + 1];
+	int a = 0;
+	for (unsigned int i = 0; i < str.length(); ++i)
+	{
+		if (str[i] != 0)
+		{
+			data[a] = str[i];
+			a++;
+		}
+	}
+
+	data[a] = '\0';
+	input.close();
+
+	return data;
 }
