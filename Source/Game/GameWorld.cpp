@@ -106,74 +106,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
-
-	//Move character if inside nav mesh
-	if (myInputManager.LeftMouseButtonClicked())
-	{
-		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
-		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
-
-
-		ItemPickUp();
-
-		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
-		{
-			if (myCurrentRoom->GetNavMeshes()[0].
-				PointInsideCheck(Point2f(
-				myTargetPosition.x,
-				myTargetPosition.y)
-				) == true)
-			{
-				myPlayer.SetIsMoving(true);
-			}
-			else
-			{
-				myPlayer.SetIsMoving(false);
-			}
-		}
-	}
-
 	EventManager::GetInstance()->Update(aTimeDelta);
 
-	//Makes sure player can not walk through obstacles
-	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
-		myPlayer.GetPosition().x,
-		myPlayer.GetPosition().y)) == false)
-	{
-		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-		myPlayer.SetIsMoving(false);
-	}
-
-	//If character accidentally gets outside the nav mesh move him back inside
-	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
-	{
-		if (myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myPlayer.GetPosition().x,
-			myPlayer.GetPosition().y)
-			) == true
-			||
-			myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myTargetPosition.x,
-			myTargetPosition.y)
-			) == true)
-		{
-			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-			myPlayer.SetIsMoving(false);
-			break;
-		}
-	}
-
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
-	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
-	{
-		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
-		{
-			(*myCurrentRoom->GetObjectList())[i]->myX = myPlayer.GetPosition().x;
-			(*myCurrentRoom->GetObjectList())[i]->myY = myPlayer.GetPosition().y;
-		}
-	}
+	PlayerMovement(aTimeDelta);
 
 	if (myDoQuit == true)
 	{
@@ -302,6 +237,75 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 			{
 				RenderObject(aSynchronizer, aNode->myChilds[j], aRelativeX + aNode->myX, aRelativeY + aNode->myY); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
 			}
+		}
+	}
+}
+
+void CGameWorld::PlayerMovement(float aTimeDelta)
+{
+	//Move character if inside nav mesh
+	if (myInputManager.LeftMouseButtonClicked())
+	{
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+
+		ItemPickUp();
+
+		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+		{
+			if (myCurrentRoom->GetNavMeshes()[0].
+				PointInsideCheck(Point2f(
+				myTargetPosition.x,
+				myTargetPosition.y)
+				) == true)
+			{
+				myPlayer.SetIsMoving(true);
+			}
+			else
+			{
+				myPlayer.SetIsMoving(false);
+			}
+		}
+	}
+
+	//Makes sure player can not walk through obstacles
+	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
+		myPlayer.GetPosition().x,
+		myPlayer.GetPosition().y)) == false)
+	{
+		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+		myPlayer.SetIsMoving(false);
+	}
+
+	//If character accidentally gets outside the nav mesh move him back inside
+	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
+	{
+		if (myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myPlayer.GetPosition().x,
+			myPlayer.GetPosition().y)
+			) == true
+			||
+			myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myTargetPosition.x,
+			myTargetPosition.y)
+			) == true)
+		{
+			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+			myPlayer.SetIsMoving(false);
+			break;
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
+	{
+		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
+		{
+			(*myCurrentRoom->GetObjectList())[i]->myX = myPlayer.GetPosition().x;
+			(*myCurrentRoom->GetObjectList())[i]->myY = myPlayer.GetPosition().y;
 		}
 	}
 }
