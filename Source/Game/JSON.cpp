@@ -8,6 +8,7 @@
 #include "GameWorld.h"
 #include "Item.h"
 #include "Inventory.h"
+#include "Triangle.h"
 
 //Events
 #include "EventNone.h"
@@ -566,6 +567,28 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myTriggerType = static_cast<TriggerType>(object["events"]["type"].GetInt());
 	dataObject->myTriggerEnabled = object["events"]["enabled"].GetBool();
 	dataObject->myRadius = static_cast<float>(object["events"]["radius"].GetDouble());
+
+	if (object["events"].HasMember("triangles") == true)
+	{
+		Value& triangles = object["events"]["triangles"]["$values"];
+		if (triangles.Size() == 2)
+		{
+			Triangle tr1;
+			tr1.myObject = dataObject;
+			tr1.myV1 = Vector2f(static_cast<float>(triangles[0]["x1"].GetDouble()) / 1920.0f, static_cast<float>(triangles[0]["y1"].GetDouble()) / 1080.0f);
+			tr1.myV2 = Vector2f(static_cast<float>(triangles[0]["x2"].GetDouble()) / 1920.0f, static_cast<float>(triangles[0]["y2"].GetDouble()) / 1080.0f);
+			tr1.myV3 = Vector2f(static_cast<float>(triangles[1]["x2"].GetDouble()) / 1920.0f, static_cast<float>(triangles[1]["y2"].GetDouble()) / 1080.0f);
+
+			Triangle tr2;
+			tr2.myObject = dataObject;
+			tr2.myV1 = Vector2f(static_cast<float>(triangles[1]["x1"].GetDouble()) / 1920.0f, static_cast<float>(triangles[1]["y1"].GetDouble()) / 1080.0f);
+			tr2.myV2 = Vector2f(static_cast<float>(triangles[1]["x2"].GetDouble()) / 1920.0f, static_cast<float>(triangles[1]["y2"].GetDouble()) / 1080.0f);
+			tr2.myV3 = Vector2f(static_cast<float>(triangles[0]["x2"].GetDouble()) / 1920.0f, static_cast<float>(triangles[0]["y2"].GetDouble()) / 1080.0f);
+
+			dataObject->AddTriangle(tr1);
+			dataObject->AddTriangle(tr2);
+		}
+	}
 
 	Value& events = object["events"]["list"]["$values"];
 	for (unsigned int i = 0; i < events.Size(); ++i)

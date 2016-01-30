@@ -128,7 +128,7 @@ void EventManager::Update(const float aDeltaTime)
 
 	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 	{
-		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
+		//OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)

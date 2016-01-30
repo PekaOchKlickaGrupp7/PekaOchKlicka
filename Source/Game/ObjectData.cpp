@@ -6,6 +6,7 @@ ObjectData::ObjectData()
 {
 	myIsHovering = false; 
 	myColor = { 1, 1, 1, 1 };
+	myTriangles.Init(2);
 }
 
 ObjectData::~ObjectData()
@@ -18,4 +19,9 @@ ObjectData::~ObjectData()
 	}
 	myChilds.~GrowingArray();
 	myEvents.~GrowingArray();
+}
+
+void ObjectData::AddTriangle(Triangle& aTriangle)
+{
+	myTriangles.Add(aTriangle);
 }

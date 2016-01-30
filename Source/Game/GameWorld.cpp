@@ -231,6 +231,8 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	command.myType = eRenderType::eSprite;
 	if (aNode->myActive == true)
 	{
+		aNode->myGlobalX = aRelativeX + aNode->myX;
+		aNode->myGlobalY = aRelativeY + aNode->myY;
 		if (aNode->mySprite != nullptr)
 		{
 			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));

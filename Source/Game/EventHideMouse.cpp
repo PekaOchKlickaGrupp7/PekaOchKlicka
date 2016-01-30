@@ -6,7 +6,7 @@ EventHideMouse::EventHideMouse()
 {
 }
 
-bool EventHideMouse::Update(const float aDeltaTime)
+bool EventHideMouse::Update(const float)
 {
 	MouseManager::GetInstance()->SetHideGameMouse(myHideGameMouse);
 	return true;
