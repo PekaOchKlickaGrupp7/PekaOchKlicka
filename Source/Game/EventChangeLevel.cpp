@@ -16,7 +16,7 @@ EventChangeLevel::~EventChangeLevel()
 
 }
 
-bool EventChangeLevel::Update(const float)
+bool EventChangeLevel::Update(const float aDeltaTime)
 {
 	if (myTargetLevelName != "")
 	{
@@ -28,12 +28,16 @@ bool EventChangeLevel::Update(const float)
 		}
 		if (doChange == true)
 		{
-			myGameWorld->ChangeLevel(myTargetLevelName);
-			myGameWorld->GetPlayer()->SetIsMoving(false);
-			myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
-			myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
-			myGameWorld->SetFadeIn(false);
-			return true;
+			myTime += aDeltaTime;
+			if (myTime >= 0.5f)
+			{
+				myGameWorld->ChangeLevel(myTargetLevelName);
+				myGameWorld->GetPlayer()->SetIsMoving(false);
+				myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
+				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
+				myGameWorld->SetFadeIn(false);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -41,4 +45,5 @@ bool EventChangeLevel::Update(const float)
 
 void EventChangeLevel::Reset()
 {
+	myTime = 0.0f;
 }
