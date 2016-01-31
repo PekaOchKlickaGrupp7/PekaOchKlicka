@@ -32,6 +32,8 @@
 #include "EventWalkTo.h"
 #include "EventHideMouse.h"
 #include "EventSetCinematic.h"
+#include "EventPickupItem.h"
+#include "EventIsItem.h"
 
 using namespace rapidjson;
 
@@ -74,6 +76,10 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 			}
 			changeLevel->myTargetLevelName = myValue.GetString();
 			changeLevel->myTargetPosition = DX2D::Vector2f(static_cast<float>(extra["x"].GetDouble()) / 1920.0f, static_cast<float>(extra["y"].GetDouble()) / 1080.0f);
+		}
+		if (extra.HasMember("UseFading") == true)
+		{
+			changeLevel->myUseFading = extra["UseFading"].GetBool();
 		}
 
 		event = changeLevel;
@@ -305,12 +311,12 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 	}
 	/*case EventActions::SetVariable:
 	{
-		EventSetVariable* var = new EventSetVariable();
+	EventSetVariable* var = new EventSetVariable();
 
-		var->Init(aRoom, aGameWorld);
+	var->Init(aRoom, aGameWorld);
 
-		event = var;
-		break;
+	event = var;
+	break;
 	}*/
 	case EventActions::FadePosition:
 	{
@@ -373,6 +379,34 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		event = var;
 		break;
 	}
+	case EventActions::PickupItem:
+	{
+		EventPickupItem* var = new EventPickupItem();
+
+		if (extra.HasMember("name") == true)
+		{
+			var->myItem = extra["name"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::IsItem:
+	{
+		EventIsItem* var = new EventIsItem();
+
+		if (extra.HasMember("item") == true)
+		{
+			var->myItemName = extra["item"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
@@ -409,6 +443,24 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		return false;
 	}
 	levels = levels["$values"];
+
+	if (root.HasMember("items") == true)
+	{
+		Value& inventoryItems = root["items"]["$values"];
+		for (unsigned int i = 0; i < inventoryItems.Size(); ++i)
+		{
+			Value& item = inventoryItems[i];
+
+			std::string name = item["Name"].GetString();
+			const char* path = item["Image"].GetString();
+			std::string description = item["Description"].GetString();
+			std::string combinableWith = item["CombinableWith"].GetString();
+			std::string resultingItem = item["ResultingItem"].GetString();
+			bool isCombinable = item["IsCombinable"].GetBool();
+			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+		}
+	}
+
 
 	std::string levelName = "";
 

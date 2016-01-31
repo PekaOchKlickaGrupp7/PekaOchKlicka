@@ -31,6 +31,7 @@ CGameWorld::~CGameWorld()
 	{
 		delete iterator->second;
 	}
+	myRooms.clear();
 }
 
 void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
@@ -49,11 +50,16 @@ Player* CGameWorld::GetPlayer()
 	return &myPlayer;
 }
 
+void CGameWorld::SetFadeIn(bool aFade)
+{
+	myDoFadeIn = aFade;
+}
+
 void CGameWorld::Init()
 {
 	std::string name = "";
 	myJson.Load("root.json", myRooms, this, name);
-	myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
+	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -78,8 +84,10 @@ void CGameWorld::Init()
 	//BUG: Why does pivot.x = 0.25 refer to the center
 	//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
-}
 
+	myFadeIn = 1.0f;
+	myDoFadeIn = false;
+}
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
@@ -107,14 +115,29 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
+	if (myDoFadeIn == true)
+	{
+		myFadeIn -= aTimeDelta;
+		if (myFadeIn <= 0.0f)
+		{
+			myFadeIn = 0.0f;
+		}
+	}
+	else
+	{
+		myFadeIn += aTimeDelta;
+		if (myFadeIn >= 1.0f)
+		{
+			myFadeIn = 1.0f;
+		}
+	}
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
+	bool input = EventManager::GetInstance()->Update(aTimeDelta);
 	if (myCurrentRoom != nullptr)
 	{
-		PlayerMovement(aTimeDelta);
+		PlayerMovement(input, aTimeDelta);
 	}
-
-	EventManager::GetInstance()->Update(aTimeDelta);
 
 	if (myDoQuit == true)
 	{
@@ -122,6 +145,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	return eStateStatus::eKeepState;
+}
+
+float CGameWorld::GetFadeIn() const
+{
+	return myFadeIn;
 }
 
 void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
@@ -255,10 +283,10 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	}
 }
 
-void CGameWorld::PlayerMovement(float aTimeDelta)
+void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if (myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
+	if (aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
 	{
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
@@ -313,7 +341,7 @@ void CGameWorld::PlayerMovement(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")

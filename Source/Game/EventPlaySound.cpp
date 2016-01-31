@@ -8,8 +8,7 @@ EventPlaySound::EventPlaySound()
 
 void EventPlaySound::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	SoundFileHandler::GetInstance()->Load(myTargetSound, myIdentifier, myIs3D);
 }

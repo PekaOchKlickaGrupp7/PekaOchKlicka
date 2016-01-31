@@ -26,12 +26,14 @@ public:
 	void SetPlayerTargetPosition(Point2f aPoint);
 	const Vector2f GetPlayerTargetPosition() const;
 	void SetCinematicMode(bool aOn = true);
+	void SetFadeIn(bool aFade = true);
+	float GetFadeIn() const;
 
 	void Quit();
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
-	void PlayerMovement(float aTimeDelta);
+	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 
 private:
 	void ItemPickUp();
@@ -39,6 +41,8 @@ private:
 
 	bool myDoQuit;
 	bool myPlayerCanMove;
+	float myFadeIn;
+	bool myDoFadeIn;
 
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 

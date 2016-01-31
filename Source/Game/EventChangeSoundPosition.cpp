@@ -10,8 +10,7 @@ EventChangeSoundPosition::EventChangeSoundPosition()
 
 void EventChangeSoundPosition::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 }
 
 bool EventChangeSoundPosition::Update(const float aDeltaTime)

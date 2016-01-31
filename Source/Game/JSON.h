@@ -34,7 +34,9 @@ enum EventActions
 	ToggleFullscreen,
 	WalkTo,
 	HideMouse,
-	SetCinematic
+	SetCinematic,
+	PickupItem,
+	IsItem
 };
 
 class JSON

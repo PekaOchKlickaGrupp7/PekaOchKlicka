@@ -167,6 +167,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EventHideMouse.h" />
+    <ClInclude Include="EventIsItem.h" />
+    <ClInclude Include="EventPickupItem.h" />
     <ClInclude Include="EventSetCinematic.h" />
     <ClInclude Include="EventSetGlobalVariable.h" />
     <ClInclude Include="EventToggleFullscreen.h" />
@@ -231,6 +233,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventHideMouse.cpp" />
+    <ClCompile Include="EventIsItem.cpp" />
+    <ClCompile Include="EventPickupItem.cpp" />
     <ClCompile Include="EventSetCinematic.cpp" />
     <ClCompile Include="EventSetGlobalVariable.cpp" />
     <ClCompile Include="EventToggleFullscreen.cpp" />

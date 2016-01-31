@@ -17,6 +17,7 @@ Room::Room()
 Room::~Room()
 {
 	myItems.DeleteAll();
+	myObjects.DeleteAll();
 }
 
 void Room::OnLoad()

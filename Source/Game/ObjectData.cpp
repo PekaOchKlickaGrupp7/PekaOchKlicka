@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ObjectData.h"
 #include "tga2d\sprite\sprite.h"
+#include "Event.h"
 
 ObjectData::ObjectData()
 {
@@ -18,7 +19,7 @@ ObjectData::~ObjectData()
 		delete myChilds[i];
 	}
 	myChilds.~GrowingArray();
-	myEvents.~GrowingArray();
+	myEvents.DeleteAll();
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)

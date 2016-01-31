@@ -2,6 +2,7 @@
 #include "Inventory.h"
 #include "Synchronizer.h"
 #include "..\CommonUtilities\Intersection.h"
+#include "EventVariablesManager.h"
 
 Inventory::Inventory()
 {
@@ -25,7 +26,7 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
-	myContents.DeleteAll();
+	//myContents.DeleteAll();
 }
 
 void Inventory::Init(const char* aFilePath)
@@ -35,8 +36,6 @@ void Inventory::Init(const char* aFilePath)
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
-	myContents.Add(new Item(*myMasterItemList->GetItemList()[0]));
-	myContents.Add(new Item(*myMasterItemList->GetItemList()[1]));
 	mySelectedItem = nullptr;
 }
 
@@ -77,6 +76,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 			if (mySelectedItem == nullptr)
 			{
 				mySelectedItem = myContents[i];
+				UpdateSelectedItem();
 				return;
 			}
 			else
@@ -84,11 +84,23 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				if (Combine(mySelectedItem, myContents[i]) == true)
 				{
 					mySelectedItem = nullptr;
+					UpdateSelectedItem();
 					return;
 				}
 			}
 		}
 	}
+}
+
+void Inventory::UpdateSelectedItem()
+{
+	std::string identifier = "_SELECTED_ITEM";
+	std::string value = "";
+	if (mySelectedItem != nullptr)
+	{
+		value = mySelectedItem->GetName();
+	}
+	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
 }
 
 bool Inventory::IsClicked()
@@ -109,11 +121,12 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 				{
 					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
 					{
-						myContents.DeleteCyclicAtIndex(myContents.Find(aItemToCombine));
-						myContents.DeleteCyclicAtIndex(myContents.Find(aItemToCombineWith));
+						myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
+						myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
 
 						myContents.Add(new Item(*myMasterItemList->GetItemList()[j]));
 						mySelectedItem = nullptr;
+						UpdateSelectedItem();
 						return true;
 					}
 				}

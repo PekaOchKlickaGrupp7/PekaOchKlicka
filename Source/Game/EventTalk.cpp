@@ -16,8 +16,7 @@ EventTalk::~EventTalk()
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	myTextRender = new DX2D::CText(myFontPath.c_str());
 	myTextRender->myColor = myColor;

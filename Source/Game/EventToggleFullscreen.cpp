@@ -12,8 +12,7 @@ EventToggleFullscreen::~EventToggleFullscreen()
 
 void EventToggleFullscreen::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 }
 
 bool EventToggleFullscreen::Update(const float)
