@@ -23,6 +23,10 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myTextRender->mySize = mySize;
 	Reset();
 	myIsTalking = true;
+
+
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
 
 bool EventTalk::Update(const float aDeltaTime)

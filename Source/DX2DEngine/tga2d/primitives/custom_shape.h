@@ -14,6 +14,12 @@ namespace DX2D
 		void Reset();
 		int AddPoint(DX2D::Vector2f aPoint, CColor aColor, DX2D::Vector2f aUV = DX2D::Vector2f(0, 0));
 		void SetColorOnPoint(int aIndex, CColor aColor);
+
+		//
+		// Removes all points
+		void RemovePoints();
+		//
+		//remove point at aIndex
 		void RemovePoints(int aIndex);
 
 		// Do this second
