@@ -5,7 +5,7 @@
 		Now you can reorder the items with Drag and drop.
 	New Actions:
 		EventUseItem
-			This allows you to check if the selected item is a certain item.
+			This allows you to check if the selected item is a certain item. Use on On Click.
 		EventPickupItem
 			This adds the picked item to the inventory.
 	Updated Actions:
