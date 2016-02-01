@@ -34,7 +34,7 @@ void Player::Init(DX2D::Vector2f aPosition)
 		DL_DEBUG("Failed to load Player.json.");
 		root.GetAllocator().~MemoryPoolAllocator();
 		return;
-	}
+}
 
 	myMovementSpeed = static_cast<float>(root["movmentSpeed"].GetDouble());
 
@@ -42,7 +42,7 @@ void Player::Init(DX2D::Vector2f aPosition)
 	rapidjson::Value& animations = root["animation"];
 
 	if (animations.IsNull() == true)
-	{
+{
 		DL_DEBUG("Animation is not a member of Player.json");
 		root.GetAllocator().~MemoryPoolAllocator();
 		return;

@@ -40,10 +40,10 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
-{
+	{
 	myCurrentRoom = nullptr;
 	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
-}
+	}
 
 Player* CGameWorld::GetPlayer()
 {
@@ -80,9 +80,9 @@ void CGameWorld::Init()
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.6f;
 
-	//Create the player character
-	//BUG: Why does pivot.x = 0.25 refer to the center
-	//of myAnimation.mySprite and not 0.5? ~Erik
+//Create the player character
+//BUG: Why does pivot.x = 0.25 refer to the center
+//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
 
 	myFadeIn = 1.0f;
@@ -121,21 +121,21 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myFadeIn <= 0.0f)
 		{
 			myFadeIn = 0.0f;
-		}
+			}
 	}
-	else
-	{
+			else
+			{
 		myFadeIn += aTimeDelta;
 		if (myFadeIn >= 1.0f)
-		{
+	{
 			myFadeIn = 1.0f;
-		}
 	}
+		}
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
 	if (myCurrentRoom != nullptr)
-	{
+		{
 		PlayerMovement(input, aTimeDelta);
 	}
 
