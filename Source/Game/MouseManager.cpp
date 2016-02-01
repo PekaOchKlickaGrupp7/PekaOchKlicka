@@ -44,7 +44,7 @@ void MouseManager::Update(float)
 
 
 	//
-	//HOLD CTRL TO UNLOCK MOUSE
+	//Hold L-CTRL to unlock mouse in debug
 #ifdef _DEBUG
 	if (myInputManager->KeyDown(DIK_LCONTROL) == false)
 	{
@@ -57,6 +57,8 @@ void MouseManager::Update(float)
 			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
 	}
 #endif 
+
+	//Release
 #ifdef NDEBUG
 	myInputManager->SetAbsoluteMousePos(
 		static_cast<int>((((
