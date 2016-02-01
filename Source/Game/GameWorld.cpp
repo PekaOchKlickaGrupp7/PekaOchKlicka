@@ -80,13 +80,15 @@ void CGameWorld::Init()
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.6f;
 
-//Create the player character
-//BUG: Why does pivot.x = 0.25 refer to the center
-//of myAnimation.mySprite and not 0.5? ~Erik
 	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
 
 	myFadeIn = 1.0f;
 	myDoFadeIn = false;
+
+
+	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
+	myShouldRenderDebug = false;
+	myShouldRenderFPS = true;
 }
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
@@ -97,6 +99,21 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
+	}
+
+	if (myInputManager.KeyPressed(DIK_F1) == true)
+	{
+		ResolutionManager::GetInstance()->ToggleFullscreen();
+	}
+
+	if (myInputManager.KeyPressed(DIK_F2) == true)
+	{
+		myShouldRenderDebug = !myShouldRenderDebug;
+	}
+
+	if (myInputManager.KeyPressed(DIK_F3) == true)
+	{
+		myShouldRenderFPS = !myShouldRenderFPS;
 	}
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
@@ -248,9 +265,25 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
+	
+
+	if (myShouldRenderDebug == true)
+	{
+		RenderCommand resTest;
+		resTest.myType = eRenderType::eSprite;
+		resTest.mySprite = myResTest;
+		aSynchronizer.AddRenderCommand(resTest);
+	}
+	if (myShouldRenderFPS == true)
+	{
+		RenderCommand fps;
+		fps.myType = eRenderType::eText;
+		fps.myText = myTextFPS;
+		aSynchronizer.AddRenderCommand(fps);
+	}
+
 	EventManager::GetInstance()->Render(aSynchronizer);
 	MouseManager::GetInstance()->Render(aSynchronizer);
-	myTextFPS->Render();
 }
 
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)

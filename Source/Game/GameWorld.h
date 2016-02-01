@@ -53,5 +53,9 @@ private:
 
 	Player myPlayer;
 
+	DX2D::CSprite* myResTest;
+	bool myShouldRenderDebug;
+	bool myShouldRenderFPS;
+
 	DX2D::Vector2f myTargetPosition;
 };

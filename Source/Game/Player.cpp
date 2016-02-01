@@ -34,7 +34,7 @@ void Player::Init(DX2D::Vector2f aPosition)
 		DL_DEBUG("Failed to load Player.json.");
 		root.GetAllocator().~MemoryPoolAllocator();
 		return;
-}
+	}
 
 	myMovementSpeed = static_cast<float>(root["movmentSpeed"].GetDouble());
 
@@ -72,7 +72,7 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 	int framesPerRow = animation["framesPerRow"].GetInt();
 	float animationSpeed = static_cast<float>(animation["animationSpeed"].GetDouble());
 	
-	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.25f, 1.0f), animationSpeed, frames, framesPerRow));
+	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.5f, 1.0f), animationSpeed, frames, framesPerRow));
 
 	}
 }

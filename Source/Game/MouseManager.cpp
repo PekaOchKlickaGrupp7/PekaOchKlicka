@@ -31,9 +31,10 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	mySpriteInteractive[eMouse(eInteractive::ePickUp)]->SetPivot({ 0.5f, 0.5f });
 	mySpriteInteractive[eMouse(eInteractive::eGrabAndDrag)]->SetPivot({ 0.5f, 0.0f });
 
-	myPosition = { 0.5f - (mySprite->GetSize().x*0.5f), 0.5f - (mySprite->GetSize().y*0.5f) };
-	mySprite->SetPosition(myPosition);
+	myPosition = { 0.5f, 0.5f };
 	mySprite->SetPivot({ 0.5f, 0.5f });
+	mySprite->SetPosition(myPosition);
+	
 
 	myInputManager->SetHideMouse(true);
 }
@@ -41,12 +42,15 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 void MouseManager::Update(float)
 {
 	myInputManager->SetAbsoluteMousePos(
-		static_cast<int>(((ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f) + mySprite->GetSize().x),  
-		static_cast<int>(((ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f) + mySprite->GetSize().y));
+		static_cast<int>((((
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) + 
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),  
+		static_cast<int>((((
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
 
-	float aSpeed = 0.0005f;
-	
 
+	static float aSpeed = 0.0005f;
 	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
 	myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed;
 
@@ -54,21 +58,19 @@ void MouseManager::Update(float)
 	{
 		myPosition.x = 0;
 	}
-	else if ((myPosition.x /*+ mySprite->GetSize().x*/) >= 1)
+	else if ((myPosition.x) >= 1)
 	{
-		myPosition.x = 1 /*- /*mySprite->GetSize().x*/;
+		myPosition.x = 1;
 	}
 	
 	if (myPosition.y <= 0)
 	{
 		myPosition.y = 0;
 	}
-	else if ((myPosition.y /*+ mySprite->GetSize().y*/) >= 1)
+	else if ((myPosition.y) >= 1)
 	{
-		myPosition.y = 1 /*- /*mySprite->GetSize().y*/;
+		myPosition.y = 1;
 	}
-
-	//std::cout << myPosition.x << " " << myPosition.y << std::endl;
 }
 
 bool MouseManager::ButtonClicked(eMouseButtons aButton)
