@@ -78,7 +78,7 @@ text->mySize = 0.4f;
 //Create the player character
 //BUG: Why does pivot.x = 0.25 refer to the center
 //of myAnimation.mySprite and not 0.5? ~Erik
-myPlayer.Init("Sprites/hallBoy.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
+myPlayer.Init("Sprites/AnimSpritesTest/cam1.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
 }
 
 

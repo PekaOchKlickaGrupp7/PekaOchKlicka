@@ -20,7 +20,7 @@ Player::~Player()
 void Player::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
-	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.33f, 4, 4);
+	myAnimation.Init(aSpriteFilePath, aPivotPoint, 0.5f, 69, 9);
 	myPosition = aPosition;
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
