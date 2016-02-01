@@ -272,6 +272,57 @@ void CGameWorld::PlayerMovement(float aTimeDelta)
 		}
 	}
 
+	//PATHFINDING
+	//Create a vector from player pos to target pos
+	CommonUtilities::Intersection::LineSegment2D playerToTarget;
+	playerToTarget.myStartPos = Vector2f(myTargetPosition.x, myTargetPosition.y);
+	playerToTarget.myEndPos = Vector2f(myPlayer.GetPosition().x, myPlayer.GetPosition().y);
+
+	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
+	{
+		unsigned short j = myCurrentRoom->GetNavMeshes()[i].GetPoints().Size() - 1;
+		CommonUtilities::GrowingArray<
+			CommonUtilities::Intersection::LineSegment2D> obstacleSides;
+
+		for (unsigned short i = 0; i < myCurrentRoom->GetNavMeshes()[i].GetPoints().Size(); i++)
+		{
+			CommonUtilities::Intersection::LineSegment2D side;
+			side.myStartPos = myCurrentRoom->GetNavMeshes()[i].GetPoints()[i];
+			side.myEndPos = myCurrentRoom->GetNavMeshes()[i].GetPoints()[j];
+			obstacleSides.Add(side);
+			j = i;
+		}
+
+		Vector2f intersectionPoint;
+
+		//Create lines for each side of the obstacle and test LineVSLine with target line
+		for (unsigned short i = 0; i < obstacleSides.Size(); i++)
+		{
+			if (CommonUtilities::Intersection::LineVsLine(
+				playerToTarget, obstacleSides[i], intersectionPoint) == true)
+			{
+				for (unsigned short i = 0; i < myCurrentRoom->GetNavMeshes()[i].GetPoints().Size(); i++)
+				{
+					DX2D::Vector2f targetCandidate =
+						DX2D::Vector2f(
+						myCurrentRoom->GetNavMeshes()[i].GetPoints()[i].x,
+						myCurrentRoom->GetNavMeshes()[i].GetPoints()[i].y)
+						- myPlayer.GetPosition();
+					Vector2f candidate = Vector2f(targetCandidate.x, targetCandidate.y);
+					if (candidate.Length()
+						< Vector2f(
+						myTargetPosition.x - myPlayer.GetPosition().x,
+						myTargetPosition.x - myPlayer.GetPosition().y).Length())
+					{
+						myTargetPosition = targetCandidate;
+					}
+				}
+				myPlayer.SetIsMoving(true);
+				break;
+			}
+		}
+	}
+
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
