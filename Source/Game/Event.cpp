@@ -13,6 +13,7 @@ Event::Event()
 Event::~Event()
 {
 	myRoom = nullptr;
+	myGameWorld = nullptr;
 }
 
 void Event::Init(Room* aRoom, CGameWorld* aGameWorld)

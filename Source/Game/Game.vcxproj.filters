@@ -22,12 +22,6 @@
     <Filter Include="System\JSON">
       <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Menu">
-      <UniqueIdentifier>{ebcd1b9c-2c00-4619-bf54-e621f6f5ff12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Menu\MenuComponent">
-      <UniqueIdentifier>{e933bf4a-61ac-4ec3-89ff-bb8b805ffb95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Events">
       <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
     </Filter>
@@ -155,15 +149,6 @@
     <ClInclude Include="LevelData.h">
       <Filter>System\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenuState.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuImageItem.h">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuItem.h">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>System\Events</Filter>
     </ClInclude>
@@ -221,7 +206,6 @@
     <ClInclude Include="SoundFileHandler.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="ItemList.h" />
     <ClInclude Include="EventPlaySound.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
@@ -253,7 +237,6 @@
       <Filter>Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
-    <ClInclude Include="FadeState.h" />
     <ClInclude Include="EventToggleFullscreen.h">
       <Filter>Events\Options</Filter>
     </ClInclude>
@@ -267,6 +250,24 @@
       <Filter>Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventWalkTo.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHideMouse.h">
+      <Filter>Events\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSetCinematic.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPickupItem.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="EventIsItem.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,15 +309,6 @@
     </ClCompile>
     <ClCompile Include="LevelData.cpp">
       <Filter>System\JSON</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenuState.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuImageItem.cpp">
-      <Filter>Menu\MenuComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuItem.cpp">
-      <Filter>Menu\MenuComponent</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>System\Events</Filter>
@@ -375,7 +367,6 @@
     <ClCompile Include="SoundFileHandler.cpp">
       <Filter>System\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="EventPlaySound.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
@@ -406,7 +397,6 @@
     <ClCompile Include="EventFadePosition.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="FadeState.cpp" />
     <ClCompile Include="EventToggleFullscreen.cpp">
       <Filter>Events\Options</Filter>
     </ClCompile>
@@ -420,6 +410,24 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventWalkTo.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHideMouse.cpp">
+      <Filter>Events\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetCinematic.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPickupItem.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="EventIsItem.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

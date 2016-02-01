@@ -9,7 +9,6 @@
 #include "..\CommonUtilities\ThreadHelper.h"
 
 #include "GameWorld.h"
-#include "FadeState.h"
 
 #include "SoundManager.h"
 #include "SoundFileHandler.h"
@@ -107,7 +106,6 @@ void CGame::Init(const char** argv, const int argc)
 	std::wstring appname(versionNumber.begin(), versionNumber.end());
 	ResolutionManager::GetInstance()->SetFullscreen(true);
 #ifdef _DEBUG
-	createParameters.myActivateDebugSystems = true;
 	ResolutionManager::GetInstance()->SetFullscreen(false);
 #endif
 
@@ -124,10 +122,15 @@ void CGame::Init(const char** argv, const int argc)
 		std::cout << "Level: " << myTestLevel << std::endl;
 
 		ResolutionManager::GetInstance()->SetFullscreen(false);
+
 	}
 
-
+	// Sets whether the engine should launch in fullscreen or not.
 	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
+
+	std::string str = std::string("IsFullscreen");
+	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), str);
+	
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;
 
@@ -141,6 +144,7 @@ void CGame::Init(const char** argv, const int argc)
 
 void CGame::InitCallBack()
 {
+	#pragma region Intialize Debug & Input & Threads
 	DL_Debug::Debug::Create();
 
 	myInputManager.Initialize(DX2D::CEngine::GetInstance()->GetHInstance(),
@@ -149,6 +153,8 @@ void CGame::InitCallBack()
 
 	myRenderThread = new std::thread(&CGame::Render, this);
 	ThreadHelper::SetThreadName(static_cast<DWORD>(-1), "Updater");
+
+	#pragma endregion
 
 	#pragma region Mouse Manager
 
@@ -172,28 +178,31 @@ void CGame::InitCallBack()
 
 	#pragma endregion
 
-	std::string name = "";
-	//ResolutionManager::GetInstance()->Update(0, 0);
-	//myJson.Load("root.json", myRooms, this, name);
-
 	#pragma region Event Manager
 
 	EventManager::CreateInstance();
-	EventManager::GetInstance()->Init(&myInputManager);
-	//EventVariablesManager::GetInstance();
+
+	CGameWorld* GameWorld = new CGameWorld(myStateStackProxy, myInputManager, myTimerManager);
+
+	EventManager::GetInstance()->Init(&myInputManager, GameWorld);
 
 	#pragma endregion
 
 
-	myStateStack.PushMainGameState(new CGameWorld(myStateStackProxy, myInputManager, myTimerManager));
+	myStateStack.PushMainGameState(GameWorld);
 
-	ResolutionManager::GetInstance()->SetupWindow();
+	if (ResolutionManager::GetInstance()->GetIsFullscreen() == false)
+	{
+		ResolutionManager::GetInstance()->SetupWindow(960, 540);
+	}
+	else
+	{
+		ResolutionManager::GetInstance()->SetupWindow();
+	}
 }
 
 const bool CGame::Update()
 {
-	//ResolutionManager::GetInstance()->Update();
-
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
@@ -204,7 +213,7 @@ const bool CGame::Update()
 		return false;
 	}
 		return true;
-	}
+}
 
 void CGame::Render()
 {

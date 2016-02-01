@@ -6,26 +6,44 @@
 
 EventChangeLevel::EventChangeLevel()
 {
+	myUseFading = false;
+	Reset();
 }
 
 
 EventChangeLevel::~EventChangeLevel()
 {
-	DL_PRINT("Destructor");
+
 }
 
 bool EventChangeLevel::Update(const float aDeltaTime)
 {
-	(aDeltaTime);
 	if (myTargetLevelName != "")
 	{
-		myGameWorld->ChangeLevel(myTargetLevelName);
-		myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
-		return true;
+		bool doChange = true;
+		if (myUseFading == true)
+		{
+			myGameWorld->SetFadeIn(true);
+			doChange = myGameWorld->GetFadeIn() == 0.0f;
+		}
+		if (doChange == true)
+		{
+			myTime += aDeltaTime;
+			if (myTime >= 0.5f)
+			{
+				myGameWorld->ChangeLevel(myTargetLevelName);
+				myGameWorld->GetPlayer()->SetIsMoving(false);
+				myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
+				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
+				myGameWorld->SetFadeIn(false);
+				return true;
+			}
+		}
 	}
 	return false;
 }
 
 void EventChangeLevel::Reset()
 {
+	myTime = 0.0f;
 }

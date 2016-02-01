@@ -7,6 +7,7 @@
 class ObjectData;
 class Event;
 
+class CGameWorld;
 class InputManager;
 class Room;
 enum EventTypes;
@@ -32,12 +33,12 @@ public:
 	}
 
 	void OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY);
-	void Init(CU::DirectInput::InputManager* aInputManager) { myInputManager = aInputManager; };
+	void Init(CU::DirectInput::InputManager* aInputManager, CGameWorld* aGameWorld) { myInputManager = aInputManager; myGameWorld = aGameWorld; };
 	void ChangeRoom(Room* aCurrentRoom);
-	float Remap(float value, float from1, float to1, float from2, float to2);
 
+	void AddKey(int aKey);
 
-	void Update(const float aDeltaTime);
+	bool Update(const float aDeltaTime);
 	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
@@ -49,13 +50,16 @@ public:
 
 private:
 	static EventManager* myInstance;
+	float Remap(float value, float from1, float to1, float from2, float to2);
 
 	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
 
+	CGameWorld* myGameWorld;
 	CU::DirectInput::InputManager* myInputManager;
 	Room* myCurrentRoom;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
 	bool myIsSwitchingRoom;
+	bool myClicked;
 
 	EventManager();
 	~EventManager();

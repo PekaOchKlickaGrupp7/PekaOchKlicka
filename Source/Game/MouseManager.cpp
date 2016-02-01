@@ -12,6 +12,8 @@ MouseManager::MouseManager()
 void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFilePath,
 	CU::DirectInput::InputManager* aInputManager)
 {
+	myHideGameMouse = false;
+
 	myInputManager = aInputManager;
 
 	mySpriteInteractive.Init(6); // There are six different cursors
@@ -39,8 +41,8 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 void MouseManager::Update(float)
 {
 	myInputManager->SetAbsoluteMousePos(
-		static_cast<int>((ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f),  
-		static_cast<int>((ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f));
+		static_cast<int>(((ResolutionManager::GetInstance()->GetRenderAreaDimension().x + ResolutionManager::GetInstance()->GetRenderAreaPosition().x) * 0.5f) + mySprite->GetSize().x),  
+		static_cast<int>(((ResolutionManager::GetInstance()->GetRenderAreaDimension().y + ResolutionManager::GetInstance()->GetRenderAreaPosition().y) * 0.5f) + mySprite->GetSize().y));
 
 	float aSpeed = 0.0005f;
 	
@@ -94,12 +96,15 @@ void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)
 
 void MouseManager::Render(Synchronizer &aSynchronizer)
 {
-	RenderCommand command;
-	command.mySprite = mySprite;
-	command.myPosition = myPosition;
-	command.myType = eRenderType::eSprite;
+	if (myHideGameMouse != true)
+	{
+		RenderCommand command;
+		command.mySprite = mySprite;
+		command.myPosition = myPosition;
+		command.myType = eRenderType::eSprite;
 
-	aSynchronizer.AddRenderCommand(command);
+		aSynchronizer.AddRenderCommand(command);
+	}
 }
 
 MouseManager::~MouseManager()

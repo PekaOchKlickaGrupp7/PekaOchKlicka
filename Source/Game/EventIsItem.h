@@ -1,15 +1,15 @@
 #pragma once
 #include "Event.h"
-class EventWalkTo :
+class EventIsItem :
 	public Event
 {
 public:
-	EventWalkTo();
-	virtual ~EventWalkTo();
+	EventIsItem();
+	virtual ~EventIsItem();
 
 	virtual bool Update(const float aDeltaTime) override;
 	virtual void Reset() override;
-protected:
-	bool mySet;
+
+	std::string myItemName;
 };
 

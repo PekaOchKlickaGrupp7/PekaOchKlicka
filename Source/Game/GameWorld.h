@@ -7,6 +7,7 @@
 #include "JSON.h"
 #include "Player.h"
 #include "Item.h"
+#include <tga2d\text\text.h>
 
 class Room;
 
@@ -19,19 +20,29 @@ public:
 
 	void Init();
 
+	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);
 	Player* CGameWorld::GetPlayer();
 	void SetPlayerTargetPosition(Point2f aPoint);
+	const Vector2f GetPlayerTargetPosition() const;
+	void SetCinematicMode(bool aOn = true);
+	void SetFadeIn(bool aFade = true);
+	float GetFadeIn() const;
 
 	void Quit();
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
+	void PlayerMovement(bool aCheckInput, float aTimeDelta);
+
 private:
 	void ItemPickUp();
-	DX2D::CText* text;
+	DX2D::CText* myTextFPS;
 
 	bool myDoQuit;
+	bool myPlayerCanMove;
+	float myFadeIn;
+	bool myDoFadeIn;
 
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 

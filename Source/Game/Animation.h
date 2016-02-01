@@ -9,9 +9,8 @@ class Synchronizer;
 class Animation
 {
 public:
-	Animation();
+	Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow);
 	~Animation();
-	void Init(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow);
 	void Update(float aDelta);
 	void Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos);
 	void Pause();

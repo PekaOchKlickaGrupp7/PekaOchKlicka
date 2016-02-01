@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "MouseManager.h"
 #include <iostream>
+#include "GameWorld.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -16,6 +17,7 @@ EventManager::EventManager()
 
 EventManager::~EventManager()
 {
+	myActiveEvents.RemoveAll();
 }
 
 void EventManager::ChangeRoom(Room* aCurrentRoom)
@@ -39,6 +41,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 {
 	if (aData->myActive == true)
 	{
+		/*
 		bool trigger = true;
 		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 		{
@@ -48,42 +51,51 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		{
 			trigger = false;
 		}
+		*/
 
-		if (aType != EventTypes::OnLoad && aData->myHitBox.IsMouseColliding(
-			MouseManager::GetInstance()->GetPosition().x,
-			MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
+		if (aType == EventTypes::OnClick || aType == EventTypes::OnHover || aType == EventTypes::OnLeave)
 		{
-			if (trigger == true)
+			if (aData->myHitBox.IsMouseColliding(MouseManager::GetInstance()->GetPosition().x, MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
 			{
-				if (aType == EventTypes::OnHover)
+				if (aType == EventTypes::OnClick)
+				{
+					myClicked = true;
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					{
+						if (aData->myEvents[j]->myType == EventTypes::OnClick)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
+					}
+				}
+				else if (aData->myIsHovering == false)
 				{
 					aData->myIsHovering = true;
-				}
-				if (aType == EventTypes::OnClick && aData->myName == "Play")
-				{
-					trigger = false;
-				}
-				for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
-				{
-					if (aData->myEvents[j]->myType == aType)
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 					{
-						AddEvent(aData->myEvents[j]);
+						if (aData->myEvents[j]->myType == EventTypes::OnHover)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (aType == EventTypes::OnHover && aData->myIsHovering == true)
+				{
+					aData->myIsHovering = false;
+					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					{
+						if (aData->myEvents[j]->myType == EventTypes::OnLeave)
+						{
+							AddEvent(aData->myEvents[j]);
+						}
 					}
 				}
 			}
 		}
-		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
-		{
-			aData->myIsHovering = false;
-			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
-			{
-				if (aData->myEvents[j]->myType == aType)
-				{
-					AddEvent(aData->myEvents[j]);
-				}
-			}
-		}
-		else if (aType == EventTypes::OnLoad)
+		else
 		{
 			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 			{
@@ -104,12 +116,13 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 	}
 }
 
-void EventManager::Update(const float aDeltaTime)
+bool EventManager::Update(const float aDeltaTime)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
+		myClicked = false;
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0);
@@ -119,7 +132,6 @@ void EventManager::Update(const float aDeltaTime)
 	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 	{
 		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
-		OnEvent((*myObjects)[i], EventTypes::OnLeave, mousePosition.x, mousePosition.y, 0, 0);
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
@@ -138,16 +150,21 @@ void EventManager::Update(const float aDeltaTime)
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
+	
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
+
 		RemoveAllEvents();
 
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
 		}
+
+		myGameWorld->DoChangeLevel(myCurrentRoom);
 	}
+	return !myClicked;
 }
 
 void EventManager::Render(Synchronizer &aSynchronizer)

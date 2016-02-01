@@ -12,8 +12,7 @@ EventChangeImage::~EventChangeImage()
 
 void EventChangeImage::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	myNewSprite = new DX2D::CSprite(myImagePath.c_str());
 }

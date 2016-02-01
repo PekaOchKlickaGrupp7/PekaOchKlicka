@@ -1,0 +1,13 @@
+{
+    "movmentSpeed": 0.3,
+	"animation" 
+        :[
+		{
+			"direction" : "play",
+			"path" : "Sprites/AnimSpritesTest/cam1.dds",
+            "frames" : 69,
+		    "framesPerRow" : 9,
+			"animationSpeed" : 0.5
+		}
+	]
+}

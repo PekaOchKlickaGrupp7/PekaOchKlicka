@@ -26,35 +26,40 @@ GameState(aStateStackProxy, aInputManager, aTimerManager)
 
 CGameWorld::~CGameWorld()
 {
-	delete text;
+	delete myTextFPS;
 	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); ++iterator)
 	{
 		delete iterator->second;
 	}
+	myRooms.clear();
+}
+
+void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
+{
+	myCurrentRoom = aCurrentRoom;
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
-{
-	myCurrentRoom = myRooms[aString];
-	myCurrentRoom->OnLoad();
-
-	if (myCurrentRoom == nullptr)
 	{
-		DL_PRINT("Current room is null!");
+	myCurrentRoom = nullptr;
+	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
 	}
-	EventManager::GetInstance()->ChangeRoom(myCurrentRoom);
-}
 
 Player* CGameWorld::GetPlayer()
 {
 	return &myPlayer;
 }
 
+void CGameWorld::SetFadeIn(bool aFade)
+{
+	myDoFadeIn = aFade;
+}
+
 void CGameWorld::Init()
 {
 	std::string name = "";
 	myJson.Load("root.json", myRooms, this, name);
-	myJson.LoadItems("items.json", myPlayer.GetInventory());
+	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -68,22 +73,26 @@ void CGameWorld::Init()
 	}
 
 	myDoQuit = false;
+	myPlayerCanMove = true;
 
-text = new DX2D::CText("Text/calibril.ttf_sdf");
-text->myText = "Test";
-text->myPosition = DX2D::Vector2f(0.5f, 0.02f);
-text->myColor.Set(1, 1, 1, 1.0f);
-text->mySize = 0.4f;
+	myTextFPS = new DX2D::CText("Text/calibril.ttf_sdf");
+	myTextFPS->myPosition = { 0.5f, 0.05f };
+	myTextFPS->myText = "FPS: ";
+	myTextFPS->mySize = 0.6f;
 
 //Create the player character
 //BUG: Why does pivot.x = 0.25 refer to the center
 //of myAnimation.mySprite and not 0.5? ~Erik
-myPlayer.Init("Sprites/AnimSpritesTest/cam1.dds", DX2D::Vector2f(0.5f, 0.8f), DX2D::Vector2f(0.25f, 1.0f), 0.2f);
-}
+	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
 
+	myFadeIn = 1.0f;
+	myDoFadeIn = false;
+}
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
+	myTextFPS->myText = "FPS " + std::to_string(myTimerManager.GetMasterTimer().GetFPS());
+	myTextFPS->myPosition = { 0.5f - myTextFPS->GetWidth() / 2, 0.05f };
 
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
@@ -106,72 +115,28 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
-
-	//Move character if inside nav mesh
-	if (myInputManager.LeftMouseButtonClicked())
+	if (myDoFadeIn == true)
 	{
-		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
-		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
-
-
-		ItemPickUp();
-
-		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+		myFadeIn -= aTimeDelta;
+		if (myFadeIn <= 0.0f)
 		{
-			if (myCurrentRoom->GetNavMeshes()[0].
-				PointInsideCheck(Point2f(
-				myTargetPosition.x,
-				myTargetPosition.y)
-				) == true)
-			{
-				myPlayer.SetIsMoving(true);
+			myFadeIn = 0.0f;
 			}
+	}
 			else
 			{
-				myPlayer.SetIsMoving(false);
-			}
+		myFadeIn += aTimeDelta;
+		if (myFadeIn >= 1.0f)
+	{
+			myFadeIn = 1.0f;
+	}
 		}
-	}
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
-	EventManager::GetInstance()->Update(aTimeDelta);
-
-	//Makes sure player can not walk through obstacles
-	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
-		myPlayer.GetPosition().x,
-		myPlayer.GetPosition().y)) == false)
-	{
-		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-		myPlayer.SetIsMoving(false);
-	}
-	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
-	{
-		if (myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myPlayer.GetPosition().x,
-			myPlayer.GetPosition().y)
-			) == true
-			||
-			myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myTargetPosition.x,
-			myTargetPosition.y)
-			) == true)
+	bool input = EventManager::GetInstance()->Update(aTimeDelta);
+	if (myCurrentRoom != nullptr)
 		{
-			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-			myPlayer.SetIsMoving(false);
-			break;
-		}
-	}
-
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
-	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
-	{
-		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
-		{
-			(*myCurrentRoom->GetObjectList())[i]->myX = myPlayer.GetPosition().x;
-			(*myCurrentRoom->GetObjectList())[i]->myY = myPlayer.GetPosition().y;
-		}
+		PlayerMovement(input, aTimeDelta);
 	}
 
 	if (myDoQuit == true)
@@ -182,11 +147,26 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	return eStateStatus::eKeepState;
 }
 
+float CGameWorld::GetFadeIn() const
+{
+	return myFadeIn;
+}
+
 void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 {
 	myTargetPosition.x = aPoint.x;
 	myTargetPosition.y = aPoint.y;
 	myPlayer.SetIsMoving(true);
+}
+
+const Vector2f CGameWorld::GetPlayerTargetPosition() const
+{
+	return Vector2f(myTargetPosition.x, myTargetPosition.y);
+}
+
+void CGameWorld::SetCinematicMode(bool aOn)
+{
+	myPlayerCanMove = !aOn;
 }
 
 void CGameWorld::Quit()
@@ -270,6 +250,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 	MouseManager::GetInstance()->Render(aSynchronizer);
+	myTextFPS->Render();
 }
 
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
@@ -278,6 +259,8 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	command.myType = eRenderType::eSprite;
 	if (aNode->myActive == true)
 	{
+		aNode->myGlobalX = aRelativeX + aNode->myX;
+		aNode->myGlobalY = aRelativeY + aNode->myY;
 		if (aNode->mySprite != nullptr)
 		{
 			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
@@ -296,6 +279,79 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 			{
 				RenderObject(aSynchronizer, aNode->myChilds[j], aRelativeX + aNode->myX, aRelativeY + aNode->myY); /*aRelativeX + aNode->myX, aRelativeY + aNode->myY);*/
 			}
+		}
+	}
+}
+
+void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
+{
+	//Move character if inside nav mesh
+	if (aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
+	{
+		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+
+		ItemPickUp();
+
+		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+		{
+			if (myCurrentRoom->GetNavMeshes()[0].
+				PointInsideCheck(Point2f(
+				myTargetPosition.x,
+				myTargetPosition.y)
+				) == true)
+			{
+				myPlayer.SetIsMoving(true);
+			}
+			else
+			{
+				myPlayer.SetIsMoving(false);
+			}
+		}
+	}
+
+	//Makes sure player can not walk through obstacles
+	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
+		myPlayer.GetPosition().x,
+		myPlayer.GetPosition().y)) == false)
+	{
+		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+		myPlayer.SetIsMoving(false);
+	}
+
+	//If character accidentally gets outside the nav mesh move him back inside
+	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
+	{
+		if (myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myPlayer.GetPosition().x,
+			myPlayer.GetPosition().y)
+			) == true
+			||
+			myCurrentRoom->GetNavMeshes()[i].
+			PointInsideCheck(Point2f(
+			myTargetPosition.x,
+			myTargetPosition.y)
+			) == true)
+		{
+			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
+			myPlayer.SetIsMoving(false);
+			break;
+		}
+	}
+
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
+	{
+		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
+		{
+			DX2D::Vector2f playerPos = myPlayer.GetPosition();
+			(*myCurrentRoom->GetObjectList())[i]->myX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myY = playerPos.y;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalY = playerPos.y;
+			break;
 		}
 	}
 }

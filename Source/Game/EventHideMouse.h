@@ -1,15 +1,16 @@
 #pragma once
 #include "Event.h"
-class EventWalkTo :
+class EventHideMouse :
 	public Event
 {
 public:
-	EventWalkTo();
-	virtual ~EventWalkTo();
+	EventHideMouse();
 
 	virtual bool Update(const float aDeltaTime) override;
 	virtual void Reset() override;
-protected:
-	bool mySet;
+
+	bool myHideGameMouse;
+
+	virtual ~EventHideMouse();
 };
 
