@@ -1,0 +1,13 @@
+2016-01-31
+	Events:
+		Now you can reorder with right mouse button and reparent nodes with left mouse button in the events tab.
+	Root Dialog:
+		Now you can reorder the items with Drag and drop.
+	New Actions:
+		EventUseItem
+			This allows you to check if the selected item is a certain item. Use on On Click.
+		EventPickupItem
+			This adds the picked item to the inventory.
+	Updated Actions:
+		EventChangeLevel
+			Use Fade: Check this if you want the screen to fade in and out in change level.

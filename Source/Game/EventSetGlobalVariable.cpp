@@ -16,8 +16,7 @@ EventSetGlobalVariable::~EventSetGlobalVariable()
 
 void EventSetGlobalVariable::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	switch (myVariableType)
 	{

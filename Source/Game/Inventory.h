@@ -54,6 +54,8 @@ private:
 	void Open(float aDeltaTime, CU::DirectInput::InputManager& aInputManager);
 	void Close(float aDeltaTime);
 
+	void UpdateSelectedItem();
+
 	ItemList *myMasterItemList;
 
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;

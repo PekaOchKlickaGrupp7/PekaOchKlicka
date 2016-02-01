@@ -34,6 +34,17 @@ bool HitBox::IsMouseColliding(const float aX, const float aY, const float aRelat
 	{
 		return CommonUtilities::AxisAlignedBoundingBox(aX, aY, 0, 0, (myObject->myX + myX) + aRelativeX, (myObject->myY + myY) + aRelativeY, myWidth, myHeight);
 	}
+	else if (myObject->myTriggerType == TriggerType::Triangles2)
+	{
+		for (unsigned int i = 0; i < myObject->myTriangles.Size(); ++i)
+		{
+			if (myObject->myTriangles[i].PointInside(Vector2f(aX, aY)) == true)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	else
 	{
 		return CommonUtilities::CircleCollision(1.0f, aX * 1920.0f, aY * 1080.0f, myObject->myRadius, ((myObject->myX + myX) + aRelativeX) * 1920.0f, ((myObject->myY + myY) + aRelativeY) * 1080.0f);

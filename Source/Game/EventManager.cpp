@@ -17,6 +17,7 @@ EventManager::EventManager()
 
 EventManager::~EventManager()
 {
+	myActiveEvents.RemoveAll();
 }
 
 void EventManager::ChangeRoom(Room* aCurrentRoom)
@@ -58,6 +59,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 			{
 				if (aType == EventTypes::OnClick)
 				{
+					myClicked = true;
 					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 					{
 						if (aData->myEvents[j]->myType == EventTypes::OnClick)
@@ -93,7 +95,7 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				}
 			}
 		}
-		else if (aType == EventTypes::OnLoad)
+		else
 		{
 			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
 			{
@@ -114,12 +116,13 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 	}
 }
 
-void EventManager::Update(const float aDeltaTime)
+bool EventManager::Update(const float aDeltaTime)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
+		myClicked = false;
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0);
@@ -147,7 +150,7 @@ void EventManager::Update(const float aDeltaTime)
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
-
+	
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
@@ -161,6 +164,7 @@ void EventManager::Update(const float aDeltaTime)
 
 		myGameWorld->DoChangeLevel(myCurrentRoom);
 	}
+	return !myClicked;
 }
 
 void EventManager::Render(Synchronizer &aSynchronizer)
