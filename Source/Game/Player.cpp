@@ -42,7 +42,7 @@ void Player::Init(DX2D::Vector2f aPosition)
 	rapidjson::Value& animations = root["animation"];
 
 	if (animations.IsNull() == true)
-	{
+{
 		DL_DEBUG("Animation is not a member of Player.json");
 		root.GetAllocator().~MemoryPoolAllocator();
 		return;
@@ -72,27 +72,27 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 	int framesPerRow = animation["framesPerRow"].GetInt();
 	float animationSpeed = static_cast<float>(animation["animationSpeed"].GetDouble());
 	
-	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.25f, 1.0f), animationSpeed, frames, framesPerRow));
+	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.5f, 1.0f), animationSpeed, frames, framesPerRow));
 
 	}
 }
 
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput)
 {
 	myPreviousPosition = myPosition;
 
 	//Opening/Closing the inventory
 	static float inventoryHoverArea = 1.0f - 0.01f;
 	if (myInventory.IsOpen() == false && 
-		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea)
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea && aUpdateInput)
 	{
 		myInventory.SetOpen();
 	}
 
-	if (myInventory.IsOpen() == true && 
+	if ((myInventory.IsOpen() == true && 
 		MouseManager::GetInstance()->GetPosition().y <
-		myInventory.GetFullyOpenPosition().y)
+		myInventory.GetFullyOpenPosition().y) || (aUpdateInput == false && myInventory.IsOpen() == true))
 	{
 		myInventory.SetClose();
 	}
@@ -166,6 +166,11 @@ void Player::SetPosition(const DX2D::Vector2f& aPoint)
 	//mySprite->SetPosition(aPoint);
 	myPosition = aPoint;
 	myRenderPosition = aPoint;
+}
+
+void Player::SetPreviousPosition(const DX2D::Vector2f& aPoint)
+{
+	myPreviousPosition = aPoint;
 }
 
 void Player::SetSpeed(float aSpeed)

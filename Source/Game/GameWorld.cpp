@@ -31,6 +31,7 @@ CGameWorld::~CGameWorld()
 	{
 		delete iterator->second;
 	}
+	myRooms.clear();
 }
 
 void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
@@ -39,21 +40,26 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
-{
+	{
 	myCurrentRoom = nullptr;
 	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
-}
+	}
 
 Player* CGameWorld::GetPlayer()
 {
 	return &myPlayer;
 }
 
+void CGameWorld::SetFadeIn(bool aFade)
+{
+	myDoFadeIn = aFade;
+}
+
 void CGameWorld::Init()
 {
 	std::string name = "";
 	myJson.Load("root.json", myRooms, this, name);
-	myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
+	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
@@ -67,19 +73,23 @@ void CGameWorld::Init()
 	}
 
 	myDoQuit = false;
+	myPlayerCanMove = true;
 
 	myTextFPS = new DX2D::CText("Text/calibril.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.6f;
-	
 
-//Create the player character
-//BUG: Why does pivot.x = 0.25 refer to the center
-//of myAnimation.mySprite and not 0.5? ~Erik
-myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
+	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
+
+	myFadeIn = 1.0f;
+	myDoFadeIn = false;
+
+
+	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
+	myShouldRenderDebug = false;
+	myShouldRenderFPS = true;
 }
-
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
 {
@@ -89,6 +99,21 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		return eStateStatus::ePopMainState;
+	}
+
+	if (myInputManager.KeyPressed(DIK_F1) == true)
+	{
+		ResolutionManager::GetInstance()->ToggleFullscreen();
+	}
+
+	if (myInputManager.KeyPressed(DIK_F2) == true)
+	{
+		myShouldRenderDebug = !myShouldRenderDebug;
+	}
+
+	if (myInputManager.KeyPressed(DIK_F3) == true)
+	{
+		myShouldRenderFPS = !myShouldRenderFPS;
 	}
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
@@ -107,10 +132,29 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
-	EventManager::GetInstance()->Update(aTimeDelta);
+	if (myDoFadeIn == true)
+	{
+		myFadeIn -= aTimeDelta;
+		if (myFadeIn <= 0.0f)
+		{
+			myFadeIn = 0.0f;
+			}
+	}
+			else
+			{
+		myFadeIn += aTimeDelta;
+		if (myFadeIn >= 1.0f)
+	{
+			myFadeIn = 1.0f;
+	}
+		}
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
-	PlayerMovement(aTimeDelta);
+	bool input = EventManager::GetInstance()->Update(aTimeDelta);
+	if (myCurrentRoom != nullptr)
+		{
+		PlayerMovement(input, aTimeDelta);
+	}
 
 	if (myDoQuit == true)
 	{
@@ -118,6 +162,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	return eStateStatus::eKeepState;
+}
+
+float CGameWorld::GetFadeIn() const
+{
+	return myFadeIn;
 }
 
 void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
@@ -130,6 +179,11 @@ void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 const Vector2f CGameWorld::GetPlayerTargetPosition() const
 {
 	return Vector2f(myTargetPosition.x, myTargetPosition.y);
+}
+
+void CGameWorld::SetCinematicMode(bool aOn)
+{
+	myPlayerCanMove = !aOn;
 }
 
 void CGameWorld::Quit()
@@ -211,9 +265,25 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
+	
+
+	if (myShouldRenderDebug == true)
+	{
+		RenderCommand resTest;
+		resTest.myType = eRenderType::eSprite;
+		resTest.mySprite = myResTest;
+		aSynchronizer.AddRenderCommand(resTest);
+	}
+	if (myShouldRenderFPS == true)
+	{
+		RenderCommand fps;
+		fps.myType = eRenderType::eText;
+		fps.myText = myTextFPS;
+		aSynchronizer.AddRenderCommand(fps);
+	}
+
 	EventManager::GetInstance()->Render(aSynchronizer);
 	MouseManager::GetInstance()->Render(aSynchronizer);
-	myTextFPS->Render();
 }
 
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
@@ -222,6 +292,8 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	command.myType = eRenderType::eSprite;
 	if (aNode->myActive == true)
 	{
+		aNode->myGlobalX = aRelativeX + aNode->myX;
+		aNode->myGlobalY = aRelativeY + aNode->myY;
 		if (aNode->mySprite != nullptr)
 		{
 			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
@@ -244,10 +316,10 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	}
 }
 
-void CGameWorld::PlayerMovement(float aTimeDelta)
+void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if (myInputManager.LeftMouseButtonClicked())
+	if (aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
 	{
 		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
 		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
@@ -302,13 +374,17 @@ void CGameWorld::PlayerMovement(float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 		{
-			(*myCurrentRoom->GetObjectList())[i]->myX = myPlayer.GetPosition().x;
-			(*myCurrentRoom->GetObjectList())[i]->myY = myPlayer.GetPosition().y;
+			DX2D::Vector2f playerPos = myPlayer.GetPosition();
+			(*myCurrentRoom->GetObjectList())[i]->myX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myY = playerPos.y;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalX = playerPos.x;
+			(*myCurrentRoom->GetObjectList())[i]->myGlobalY = playerPos.y;
+			break;
 		}
 	}
 }

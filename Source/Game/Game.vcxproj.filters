@@ -206,7 +206,6 @@
     <ClInclude Include="SoundFileHandler.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="ItemList.h" />
     <ClInclude Include="EventPlaySound.h">
       <Filter>Events\Sound</Filter>
     </ClInclude>
@@ -251,6 +250,24 @@
       <Filter>Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventWalkTo.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHideMouse.h">
+      <Filter>Events\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSetCinematic.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>System\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPickupItem.h">
+      <Filter>Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="EventIsItem.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,7 +367,6 @@
     <ClCompile Include="SoundFileHandler.cpp">
       <Filter>System\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="EventPlaySound.cpp">
       <Filter>Events\Sound</Filter>
     </ClCompile>
@@ -394,6 +410,24 @@
       <Filter>Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventWalkTo.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHideMouse.cpp">
+      <Filter>Events\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetCinematic.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>System\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPickupItem.cpp">
+      <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="EventIsItem.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

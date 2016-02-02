@@ -166,6 +166,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventHideMouse.h" />
+    <ClInclude Include="EventIsItem.h" />
+    <ClInclude Include="EventPickupItem.h" />
+    <ClInclude Include="EventSetCinematic.h" />
     <ClInclude Include="EventSetGlobalVariable.h" />
     <ClInclude Include="EventToggleFullscreen.h" />
     <ClInclude Include="EventChangeImage.h" />
@@ -225,8 +229,13 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Synchronizer.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventHideMouse.cpp" />
+    <ClCompile Include="EventIsItem.cpp" />
+    <ClCompile Include="EventPickupItem.cpp" />
+    <ClCompile Include="EventSetCinematic.cpp" />
     <ClCompile Include="EventSetGlobalVariable.cpp" />
     <ClCompile Include="EventToggleFullscreen.cpp" />
     <ClCompile Include="EventChangeImage.cpp" />
@@ -279,6 +288,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Synchronizer.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonUtilities\CommonUtilities.vcxproj">

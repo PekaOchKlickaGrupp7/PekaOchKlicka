@@ -32,7 +32,11 @@ enum EventActions
 	IfGlobalVariable,
 	SetGlobalVariable,
 	ToggleFullscreen,
-	WalkTo
+	WalkTo,
+	HideMouse,
+	SetCinematic,
+	PickupItem,
+	IsItem
 };
 
 class JSON

@@ -1,13 +1,15 @@
 #pragma once
 #include "..\CommonUtilities\GrowingArray.h"
 #include "HitBox.h"
+#include "Triangle.h"
 
 class Event;
 
 enum TriggerType
 {
 	Box,
-	Circle
+	Circle,
+	Triangles2
 };
 
 enum EventTypes
@@ -16,7 +18,8 @@ enum EventTypes
 	OnHover,
 	OnLeave,
 	OnLoad,
-	Custom
+	Custom,
+	OnUseItem
 };
 
 namespace DX2D
@@ -30,11 +33,21 @@ public:
 	ObjectData();
 	~ObjectData();
 
+	void AddTriangle(Triangle& aTriangle);
+
 	DX2D::CSprite* mySprite;
 	DX2D::CSprite* myOriginalSprite;
 
 	std::string myName;
-	float myX, myY, myGlobalX, myGlobalY, myScaleX, myScaleY, myRotation, myPivotX, myPivotY;
+	float myX;
+	float myY;
+	float myGlobalX;
+	float myGlobalY;
+	float myScaleX;
+	float myScaleY;
+	float myRotation;
+	float myPivotX;
+	float myPivotY;
 	bool myActive;
 	DX2D::CColor myColor;
 
@@ -47,9 +60,6 @@ public:
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event*, unsigned int> myEvents;
-	CommonUtilities::GrowingArray<bool, unsigned int> myBoolVariables;
-	CommonUtilities::GrowingArray<std::string, unsigned int> myStringVariables;
-	CommonUtilities::GrowingArray<int, unsigned int> myFloatVariables;
-	CommonUtilities::GrowingArray<int, unsigned int> myIntVariables;
+	CommonUtilities::GrowingArray<Triangle, unsigned int> myTriangles;
 };
 

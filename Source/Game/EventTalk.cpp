@@ -16,8 +16,7 @@ EventTalk::~EventTalk()
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	myTextRender = new DX2D::CText(myFontPath.c_str());
 	myTextRender->myColor = myColor;
@@ -33,7 +32,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		float x = object->myX + (object->myHitBox.myWidth / 2);
+		float x = object->myX;// + (object->myHitBox.myWidth / 2);
 
 		myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
 

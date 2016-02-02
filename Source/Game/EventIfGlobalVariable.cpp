@@ -16,8 +16,7 @@ EventIfGlobalVariable::~EventIfGlobalVariable()
 
 void EventIfGlobalVariable::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	myRoom = aRoom;
-	myGameWorld = aGameWorld;
+	Event::Init(aRoom, aGameWorld);
 
 	switch (myVariableType)
 	{

@@ -38,7 +38,7 @@ public:
 
 	void AddKey(int aKey);
 
-	void Update(const float aDeltaTime);
+	bool Update(const float aDeltaTime);
 	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
@@ -59,6 +59,7 @@ private:
 	Room* myCurrentRoom;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
 	bool myIsSwitchingRoom;
+	bool myClicked;
 
 	EventManager();
 	~EventManager();
