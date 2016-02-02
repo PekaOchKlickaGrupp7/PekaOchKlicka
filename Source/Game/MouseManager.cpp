@@ -41,13 +41,33 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 void MouseManager::Update(float)
 {
+
+
+	//
+	//Hold L-CTRL to unlock mouse in debug
+#ifdef _DEBUG
+	if (myInputManager->KeyDown(DIK_LCONTROL) == false)
+	{
+		myInputManager->SetAbsoluteMousePos(
+			static_cast<int>((((
+			ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
+			static_cast<int>((((
+			ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+	}
+#endif 
+
+	//Release
+#ifdef NDEBUG
 	myInputManager->SetAbsoluteMousePos(
 		static_cast<int>((((
-		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) + 
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),  
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
 		static_cast<int>((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
 		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+#endif 
 
 
 	static float aSpeed = 0.0005f;

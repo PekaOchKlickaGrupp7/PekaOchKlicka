@@ -6,6 +6,7 @@
 #include "MouseManager.h"
 #include <iostream>
 #include "GameWorld.h"
+#include "EventVariablesManager.h"
 
 EventManager* EventManager::myInstance = nullptr;
 

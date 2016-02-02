@@ -33,6 +33,6 @@ protected:
 
 	int myWordCount;
 	float myCurrentTime;
-	
+	float myWidth;
 };
 

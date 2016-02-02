@@ -77,6 +77,17 @@ void DX2D::CCustomShape::RemovePoints(int aIndex)
 	}
 }
 
+void DX2D::CCustomShape::RemovePoints()
+{
+	for (int i = myPoints.size() - 1; i > 0; i--)
+	{
+		myPoints.erase(myPoints.begin() + i);
+	}
+	myIsDirty = true;
+
+}
+
+
 void DX2D::CCustomShape::Render()
 {
 	if (myIsDirty)
