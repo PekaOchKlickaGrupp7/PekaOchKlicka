@@ -93,10 +93,11 @@ void MouseManager::Update(float)
 	}
 
 	mySprite->SetSize({(myPosition.y + 0.2f) * 1.5f,(myPosition.y + 0.2f) * 1.5f});
-	/*if (mySprite->GetSize <= 0.2f)
+	std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+	if (mySprite->GetSize().x <= 0.8f)
 	{
-		mySprite->SetSize({ 0.2f, 0.2f });
-	}*/
+		mySprite->SetSize({ 0.8f, 0.8f });
+	}
 }
 
 bool MouseManager::ButtonClicked(eMouseButtons aButton)

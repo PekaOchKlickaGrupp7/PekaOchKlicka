@@ -265,7 +265,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
-	
+	EventManager::GetInstance()->Render(aSynchronizer);
 
 	if (myShouldRenderDebug == true)
 	{
@@ -282,7 +282,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	EventManager::GetInstance()->Render(aSynchronizer);
+	
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
