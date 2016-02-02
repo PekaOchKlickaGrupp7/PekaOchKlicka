@@ -85,7 +85,6 @@ void CGameWorld::Init()
 	myFadeIn = 1.0f;
 	myDoFadeIn = false;
 
-
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
 	myShouldRenderFPS = true;
@@ -278,6 +277,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		RenderCommand fps;
 		fps.myType = eRenderType::eText;
+		fps.myPosition = DX2D::Vector2f(0.7f, 0.3f);
 		fps.myText = myTextFPS;
 		aSynchronizer.AddRenderCommand(fps);
 	}

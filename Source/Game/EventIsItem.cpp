@@ -18,11 +18,8 @@ bool EventIsItem::Update(const float)
 	{
 		if (myItemName == "None")
 		{
-			if (str == "")
-			{
-				myAutoActivateRecursive = true;
-				return true;
-			}
+			myAutoActivateRecursive = str == "";
+			return true;
 		}
 		else
 		{
