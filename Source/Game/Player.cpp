@@ -102,10 +102,18 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	Move(aTargetPos, myMovementSpeed, aDeltaT);
 
 
-	if (myInventory.IsOpen() == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
+	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
 	{
-		myInventory.OnClick(MouseManager::GetInstance()->GetPosition());
+		if (myInventory.IsOpen() == true)
+		{
+			myInventory.OnClick(MouseManager::GetInstance()->GetPosition());
+		}
+		else
+		{
+			myInventory.DeSelect();
+		}
 	}
+	
 
 	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
@@ -193,7 +201,7 @@ void Player::AddItemToInventory(Item* aItemToAdd)
 	myInventory.Add(aItemToAdd);
 }
 
-Inventory Player::GetInventory()
+Inventory& Player::GetInventory()
 {
 	return myInventory;
 }

@@ -16,7 +16,7 @@
 #include "Room.h"
 
 #include "SoundFileHandler.h"
-
+#include "EventVariablesManager.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -84,7 +84,6 @@ void CGameWorld::Init()
 
 	myFadeIn = 1.0f;
 	myDoFadeIn = false;
-
 
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
@@ -278,6 +277,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		RenderCommand fps;
 		fps.myType = eRenderType::eText;
+		fps.myPosition = DX2D::Vector2f(0.7f, 0.3f);
 		fps.myText = myTextFPS;
 		aSynchronizer.AddRenderCommand(fps);
 	}
@@ -321,25 +321,30 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 	//Move character if inside nav mesh
 	if (aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
 	{
-		myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
-		myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
-
-
-		ItemPickUp();
-
-		if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+		std::string identifier = "_SELECTED_ITEM";
+		std::string value = "";
+		if (EventVariablesManager::GetInstance()->GetVariable(value, identifier) && value == "")
 		{
-			if (myCurrentRoom->GetNavMeshes()[0].
-				PointInsideCheck(Point2f(
-				myTargetPosition.x,
-				myTargetPosition.y)
-				) == true)
+			myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+			myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+
+
+			ItemPickUp();
+
+			if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
 			{
-				myPlayer.SetIsMoving(true);
-			}
-			else
-			{
-				myPlayer.SetIsMoving(false);
+				if (myCurrentRoom->GetNavMeshes()[0].
+					PointInsideCheck(Point2f(
+					myTargetPosition.x,
+					myTargetPosition.y)
+					) == true)
+				{
+					myPlayer.SetIsMoving(true);
+				}
+				else
+				{
+					myPlayer.SetIsMoving(false);
+				}
 			}
 		}
 	}
