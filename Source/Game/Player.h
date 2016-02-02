@@ -11,7 +11,6 @@ public:
 	Player();
 	~Player();
 
-
 	void Init(DX2D::Vector2f aPosition);
 
 	void Render(Synchronizer& aSynchronizer);
@@ -28,7 +27,7 @@ public:
 	bool GetIsMoving();
 	void SetIsMoving(bool aValue);
 	void AddItemToInventory(Item* aItemToAdd);
-	Inventory GetInventory();
+	Inventory& GetInventory();
 
 	DX2D::Vector2f& GetPosition();
 	DX2D::Vector2f& GetPreviousPosition();
