@@ -7,7 +7,12 @@ EventChangeImage::EventChangeImage()
 
 EventChangeImage::~EventChangeImage()
 {
-	delete myNewSprite;
+	ObjectData* data = GetGameObject(myTarget);
+	if (data != nullptr && data->mySprite == myNewSprite)
+	{
+		data->mySprite = nullptr;
+	}
+	SAFE_DELETE(myNewSprite);
 }
 
 void EventChangeImage::Init(Room* aRoom, CGameWorld* aGameWorld)

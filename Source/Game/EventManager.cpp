@@ -6,6 +6,7 @@
 #include "MouseManager.h"
 #include <iostream>
 #include "GameWorld.h"
+#include "EventVariablesManager.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -13,6 +14,7 @@ EventManager::EventManager()
 {
 	myActiveEvents.Init(128);
 	myIsSwitchingRoom = false;
+	myClicked = false;
 }
 
 EventManager::~EventManager()
@@ -37,21 +39,20 @@ void EventManager::AddEvent(Event* aEvent)
 	}
 }
 
-void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY)
+bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY)
 {
 	if (aData->myActive == true)
 	{
-		/*
-		bool trigger = true;
-		if (aType == EventTypes::OnHover && aData->myIsHovering == true)
+		if (aData->myChilds.GetIsInitialized() == true)
 		{
-			trigger = false;
+			for (int i = aData->myChilds.Size() - 1; i >= 0; --i)
+			{
+				if (OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY, aRelativeX + aData->myX, aRelativeY + aData->myY) == true)
+				{
+					return true;
+				}
+			}
 		}
-		else if (aType == EventTypes::OnLeave && aData->myIsHovering == true)
-		{
-			trigger = false;
-		}
-		*/
 
 		if (aType == EventTypes::OnClick || aType == EventTypes::OnHover || aType == EventTypes::OnLeave)
 		{
@@ -60,24 +61,26 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 					{
 						if (aData->myEvents[j]->myType == EventTypes::OnClick)
 						{
 							AddEvent(aData->myEvents[j]);
 						}
 					}
+					return true;
 				}
 				else if (aData->myIsHovering == false)
 				{
 					aData->myIsHovering = true;
-					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 					{
 						if (aData->myEvents[j]->myType == EventTypes::OnHover)
 						{
 							AddEvent(aData->myEvents[j]);
 						}
 					}
+					return true;
 				}
 			}
 			else
@@ -85,19 +88,20 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 				{
 					aData->myIsHovering = false;
-					for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 					{
 						if (aData->myEvents[j]->myType == EventTypes::OnLeave)
 						{
 							AddEvent(aData->myEvents[j]);
 						}
 					}
+					return true;
 				}
 			}
 		}
 		else
 		{
-			for (unsigned int j = 0; j < aData->myEvents.Size(); ++j)
+			for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 			{
 				if (aData->myEvents[j]->myType == aType)
 				{
@@ -105,33 +109,32 @@ void EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				}
 			}
 		}
-
-		if (aData->myChilds.GetIsInitialized() == true)
-		{
-			for (unsigned int i = 0; i < aData->myChilds.Size(); ++i)
-			{
-				OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY, aRelativeX + aData->myX, aRelativeY + aData->myY);
-			}
-		}
 	}
+	return false;
 }
 
 bool EventManager::Update(const float aDeltaTime)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
+	myClicked = false;
 	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
-		myClicked = false;
-		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 		{
-			OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0);
+			if (OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0) == true)
+			{
+				break;
+			}
 		}
 	}
 
-	for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+	for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 	{
-		OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0);
+		if (OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0) == true)
+		{
+			break;
+		}
 	}
 
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)

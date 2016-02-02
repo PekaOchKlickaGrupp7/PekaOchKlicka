@@ -18,6 +18,7 @@ public:
 		const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
 		const std::string& aLevelToSpawnIn);
 
+	void Destroy();
 
 	void SetPosition(DX2D::Vector2f& aPosition);
 	void SetCombinable(bool aCombinableStatus);

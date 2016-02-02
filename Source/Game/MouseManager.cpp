@@ -2,6 +2,7 @@
 #include "MouseManager.h"
 #include "ResolutionManager.h"
 #include <iostream>
+#include "EventVariablesManager.h"
 
 MouseManager* MouseManager::myMouseManager = nullptr;
 
@@ -13,6 +14,8 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	CU::DirectInput::InputManager* aInputManager)
 {
 	myHideGameMouse = false;
+	myInMenu = false;
+
 
 	myInputManager = aInputManager;
 
@@ -41,13 +44,33 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 void MouseManager::Update(float)
 {
+
+
+	//
+	//Hold L-CTRL to unlock mouse in debug
+#ifdef _DEBUG
+	if (myInputManager->KeyDown(DIK_LCONTROL) == false)
+	{
+		myInputManager->SetAbsoluteMousePos(
+			static_cast<int>((((
+			ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
+			static_cast<int>((((
+			ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
+			ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+	}
+#endif 
+
+	//Release
+#ifdef NDEBUG
 	myInputManager->SetAbsoluteMousePos(
 		static_cast<int>((((
-		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) + 
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),  
+		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
 		static_cast<int>((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
 		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+#endif 
 
 
 	static float aSpeed = 0.0005f;
@@ -70,6 +93,21 @@ void MouseManager::Update(float)
 	else if ((myPosition.y) >= 1)
 	{
 		myPosition.y = 1;
+	}
+
+	myInMenu = EventVariablesManager::GetInstance()->GetVariable(myInMenu, std::string("InMenu")); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
+	if (myInMenu == false)
+	{
+		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
+		std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+		if (mySprite->GetSize().x <= 0.8f)
+		{
+			mySprite->SetSize({ 0.8f, 0.8f });
+		}
+	}
+	else
+	{
+		mySprite->SetSize({ 1.0f, 1.0f });
 	}
 }
 

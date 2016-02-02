@@ -16,7 +16,15 @@ bool EventIsItem::Update(const float)
 	std::string testWith = "_SELECTED_ITEM";
 	if (EventVariablesManager::GetInstance()->GetVariable(str, testWith) == true)
 	{
-		myAutoActivateRecursive = str == myItemName;
+		if (myItemName == "None")
+		{
+			myAutoActivateRecursive = str == "";
+			return true;
+		}
+		else
+		{
+			myAutoActivateRecursive = str == myItemName;
+		}
 	}
 	else
 	{

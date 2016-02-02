@@ -130,6 +130,7 @@ void CGame::Init(const char** argv, const int argc)
 
 	std::string str = std::string("IsFullscreen");
 	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), str);
+	EventVariablesManager::GetInstance()->SetVariable(true, std::string("InMenu"));
 	
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;

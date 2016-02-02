@@ -26,6 +26,7 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
+	delete myMasterItemList;
 	//myContents.DeleteAll();
 }
 
@@ -37,6 +38,8 @@ void Inventory::Init(const char* aFilePath)
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
 	mySelectedItem = nullptr;
+
+	UpdateSelectedItem();
 }
 
 void Inventory::Add(Item* aItemToAdd)
@@ -46,7 +49,13 @@ void Inventory::Add(Item* aItemToAdd)
 
 void Inventory::Remove(Item* aItemToRemove)
 {
-	myContents.DeleteCyclic(aItemToRemove);
+	myContents.RemoveCyclic(aItemToRemove);
+}
+
+void Inventory::DeSelect()
+{
+	mySelectedItem = nullptr;
+	UpdateSelectedItem();
 }
 
 //Update the inventory
@@ -119,12 +128,12 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 			{
 				for (unsigned short j = 0; j < myMasterItemList->GetItemList().Size(); ++j)
 				{
-					if (myMasterItemList->GetItemList()[j]->GetName() == aItemToCombine->GetNameOfResultingItem())
+					if (myMasterItemList->GetItemList()[j].GetName() == aItemToCombine->GetNameOfResultingItem())
 					{
 						myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombine));
 						myContents.RemoveCyclicAtIndex(myContents.Find(aItemToCombineWith));
 
-						myContents.Add(new Item(*myMasterItemList->GetItemList()[j]));
+						myContents.Add(&myMasterItemList->GetItemList()[j]);
 						mySelectedItem = nullptr;
 						UpdateSelectedItem();
 						return true;

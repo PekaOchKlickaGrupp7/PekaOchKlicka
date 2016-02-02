@@ -25,7 +25,9 @@ private:
 	DX2D::CSprite *mySprite;
 	int myNumberOfFrames,
 		myFrame,
-		myFramesPerRow;
+		myFramesPerRow,
+		myCurentRow,
+		myRowFrameCounter;
 	bool myPaused;
 
 };
