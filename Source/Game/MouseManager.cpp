@@ -2,6 +2,7 @@
 #include "MouseManager.h"
 #include "ResolutionManager.h"
 #include <iostream>
+#include "EventVariablesManager.h"
 
 MouseManager* MouseManager::myMouseManager = nullptr;
 
@@ -13,6 +14,8 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	CU::DirectInput::InputManager* aInputManager)
 {
 	myHideGameMouse = false;
+	myInMenu = false;
+
 
 	myInputManager = aInputManager;
 
@@ -92,11 +95,19 @@ void MouseManager::Update(float)
 		myPosition.y = 1;
 	}
 
-	mySprite->SetSize({(myPosition.y + 0.2f) * 1.5f,(myPosition.y + 0.2f) * 1.5f});
-	std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
-	if (mySprite->GetSize().x <= 0.8f)
+	myInMenu = EventVariablesManager::GetInstance()->GetVariable(myInMenu, std::string("InMenu")); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
+	if (myInMenu == false)
 	{
-		mySprite->SetSize({ 0.8f, 0.8f });
+		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
+		std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+		if (mySprite->GetSize().x <= 0.8f)
+		{
+			mySprite->SetSize({ 0.8f, 0.8f });
+		}
+	}
+	else
+	{
+		mySprite->SetSize({ 1.0f, 1.0f });
 	}
 }
 
