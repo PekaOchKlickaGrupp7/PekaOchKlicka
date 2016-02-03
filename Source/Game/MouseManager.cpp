@@ -95,12 +95,12 @@ void MouseManager::Update(float)
 		myPosition.y = 1;
 	}
 
-	myInMenu = EventVariablesManager::GetInstance()->GetVariable(myInMenu, std::string("InMenu")); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
+	EventVariablesManager::GetInstance()->GetVariable(myInMenu, "InMenu"); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
 	if (myInMenu == false)
 	{
 		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
 		std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
-		if (mySprite->GetSize().x <= 0.8f)
+		if (mySprite->GetScale().x <= 0.8f)
 		{
 			mySprite->SetSize({ 0.8f, 0.8f });
 		}

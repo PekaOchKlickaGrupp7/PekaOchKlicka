@@ -14,6 +14,8 @@ NPC::~NPC()
 void NPC::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 	DX2D::Vector2f aPivotPoint, float aMovementSpeed)
 {
+	(aSpriteFilePath);
+	(aPivotPoint);
 	//myAnimation.Init(aSpriteFilePath, aPivotPoint, 1, 8, 4);
 	myPosition = aPosition;
 	myRenderPosition = aPosition;
@@ -25,12 +27,14 @@ void NPC::Init(const char* aSpriteFilePath, DX2D::Vector2f aPosition,
 //Update the character
 void NPC::Update(float aDeltaT) //, Movement points here?)
 {
+	(aDeltaT);
 	//myAnimation.Update(aDeltaT);
 }
 
 //Render everything about the player
 void NPC::Render(Synchronizer& aSynchronizer)
 {
+	(aSynchronizer);
 	/*
 	RenderCommand command;
 	command.mySprite = mySprite;

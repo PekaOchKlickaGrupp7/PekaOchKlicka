@@ -22,16 +22,16 @@ public:
 
 
 
-	void		SetVariable(bool aBool,					std::string &anIdentifier);
-	void		SetVariable(int aInt,					std::string &anIdentifier);
-	void		SetVariable(float aFloat,				std::string &anIdentifier);
-	void		SetVariable(std::string &aString,		std::string &anIdentifier);
+	void		SetVariable(bool aBool,					const std::string &anIdentifier);
+	void		SetVariable(int aInt,					const std::string &anIdentifier);
+	void		SetVariable(float aFloat,				const std::string &anIdentifier);
+	void		SetVariable(std::string &aString,		const std::string &anIdentifier);
 
 
-	bool		GetVariable(bool &aBool,				std::string &anIdentifier);
-    bool		GetVariable(int &aInt,					std::string &anIdentifier);
-	bool		GetVariable(float &aFloat,				std::string &anIdentifier);
-	bool		GetVariable(std::string &aString,		std::string &anIdentifier);
+	bool		GetVariable(bool &aBool,				const std::string &anIdentifier);
+	bool		GetVariable(int &aInt,					const std::string &anIdentifier);
+	bool		GetVariable(float &aFloat,				const std::string &anIdentifier);
+	bool		GetVariable(std::string &aString,		const std::string &anIdentifier);
 
 
 	~EventVariablesManager();

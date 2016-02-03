@@ -12,6 +12,8 @@ public:
 
 	bool PointInsideCheck(const Point2f& aPointToCheck);
 
+	CommonUtilities::GrowingArray<Point2f> GetPoints();
+
 private:
 	CommonUtilities::GrowingArray<Point2f> myPoints;
 };
