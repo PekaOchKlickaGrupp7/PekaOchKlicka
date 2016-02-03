@@ -131,22 +131,24 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
+	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
 	{
-		myFadeIn -= aTimeDelta;
+		myFadeIn -= aTimeDelta * fadeSpeed;
 		if (myFadeIn <= 0.0f)
 		{
 			myFadeIn = 0.0f;
-			}
-	}
-			else
-			{
-		myFadeIn += aTimeDelta;
-		if (myFadeIn >= 1.0f)
-	{
-			myFadeIn = 1.0f;
-	}
 		}
+	}
+	else
+	{
+		myFadeIn += aTimeDelta * fadeSpeed;
+		if (myFadeIn >= 1.0f)
+		{
+			myFadeIn = 1.0f;
+		}
+	}
+
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);

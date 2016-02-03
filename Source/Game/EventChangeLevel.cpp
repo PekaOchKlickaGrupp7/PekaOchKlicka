@@ -30,7 +30,7 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 		if (doChange == true)
 		{
 			myTime += aDeltaTime;
-			if (myUseFading == false || myTime >= 0.5f)
+			if (myUseFading == false || myTime >= 0.2f)
 			{
 				myGameWorld->ChangeLevel(myTargetLevelName);
 				myGameWorld->GetPlayer()->SetIsMoving(false);
