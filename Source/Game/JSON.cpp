@@ -554,10 +554,6 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 				for (unsigned short j = 0; j < navMeshes.Size(); ++j)
 				{
 					bool isInside = navMeshes[j].PointInsideCheck(Point2f(x / windowWidth, y / windowHeight));
-					if (x == 670 && y == 210)
-					{
-						std::cout << "Breakpoint" << std::endl;
-					}
 					if (j == 0)
 					{
 						inside = isInside;
