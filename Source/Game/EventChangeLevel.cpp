@@ -3,6 +3,7 @@
 #include "GameWorld.h"
 
 #include "..\CommonUtilities\DL_Debug.h"
+#include "EventVariablesManager.h"
 
 EventChangeLevel::EventChangeLevel()
 {
@@ -37,9 +38,15 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
 				myGameWorld->SetFadeIn(false);
 
-				// Set InMenu to FALSE if in game, and TRUE if in menu. (so that the cursor wont scale by Y-pos in a menu)
-				// if(bla bla level is menu)
-					// EventVariableManager::GetInstance()->SetVariable(true, "InMenu");
+
+				if (myTargetLevelName == "mainmenu" || myTargetLevelName == "splashscreen" || myTargetLevelName == "optionsmenu")
+				{
+					EventVariablesManager::GetInstance()->SetVariable(true, "InMenu");
+				}
+				else
+				{
+					EventVariablesManager::GetInstance()->SetVariable(false, "InMenu");
+				}
 
 
 				return true;

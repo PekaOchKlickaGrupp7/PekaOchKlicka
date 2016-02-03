@@ -18,8 +18,8 @@ public:
 	void OnLoad();
 
 	void LoadLevel();
-	void AddNavPolygon(NavPolygon poly);
-	CommonUtilities::GrowingArray<NavPolygon> GetNavMeshes();
+	void AddNavPolygon(NavPolygon aPoly);
+	CommonUtilities::GrowingArray<NavPolygon>& GetNavMeshes();
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* GetObjectList() { return &myObjects; }
 	Item* GetItem(int aIndex) { return myItems[aIndex]; }
