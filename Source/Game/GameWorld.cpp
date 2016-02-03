@@ -277,11 +277,10 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		RenderCommand fps;
 		fps.myType = eRenderType::eText;
-		fps.myPosition = DX2D::Vector2f(0.7f, 0.3f);
+		fps.myPosition = myTextFPS->myPosition;
 		fps.myText = myTextFPS;
 		aSynchronizer.AddRenderCommand(fps);
 	}
-
 	
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
