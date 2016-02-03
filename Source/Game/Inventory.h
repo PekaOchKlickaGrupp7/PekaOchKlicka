@@ -39,6 +39,8 @@ public:
 	//Closes the inventory
 	void SetClose();
 
+	void DeSelect();
+
 	//Get the inventorys background sprite
 	const DX2D::CSprite* GetSprite();
 

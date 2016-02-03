@@ -9,21 +9,19 @@ EventPickupItem::EventPickupItem()
 
 EventPickupItem::~EventPickupItem()
 {
-	delete myItemVar;
 }
 
 void EventPickupItem::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
 
-
 	ItemList* itemList = myGameWorld->GetPlayer()->GetInventory().GetMasterItemList();
-	CommonUtilities::GrowingArray<Item*> items = itemList->GetItemList();
+	CommonUtilities::GrowingArray<Item>& items = itemList->GetItemList();
 	for (unsigned short i = 0; i < items.Size(); ++i)
 	{
-		if (items[i]->GetName() == myItem)
+		if (items[i].GetName() == myItem)
 		{
-			myItemVar = new Item(*items[i]);
+			myItemVar = &items[i];
 		}
 	}
 }

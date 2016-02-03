@@ -12,14 +12,14 @@ ObjectData::ObjectData()
 
 ObjectData::~ObjectData()
 {
-	delete mySprite;
-	mySprite = nullptr;
 	for (unsigned int i = 0; i < myChilds.Size(); ++i)
 	{
 		delete myChilds[i];
 	}
 	myChilds.~GrowingArray();
 	myEvents.DeleteAll();
+	delete myOriginalSprite;
+	myOriginalSprite = nullptr;
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)

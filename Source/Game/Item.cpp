@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Item.h"
 #include "JSON.h"
+#include "..\CommonUtilities\DL_Debug.h"
 
 Item::Item()
 {
@@ -50,6 +51,10 @@ Item::Item(const std::string& aName, const char* aInventorySpritePath, const std
 }
 
 Item::~Item()
+{
+}
+
+void Item::Destroy()
 {
 	SAFE_DELETE(myWorldSprite);
 	SAFE_DELETE(myInventorySprite);

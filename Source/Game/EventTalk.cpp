@@ -25,7 +25,8 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myIsTalking = true;
 
 
-	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+//	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+	myWidth = 0;
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
 

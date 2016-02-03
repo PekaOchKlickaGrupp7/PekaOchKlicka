@@ -10,9 +10,14 @@ ItemList::ItemList()
 
 ItemList::~ItemList()
 {
+	for (unsigned short i = 0; i < myItemList.Size(); ++i)
+	{
+		myItemList[i].Destroy();
+	}
+	myItemList.RemoveAll();
 }
 
 void ItemList::Add(Item* aItem)
 {	
-	myItemList.Add(aItem);
+	myItemList.Add(*aItem);
 }

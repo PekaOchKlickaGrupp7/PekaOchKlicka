@@ -211,6 +211,12 @@ T Length2(const Vector2<T>& aVector)
 {
 	return Dot(aVector, aVector);
 }
+
+template<typename T>
+T Vector2<T>::Cross(const Vector2<T>& aRightValue) const
+{
+	return (x * aRightValue.y - y * aRightValue.x);
+}
 #pragma endregion
 
 

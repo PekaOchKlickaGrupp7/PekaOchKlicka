@@ -43,6 +43,7 @@ namespace DX2D
 
 		void SetSize(const Vector2f& aSize);
 		virtual Vector2f GetSize() const;
+		virtual Vector2f GetScale() const;
 		virtual Vector2<unsigned int> GetImageSize() const;
 
 		void SetUVScale(Vector2f aScale);
