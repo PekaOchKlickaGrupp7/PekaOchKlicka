@@ -52,9 +52,9 @@ void Room::SetNavPoints(CommonUtilities::GrowingArray<bool, int>& aNodes)
 	myNavPoints = aNodes;
 }
 
-void Room::AddNavPolygon(NavPolygon poly)
+void Room::AddNavPolygon(NavPolygon aPoly)
 {
-	myNavMeshes.Add(poly);
+	myNavMeshes.Add(aPoly);
 }
 
 CommonUtilities::GrowingArray<NavPolygon>& Room::GetNavMeshes()

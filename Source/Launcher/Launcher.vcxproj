@@ -141,7 +141,8 @@
       </AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)\Launcher\Version.bat</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

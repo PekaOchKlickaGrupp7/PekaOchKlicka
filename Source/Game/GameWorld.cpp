@@ -283,7 +283,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	}
 
 	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
-
+	
 	CommonUtilities::GrowingArray<bool, int>& points = myCurrentRoom->GetNavPoints();
 	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
 	float x = 0;
@@ -409,6 +409,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 	}
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")

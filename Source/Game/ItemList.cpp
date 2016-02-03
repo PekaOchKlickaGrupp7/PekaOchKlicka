@@ -10,7 +10,7 @@ ItemList::ItemList()
 
 ItemList::~ItemList()
 {
-	for (int i = 0; i < myItemList.Size(); ++i)
+	for (unsigned short i = 0; i < myItemList.Size(); ++i)
 	{
 		myItemList[i].Destroy();
 	}
