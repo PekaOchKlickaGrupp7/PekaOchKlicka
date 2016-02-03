@@ -270,6 +270,9 @@
     <ClInclude Include="EventIsItem.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventAnswer.h">
+      <Filter>Events\Conversation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -429,6 +432,9 @@
     </ClCompile>
     <ClCompile Include="EventIsItem.cpp">
       <Filter>Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventAnswer.cpp">
+      <Filter>Events\Conversation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
