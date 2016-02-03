@@ -99,7 +99,7 @@ void MouseManager::Update(float)
 	if (myInMenu == false)
 	{
 		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
-		std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+		//std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
 		if (mySprite->GetScale().x <= 0.8f)
 		{
 			mySprite->SetSize({ 0.8f, 0.8f });
