@@ -1,50 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source">
+      <UniqueIdentifier>{dd6c0fbc-9bcf-4aaa-9e7c-6ba4bebeee18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Timer">
-      <UniqueIdentifier>{b9398c15-dee3-4237-8151-f5db90d486a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DirectInput">
-      <UniqueIdentifier>{b84e75ec-2df4-4ed8-92ce-12d3c973b46b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContainerTypes">
+    <Filter Include="Source\ContainerTypes">
       <UniqueIdentifier>{d0b5a8c4-e80e-4301-930d-09ae75a47680}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debug">
+    <Filter Include="Source\Debug">
       <UniqueIdentifier>{9dd30dd6-7084-4b51-a8ea-26564888ace0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debug\StackWalker">
+    <Filter Include="Source\Debug\StackWalker">
       <UniqueIdentifier>{6bfb7a34-ee89-48a5-891a-b2ec2d5eb422}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math">
+    <Filter Include="Source\DirectInput">
+      <UniqueIdentifier>{b84e75ec-2df4-4ed8-92ce-12d3c973b46b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
       <UniqueIdentifier>{9371981f-d849-4ad9-8433-2e0d2456720c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math\Collision">
+    <Filter Include="Source\Math\Collision">
       <UniqueIdentifier>{7a9345a6-57a4-4234-8fb0-db66b01e554b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math\Collision\2D">
+    <Filter Include="Source\Math\Collision\2D">
       <UniqueIdentifier>{b93b400c-16b4-4e8d-bec9-ba6b1247f6d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math\Matrix">
+    <Filter Include="Source\Math\Matrix">
       <UniqueIdentifier>{f35362ef-9b3e-45f2-ad56-554b23ef784f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math\Vectors">
+    <Filter Include="Source\Math\Vectors">
       <UniqueIdentifier>{6552b5aa-1a49-4fcf-baf5-752aa58c81cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThreadHelper">
+    <Filter Include="Source\ThreadHelper">
       <UniqueIdentifier>{31cc2399-111f-4359-aee1-341a0f58c55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Timer">
+      <UniqueIdentifier>{b9398c15-dee3-4237-8151-f5db90d486a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,126 +53,126 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClInclude>
     <ClInclude Include="TimerManager.h">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClInclude>
     <ClInclude Include="Macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StaticArray.h">
-      <Filter>ContainerTypes</Filter>
+      <Filter>Source\ContainerTypes</Filter>
     </ClInclude>
     <ClInclude Include="VectorOnStack.h">
-      <Filter>ContainerTypes</Filter>
+      <Filter>Source\ContainerTypes</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="GrowingArray.h">
-      <Filter>ContainerTypes</Filter>
+      <Filter>Source\ContainerTypes</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.inl">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.inl">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.inl">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>Math\Vectors</Filter>
+      <Filter>Source\Math\Vectors</Filter>
     </ClInclude>
     <ClInclude Include="DL_Debug.h">
-      <Filter>Debug</Filter>
+      <Filter>Source\Debug</Filter>
     </ClInclude>
     <ClInclude Include="DL_Assert.h">
-      <Filter>Debug\StackWalker</Filter>
+      <Filter>Source\Debug\StackWalker</Filter>
     </ClInclude>
     <ClInclude Include="DL_StackWalker.h">
-      <Filter>Debug\StackWalker</Filter>
+      <Filter>Source\Debug\StackWalker</Filter>
     </ClInclude>
     <ClInclude Include="ReleaseAssert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
-      <Filter>Math\Collision\2D</Filter>
+      <Filter>Source\Math\Collision\2D</Filter>
     </ClInclude>
     <ClInclude Include="matrix33.h">
-      <Filter>Math\Matrix</Filter>
+      <Filter>Source\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="matrix44.h">
-      <Filter>Math\Matrix</Filter>
+      <Filter>Source\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="ThreadHelper.h">
-      <Filter>ThreadHelper</Filter>
+      <Filter>Source\ThreadHelper</Filter>
     </ClInclude>
     <ClInclude Include="StackWalker\StackWalker.h">
-      <Filter>Debug\StackWalker</Filter>
+      <Filter>Source\Debug\StackWalker</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Intersection.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="LineSegment2D.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="LineSegment3D.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Math\Collision</Filter>
+      <Filter>Source\Math\Collision</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>DirectInput</Filter>
+      <Filter>Source\DirectInput</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Time.cpp">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
-      <Filter>Timer</Filter>
+      <Filter>Source\Timer</Filter>
     </ClCompile>
     <ClCompile Include="DL_Debug.cpp">
-      <Filter>Debug</Filter>
+      <Filter>Source\Debug</Filter>
     </ClCompile>
     <ClCompile Include="DL_StackWalker.cpp">
-      <Filter>Debug\StackWalker</Filter>
+      <Filter>Source\Debug\StackWalker</Filter>
     </ClCompile>
     <ClCompile Include="StackWalker\StackWalker.cpp">
-      <Filter>Debug\StackWalker</Filter>
+      <Filter>Source\Debug\StackWalker</Filter>
     </ClCompile>
     <ClCompile Include="ThreadHelper.cpp">
-      <Filter>ThreadHelper</Filter>
+      <Filter>Source\ThreadHelper</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>DirectInput</Filter>
+      <Filter>Source\DirectInput</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

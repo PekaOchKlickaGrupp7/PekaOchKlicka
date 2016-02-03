@@ -1,93 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Precompiled">
-      <UniqueIdentifier>{b07bafa4-d21c-4674-8f50-96a0b05e15ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System">
-      <UniqueIdentifier>{c191dfed-6725-436b-8d5e-e87111a37d3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Sound">
-      <UniqueIdentifier>{55c566cd-0db7-4ccc-a86f-79d272374ff0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer">
-      <UniqueIdentifier>{57c328a7-6125-4596-a774-150744c8b3c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameState">
-      <UniqueIdentifier>{bd24e6c9-fd4d-4129-a760-eec609d6e39d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Monitor">
-      <UniqueIdentifier>{835b92ca-5777-49a5-928b-6ae7066454d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\JSON">
-      <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Events">
-      <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Events">
-      <UniqueIdentifier>{dbc5477f-e310-4fcf-8d9a-f621329f70a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Events\Object">
-      <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Objects">
-      <UniqueIdentifier>{335a2c01-3dcc-4f1b-97aa-4de674b7e89b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Objects\Room">
-      <UniqueIdentifier>{cec9b55e-8293-4d32-87ec-ae8f23d66977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Objects\Characters">
-      <UniqueIdentifier>{292652af-9909-40cb-85b4-e9d33b96c1db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Objects\Items &amp; Inventory">
-      <UniqueIdentifier>{d0e37f68-d82c-4ef1-ab3e-eb7bc120a5d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools">
-      <UniqueIdentifier>{477e6e45-aa37-44a7-b473-feb816ace6dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Events\Level">
-      <UniqueIdentifier>{81074528-e4a3-45b3-8725-38d4978756a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Mouse">
-      <UniqueIdentifier>{cf7a59e5-d930-47af-ba74-d1c5bda3b3e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{664e4302-88ff-4aee-9cd7-0cad76a08445}</UniqueIdentifier>
     </Filter>
     <Filter Include="External\FMOD">
       <UniqueIdentifier>{8f9f6553-c981-423b-8e05-8a21651c0649}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events\Mouse">
+    <Filter Include="Source">
+      <UniqueIdentifier>{b54959db-ee01-4121-ad9f-e1da6d5d5d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Precompiled">
+      <UniqueIdentifier>{b07bafa4-d21c-4674-8f50-96a0b05e15ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events">
+      <UniqueIdentifier>{dbc5477f-e310-4fcf-8d9a-f621329f70a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events\Object">
+      <UniqueIdentifier>{5edf67e5-7d97-46df-8084-ff54e65504a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events\Level">
+      <UniqueIdentifier>{81074528-e4a3-45b3-8725-38d4978756a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Events\Mouse">
       <UniqueIdentifier>{a67ab8bc-9f25-4d1a-a70e-ee3f8fff30ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events\Conversation">
+    <Filter Include="Source\Events\Conversation">
       <UniqueIdentifier>{ec67dc03-1638-485e-b7e0-838074b6c09f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events\Sound">
+    <Filter Include="Source\Events\Sound">
       <UniqueIdentifier>{cb61019f-047e-43ba-8db4-689ae6fb3cab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events\Utilities">
+    <Filter Include="Source\Events\Utilities">
       <UniqueIdentifier>{1630017b-f2ce-47f2-aaa8-f80297d99222}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events\Options">
+    <Filter Include="Source\Events\Options">
       <UniqueIdentifier>{2a9984d9-3700-4518-b106-57742d9cc3b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game Objects">
+      <UniqueIdentifier>{335a2c01-3dcc-4f1b-97aa-4de674b7e89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game Objects\Room">
+      <UniqueIdentifier>{cec9b55e-8293-4d32-87ec-ae8f23d66977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game Objects\Characters">
+      <UniqueIdentifier>{292652af-9909-40cb-85b4-e9d33b96c1db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game Objects\Items &amp; Inventory">
+      <UniqueIdentifier>{d0e37f68-d82c-4ef1-ab3e-eb7bc120a5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GameState">
+      <UniqueIdentifier>{bd24e6c9-fd4d-4129-a760-eec609d6e39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer">
+      <UniqueIdentifier>{57c328a7-6125-4596-a774-150744c8b3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{c191dfed-6725-436b-8d5e-e87111a37d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Sound">
+      <UniqueIdentifier>{55c566cd-0db7-4ccc-a86f-79d272374ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Monitor">
+      <UniqueIdentifier>{835b92ca-5777-49a5-928b-6ae7066454d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\JSON">
+      <UniqueIdentifier>{f71bbd56-bda4-41ec-a75f-32dc44296643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Events">
+      <UniqueIdentifier>{7ec1a69c-ee0a-47aa-b20f-f978be3d94fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Mouse">
+      <UniqueIdentifier>{cf7a59e5-d930-47af-ba74-d1c5bda3b3e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tools">
+      <UniqueIdentifier>{477e6e45-aa37-44a7-b473-feb816ace6dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System\Sound\Music">
+      <UniqueIdentifier>{f8873320-784c-4874-b27c-98a6c2440398}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Precompiled</Filter>
+      <Filter>External\Precompiled</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Precompiled</Filter>
+      <Filter>External\Precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="resource.h">
-      <Filter>Precompiled</Filter>
+      <Filter>External\Precompiled</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClInclude>
     <ClInclude Include="fmod.h">
       <Filter>External\FMOD</Filter>
@@ -114,321 +118,337 @@
       <Filter>External\FMOD</Filter>
     </ClInclude>
     <ClInclude Include="RenderCommand.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Synchronizer.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="GameStatus.h">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClInclude>
     <ClInclude Include="StateStack.h">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClInclude>
     <ClInclude Include="StateStackProxy.h">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClInclude>
     <ClInclude Include="ResolutionManager.h">
-      <Filter>System\Monitor</Filter>
+      <Filter>Source\System\Monitor</Filter>
     </ClInclude>
     <ClInclude Include="JSON.h">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClInclude>
     <ClInclude Include="ObjectData.h">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClInclude>
     <ClInclude Include="LevelData.h">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClInclude>
     <ClInclude Include="HitBox.h">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClInclude>
     <ClInclude Include="EventSetActive.h">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
-      <Filter>Game Objects\Room</Filter>
+      <Filter>Source\Game Objects\Room</Filter>
     </ClInclude>
     <ClInclude Include="NavPolygon.h">
-      <Filter>Game Objects\Room</Filter>
+      <Filter>Source\Game Objects\Room</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Game Objects\Characters</Filter>
+      <Filter>Source\Game Objects\Characters</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
-      <Filter>Game Objects\Characters</Filter>
+      <Filter>Source\Game Objects\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
+      <Filter>Source\Game Objects\Items &amp; Inventory</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
+      <Filter>Source\Game Objects\Items &amp; Inventory</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Tools</Filter>
+      <Filter>Source\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="EventChangeLevel.h">
-      <Filter>Events\Level</Filter>
+      <Filter>Source\Events\Level</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeLevel.h">
       <Filter>Events\Level</Filter>
     </ClInclude>
     <ClInclude Include="EventNone.h">
-      <Filter>Events</Filter>
+      <Filter>Source\Events</Filter>
     </ClInclude>
     <ClInclude Include="MouseManager.h">
-      <Filter>System\Mouse</Filter>
+      <Filter>Source\System\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeCursor.h">
-      <Filter>Events\Mouse</Filter>
+      <Filter>Source\Events\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="EventTalk.h">
-      <Filter>Events\Conversation</Filter>
+      <Filter>Source\Events\Conversation</Filter>
     </ClInclude>
     <ClInclude Include="SoundFileHandler.h">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClInclude>
     <ClInclude Include="EventPlaySound.h">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClInclude>
     <ClInclude Include="EventStopSound.h">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeImage.h">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeToOriginalImage.h">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClInclude>
     <ClInclude Include="EventDelay.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventChangeSoundPosition.h">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClInclude>
     <ClInclude Include="EventFadeColor.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventQuit.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventSetColor.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventFadePosition.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
     <ClInclude Include="EventToggleFullscreen.h">
-      <Filter>Events\Options</Filter>
+      <Filter>Source\Events\Options</Filter>
     </ClInclude>
     <ClInclude Include="EventVariablesManager.h">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClInclude>
     <ClInclude Include="EventIfGlobalVariable.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventSetGlobalVariable.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventWalkTo.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="EventHideMouse.h">
-      <Filter>Events\Mouse</Filter>
+      <Filter>Source\Events\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="EventSetCinematic.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClInclude>
     <ClInclude Include="EventPickupItem.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ItemList.h">
-      <Filter>Tools</Filter>
+      <Filter>Source\Tools</Filter>
     </ClInclude>
     <ClInclude Include="EventIsItem.h">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorld.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicManager.h">
+      <Filter>Source\System\Sound\Music</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Precompiled</Filter>
+      <Filter>External\Precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="SoundManager.cpp">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Synchronizer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClCompile>
     <ClCompile Include="StateStack.cpp">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClCompile>
     <ClCompile Include="StateStackProxy.cpp">
-      <Filter>GameState</Filter>
+      <Filter>Source\GameState</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClCompile>
     <ClCompile Include="ResolutionManager.cpp">
-      <Filter>System\Monitor</Filter>
+      <Filter>Source\System\Monitor</Filter>
     </ClCompile>
     <ClCompile Include="JSON.cpp">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="ObjectData.cpp">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="LevelData.cpp">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClCompile>
     <ClCompile Include="HitBox.cpp">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="EventSetActive.cpp">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
-      <Filter>Game Objects\Room</Filter>
+      <Filter>Source\Game Objects\Room</Filter>
     </ClCompile>
     <ClCompile Include="NavPolygon.cpp">
-      <Filter>Game Objects\Room</Filter>
+      <Filter>Source\Game Objects\Room</Filter>
     </ClCompile>
     <ClCompile Include="NPC.cpp">
-      <Filter>Game Objects\Characters</Filter>
+      <Filter>Source\Game Objects\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Game Objects\Characters</Filter>
+      <Filter>Source\Game Objects\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
+      <Filter>Source\Game Objects\Items &amp; Inventory</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Game Objects\Items &amp; Inventory</Filter>
+      <Filter>Source\Game Objects\Items &amp; Inventory</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>Tools</Filter>
+      <Filter>Source\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="EventChangeLevel.cpp">
-      <Filter>Events\Level</Filter>
+      <Filter>Source\Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
     <ClCompile Include="EventNone.cpp">
-      <Filter>Events</Filter>
+      <Filter>Source\Events</Filter>
     </ClCompile>
     <ClCompile Include="MouseManager.cpp">
-      <Filter>System\Mouse</Filter>
+      <Filter>Source\System\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="EventChangeCursor.cpp">
-      <Filter>Events\Mouse</Filter>
+      <Filter>Source\Events\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="EventTalk.cpp">
-      <Filter>Events\Conversation</Filter>
+      <Filter>Source\Events\Conversation</Filter>
     </ClCompile>
     <ClCompile Include="SoundFileHandler.cpp">
-      <Filter>System\Sound</Filter>
+      <Filter>Source\System\Sound</Filter>
     </ClCompile>
     <ClCompile Include="EventPlaySound.cpp">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClCompile>
     <ClCompile Include="EventStopSound.cpp">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClCompile>
     <ClCompile Include="EventChangeImage.cpp">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClCompile>
     <ClCompile Include="EventChangeToOriginalImage.cpp">
-      <Filter>Events\Object</Filter>
+      <Filter>Source\Events\Object</Filter>
     </ClCompile>
     <ClCompile Include="EventDelay.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventChangeSoundPosition.cpp">
-      <Filter>Events\Sound</Filter>
+      <Filter>Source\Events\Sound</Filter>
     </ClCompile>
     <ClCompile Include="EventFadeColor.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventQuit.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventSetColor.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventFadePosition.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventToggleFullscreen.cpp">
-      <Filter>Events\Options</Filter>
+      <Filter>Source\Events\Options</Filter>
     </ClCompile>
     <ClCompile Include="EventVariablesManager.cpp">
-      <Filter>System\Events</Filter>
+      <Filter>Source\System\Events</Filter>
     </ClCompile>
     <ClCompile Include="EventIfGlobalVariable.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventSetGlobalVariable.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventWalkTo.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventHideMouse.cpp">
-      <Filter>Events\Mouse</Filter>
+      <Filter>Source\Events\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="EventSetCinematic.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
-      <Filter>System\JSON</Filter>
+      <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="EventPickupItem.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="ItemList.cpp">
-      <Filter>Tools</Filter>
+      <Filter>Source\Tools</Filter>
     </ClCompile>
     <ClCompile Include="EventIsItem.cpp">
-      <Filter>Events\Utilities</Filter>
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicManager.cpp">
+      <Filter>Source\System\Sound\Music</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

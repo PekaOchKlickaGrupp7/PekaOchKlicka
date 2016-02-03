@@ -11,6 +11,7 @@
 #include "Triangle.h"
 #include "..\CommonUtilities\Macros.h"
 #include "..\CommonUtilities\TimerManager.h"
+#include "MusicManager.h"
 
 //Events
 #include "EventNone.h"
@@ -625,6 +626,41 @@ bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
 		bool isCombinable = item["isCombinable"].GetBool();
 		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
 	}
+	return true;
+}
+
+bool JSON::LoadMusic(const std::string& aMusicFile)
+{
+	const char* data = ReadFile(aMusicFile.c_str());
+
+	Document music;
+	music.Parse(data);
+
+	if (music.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load Music.json");
+		music.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	Value& musicfiles = music["music"];
+	if (musicfiles.IsNull() == true)
+	{
+		DL_DEBUG("music is not a member of music.json");
+		music.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	for (unsigned int i = 0; i < musicfiles.Size(); ++i)
+	{
+		Value& song = musicfiles[i];
+
+		std::string songPath = song["file"].GetString();
+		std::string songName = song["name"].GetString();
+
+		MusicManager::GetInstance()->Load(songPath, songName);
+	}
+
 	return true;
 }
 

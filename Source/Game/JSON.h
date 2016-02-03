@@ -51,6 +51,8 @@ public:
 
 	bool LoadItems(const std::string& aRootFile, Inventory aInventory);
 
+	bool LoadMusic(const std::string& aMusicFile);
+
 private:
 	bool LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld);
 	void LoadObject(rapidjson::Value& aNode, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y);
