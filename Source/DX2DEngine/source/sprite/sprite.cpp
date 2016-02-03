@@ -141,6 +141,15 @@ void DX2D::CSprite::SetSize(const Vector2f& aSize)
 
 Vector2f DX2D::CSprite::GetSize() const
 {
+	Vector2f withWindowRatioSize;
+	withWindowRatioSize = myQuad->mySize * myQuad->mySizeMultiplier;
+	withWindowRatioSize.x *= CEngine::GetInstance()->GetWindowRatioInversed();
+
+	return withWindowRatioSize;
+}
+
+Vector2f DX2D::CSprite::GetScale() const
+{
 	return myQuad->mySizeMultiplier;
 }
 
