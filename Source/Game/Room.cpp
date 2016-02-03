@@ -42,12 +42,12 @@ void Room::Init()
 
 }
 
-void Room::AddNavPolygon(NavPolygon poly)
+void Room::AddNavPolygon(NavPolygon aPoly)
 {
-	myNavMeshes.Add(poly);
+	myNavMeshes.Add(aPoly);
 }
 
-CommonUtilities::GrowingArray<NavPolygon> Room::GetNavMeshes()
+CommonUtilities::GrowingArray<NavPolygon>& Room::GetNavMeshes()
 {
 	return myNavMeshes;
 }

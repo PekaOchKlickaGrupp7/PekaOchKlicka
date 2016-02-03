@@ -40,7 +40,7 @@ bool NavPolygon::PointInsideCheck(const Point2f& aPointToCheck)
 	return oddNumberOfNodes;
 }
 
-CommonUtilities::GrowingArray<Point2f> NavPolygon::GetPoints()
+CommonUtilities::GrowingArray<Point2f>& NavPolygon::GetPoints()
 {
 	return myPoints;
 }

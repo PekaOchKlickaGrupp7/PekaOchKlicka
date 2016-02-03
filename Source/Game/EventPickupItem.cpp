@@ -9,7 +9,6 @@ EventPickupItem::EventPickupItem()
 
 EventPickupItem::~EventPickupItem()
 {
-	delete myItemVar;
 }
 
 void EventPickupItem::Init(Room* aRoom, CGameWorld* aGameWorld)

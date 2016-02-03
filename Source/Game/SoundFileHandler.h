@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Sound.h"
-#include "SoundManager.h"
 #include <map>
 
 // To avoid static_cast-ing all the time.

@@ -14,8 +14,12 @@ public:
 		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable);
 	~Item();
 
-	void Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
-		const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
+	void Init(const char* aWorldSpritePath, 
+		const char* aInventorySpritePath, 
+		const std::string& aItemName,
+		const std::string& aItemDescription, 
+		DX2D::Vector2f& aPosition, 
+		bool aCombinableStatus,
 		const std::string& aLevelToSpawnIn);
 
 	void Destroy();
@@ -31,7 +35,7 @@ public:
 	inline std::string& GetCombinableItem();
 	inline std::string& GetDescription();
 	inline DX2D::Vector2f& GetPosition();
-	inline std::string& Item::GetNameOfResultingItem();
+	inline std::string& GetNameOfResultingItem();
 
 	inline bool IsCombinable();
 	inline bool IsClicked();
