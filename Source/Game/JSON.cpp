@@ -531,13 +531,13 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			aRoom->AddNavPolygon(poly);
 		}
 
-		float gridSize = 62;
+		float gridSize = 38;
 		float windowWidth = 1920.0f;
 		float windowHeight = 1080.0f;
-		float numberOfMaxPoints = 1920.0f / gridSize;
+		float numberOfMaxPoints = 1920.0f / gridSize + 1080.0f / gridSize;
 		numberOfMaxPoints *= numberOfMaxPoints;
 
-		CommonUtilities::GrowingArray<bool, int> nodes;
+		CommonUtilities::GrowingArray<Node, int> nodes;
 		nodes.Init(static_cast<int>(numberOfMaxPoints));
 
 		CommonUtilities::GrowingArray<NavPolygon, unsigned short>& navMeshes = aRoom->GetNavMeshes();
@@ -561,9 +561,10 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 					else if (isInside == true)
 					{
 						inside = false;
+						break;
 					}
 				}
-				nodes.Add(inside);
+				nodes.Add(Node(!inside));
 			}
 		}
 
@@ -576,8 +577,6 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 
 //		std::cout << nodes[(600 / gridSize) + (210 / gridSize) * (windowWidth / gridSize)] << std::endl;
 //		std::cout << aRoom->GetGridAt(600 / 1920.0f, 210 / 1080.0f) << std::endl;
-		std::cout << nodes.Size() << std::endl;
-		std::cout << sizeof(nodes) << std::endl;
 	}
 
 	level.GetAllocator().Clear();
@@ -658,6 +657,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	else
 	{
 		dataObject->mySprite = nullptr;
+		dataObject->myOriginalSprite = nullptr;
 	}
 
 	dataObject->myEvents.Init(128);

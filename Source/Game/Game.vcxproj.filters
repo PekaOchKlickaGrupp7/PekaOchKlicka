@@ -73,6 +73,9 @@
     <Filter Include="Events\Options">
       <UniqueIdentifier>{2a9984d9-3700-4518-b106-57742d9cc3b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Pathfinding">
+      <UniqueIdentifier>{4d4058f0-18cf-4369-806b-2bb92e607ec8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -270,6 +273,10 @@
     <ClInclude Include="EventIsItem.h">
       <Filter>Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>System\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -430,5 +437,9 @@
     <ClCompile Include="EventIsItem.cpp">
       <Filter>Events\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>System\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinding.cpp" />
   </ItemGroup>
 </Project>

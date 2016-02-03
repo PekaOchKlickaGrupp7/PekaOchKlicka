@@ -44,10 +44,10 @@ void Room::Init()
 
 void Room::SetGridSize(float aGridSize)
 {
-	myGridSize = static_cast<int>(aGridSize);
+	myGridSize = aGridSize;
 }
 
-void Room::SetNavPoints(CommonUtilities::GrowingArray<bool, int>& aNodes)
+void Room::SetNavPoints(CommonUtilities::GrowingArray<Node, int>& aNodes)
 {
 	myNavPoints = aNodes;
 }
@@ -60,4 +60,11 @@ void Room::AddNavPolygon(NavPolygon aPoly)
 CommonUtilities::GrowingArray<NavPolygon>& Room::GetNavMeshes()
 {
 	return myNavMeshes;
+}
+
+Node* Room::GetNodeAtPosition(DX2D::Vector2f aPosition)
+{
+	int x = static_cast<int>(roundf((aPosition.x * 1920.0f) / myGridSize));
+	int y = static_cast<int>(roundf((aPosition.y * 1080.0f) / myGridSize));
+	return &myNavPoints[x + y * static_cast<int>(roundf(1920.0f / myGridSize))];
 }

@@ -286,14 +286,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
 	
-	CommonUtilities::GrowingArray<bool, int>& points = myCurrentRoom->GetNavPoints();
+	CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
 	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
 	float x = 0;
 	float y = 0;
 
 	for (int i = 0; i < points.Size(); ++i)
 	{
-		if (points[i] == true)
+		if (points[i].GetIsBlocked() == false)
 		{
 			command.myType = eRenderType::eSprite;
 			myResTest->SetPivot({ 0, 0 });
