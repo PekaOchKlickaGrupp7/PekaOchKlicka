@@ -63,13 +63,13 @@ void MouseManager::Update(float)
 
 	//Release
 #ifdef NDEBUG
-	myInputManager->SetAbsoluteMousePos(
-		static_cast<int>((((
+	int X = ((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
-		static_cast<int>((((
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x);
+	int Y = ((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y);
+	myInputManager->SetAbsoluteMousePos(X, Y);
 #endif 
 
 
