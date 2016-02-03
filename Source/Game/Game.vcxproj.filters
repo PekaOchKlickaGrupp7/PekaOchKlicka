@@ -277,6 +277,9 @@
       <Filter>System\Pathfinding</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="EventAnswer.h">
+      <Filter>Events\Conversation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -441,5 +444,8 @@
       <Filter>System\Pathfinding</Filter>
     </ClCompile>
     <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="EventAnswer.cpp">
+      <Filter>Events\Conversation</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -427,4 +427,4 @@ namespace CommonUtilities
 		assert(myNumberOfElements > 0 && "GrowingArray out of bounds.");
 		return myArray[myNumberOfElements - 1];
 	}
-};
+}; namespace CU = CommonUtilities;

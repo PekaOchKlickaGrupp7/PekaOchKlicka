@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventAnswer.h" />
     <ClInclude Include="EventHideMouse.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventPickupItem.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventAnswer.cpp" />
     <ClCompile Include="EventHideMouse.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />
