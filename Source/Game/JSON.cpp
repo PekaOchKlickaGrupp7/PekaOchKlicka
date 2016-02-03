@@ -9,6 +9,8 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Triangle.h"
+#include "..\CommonUtilities\Macros.h"
+#include "..\CommonUtilities\TimerManager.h"
 
 //Events
 #include "EventNone.h"
@@ -525,8 +527,61 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			{
 				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble()) / 1080.0f));
 			}
+
 			aRoom->AddNavPolygon(poly);
 		}
+
+		float gridSize = 62;
+		float windowWidth = 1920.0f;
+		float windowHeight = 1080.0f;
+		float numberOfMaxPoints = 1920.0f / gridSize;
+		numberOfMaxPoints *= numberOfMaxPoints;
+
+		CommonUtilities::GrowingArray<bool, int> nodes;
+		nodes.Init(static_cast<int>(numberOfMaxPoints));
+
+		CommonUtilities::GrowingArray<NavPolygon, unsigned short>& navMeshes = aRoom->GetNavMeshes();
+
+		CU::TimeSys::TimerManager manager;
+		unsigned char timer = manager.CreateTimer();
+		manager.UpdateTimers();
+
+		for (float y = 0; y < windowWidth; y += gridSize)
+		{
+			for (float x = 0; x < windowWidth; x += gridSize)
+			{
+				bool inside = false;
+				for (unsigned short j = 0; j < navMeshes.Size(); ++j)
+				{
+					bool isInside = navMeshes[j].PointInsideCheck(Point2f(x / windowWidth, y / windowHeight));
+					if (x == 670 && y == 210)
+					{
+						std::cout << "Breakpoint" << std::endl;
+					}
+					if (j == 0)
+					{
+						inside = isInside;
+					}
+					else if (isInside == true)
+					{
+						inside = false;
+					}
+				}
+				nodes.Add(inside);
+			}
+		}
+
+		manager.UpdateTimers();
+		double diff = manager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+
+		std::cout << diff << std::endl;
+		aRoom->SetGridSize(gridSize);
+		aRoom->SetNavPoints(nodes);
+
+//		std::cout << nodes[(600 / gridSize) + (210 / gridSize) * (windowWidth / gridSize)] << std::endl;
+//		std::cout << aRoom->GetGridAt(600 / 1920.0f, 210 / 1080.0f) << std::endl;
+		std::cout << nodes.Size() << std::endl;
+		std::cout << sizeof(nodes) << std::endl;
 	}
 
 	level.GetAllocator().Clear();

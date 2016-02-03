@@ -40,10 +40,10 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
-	{
+{
 	myCurrentRoom = nullptr;
 	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
-	}
+}
 
 Player* CGameWorld::GetPlayer()
 {
@@ -280,6 +280,36 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		fps.myPosition = myTextFPS->myPosition;
 		fps.myText = myTextFPS;
 		aSynchronizer.AddRenderCommand(fps);
+	}
+
+	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
+
+	CommonUtilities::GrowingArray<bool, int>& points = myCurrentRoom->GetNavPoints();
+	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
+	float x = 0;
+	float y = 0;
+
+	for (int i = 0; i < points.Size(); ++i)
+	{
+		if (points[i] == true)
+		{
+			command.myType = eRenderType::eSprite;
+			myResTest->SetPivot({ 0, 0 });
+
+			command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
+			command.mySprite = myResTest;
+			aSynchronizer.AddRenderCommand(command);
+		}
+		x += gridSize;
+		if (x >= 1920.0f)
+		{
+			x = 0.0f;
+			y += gridSize;
+		}
+		if (i == points.Size() - 1)
+		{
+			//std::cout << x << std::endl;
+		}
 	}
 	
 	MouseManager::GetInstance()->Render(aSynchronizer);

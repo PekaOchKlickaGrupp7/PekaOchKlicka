@@ -42,12 +42,22 @@ void Room::Init()
 
 }
 
+void Room::SetGridSize(float aGridSize)
+{
+	myGridSize = static_cast<int>(aGridSize);
+}
+
+void Room::SetNavPoints(CommonUtilities::GrowingArray<bool, int>& aNodes)
+{
+	myNavPoints = aNodes;
+}
+
 void Room::AddNavPolygon(NavPolygon poly)
 {
 	myNavMeshes.Add(poly);
 }
 
-CommonUtilities::GrowingArray<NavPolygon> Room::GetNavMeshes()
+CommonUtilities::GrowingArray<NavPolygon>& Room::GetNavMeshes()
 {
 	return myNavMeshes;
 }
