@@ -379,6 +379,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 	}
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
