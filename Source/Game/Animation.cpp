@@ -4,7 +4,7 @@
 
 Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
-	myFrameDuration = 0.3f;
+	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
 	myFramesPerRow = aFramesPerRow;
 	mySprite = new DX2D::CSprite(aSpriteFilePath);
