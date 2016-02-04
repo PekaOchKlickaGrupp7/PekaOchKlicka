@@ -3,6 +3,7 @@
 #include "MouseManager.h"
 #include "ResolutionManager.h"
 #include <fstream>
+#include <math.h>
 #include "..\CommonUtilities\DL_Debug.h"
 
 using namespace rapidjson;
@@ -111,7 +112,9 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		else
 		{
 			myInventory.DeSelect();
+			
 		}
+		
 	}
 	
 
@@ -144,17 +147,14 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 		{
 			//Divide the X & Y distances with the vector distance to get a normalized direction vector
 			delta.Normalize();
+
 			//Move the object
 			myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
 			myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
 				myPosition = DX2D::Vector2f(
 				myRenderPosition.x,
 				myRenderPosition.y);
-
-			////DRAW DEBUG ARROW
-			//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawArrow(
-			//	DX2D::Vector2f(characterPos.x, characterPos.y),
-			//	DX2D::Vector2f(aTargetPosition.x, aTargetPosition.y));
+			PlayApropriateAnimation(delta);
 		}
 		else
 		{
@@ -214,6 +214,39 @@ DX2D::Vector2f& Player::GetPosition()
 DX2D::Vector2f& Player::GetPreviousPosition()
 {
 	return myPreviousPosition;
+}
+
+void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition)
+{
+	int resultAnimation = myCurentAnimation;
+
+	if (abs(aTargetPosition.y) > abs(aTargetPosition.x))
+	{		
+		//Upp
+		if (aTargetPosition.y > 0)
+		{
+			resultAnimation = 2;
+		}
+		//Down
+		else
+		{
+			resultAnimation = 0;
+		}
+	}	
+	else 
+	{
+		//Right
+		if (aTargetPosition.x < 0)
+		{
+			resultAnimation = 3;
+		}
+		//Left
+		else
+		{
+			resultAnimation = 1;
+		}
+	}
+	myCurentAnimation = resultAnimation;
 }
 
 const char* Player::ReadFile(const char* aFile)
