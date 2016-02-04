@@ -61,6 +61,7 @@ private:
 	DX2D::CSprite* myResTest;
 	bool myShouldRenderDebug;
 	bool myShouldRenderFPS;
+	bool myShouldRenderNavPoints;
 
 	DX2D::Vector2f myTargetPosition;
 };

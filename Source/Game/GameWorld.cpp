@@ -89,11 +89,13 @@ void CGameWorld::Init()
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
 	myShouldRenderFPS = true;
+	myShouldRenderNavPoints = true;
 
 	myDotSprites.Init(5000);
 	for (int i = 0; i < 5000; ++i)
 	{
-		myDotSprites.Add(new DX2D::CSprite("Sprites/Dot.dds"));
+		DX2D::CSprite* sprite = new DX2D::CSprite("Sprites/Dot.dds");
+		myDotSprites.Add(sprite);
 	}
 	
 }
@@ -163,6 +165,20 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myPathfinding.FindPath(myCurrentRoom, myPlayer.GetPosition(), myTargetPosition))
 		{
 			CommonUtilities::GrowingArray<Node*, int>& nodes = myPathfinding.GetPath();
+			int myCurrentWaypoint = 0;
+			
+			++myCurrentWaypoint;
+			if (myCurrentWaypoint >= nodes.Size() - 1)
+			{
+				//Framme
+			}
+			else
+			{
+				//Gå till nästa node
+				float x = (static_cast<float>(nodes[myCurrentWaypoint]->GetX()) * myCurrentRoom->GetGridSize()) / 1920.0f;
+				float y = (static_cast<float>(nodes[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
+
+			}
 		}
 	}
 
@@ -301,40 +317,42 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
-	
-	CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
-	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
-	float x = 0;
-	float y = 0;
-
-	for (int i = 0; i < points.Size(); ++i)
+	if (myShouldRenderNavPoints == true)
 	{
-		if (points[i].GetIsBlocked() == false)
+		CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
+		int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
+		float x = 0;
+		float y = 0;
+
+		for (int i = 0; i < points.Size(); ++i)
 		{
-			command.myType = eRenderType::eSprite;
-			myDotSprites[i]->SetPivot({ 0, 0 });
-			if (points[i].GetPath() == true)
+			if (points[i].GetIsBlocked() == false)
 			{
-				myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+				command.myType = eRenderType::eSprite;
+				myDotSprites[i]->SetPivot({ 0, 0 });
+				
+				if (points[i].GetPath() == true)
+				{
+					myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+				}
+				else
+				{
+					myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+				}
+				command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
+				command.mySprite = myDotSprites[i];
+				aSynchronizer.AddRenderCommand(command);
 			}
-			else
+			x += gridSize;
+			if (x >= 1920.0f)
 			{
-				myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+				x = 0.0f;
+				y += gridSize;
 			}
-			command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
-			command.mySprite = myDotSprites[i];
-			aSynchronizer.AddRenderCommand(command);
-		}
-		x += gridSize;
-		if (x >= 1920.0f)
-		{
-			x = 0.0f;
-			y += gridSize;
-		}
-		if (i == points.Size() - 1)
-		{
-			//std::cout << x << std::endl;
+			if (i == points.Size() - 1)
+			{
+				//std::cout << x << std::endl;
+			}
 		}
 	}
 	
