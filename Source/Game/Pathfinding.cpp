@@ -23,6 +23,7 @@ bool Pathfinding::FindPath(Room* aRoom, DX2D::Vector2f aFrom, DX2D::Vector2f aTo
 		nodes[i].SetPath(false);
 	}
 
+	myPath.RemoveAll();
 	myOpenList.RemoveAll();
 	myVisitedList.RemoveAll();
 

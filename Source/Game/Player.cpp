@@ -78,7 +78,7 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 }
 
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer)
 {
 	myPreviousPosition = myPosition;
 
@@ -99,8 +99,10 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	myInventory.Update(aInputManager, aDeltaT);
 
-	Move(aTargetPos, myMovementSpeed, aDeltaT);
-
+	if (aMovePlayer == true)
+	{
+		Move(aTargetPos, myMovementSpeed, aDeltaT);
+	}
 
 	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
 	{
@@ -131,8 +133,8 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	{
 		myIsMoving = false;
 	}
-	else if (myIsMoving == true)
-	{
+	//else if (myIsMoving == true)
+	//{
 		DX2D::Vector2f characterPos(myPosition);
 		//Calculate distance between target and object
 		DX2D::Vector2f delta = DX2D::Vector2f(
@@ -160,7 +162,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 		{
 			myIsMoving = false;
 		}
-	}
+	//}
 }
 
 void Player::SetPivot(const DX2D::Vector2f& aPoint)

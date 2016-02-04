@@ -166,6 +166,7 @@ bool EventManager::Update(const float aDeltaTime)
 		}
 
 		myGameWorld->DoChangeLevel(myCurrentRoom);
+		return false;
 	}
 	return !myClicked;
 }

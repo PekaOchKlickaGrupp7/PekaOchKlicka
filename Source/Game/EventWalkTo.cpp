@@ -33,10 +33,8 @@ bool EventWalkTo::Update(const float)
 			myAutoActivateRecursive = false;
 			return true;
 		}
-		else if ((playerPos - targetPos).Length() < 0.02f)
+		else if (myGameWorld->PlayerHasReachedTarget() == true)
 		{
-			std::cout << (playerPos - targetPos).Length() << std::endl;
-			myGameWorld->GetPlayer()->SetIsMoving(false);
 			myAutoActivateRecursive = true;
 			return true;
 		}

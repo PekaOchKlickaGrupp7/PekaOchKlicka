@@ -29,6 +29,7 @@ public:
 	void SetCinematicMode(bool aOn = true);
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;
+	bool PlayerHasReachedTarget();
 
 	void Quit();
 
@@ -37,31 +38,33 @@ public:
 	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 
 private:
+
 	void ItemPickUp();
+	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
+
+	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;
+	CommonUtilities::GrowingArray<Node*, int>* myWaypointNodes;
+	std::map<std::string, Room*> myRooms;
+
+	DX2D::Vector2f myTargetPosition;
+	DX2D::Vector2f myNewTargetPosition;
 	DX2D::CText* myTextFPS;
+	DX2D::CSprite* myResTest;
+
+	Player myPlayer;
+	Pathfinding myPathfinding;
+	JSON myJson;
+	Room* myCurrentRoom;
+
+	int myCurrentWaypoint;
+	float myFadeIn;
 
 	bool myDoQuit;
 	bool myPlayerCanMove;
-	float myFadeIn;
-	bool myDoFadeIn;
-
-	Pathfinding myPathfinding;
-
-	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
-
-	std::map<std::string, Room*> myRooms;
-	Room* myCurrentRoom;
-
-	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;
-
-	JSON myJson;
-
-	Player myPlayer;
-
-	DX2D::CSprite* myResTest;
+	bool myHasNewTargetPosition;
 	bool myShouldRenderDebug;
 	bool myShouldRenderFPS;
 	bool myShouldRenderNavPoints;
-
-	DX2D::Vector2f myTargetPosition;
+	bool myDoFadeIn;
+	bool myHasPath;
 };
