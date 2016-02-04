@@ -68,3 +68,28 @@ Node* Room::GetNodeAtPosition(DX2D::Vector2f aPosition)
 	int y = static_cast<int>(roundf((aPosition.y * 1080.0f) / myGridSize));
 	return &myNavPoints[x + y * static_cast<int>(roundf(1920.0f / myGridSize))];
 }
+
+CommonUtilities::VectorOnStack<Node*, 8> Room::GetNeighbours(Node* aNode)
+{
+	CommonUtilities::VectorOnStack<Node*, 8> neighbours;
+	for (int y = -1; y <= 1; y++)
+	{
+		for (int x = -1; x <= 1; x++)
+		{
+			if (x == 0 && y == 0)
+			{
+				continue;
+			}
+
+			int checkX = aNode->GetX() + x;
+			int checkY = aNode->GetY() + y;
+
+			if (checkX >= 0 && checkX < myGridSize && checkY >= 0 && myGridSize)
+			{
+				neighbours.Add(&myNavPoints[checkX + checkY * (1920.0f / myGridSize)]);
+			}
+		}
+	}
+
+	return neighbours;
+}
