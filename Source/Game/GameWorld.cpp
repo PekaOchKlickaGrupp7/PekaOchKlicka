@@ -37,6 +37,9 @@ CGameWorld::~CGameWorld()
 void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 {
 	myCurrentRoom = aCurrentRoom;
+	myHasPath = false;
+	myHasNewTargetPosition = false;
+	myInputManager.Update();
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -89,11 +92,19 @@ void CGameWorld::Init()
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
 	myShouldRenderFPS = true;
+	myShouldRenderNavPoints = true;
+
+	myCurrentWaypoint = 0;
+	myHasPath = false;
+	myHasNewTargetPosition = false;
+	myTargetPosition = { 0.0f, 0.0f };
+	myNewTargetPosition = myTargetPosition;
 
 	myDotSprites.Init(5000);
 	for (int i = 0; i < 5000; ++i)
 	{
-		myDotSprites.Add(new DX2D::CSprite("Sprites/Dot.dds"));
+		DX2D::CSprite* sprite = new DX2D::CSprite("Sprites/Dot.dds");
+		myDotSprites.Add(sprite);
 	}
 	
 }
@@ -157,20 +168,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-
-	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eRight) == true)
-	{
-		if (myPathfinding.FindPath(myCurrentRoom, myPlayer.GetPosition(), myTargetPosition))
-		{
-			CommonUtilities::GrowingArray<Node*, int>& nodes = myPathfinding.GetPath();
-		}
-	}
-
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
 	if (myCurrentRoom != nullptr)
-		{
+	{
 		PlayerMovement(input, aTimeDelta);
 	}
 
@@ -189,14 +191,19 @@ float CGameWorld::GetFadeIn() const
 
 void CGameWorld::SetPlayerTargetPosition(Point2f aPoint)
 {
-	myTargetPosition.x = aPoint.x;
-	myTargetPosition.y = aPoint.y;
-	myPlayer.SetIsMoving(true);
+	myNewTargetPosition.x = aPoint.x;
+	myNewTargetPosition.y = aPoint.y;
+	myHasNewTargetPosition = true;
 }
 
 const Vector2f CGameWorld::GetPlayerTargetPosition() const
 {
-	return Vector2f(myTargetPosition.x, myTargetPosition.y);
+	return Vector2f(myNewTargetPosition.x, myNewTargetPosition.y);
+}
+
+bool CGameWorld::PlayerHasReachedTarget()
+{
+	return !myHasPath;
 }
 
 void CGameWorld::SetCinematicMode(bool aOn)
@@ -301,40 +308,42 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
-	
-	CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
-	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
-	float x = 0;
-	float y = 0;
-
-	for (int i = 0; i < points.Size(); ++i)
+	if (myShouldRenderNavPoints == true)
 	{
-		if (points[i].GetIsBlocked() == false)
+		CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
+		int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
+		float x = 0;
+		float y = 0;
+
+		for (int i = 0; i < points.Size(); ++i)
 		{
-			command.myType = eRenderType::eSprite;
-			myDotSprites[i]->SetPivot({ 0, 0 });
-			if (points[i].GetPath() == true)
+			if (points[i].GetIsBlocked() == false)
 			{
-				myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+				command.myType = eRenderType::eSprite;
+				myDotSprites[i]->SetPivot({ 0, 0 });
+				
+				if (points[i].GetPath() == true)
+				{
+					myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+				}
+				else
+				{
+					myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+				}
+				command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
+				command.mySprite = myDotSprites[i];
+				aSynchronizer.AddRenderCommand(command);
 			}
-			else
+			x += gridSize;
+			if (x >= 1920.0f)
 			{
-				myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+				x = 0.0f;
+				y += gridSize;
 			}
-			command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
-			command.mySprite = myDotSprites[i];
-			aSynchronizer.AddRenderCommand(command);
-		}
-		x += gridSize;
-		if (x >= 1920.0f)
-		{
-			x = 0.0f;
-			y += gridSize;
-		}
-		if (i == points.Size() - 1)
-		{
-			//std::cout << x << std::endl;
+			if (i == points.Size() - 1)
+			{
+				//std::cout << x << std::endl;
+			}
 		}
 	}
 	
@@ -374,36 +383,75 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if (aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true)
+	if ((aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
+		myPlayer.GetInventory().IsOpen() == false) || myHasNewTargetPosition == true)
 	{
 		std::string identifier = "_SELECTED_ITEM";
 		std::string value = "";
-		if (EventVariablesManager::GetInstance()->GetVariable(value, identifier) && value == "")
+		if (EventVariablesManager::GetInstance()->GetVariable(value, identifier) && value == "" ||
+			myHasNewTargetPosition == true)
 		{
-			myTargetPosition.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
-			myTargetPosition.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
-
-
-			ItemPickUp();
-
-			if (myCurrentRoom != nullptr && myCurrentRoom->GetNavMeshes().Size() > 0)
+			DX2D::Vector2f tempTargetPos;
+			if (myHasNewTargetPosition == true)
 			{
-				if (myCurrentRoom->GetNavMeshes()[0].
-					PointInsideCheck(Point2f(
-					myTargetPosition.x,
-					myTargetPosition.y)
-					) == true)
+				tempTargetPos = myNewTargetPosition;
+			}
+			else
+			{
+				tempTargetPos.x = static_cast<float>(MouseManager::GetInstance()->GetPosition().x);
+				tempTargetPos.y = static_cast<float>(MouseManager::GetInstance()->GetPosition().y);
+				myNewTargetPosition = tempTargetPos;
+			}
+			
+			myHasNewTargetPosition = false;
+
+			if (tempTargetPos.x > 0 && tempTargetPos.x < 1 && tempTargetPos.y > 0 && tempTargetPos.y < 1)
+			{
+				//Pathfinding stuff
+				if (myPathfinding.FindPath(myCurrentRoom, myPlayer.GetPosition(), tempTargetPos))
 				{
-					myPlayer.SetIsMoving(true);
-				}
-				else
-				{
-					myPlayer.SetIsMoving(false);
+					myWaypointNodes = &myPathfinding.GetPath();
+					myCurrentWaypoint = 0;
+					myTargetPosition.x = -1;
+					myTargetPosition.y = -1;
+					myHasPath = true;
 				}
 			}
 		}
 	}
 
+	if (myHasPath == true)
+	{
+		Vector2f playerPosition;
+		playerPosition.x = myPlayer.GetPosition().x;
+		playerPosition.y = myPlayer.GetPosition().y;
+
+		Vector2f nodePosition;
+		nodePosition.x = myTargetPosition.x;
+		nodePosition.y = myTargetPosition.y;
+
+		float distanceToNextNode = (nodePosition - playerPosition).Length();
+
+		if (distanceToNextNode < 0.01f)
+		{
+			(*myWaypointNodes)[myCurrentWaypoint]->SetPath(false);
+			++myCurrentWaypoint;
+		}
+
+		if (myCurrentWaypoint > myWaypointNodes->Size() - 1)
+		{
+			//Framme
+			myHasPath = false;
+		}
+		else
+		{
+			//Gå till nästa node
+			myTargetPosition.x = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetX()) * myCurrentRoom->GetGridSize()) / 1920.0f;
+			myTargetPosition.y = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
+		}
+	}
+
+	/*
 	//Makes sure player can not walk through obstacles
 	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
 		myPlayer.GetPosition().x,
@@ -433,8 +481,9 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 			break;
 		}
 	}
+	*/
 
-	//myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
