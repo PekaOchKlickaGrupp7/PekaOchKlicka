@@ -86,6 +86,7 @@ private:
 	
 	DX2D::Vector2f myPosition;
 	bool myHideGameMouse;
+	bool myInMenu;
 
 	// This is the current sprite
 	DX2D::CSprite* mySprite;

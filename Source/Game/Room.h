@@ -2,8 +2,10 @@
 #include "..\CommonUtilities\GrowingArray.h"
 #include <map>
 #include <string>
+#include "..\CommonUtilities\VectorOnStack.h"
 #include "ObjectData.h"
 #include "NavPolygon.h"
+#include "Node.h"
 
 class Item;
 
@@ -19,15 +21,24 @@ public:
 
 	void LoadLevel();
 	void AddNavPolygon(NavPolygon poly);
-	CommonUtilities::GrowingArray<NavPolygon> GetNavMeshes();
-
+	CommonUtilities::GrowingArray<NavPolygon>& GetNavMeshes();
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* GetObjectList() { return &myObjects; }
+
 	Item* GetItem(int aIndex) { return myItems[aIndex]; }
 	void RemoveItem(int aIndex) { return myItems.RemoveCyclicAtIndex(aIndex); }
 	int GetItemListSize(){ return myItems.Size(); }
 
+	void SetGridSize(float aGridSize);
+	void SetNavPoints(CommonUtilities::GrowingArray<Node, int>& aNodes);
+	CommonUtilities::GrowingArray<Node, int>& GetNavPoints() { return myNavPoints; }
+	float GetGridSize() { return myGridSize; }
+	Node* GetNodeAtPosition(DX2D::Vector2f aPosition);
+	CommonUtilities::VectorOnStack<Node*, 8> GetNeighbours(Node* aNode);
 private:
+	float myGridSize;
+
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
+	CommonUtilities::GrowingArray<Node, int> myNavPoints;
 	CommonUtilities::GrowingArray<Item*, unsigned int> myItems;
 	CommonUtilities::GrowingArray<NavPolygon, unsigned short> myNavMeshes;
 };

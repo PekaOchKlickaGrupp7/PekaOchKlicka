@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Sound.h"
-#include "SoundManager.h"
 #include <map>
 
 // To avoid static_cast-ing all the time.
@@ -46,9 +45,13 @@ public:
 
 	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D);
 	Sound* GetSound(std::string &anID){ return &mySounds[anID]; };
+	Sound* GetSong(std::string &anID){ return &myMusic[anID]; };
 
 	void DestroySound(std::string &anID){ mySounds[anID].Destroy(); };
 	void DestroyAll();
+
+	void DestroySong(std::string &anID){ myMusic[anID].Destroy(); };
+	void DestroyAllMusic();
 
 	~SoundFileHandler();
 private:
@@ -57,5 +60,6 @@ private:
 	static SoundFileHandler* mySoundFileHandler;
 
 	std::map<std::string, Sound> mySounds;
+	std::map<std::string, Sound> myMusic;
 };
 

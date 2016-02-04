@@ -148,6 +148,11 @@ Vector2f DX2D::CSprite::GetSize() const
 	return withWindowRatioSize;
 }
 
+Vector2f DX2D::CSprite::GetScale() const
+{
+	return myQuad->mySizeMultiplier;
+}
+
 Vector2<unsigned int> DX2D::CSprite::GetImageSize() const
 {
 	return myQuad->myImageSize;

@@ -4,9 +4,9 @@
         :[
 		{
 			"direction" : "play",
-			"path" : "Sprites/AnimSpritesTest/cam1.dds",
-            "frames" : 69,
-		    "framesPerRow" : 9,
+			"path" : "Sprites/AnimSpritesTest/1024x1024/camera1.dds",
+            "frames" : 36,
+		    "framesPerRow" : 8,
 			"animationSpeed" : 0.5
 		}
 	]

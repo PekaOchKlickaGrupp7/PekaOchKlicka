@@ -4,7 +4,7 @@
 
 Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
 {
-	myFrameDuration = aFrameDuration;
+	myFrameDuration = 0.3f;
 	myCurentFrameDuration = 0;
 	myFramesPerRow = aFramesPerRow;
 	mySprite = new DX2D::CSprite(aSpriteFilePath);
@@ -12,6 +12,9 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 	myNumberOfFrames = aNumberOfFrames;
 	myFrame = 0;
 	myPaused = false;
+
+	myCurentRow = 0;
+	myRowFrameCounter = 0;
 
 	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
@@ -26,7 +29,7 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 void Animation::UpdateTextureRect()
 {
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
-		(mySprite->GetSize().y*myFramesPerRow)*(myFrame / myFramesPerRow)));
+		(mySprite->GetSize().y*myCurentRow)));
 }
 void Animation::SetSize(float aScale)
 {
@@ -42,9 +45,19 @@ void Animation::Update(float aDelta)
 		{
 			myFrame++;
 			myCurentFrameDuration = 0;
+			myRowFrameCounter++;
+
+			if (myRowFrameCounter == myNumberOfFrames)
+			{
+				myCurentRow++;
+				myRowFrameCounter = 0;
+			}
 			if (myFrame >= myNumberOfFrames)
 			{
 				myFrame = 0;
+				myCurentRow = 0;
+				myRowFrameCounter = 0;
+				
 			}
 			UpdateTextureRect();
 		}

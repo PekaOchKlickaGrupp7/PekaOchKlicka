@@ -2,6 +2,7 @@
 #include "MouseManager.h"
 #include "ResolutionManager.h"
 #include <iostream>
+#include "EventVariablesManager.h"
 
 MouseManager* MouseManager::myMouseManager = nullptr;
 
@@ -13,6 +14,8 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	CU::DirectInput::InputManager* aInputManager)
 {
 	myHideGameMouse = false;
+	myInMenu = false;
+
 
 	myInputManager = aInputManager;
 
@@ -60,13 +63,13 @@ void MouseManager::Update(float)
 
 	//Release
 #ifdef NDEBUG
-	myInputManager->SetAbsoluteMousePos(
-		static_cast<int>((((
+	int X = ((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x),
-		static_cast<int>((((
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x);
+	int Y = ((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y));
+		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y);
+	myInputManager->SetAbsoluteMousePos(X, Y);
 #endif 
 
 
@@ -92,11 +95,20 @@ void MouseManager::Update(float)
 		myPosition.y = 1;
 	}
 
-	mySprite->SetSize({(myPosition.y + 0.2f) * 1.5f,(myPosition.y + 0.2f) * 1.5f});
-	/*if (mySprite->GetSize <= 0.2f)
+	EventVariablesManager::GetInstance()->GetVariable(myInMenu, "InMenu"); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
+	if (myInMenu == false)
 	{
-		mySprite->SetSize({ 0.2f, 0.2f });
-	}*/
+		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
+		//std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+		if (mySprite->GetScale().x <= 0.8f)
+		{
+			mySprite->SetSize({ 0.8f, 0.8f });
+		}
+	}
+	else
+	{
+		mySprite->SetSize({ 1.0f, 1.0f });
+	}
 }
 
 bool MouseManager::ButtonClicked(eMouseButtons aButton)

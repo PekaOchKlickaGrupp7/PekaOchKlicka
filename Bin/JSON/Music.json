@@ -1,0 +1,12 @@
+{
+    "music": [
+        {
+            "file": "Sound/Music/kitchen.ogg",
+            "name": "kitchen"
+        },
+        {
+            "file": "Sound/Music/hall.ogg",
+            "name": "hall"
+        }
+    ]
+}

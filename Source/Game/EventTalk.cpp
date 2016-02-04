@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EventTalk.h"
-
+#include <tga2d\engine.h>
 
 EventTalk::EventTalk() : myTextRender(nullptr)
 {
@@ -37,8 +37,8 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		float x = object->myX;// + (object->myHitBox.myWidth / 2);
-
+		float x = object->myX;
+		
 		myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
 
 		if (myCurrentTime > myWordLength * myWordCount)

@@ -83,6 +83,7 @@ public:
 	static T Length2(const Vector2<T>& aVector);
 	static T Length(const Vector2<T>& aVector);
 	Vector2 GetNormalized(void) const;
+	T Cross(const Vector2<T>& aRightValue) const;
 
 
 	// Manipulation

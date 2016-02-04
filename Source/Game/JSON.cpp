@@ -9,6 +9,9 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Triangle.h"
+#include "..\CommonUtilities\Macros.h"
+#include "..\CommonUtilities\TimerManager.h"
+#include "MusicManager.h"
 
 //Events
 #include "EventNone.h"
@@ -525,8 +528,56 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			{
 				poly.AddPoint(Point2f(static_cast<float>(points[j]["x"].GetDouble()) / 1920.0f, static_cast<float>(points[j]["y"].GetDouble()) / 1080.0f));
 			}
+
 			aRoom->AddNavPolygon(poly);
 		}
+
+		float gridSize = 38;
+		float windowWidth = 1920.0f;
+		float windowHeight = 1080.0f;
+		float numberOfMaxPoints = 1920.0f / gridSize + 1080.0f / gridSize;
+		numberOfMaxPoints *= numberOfMaxPoints;
+
+		CommonUtilities::GrowingArray<Node, int> nodes;
+		nodes.Init(static_cast<int>(numberOfMaxPoints));
+
+		CommonUtilities::GrowingArray<NavPolygon, unsigned short>& navMeshes = aRoom->GetNavMeshes();
+
+		CU::TimeSys::TimerManager manager;
+		unsigned char timer = manager.CreateTimer();
+		manager.UpdateTimers();
+
+		for (float y = 0; y < windowHeight; y += gridSize)
+		{
+			for (float x = 0; x < windowWidth; x += gridSize)
+			{
+				bool inside = false;
+				for (unsigned short j = 0; j < navMeshes.Size(); ++j)
+				{
+					bool isInside = navMeshes[j].PointInsideCheck(Point2f(x / windowWidth, y / windowHeight));
+					if (j == 0)
+					{
+						inside = isInside;
+					}
+					else if (isInside == true)
+					{
+						inside = false;
+						break;
+					}
+				}
+				nodes.Add(Node(static_cast<int>(x / gridSize), static_cast<int>(y / gridSize), !inside));
+			}
+		}
+
+		manager.UpdateTimers();
+		double diff = manager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+
+		std::cout << diff << std::endl;
+		aRoom->SetGridSize(gridSize);
+		aRoom->SetNavPoints(nodes);
+
+//		std::cout << nodes[(600 / gridSize) + (210 / gridSize) * (windowWidth / gridSize)] << std::endl;
+//		std::cout << aRoom->GetGridAt(600 / 1920.0f, 210 / 1080.0f) << std::endl;
 	}
 
 	level.GetAllocator().Clear();
@@ -573,6 +624,41 @@ bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
 	return true;
 }
 
+bool JSON::LoadMusic(const std::string& aMusicFile)
+{
+	const char* data = ReadFile(aMusicFile.c_str());
+
+	Document music;
+	music.Parse(data);
+
+	if (music.HasParseError() == true)
+	{
+		DL_DEBUG("Failed to load Music.json");
+		music.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	Value& musicfiles = music["music"];
+	if (musicfiles.IsNull() == true)
+	{
+		DL_DEBUG("music is not a member of music.json");
+		music.GetAllocator().~MemoryPoolAllocator();
+		return false;
+	}
+
+	for (unsigned int i = 0; i < musicfiles.Size(); ++i)
+	{
+		Value& song = musicfiles[i];
+
+		std::string songPath = song["file"].GetString();
+		std::string songName = song["name"].GetString();
+
+		MusicManager::GetInstance()->Load(songPath, songName);
+	}
+
+	return true;
+}
+
 #pragma region Private Methods
 
 void JSON::LoadObject(Value& node, ObjectData* aParentObject,
@@ -607,6 +693,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	else
 	{
 		dataObject->mySprite = nullptr;
+		dataObject->myOriginalSprite = nullptr;
 	}
 
 	dataObject->myEvents.Init(128);

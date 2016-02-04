@@ -209,8 +209,8 @@ namespace CU
 		}
 		bool InputManager::MiddleMouseButtonClicked() const
 		{
-		if (IsPressed(myMouseState.rgbButtons[static_cast<int> (eMouseButtons::RightButton)]) == true
-		&& IsPressed(myPreviousMouseState.rgbButtons[static_cast<int> (eMouseButtons::RightButton)]) == false)
+		if (IsPressed(myMouseState.rgbButtons[static_cast<int> (eMouseButtons::MiddleButton)]) == true
+			&& IsPressed(myPreviousMouseState.rgbButtons[static_cast<int> (eMouseButtons::MiddleButton)]) == false)
 		{
 		return true;
 		}
@@ -221,8 +221,8 @@ namespace CU
 		}
 		bool InputManager::RightMouseButtonClicked() const
 		{
-		if (IsPressed(myMouseState.rgbButtons[static_cast<int> (eMouseButtons::MiddleButton)]) == true
-		&& IsPressed(myPreviousMouseState.rgbButtons[static_cast<int> (eMouseButtons::MiddleButton)]) == false)
+		if (IsPressed(myMouseState.rgbButtons[static_cast<int> (eMouseButtons::RightButton)]) == true
+			&& IsPressed(myPreviousMouseState.rgbButtons[static_cast<int> (eMouseButtons::RightButton)]) == false)
 		{
 		return true;
 		}
