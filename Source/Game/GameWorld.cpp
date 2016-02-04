@@ -40,10 +40,10 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
-	{
+{
 	myCurrentRoom = nullptr;
 	EventManager::GetInstance()->ChangeRoom(myRooms[aString]);
-	}
+}
 
 Player* CGameWorld::GetPlayer()
 {
@@ -59,6 +59,7 @@ void CGameWorld::Init()
 {
 	std::string name = "";
 	myJson.Load("root.json", myRooms, this, name);
+	myJson.LoadMusic("JSON/Music.json");
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
@@ -131,22 +132,24 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
+	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
 	{
-		myFadeIn -= aTimeDelta;
+		myFadeIn -= aTimeDelta * fadeSpeed;
 		if (myFadeIn <= 0.0f)
 		{
 			myFadeIn = 0.0f;
-			}
-	}
-			else
-			{
-		myFadeIn += aTimeDelta;
-		if (myFadeIn >= 1.0f)
-	{
-			myFadeIn = 1.0f;
-	}
 		}
+	}
+	else
+	{
+		myFadeIn += aTimeDelta * fadeSpeed;
+		if (myFadeIn >= 1.0f)
+		{
+			myFadeIn = 1.0f;
+		}
+	}
+
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
@@ -264,7 +267,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 
-	
+	EventManager::GetInstance()->Render(aSynchronizer);
 
 	if (myShouldRenderDebug == true)
 	{
@@ -277,12 +280,41 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		RenderCommand fps;
 		fps.myType = eRenderType::eText;
-		fps.myPosition = DX2D::Vector2f(0.7f, 0.3f);
+		fps.myPosition = myTextFPS->myPosition;
 		fps.myText = myTextFPS;
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	EventManager::GetInstance()->Render(aSynchronizer);
+	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
+	
+	CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
+	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
+	float x = 0;
+	float y = 0;
+
+	for (int i = 0; i < points.Size(); ++i)
+	{
+		if (points[i].GetIsBlocked() == false)
+		{
+			command.myType = eRenderType::eSprite;
+			myResTest->SetPivot({ 0, 0 });
+
+			command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
+			command.mySprite = myResTest;
+			aSynchronizer.AddRenderCommand(command);
+		}
+		x += gridSize;
+		if (x >= 1920.0f)
+		{
+			x = 0.0f;
+			y += gridSize;
+		}
+		if (i == points.Size() - 1)
+		{
+			//std::cout << x << std::endl;
+		}
+	}
+	
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
@@ -380,6 +412,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 	}
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")

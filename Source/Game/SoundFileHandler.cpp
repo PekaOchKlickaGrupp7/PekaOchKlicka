@@ -41,3 +41,12 @@ void SoundFileHandler::DestroyAll()
 	}
 	mySounds.clear();
 };
+
+void SoundFileHandler::DestroyAllMusic()
+{
+	for (std::map<std::string, Sound>::iterator i = myMusic.begin(); i != myMusic.end(); ++i)
+	{
+		i->second.Destroy();
+	}
+	myMusic.clear();
+};

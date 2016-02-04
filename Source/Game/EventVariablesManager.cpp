@@ -20,22 +20,22 @@ EventVariablesManager::~EventVariablesManager()
 
 #pragma region SetVariables
 
-void EventVariablesManager::SetVariable(bool aBool, std::string &anIdentifier)
+void EventVariablesManager::SetVariable(bool aBool, const std::string &anIdentifier)
 {
 	myBoolVariables[anIdentifier] = aBool;
 }
 
-void EventVariablesManager::SetVariable(int aInt, std::string &anIdentifier)
+void EventVariablesManager::SetVariable(int aInt, const std::string &anIdentifier)
 {
 	myIntVariables[anIdentifier] = aInt;
 }
 
-void EventVariablesManager::SetVariable(float aFloat, std::string &anIdentifier)
+void EventVariablesManager::SetVariable(float aFloat, const std::string &anIdentifier)
 {
 	myFloatVariables[anIdentifier] = aFloat;
 }
 
-void EventVariablesManager::SetVariable(std::string &aString, std::string &anIdentifier)
+void EventVariablesManager::SetVariable(std::string &aString, const std::string &anIdentifier)
 {
 	myStringVariables[anIdentifier] = aString;
 }
@@ -44,7 +44,7 @@ void EventVariablesManager::SetVariable(std::string &aString, std::string &anIde
 
 #pragma region GetVariables
 
-bool EventVariablesManager::GetVariable(bool &aBool, std::string &anIdentifier)
+bool EventVariablesManager::GetVariable(bool &aBool, const std::string &anIdentifier)
 {
 	if (myBoolVariables.find(anIdentifier) == myBoolVariables.end())
 	{
@@ -57,7 +57,7 @@ bool EventVariablesManager::GetVariable(bool &aBool, std::string &anIdentifier)
 	return true;
 }
 
-bool EventVariablesManager::GetVariable(int &aInt, std::string &anIdentifier)
+bool EventVariablesManager::GetVariable(int &aInt, const std::string &anIdentifier)
 {
 	if (myIntVariables.find(anIdentifier) == myIntVariables.end())
 	{
@@ -70,7 +70,7 @@ bool EventVariablesManager::GetVariable(int &aInt, std::string &anIdentifier)
 	return true;
 }
 
-bool EventVariablesManager::GetVariable(float &aFloat, std::string &anIdentifier)
+bool EventVariablesManager::GetVariable(float &aFloat, const std::string &anIdentifier)
 {
 	if (myFloatVariables.find(anIdentifier) == myFloatVariables.end())
 	{
@@ -83,7 +83,7 @@ bool EventVariablesManager::GetVariable(float &aFloat, std::string &anIdentifier
 	return true;
 }
 
-bool EventVariablesManager::GetVariable(std::string &aString, std::string &anIdentifier)
+bool EventVariablesManager::GetVariable(std::string &aString, const std::string &anIdentifier)
 {
 	if (myStringVariables.find(anIdentifier) == myStringVariables.end())
 	{

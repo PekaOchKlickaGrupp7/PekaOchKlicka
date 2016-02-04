@@ -55,89 +55,58 @@ namespace CommonUtilities
 		return PointVsRect(aCenter, Vector2<float>(aRectTopLeft.x - aRadius, aRectTopLeft.y - aRadius), Vector2<float>(aRectBottomRight.x + aRadius, aRectBottomRight.y + aRadius));
 	}
 
-	inline bool Intersection::LineVsLine(LineSegment2D aLine1, LineSegment2D aLine2, Vector2<float>& aIntersectionPoint)
+	inline bool Intersection::LineVsLine(LineSegment2D aFirstLine, LineSegment2D aSecondLine, Vector2<float>& aIntersectionPoint)
 	{
-		CommonUtilities::Line<float> line1(aLine1.myStartPos, aLine1.myEndPos);
-		CommonUtilities::Line<float> line2(aLine2.myStartPos, aLine2.myEndPos);
+		Vector2f r = aFirstLine.myEndPos - aFirstLine.myStartPos;
+		Vector2f s = aSecondLine.myEndPos - aSecondLine.myStartPos;
+		float rCrossS = r.Cross(s);
+		float qPcrossR = (aSecondLine.myStartPos - aFirstLine.myStartPos).Cross(r);
 
-
-		float numX = line2.myABC.y * line1.myABC.z - line1.myABC.y * line2.myABC.z;
-		float denX = line1.myABC.x * line2.myABC.y - line2.myABC.x * line1.myABC.y;
-
-		float numY = line1.myABC.x * line2.myABC.z - line2.myABC.x * line1.myABC.z;
-		float denY = line1.myABC.x * line2.myABC.y - line2.myABC.x * line1.myABC.y;
-
-		if (denX == 0 || denY == 0)
+		//Check if lines are collinear (i.e. if rCrossS = 0 and (qPcrossR = 0) )
+		if (abs(rCrossS) <= 1e-10	// Check against 1 * 10^(-10) because
+			&&						// of float precision
+			abs(qPcrossR) <= 1e-10)
 		{
-			if (line1.myABC.z != line2.myABC.z)
+			// Check if line segments are overlapping
+			if ((0 <= (aSecondLine.myStartPos - aFirstLine.myStartPos).Dot(r)
+				&& (aSecondLine.myStartPos - aFirstLine.myStartPos).Dot(r) <= r.Dot(r))
+				||
+				(0 <= (aFirstLine.myStartPos - aSecondLine.myStartPos).Dot(s)
+				&& (aFirstLine.myStartPos - aSecondLine.myStartPos).Dot(s) <= s.Dot(s)))
 			{
-				return false;
-			}
-
-			// check segment overlap
-
-			Vector2<float> dir1 = aLine1.myEndPos - aLine1.myStartPos;
-			Vector2<float> dir2 = aLine2.myEndPos - aLine2.myStartPos;
-
-			float lengthDir1 = Vector2<float>::Length(dir1);
-			dir1 /= lengthDir1;
-
-			float lengthDir2 = Vector2<float>::Length(dir2);
-			dir2 /= lengthDir2;
-
-			if (Vector2<float>::Dot(dir1, aLine2.myEndPos - aLine1.myStartPos) < lengthDir1 &&
-				Vector2<float>::Dot(dir1, aLine2.myEndPos - aLine1.myStartPos) > 0)
-			{
-				aIntersectionPoint = aLine2.myEndPos;
 				return true;
 			}
 
-			if (Vector2<float>::Dot(dir1, aLine2.myStartPos - aLine1.myStartPos) < lengthDir1 &&
-				Vector2<float>::Dot(dir1, aLine2.myStartPos - aLine1.myStartPos) > 0)
-			{
-				aIntersectionPoint = aLine2.myStartPos;
-				return true;
-			}
-
-			if (Vector2<float>::Dot(dir2, aLine1.myEndPos - aLine2.myStartPos) < lengthDir2 &&
-				Vector2<float>::Dot(dir2, aLine1.myEndPos - aLine2.myStartPos) > 0)
-			{
-				aIntersectionPoint = aLine1.myEndPos;
-				return true;
-			}
-
-			if (Vector2<float>::Dot(dir2, aLine1.myStartPos - aLine2.myStartPos) < lengthDir2 &&
-				Vector2<float>::Dot(dir2, aLine1.myStartPos - aLine2.myStartPos) > 0)
-			{
-				aIntersectionPoint = aLine1.myStartPos;
-				return true;
-			}
-
+			//Line segments are collinear but not together
 			return false;
 		}
 
-		aIntersectionPoint = Vector2<float>(numX / denX, numY / denY);
-
-
-		Vector2<float> v1(aLine1.myEndPos - aLine1.myStartPos);
-
-		Vector2<float> v1intersect(aIntersectionPoint - aLine1.myStartPos);
-
-		if (Vector2<float>::Dot(v1, v1intersect) < 0 || Vector2<float>::Length2(v1intersect) > Vector2<float>::Length2(v1))
+		//Check if lines are parallel (i.e. if rCrossS = 0 and qPcrossR != 0)
+		if (abs(rCrossS) <= 1e-10	// Check against 1 * 10^(-10) because
+			&&						// of float precision
+			!(abs(qPcrossR) <= 1e-10))
 		{
 			return false;
 		}
 
-		Vector2<float> v2(aLine2.myEndPos - aLine2.myStartPos);
+		//Strange math magics here
+		float t = (aSecondLine.myStartPos - aFirstLine.myStartPos).Cross(s) / rCrossS;
+		float u = qPcrossR / rCrossS;
 
-		Vector2<float> v2intersect(aIntersectionPoint - aLine2.myStartPos);
-
-		if (Vector2<float>::Dot(v2, v2intersect) < 0 || Vector2<float>::Length2(v2intersect) > Vector2<float>::Length2(v2))
+		//Finding the intersection point if there is one
+		if (!(abs(rCrossS) <= 1e-10)
+			&& (0 <= t && t <= 1)
+			&& (0 <= u && u <= 1))
 		{
-			return false;
+			//Calculating the intersection point
+			Vector2f tempVector = aFirstLine.myStartPos + t * r;
+			aIntersectionPoint.x = tempVector.x;
+			aIntersectionPoint.y = tempVector.y;
+			return true;
 		}
 
-		return true;
+		//Line segments are not parallel but do not intersect
+		return false;
 	}
 
 	inline bool Intersection::PointInsideSphere(Sphere aSphere, Vector3<float> aPoint)

@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventAnswer.h" />
     <ClInclude Include="EventHideMouse.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventPickupItem.h" />
@@ -211,8 +212,11 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="MouseManager.h" />
+    <ClInclude Include="MusicManager.h" />
     <ClInclude Include="NavPolygon.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="ObjectData.h" />
@@ -232,6 +236,7 @@
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventAnswer.cpp" />
     <ClCompile Include="EventHideMouse.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />
@@ -268,8 +273,11 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="MouseManager.cpp" />
+    <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="NavPolygon.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="LevelData.cpp" />
     <ClCompile Include="ObjectData.cpp" />
