@@ -100,8 +100,8 @@ void CGameWorld::Init()
 	myTargetPosition = { 0.0f, 0.0f };
 	myNewTargetPosition = myTargetPosition;
 
-	myDotSprites.Init(5000);
-	for (int i = 0; i < 5000; ++i)
+	myDotSprites.Init(12000);
+	for (int i = 0; i < 12000; ++i)
 	{
 		DX2D::CSprite* sprite = new DX2D::CSprite("Sprites/Dot.dds");
 		myDotSprites.Add(sprite);
@@ -132,6 +132,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	if (myInputManager.KeyPressed(DIK_F3) == true)
 	{
 		myShouldRenderFPS = !myShouldRenderFPS;
+	}
+
+	if (myInputManager.KeyPressed(DIK_F4) == true)
+	{
+		myShouldRenderNavPoints = !myShouldRenderNavPoints;
 	}
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
@@ -326,6 +331,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				{
 					myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
 				}
+				else if (points[i].myDrawBlue == true)
+				{
+					myDotSprites[i]->SetColor({ 0, 1, 0, 1 });
+				}
+				else if (points[i].myDrawRed == true)
+				{
+					myDotSprites[i]->SetColor({ 1, 0, 0, 1 });
+				}
 				else
 				{
 					myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
@@ -420,7 +433,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		}
 	}
 
-	if (myHasPath == true)
+	if (myHasPath == true && myWaypointNodes->Size() > 0)
 	{
 		Vector2f playerPosition;
 		playerPosition.x = myPlayer.GetPosition().x;
@@ -450,38 +463,6 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 			myTargetPosition.y = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
 		}
 	}
-
-	/*
-	//Makes sure player can not walk through obstacles
-	if (myCurrentRoom->GetNavMeshes().Size() > 0 && myCurrentRoom->GetNavMeshes()[0].PointInsideCheck(Point2f(
-		myPlayer.GetPosition().x,
-		myPlayer.GetPosition().y)) == false)
-	{
-		myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-		myPlayer.SetIsMoving(false);
-	}
-
-	//If character accidentally gets outside the nav mesh move him back inside
-	for (unsigned short i = 1; i < myCurrentRoom->GetNavMeshes().Size(); i++)
-	{
-		if (myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myPlayer.GetPosition().x,
-			myPlayer.GetPosition().y)
-			) == true
-			||
-			myCurrentRoom->GetNavMeshes()[i].
-			PointInsideCheck(Point2f(
-			myTargetPosition.x,
-			myTargetPosition.y)
-			) == true)
-		{
-			myPlayer.SetPosition(myPlayer.GetPreviousPosition());
-			myPlayer.SetIsMoving(false);
-			break;
-		}
-	}
-	*/
 
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath);
 

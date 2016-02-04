@@ -20,7 +20,6 @@ public:
 	~CGameWorld();
 
 	void Init();
-
 	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);
 	Player* CGameWorld::GetPlayer();
@@ -30,15 +29,12 @@ public:
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;
 	bool PlayerHasReachedTarget();
-
 	void Quit();
 
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 	void PlayerMovement(bool aCheckInput, float aTimeDelta);
-
 private:
-
 	void ItemPickUp();
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 

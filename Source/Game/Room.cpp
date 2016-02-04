@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Room.h"
 #include "Item.h"
+#include <iostream>
 
 Room::Room()
 {
@@ -66,6 +67,7 @@ Node* Room::GetNodeAtPosition(DX2D::Vector2f aPosition)
 {
 	int x = static_cast<int>(roundf((aPosition.x * 1920.0f) / myGridSize));
 	int y = static_cast<int>(roundf((aPosition.y * 1080.0f) / myGridSize));
+	std::cout << x << ";" << y << std::endl;
 	return &myNavPoints[x + y * static_cast<int>(roundf(1920.0f / myGridSize))];
 }
 
