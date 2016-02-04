@@ -79,8 +79,8 @@
     <Filter Include="Source\System\Sound\Music">
       <UniqueIdentifier>{f8873320-784c-4874-b27c-98a6c2440398}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Pathfinding">
-      <UniqueIdentifier>{4d4058f0-18cf-4369-806b-2bb92e607ec8}</UniqueIdentifier>
+    <Filter Include="Source\System\Pathfinding">
+      <UniqueIdentifier>{9e4e1877-96f9-4342-bb34-b260e3912cfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -287,13 +287,13 @@
       <Filter>Source\System\Sound\Music</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>System\Pathfinding</Filter>
-    </ClInclude>
-    <ClInclude Include="EventAnswer.h">
-      <Filter>Events\Conversation</Filter>
+      <Filter>Source\System\Pathfinding</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinding.h">
-      <Filter>System\Pathfinding</Filter>
+      <Filter>Source\System\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="EventAnswer.h">
+      <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -463,13 +463,13 @@
       <Filter>Source\System\Sound\Music</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
-      <Filter>System\Pathfinding</Filter>
-    </ClCompile>
-    <ClCompile Include="EventAnswer.cpp">
-      <Filter>Events\Conversation</Filter>
+      <Filter>Source\System\Pathfinding</Filter>
     </ClCompile>
     <ClCompile Include="Pathfinding.cpp">
-      <Filter>System\Pathfinding</Filter>
+      <Filter>Source\System\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="EventAnswer.cpp">
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
