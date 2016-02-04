@@ -89,6 +89,13 @@ void CGameWorld::Init()
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
 	myShouldRenderFPS = true;
+
+	myDotSprites.Init(5000);
+	for (int i = 0; i < 5000; ++i)
+	{
+		myDotSprites.Add(new DX2D::CSprite("Sprites/Dot.dds"));
+	}
+	
 }
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
@@ -147,6 +154,15 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myFadeIn >= 1.0f)
 		{
 			myFadeIn = 1.0f;
+		}
+	}
+
+
+	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eRight) == true)
+	{
+		if (myPathfinding.FindPath(myCurrentRoom, myPlayer.GetPosition(), myTargetPosition))
+		{
+			CommonUtilities::GrowingArray<Node*, int>& nodes = myPathfinding.GetPath();
 		}
 	}
 
@@ -297,10 +313,17 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		if (points[i].GetIsBlocked() == false)
 		{
 			command.myType = eRenderType::eSprite;
-			myResTest->SetPivot({ 0, 0 });
-
+			myDotSprites[i]->SetPivot({ 0, 0 });
+			if (points[i].GetPath() == true)
+			{
+				myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+			}
+			else
+			{
+				myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+			}
 			command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
-			command.mySprite = myResTest;
+			command.mySprite = myDotSprites[i];
 			aSynchronizer.AddRenderCommand(command);
 		}
 		x += gridSize;
@@ -411,7 +434,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
+	//myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{

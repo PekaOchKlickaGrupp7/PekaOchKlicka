@@ -1,10 +1,19 @@
 #include "stdafx.h"
 #include "Node.h"
 
-Node::Node() { }
-Node::Node(bool aIsBlocked)
+Node::Node()
+{
+	myIsBlocked = false;
+	myG = 0;
+	myH = 0;
+}
+Node::Node(int aX, int aY, bool aIsBlocked)
 {
 	myIsBlocked = aIsBlocked;
+	myG = 0;
+	myH = 0;
+	myX = aX;
+	myY = aY;
 }
 
 Node::~Node()
@@ -16,12 +25,12 @@ void Node::SetParent(Node* aNode)
 	myParent = aNode;
 }
 
-void Node::SetG(const float aValue)
+void Node::SetG(const int aValue)
 {
 	myG = aValue;
 }
 
-void Node::SetH(const float aValue)
+void Node::SetH(const int aValue)
 {
 	myH = aValue;
 }
@@ -51,12 +60,18 @@ int Node::GetY() const
 	return myY;
 }
 
-float Node::GetG() const
+int Node::GetG() const
 {
 	return myG;
 }
 
-float Node::GetH() const
+int Node::GetH() const
 {
 	return myH;
 }
+
+void Node::SetPath(bool aIsPath)
+{
+	myIsPath = aIsPath;
+}
+

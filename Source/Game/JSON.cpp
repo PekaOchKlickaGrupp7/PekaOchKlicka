@@ -547,7 +547,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		unsigned char timer = manager.CreateTimer();
 		manager.UpdateTimers();
 
-		for (float y = 0; y < windowWidth; y += gridSize)
+		for (float y = 0; y < windowHeight; y += gridSize)
 		{
 			for (float x = 0; x < windowWidth; x += gridSize)
 			{
@@ -565,7 +565,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 						break;
 					}
 				}
-				nodes.Add(Node(!inside));
+				nodes.Add(Node(static_cast<int>(x / gridSize), static_cast<int>(y / gridSize), !inside));
 			}
 		}
 
