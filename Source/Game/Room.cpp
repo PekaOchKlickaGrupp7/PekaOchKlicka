@@ -86,7 +86,7 @@ CommonUtilities::VectorOnStack<Node*, 8> Room::GetNeighbours(Node* aNode)
 
 			if (checkX >= 0 && checkX < myGridSize && checkY >= 0 && myGridSize)
 			{
-				neighbours.Add(&myNavPoints[checkX + checkY * (1920.0f / myGridSize)]);
+				neighbours.Add(&myNavPoints[checkX + checkY * static_cast<int>(1920.0f / myGridSize)]);
 			}
 		}
 	}
