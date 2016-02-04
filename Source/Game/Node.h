@@ -3,12 +3,12 @@ class Node
 {
 public:
 	Node();
-	Node(bool aIsBlocked);
+	Node(int aX, int aY, bool aIsBlocked);
 	~Node();
 
 	void SetParent(Node* aNode);
-	void SetG(const float aValue);
-	void SetH(const float aValue);
+	void SetG(const int aValue);
+	void SetH(const int aValue);
 
 	void SetX(const int aValue);
 	void SetY(const int aValue);
@@ -22,17 +22,21 @@ public:
 		return myIsBlocked;
 	}
 
-	float GetG() const;
-	float GetH() const;
-	float GetF() const
+	void SetPath(bool aIsPath);
+	bool GetPath() { return myIsPath; }
+
+	int GetG() const;
+	int GetH() const;
+	int GetF() const
 	{
 		return myG + myH;
 	}
 private:
-	float myG;
-	float myH;
+	int myG;
+	int myH;
 	int myX;
 	int myY;
+	bool myIsPath;
 	Node* myParent;
 	bool myIsBlocked;
 };

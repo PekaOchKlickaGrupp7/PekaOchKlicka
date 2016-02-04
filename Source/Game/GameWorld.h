@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Item.h"
 #include <tga2d\text\text.h>
+#include "Pathfinding.h"
 
 class Room;
 
@@ -44,10 +45,14 @@ private:
 	float myFadeIn;
 	bool myDoFadeIn;
 
+	Pathfinding myPathfinding;
+
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	std::map<std::string, Room*> myRooms;
 	Room* myCurrentRoom;
+
+	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;
 
 	JSON myJson;
 
