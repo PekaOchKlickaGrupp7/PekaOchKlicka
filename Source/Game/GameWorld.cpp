@@ -59,6 +59,7 @@ void CGameWorld::Init()
 {
 	std::string name = "";
 	myJson.Load("root.json", myRooms, this, name);
+	myJson.LoadMusic("JSON/Music.json");
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;

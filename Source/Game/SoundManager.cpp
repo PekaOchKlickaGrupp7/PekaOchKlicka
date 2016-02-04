@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "SoundManager.h"
 #include "..\CommonUtilities\DL_Debug.h"
+#include <iostream>
 
 SoundManager* SoundManager::mySoundManager = nullptr;
 
@@ -45,7 +46,14 @@ SoundClass SoundManager::CreateSound(const char* aFile)
 	// for stream use FMOD_CREATESTREAM
 	// FMOD_CREATESAMPLE compresses and streams. FMOD_DEFAULT is higher qual-ish
 	SoundClass tempSoundClass = nullptr;
-	mySystem->createSound(aFile, FMOD_2D, 0, &tempSoundClass);
+	FMOD_RESULT aRes;
+	aRes = mySystem->createSound(aFile, FMOD_2D, 0, &tempSoundClass);
+	if (aRes == 18)
+	{
+		std::string outputstring = "Sound file could not be found. File name was: '" + std::string(aFile) + "'";
+		DL_DEBUG(outputstring.c_str());
+		std::cout << "Sound file could not be found! File name was: " + std::string(aFile) + " Check empty playsound events" << std::endl;
+	}
 	return tempSoundClass;
 }
 

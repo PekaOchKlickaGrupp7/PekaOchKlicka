@@ -212,6 +212,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="MouseManager.h" />
+    <ClInclude Include="MusicManager.h" />
     <ClInclude Include="NavPolygon.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NPC.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="MouseManager.cpp" />
+    <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="NavPolygon.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NPC.cpp" />
