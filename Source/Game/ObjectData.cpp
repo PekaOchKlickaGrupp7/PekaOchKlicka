@@ -18,8 +18,8 @@ ObjectData::~ObjectData()
 	}
 	myChilds.~GrowingArray();
 	myEvents.DeleteAll();
-	delete mySprite;
-	mySprite = nullptr;
+	delete myOriginalSprite;
+	myOriginalSprite = nullptr;
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)

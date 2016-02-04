@@ -79,6 +79,9 @@
     <Filter Include="Source\System\Sound\Music">
       <UniqueIdentifier>{f8873320-784c-4874-b27c-98a6c2440398}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Pathfinding">
+      <UniqueIdentifier>{4d4058f0-18cf-4369-806b-2bb92e607ec8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -283,6 +286,13 @@
     <ClInclude Include="MusicManager.h">
       <Filter>Source\System\Sound\Music</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>System\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="EventAnswer.h">
+      <Filter>Events\Conversation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -449,6 +459,13 @@
     </ClCompile>
     <ClCompile Include="MusicManager.cpp">
       <Filter>Source\System\Sound\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>System\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="EventAnswer.cpp">
+      <Filter>Events\Conversation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -132,22 +132,24 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
+	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
 	{
-		myFadeIn -= aTimeDelta;
+		myFadeIn -= aTimeDelta * fadeSpeed;
 		if (myFadeIn <= 0.0f)
 		{
 			myFadeIn = 0.0f;
-			}
-	}
-			else
-			{
-		myFadeIn += aTimeDelta;
-		if (myFadeIn >= 1.0f)
-	{
-			myFadeIn = 1.0f;
-	}
 		}
+	}
+	else
+	{
+		myFadeIn += aTimeDelta * fadeSpeed;
+		if (myFadeIn >= 1.0f)
+		{
+			myFadeIn = 1.0f;
+		}
+	}
+
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
@@ -285,14 +287,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	myResTest->SetSize(DX2D::Vector2f(0.01f, 0.01f));
 	
-	CommonUtilities::GrowingArray<bool, int>& points = myCurrentRoom->GetNavPoints();
+	CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
 	int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
 	float x = 0;
 	float y = 0;
 
 	for (int i = 0; i < points.Size(); ++i)
 	{
-		if (points[i] == true)
+		if (points[i].GetIsBlocked() == false)
 		{
 			command.myType = eRenderType::eSprite;
 			myResTest->SetPivot({ 0, 0 });
