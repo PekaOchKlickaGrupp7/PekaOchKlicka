@@ -15,7 +15,7 @@ public:
 	virtual void Reset() override;
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
-	CU::GrowingArray<std::string> myOptions;
+	CommonUtilities::GrowingArray<std::string> myOptions;
 	std::string myFontPath;
 	std::string mySpritePath;
 
@@ -25,7 +25,7 @@ public:
 protected:
 
 	DX2D::CSprite* mySprite;
-	CU::GrowingArray<DX2D::CText*> myTextOptions;
+	CommonUtilities::GrowingArray<DX2D::CText*> myTextOptions;
 
 	float myHeight;
 
