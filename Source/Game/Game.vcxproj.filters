@@ -276,9 +276,11 @@
     <ClInclude Include="Node.h">
       <Filter>System\Pathfinding</Filter>
     </ClInclude>
-    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="EventAnswer.h">
       <Filter>Events\Conversation</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h">
+      <Filter>System\Pathfinding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +445,11 @@
     <ClCompile Include="Node.cpp">
       <Filter>System\Pathfinding</Filter>
     </ClCompile>
-    <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Events\Conversation</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinding.cpp">
+      <Filter>System\Pathfinding</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
