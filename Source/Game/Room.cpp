@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Room.h"
 #include "Item.h"
+#include <iostream>
 
 Room::Room()
 {

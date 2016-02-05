@@ -28,7 +28,7 @@ protected:
 
 	bool NewSubString();
 
-
+	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
 	int myWordCount;

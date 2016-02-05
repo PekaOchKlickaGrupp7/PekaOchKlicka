@@ -25,6 +25,9 @@ public:
 	void SetPath(bool aIsPath);
 	bool GetPath() { return myIsPath; }
 
+	bool myDrawBlue;
+	bool myDrawRed;
+
 	int GetG() const;
 	int GetH() const;
 	int GetF() const
