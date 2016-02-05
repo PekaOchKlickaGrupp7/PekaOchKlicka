@@ -46,10 +46,6 @@ bool MusicManager::ChangeTheme(const std::string &aNextTheme)
 
 void MusicManager::Update(float aDeltaTime)
 {
-	float vol = 0.0f;
-	vol = SoundFileHandler::GetInstance()->GetSong(std::string("Fossils"))->GetVolume();
-	std::cout << "Volume of song fossils: " << vol << std::endl;
-	
 	SoundFileHandler::GetInstance()->UpdateSongs(aDeltaTime);
 }
 
