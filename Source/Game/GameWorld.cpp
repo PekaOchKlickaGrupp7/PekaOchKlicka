@@ -32,6 +32,8 @@ CGameWorld::~CGameWorld()
 		delete iterator->second;
 	}
 	myRooms.clear();
+
+	myDotSprites.DeleteAll();
 }
 
 void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
@@ -464,7 +466,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		}
 	}
 
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath);
+	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{
