@@ -23,6 +23,7 @@ Player::Player()
 	myIsInventoryOpen = false;
 	myAnimations.Init(10);
 	myCurentAnimation = 0;
+	myPivotPoint = DX2D::Vector2f(0.5f, 0.85f);
 }
 
 
@@ -83,8 +84,8 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 	int frames = animation["frames"].GetInt();
 	int framesPerRow = animation["framesPerRow"].GetInt();
 	float animationSpeed = static_cast<float>(animation["animationSpeed"].GetDouble());
-	
-	myAnimations.Add(new Animation(path, DX2D::Vector2f(0.5f, 1.0f), animationSpeed, frames, framesPerRow));
+
+	myAnimations.Add(new Animation(path, myPivotPoint, animationSpeed, frames, framesPerRow));
 
 	}
 }
@@ -189,12 +190,6 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 			myIsMoving = false;
 		}
 	//}
-}
-
-void Player::SetPivot(const DX2D::Vector2f& aPoint)
-{
-	(aPoint);
-	//mySprite->SetPivot(aPoint);
 }
 
 void Player::SetPosition(const DX2D::Vector2f& aPoint)
