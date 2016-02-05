@@ -5,8 +5,15 @@
 #include <fstream>
 #include <math.h>
 #include "..\CommonUtilities\DL_Debug.h"
+#include "SoundFileHandler.h"
 
 using namespace rapidjson;
+
+class CGameWorld
+{
+public:
+	bool PlayerHasReachedTarget();
+};
 
 Player::Player()
 {
@@ -24,8 +31,10 @@ Player::~Player()
 	myAnimations.DeleteAll();
 }
 
-void Player::Init(DX2D::Vector2f aPosition)
+void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 {
+	myGameWorldPtr = aGameWorldPtr;
+
 	const char* data = ReadFile("JSON/Player.json");
 	rapidjson::Document root;
 	root.Parse(data);
@@ -59,6 +68,8 @@ void Player::Init(DX2D::Vector2f aPosition)
 	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
 	myInventory.Init("Sprites/inventory.png");
+
+	SoundFileHandler::GetInstance()->Load(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
 }
 
 void Player::LoadAnimations(rapidjson::Value& aAnimations)
@@ -81,6 +92,21 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 //Update the character
 void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer)
 {
+	if (myGameWorldPtr->PlayerHasReachedTarget() == false)
+	{
+		if (SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->IsPlaying() == false)
+		{
+			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->PlaySound();
+		}
+	}
+	else
+	{
+		if (SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->IsPlaying() == true)
+		{
+			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->Stop();
+		}
+	}
+
 	myPreviousPosition = myPosition;
 
 	//Opening/Closing the inventory

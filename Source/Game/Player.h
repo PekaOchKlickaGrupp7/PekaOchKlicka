@@ -5,13 +5,15 @@
 
 class CU::DirectInput::InputManager;
 
+class CGameWorld;
+
 class Player
 {
 public:
 	Player();
 	~Player();
 
-	void Init(DX2D::Vector2f aPosition);
+	void Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr);
 
 	void Render(Synchronizer& aSynchronizer);
 	void Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT);
@@ -50,5 +52,7 @@ private:
 
 	bool myIsMoving;
 	bool myIsInventoryOpen;
+
+	CGameWorld* myGameWorldPtr;
 };
 

@@ -87,7 +87,7 @@ void CGameWorld::Init()
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.6f;
 
-	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f));
+	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f), this);
 
 	myFadeIn = 1.0f;
 	myDoFadeIn = false;

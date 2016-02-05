@@ -34,6 +34,7 @@ public:
 	void SetPan(float aPan);
 	void SetVolume(float aVolume);
 	float GetVolume();
+	bool IsPlaying();
 
 	void Update(float aDeltaTime);
 

@@ -34,6 +34,8 @@ SoundManager::SoundManager()
 
 	mySystem->createChannelGroup("Music_Channel", &myChannelGroupMusic);
 	mySystem->createChannelGroup("SFX_Channel", &myChannelGroupSFX);
+
+	myChannelGroupMusic->setVolume(0.8f);
 }
 
 FMOD::ChannelGroup* SoundManager::GetChannelGroup(const std::string &aName)
@@ -132,8 +134,6 @@ void SoundManager::Update(float aUpdateTimer)
 
 	mySystem->set3DListenerAttributes(0, &myListenerPosition, &vel, &forward, &up);
 	mySystem->update();
-
-	
 }
 
 FMOD::Channel* SoundManager::PlaySound(SoundClass aSound, DX2D::Vector2f aPosition, bool isLooping)

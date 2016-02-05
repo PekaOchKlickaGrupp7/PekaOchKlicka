@@ -115,6 +115,13 @@ void Sound::FadeUp(float aDeltaTime)
 	}
 }
 
+bool Sound::IsPlaying()
+{
+	bool tempBool = false;
+	myChannel->isPlaying(&tempBool);
+	return tempBool;
+}
+
 void Sound::Update(float aDeltaTime)
 {
 	if (myIsFadingDown == true)
