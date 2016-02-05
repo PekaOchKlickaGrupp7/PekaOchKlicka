@@ -87,7 +87,7 @@ void Sound::FadeDown(float aDeltaTime)
 
 	if (volume > 0.0f)
 	{
-		volume -= 0.0001f * aDeltaTime;
+		volume -= 0.001f * aDeltaTime;
 		myChannel->setVolume(volume);
 		myChannel->getVolume(&volume);
 		if (volume < 0)
@@ -104,7 +104,7 @@ void Sound::FadeUp(float aDeltaTime)
 
 	if (volume < 1.1f)
 	{
-		volume += 0.0001f * aDeltaTime;
+		volume += 0.001f * aDeltaTime;
 		myChannel->setVolume(volume);
 		myChannel->getVolume(&volume);
 		if (volume > 1)
