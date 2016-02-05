@@ -57,6 +57,8 @@ namespace DX2D
 		void InitAndLoad(std::string aFontPathAndName);
 		void AddTextToRender(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName);
 		float GetSentenceWidth(const std::string& aText, float aSize, const std::string& aName);
+		float GetSentenceHeight(const std::string& aText, float aSize, const std::string& aName);
+
 	private:
 		void UpdateTextAndDraw(const std::string& aText, const Vector2f& aPosition, CColor aColor, float aSize, const std::string& aName);
 		struct STextToRender

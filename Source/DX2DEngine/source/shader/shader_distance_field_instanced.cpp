@@ -55,10 +55,12 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 
 
 	// Changed ratioX to use the correct ratio of 1920 / 1080
-	//const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
 	const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
+	//const float ratioX = 960.0f / 540.0f;
 
-
+	float prevY = 20520520502;
+	float nextX = 0;
+	int counter = 0;
 	for (unsigned int i = 0; i < someSprites.size(); i++)
 	{
 		CSprite* sprite = someSprites[i];
@@ -76,16 +78,35 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 
 		type.myPosition = sprite->GetPosition();
 		DX2D::Vector2f offsetPos(1.0f, -1.0f);
+
+		//type.myPosition.x *= ratioX;// / 1920.0f * i;
+
 		Vector2f correctedPosition = DX2D::Vector2f(type.myPosition.x * 2.0f, -type.myPosition.y * 2.0f) - offsetPos;
 		type.myPosition = correctedPosition;
 
 		type.myPivot.Set(sprite->GetPivot().x, sprite->GetPivot().y, 0, 0);
-		type.myPosition.x *= ratioX;
+
+		++counter;
+		CTexturedQuad* texQuad = sprite->GetTexturedQuad();
+		bool setX = true;
+ 		if (prevY - 0.04f > type.myPosition.y + texQuad->mySizeMultiplier.y)
+		{
+			prevY = type.myPosition.y;
+			counter = 0;
+			nextX = 0;
+			setX = false;
+		}
+
+		type.myPosition.x += 3.0f * (0.015f * counter);// / 1920.0f * i;
 		type.myRotationAndSize.x = sprite->GetRotation();
+
+		if (setX == true || counter == 0)
+		{
+			nextX = texQuad->mySizeMultiplier.x;
+		}
 
 		if (sprite->HasChangedSize())
 		{
-			CTexturedQuad* texQuad = sprite->GetTexturedQuad();
 			//myQuad->mySize * myQuad->mySizeMultiplier
 			type.myRotationAndSize.y = texQuad->mySize.x * texQuad->mySizeMultiplier.x;
 			type.myRotationAndSize.z = texQuad->mySize.y * texQuad->mySizeMultiplier.y;

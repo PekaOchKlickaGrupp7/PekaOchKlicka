@@ -17,6 +17,7 @@ namespace DX2D
 		~CText();
 		void Render();
 		float GetWidth() const;
+		float GetHeight() const;
 		static float GetWidth(const std::string &aString, const float &aSize, const std::string &aPathAndName);
 
 		inline const std::string& GetPathAndName();

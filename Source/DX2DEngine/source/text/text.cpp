@@ -15,7 +15,6 @@ CText::CText(const char* aPathAndName)
 	DX2D::CEngine::GetInstance()->GetTextService().InitAndLoad(myPathAndName);
 }
 
-
 CText::~CText()
 {
 }
@@ -36,6 +35,15 @@ float DX2D::CText::GetWidth() const
 		return 0.0f;
 	}
 	return myTextService->GetSentenceWidth(myText, mySize, myPathAndName);
+}
+
+float DX2D::CText::GetHeight() const
+{
+	if (!myTextService)
+	{
+		return 0.0f;
+	}
+	return myTextService->GetSentenceHeight(myText, mySize, myPathAndName);
 }
 
 float DX2D::CText::GetWidth(const std::string &aString, const float &aSize, const std::string &aPathAndName)

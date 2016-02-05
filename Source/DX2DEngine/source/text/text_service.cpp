@@ -147,12 +147,46 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 	for (unsigned int i = 0; i < aText.size(); i++)
 	{
 		int aChar = aText[i];
+		if (aChar == '\n')
+		{
+			break;//!
+		}
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
-		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / (float)CEngine::GetInstance()->GetWindowSize().x))) * aSize) * 0.6f;
+		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize) * (DX2D::CEngine::GetInstance()->GetWindowRatio() * 0.91f);
 	}
 
 	return nextX;
+
+}
+
+#define NEW_LINE_HEIGHT 0.05f
+
+float DX2D::CTextService::GetSentenceHeight(const std::string& aText, float aSize, const std::string& aName)
+{
+	if (aText.size() <= 0)
+	{
+		return 0.0f;
+	}
+	SFontData* fontData = myFontDatas[aName];
+	if (!fontData || !myIsLoaded)
+	{
+		return 0;
+	}
+	float nextY = aSize * NEW_LINE_HEIGHT;
+	for (unsigned int i = 0; i < aText.size(); i++)
+	{
+		int aChar = aText[i];
+		if (aChar == '\n')
+		{
+			nextY += aSize * NEW_LINE_HEIGHT;
+			/*aChar = aChar < 0 ? 63 : aChar;
+			const fontChar& theChar = fontData->myFontChars[aChar];
+			nextY += ((theChar.y_ / 1920.0f) * aSize) * (DX2D::CEngine::GetInstance()->GetWindowRatio() * 0.91f);*/
+		}
+	}
+
+	return nextY;
 
 }
 
@@ -220,7 +254,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		bool isNewLine = aChar == 10;
 		if (isNewLine)
 		{
-			nextY += aSize * 0.15f;
+			nextY += aSize * NEW_LINE_HEIGHT;
 			nextX = 0;
 			continue;
 		}
@@ -244,7 +278,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		renderText.uvScale.y = sizeY;
 		renderText.myColor = aColor;
 
-		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / (float)CEngine::GetInstance()->GetWindowSize().x))) * aSize) * 0.6f;
+		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 0.6f;
 
 		aTextBuffer.push_back(renderText);
 
