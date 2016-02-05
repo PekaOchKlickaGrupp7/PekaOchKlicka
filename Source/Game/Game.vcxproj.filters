@@ -295,6 +295,7 @@
     <ClInclude Include="EventAnswer.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventStopTalk.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -471,5 +472,6 @@
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="EventStopTalk.cpp" />
   </ItemGroup>
 </Project>
