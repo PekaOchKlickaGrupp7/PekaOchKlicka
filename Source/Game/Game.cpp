@@ -17,6 +17,7 @@
 #include "ResolutionManager.h"
 #include "MouseManager.h"
 #include "EventVariablesManager.h"
+#include "MusicManager.h"
 
 #include <iostream>
 
@@ -206,6 +207,7 @@ const bool CGame::Update()
 {
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+	MusicManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)

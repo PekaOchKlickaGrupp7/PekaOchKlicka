@@ -84,6 +84,10 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		{
 			changeLevel->myUseFading = extra["UseFading"].GetBool();
 		}
+		if (extra.HasMember("NextTheme") == true)
+		{
+			changeLevel->myNextTheme = extra["NextTheme"].GetString();
+		}
 
 		event = changeLevel;
 		break;
@@ -655,6 +659,8 @@ bool JSON::LoadMusic(const std::string& aMusicFile)
 
 		MusicManager::GetInstance()->Load(songPath, songName);
 	}
+
+	MusicManager::GetInstance()->StartSystem();
 
 	return true;
 }

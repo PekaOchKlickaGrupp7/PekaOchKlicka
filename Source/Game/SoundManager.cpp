@@ -31,6 +31,36 @@ SoundManager::SoundManager()
 	DL_PRINT("Created a sound device");
 
 	mySystem->set3DSettings(1.0, DISTANCEFACTOR, 1.0f);
+
+	mySystem->createChannelGroup("Music_Channel", &myChannelGroupMusic);
+	mySystem->createChannelGroup("SFX_Channel", &myChannelGroupSFX);
+}
+
+FMOD::ChannelGroup* SoundManager::GetChannelGroup(const std::string &aName)
+{
+
+	if (aName == "Music")
+	{
+		return myChannelGroupMusic;
+	}
+	else if (aName == "SFX")
+	{
+		return myChannelGroupSFX;
+	}
+	else
+	{
+		std::cout << "Channel group not found! Tried to get channel group: " << aName << std::endl;
+	}
+
+	//const int name_length = 32;
+	//char* musicChannelName[name_length];
+	//char* sfxChannelName[name_length];
+	//myChannelGroupMusic->getName(*musicChannelName, name_length);
+	//myChannelGroupSFX->getName(*sfxChannelName, name_length);
+
+	////std::string musicChannelString = std::to_string(musicChannelName);
+
+	////if (aName == 
 }
 
 SoundClass SoundManager::CreateSound3D(const char* aFile)
@@ -102,6 +132,8 @@ void SoundManager::Update(float aUpdateTimer)
 
 	mySystem->set3DListenerAttributes(0, &myListenerPosition, &vel, &forward, &up);
 	mySystem->update();
+
+	
 }
 
 FMOD::Channel* SoundManager::PlaySound(SoundClass aSound, DX2D::Vector2f aPosition, bool isLooping)
@@ -124,9 +156,11 @@ FMOD::Channel* SoundManager::PlaySound(SoundClass aSound, DX2D::Vector2f aPositi
 	}
 	FMOD::Channel* tempChannel = nullptr;
 
-	mySystem->playSound(aSound, nullptr, false, &tempChannel);
+	FMOD_RESULT Res;
 
-	tempChannel->set3DAttributes(&pos, &vel);
+	Res = mySystem->playSound(aSound, nullptr, false, &tempChannel);
+	
+	Res = tempChannel->set3DAttributes(&pos, &vel);
 
 	return tempChannel;
 }

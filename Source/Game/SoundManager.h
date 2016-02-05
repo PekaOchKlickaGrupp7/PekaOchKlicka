@@ -38,6 +38,8 @@ public:
 		}
 	}
 
+	FMOD::ChannelGroup* GetChannelGroup(const std::string &aName);
+
 	void Update(float aUpdateTimer);
 	FMOD::Channel* PlaySound(SoundClass aSound, DX2D::Vector2f aPosition = { 0.0f, 0.0f }, bool isLooping = false);
 	void ReleaseSound(SoundClass aSound);
@@ -54,5 +56,8 @@ private:
 	static SoundManager* mySoundManager;
 	SoundManager();
 	FMOD_VECTOR myListenerPosition;
+
+	FMOD::ChannelGroup* myChannelGroupMusic;
+	FMOD::ChannelGroup* myChannelGroupSFX;
 };
 

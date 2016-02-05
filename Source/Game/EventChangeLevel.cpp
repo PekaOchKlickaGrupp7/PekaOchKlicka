@@ -4,6 +4,7 @@
 
 #include "..\CommonUtilities\DL_Debug.h"
 #include "EventVariablesManager.h"
+#include "MusicManager.h"
 
 EventChangeLevel::EventChangeLevel()
 {
@@ -21,6 +22,13 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 {
 	if (myTargetLevelName != "")
 	{
+		if (myCached == false)
+		{
+			MusicManager::GetInstance()->ChangeTheme(myNextTheme);
+			myCached = true;
+		}
+
+
 		bool doChange = true;
 		if (myUseFading == true)
 		{
@@ -48,7 +56,6 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 					EventVariablesManager::GetInstance()->SetVariable(false, "InMenu");
 				}
 
-
 				return true;
 			}
 		}
@@ -59,4 +66,5 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 void EventChangeLevel::Reset()
 {
 	myTime = 0.0f;
+	myCached = false;
 }

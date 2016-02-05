@@ -14,7 +14,10 @@ public:
 	std::string myTargetLevelName;
 	DX2D::Vector2f myTargetPosition;
 	bool myUseFading;
+
+	std::string myNextTheme;
 protected:
 	float myTime;
+	bool myCached;
 };
 
