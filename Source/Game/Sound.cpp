@@ -8,6 +8,8 @@ Sound::Sound()
 	mySFX = nullptr;
 	myIdentifier = "";
 
+	myIsFadingDown = false;
+	myIsFadingUp = false;
 
 	myChannel = nullptr;
 }
@@ -34,7 +36,7 @@ void Sound::Create3D(const char* aFile, std::string &anIdentifier)
 	mySFX = SoundManager::GetInstance()->CreateSound3D(aFile);
 }
 
-void Sound::Play(DX2D::Vector2f aPosition)
+void Sound::PlaySound(DX2D::Vector2f aPosition)
 {
 	bool aBool = false;
 	if (myChannel != nullptr)
@@ -45,6 +47,83 @@ void Sound::Play(DX2D::Vector2f aPosition)
 	{
 		myPosition = aPosition;
 		myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, myIsLooping);
+	}
+	myChannel->setChannelGroup(SoundManager::GetInstance()->GetChannelGroup("SFX"));
+}
+
+void Sound::PlaySong()
+{
+	bool aBool = false;
+	if (myChannel != nullptr)
+	{
+		myChannel->isPlaying(&aBool);
+	}
+	if (aBool == false)
+	{
+		myChannel = SoundManager::GetInstance()->PlaySound(this->mySFX, myPosition, true); // Now always loops due to the music fade system-solution.
+		myChannel->setVolume(0.0f);
+	}
+	myChannel->setChannelGroup(SoundManager::GetInstance()->GetChannelGroup("Music"));
+}
+
+void Sound::Fade(eFade aFadeUpOrDown)
+{
+	if (eFadeInt(aFadeUpOrDown) == 0)
+	{
+		myIsFadingDown = false;
+		myIsFadingUp = true;
+	}
+	else if (eFadeInt(aFadeUpOrDown) == 1)
+	{
+		myIsFadingDown = true;
+		myIsFadingUp = false;
+	}
+}
+
+void Sound::FadeDown(float aDeltaTime)
+{
+	float volume;
+	myChannel->getVolume(&volume);
+
+	if (volume > 0.0f)
+	{
+		volume -= 0.0001f * aDeltaTime;
+		myChannel->setVolume(volume);
+		myChannel->getVolume(&volume);
+		if (volume < 0)
+		{
+			myIsFadingDown = false;
+			myChannel->setVolume(0.0f);
+		}
+	}
+}
+void Sound::FadeUp(float aDeltaTime)
+{
+	float volume;
+	myChannel->getVolume(&volume);
+
+	if (volume < 1.1f)
+	{
+		volume += 0.0001f * aDeltaTime;
+		myChannel->setVolume(volume);
+		myChannel->getVolume(&volume);
+		if (volume > 1)
+		{
+			myIsFadingUp = false;
+			myChannel->setVolume(1.0f);
+		}
+	}
+}
+
+void Sound::Update(float aDeltaTime)
+{
+	if (myIsFadingDown == true)
+	{
+		FadeDown(aDeltaTime);
+	}
+	if (myIsFadingUp == true)
+	{
+		FadeUp(aDeltaTime);
 	}
 }
 

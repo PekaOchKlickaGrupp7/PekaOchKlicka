@@ -32,7 +32,7 @@ bool EventPlaySound::Update(const float aDeltaTime)
 		}
 	}
 
-	SoundPtr->Play();
+	SoundPtr->PlaySound();
 	return true;
 }
 

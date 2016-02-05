@@ -31,14 +31,20 @@ public:
 	}
 
 	void Load(std::string &aSongPath, std::string &anIdentifier);
-	Sound* GetSong(std::string &anID);
+
+	void StartSystem();
+	bool ChangeTheme(const std::string &aNextTheme);
 
 	void DestroySong(std::string &anID);
 	void DestroyAll();
 
+	void Update(float aDeltaTime);
+
 	~MusicManager();
 private:
 	MusicManager();
+
+	std::string myCurrentThemeName;
 
 	static MusicManager* myMusicManager;
 };

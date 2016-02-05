@@ -1,12 +1,24 @@
 {
     "music": [
         {
-            "file": "Sound/Music/kitchen.ogg",
-            "name": "kitchen"
+            "file": "Sound/Music/BugsAndFish__n.ogg",
+            "name": "BugsAndFish"
         },
         {
-            "file": "Sound/Music/hall.ogg",
-            "name": "hall"
+            "file": "Sound/Music/Fossils__n.ogg",
+            "name": "Fossils"
+        },
+        {
+            "file": "Sound/Music/MainRoom__n.ogg",
+            "name": "MainRoom"
+        },
+        {
+            "file": "Sound/Music/Observatory__n.ogg",
+            "name": "Observatory"
+        },
+        {
+            "file": "Sound/Music/Paintings__n.ogg",
+            "name": "Paintings"
         }
     ]
 }

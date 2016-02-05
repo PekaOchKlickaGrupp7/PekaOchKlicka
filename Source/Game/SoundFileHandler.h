@@ -43,7 +43,7 @@ public:
 	}
 
 
-	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D);
+	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D, bool aIsSong = false);
 	Sound* GetSound(std::string &anID){ return &mySounds[anID]; };
 	Sound* GetSong(std::string &anID){ return &myMusic[anID]; };
 
@@ -52,6 +52,8 @@ public:
 
 	void DestroySong(std::string &anID){ myMusic[anID].Destroy(); };
 	void DestroyAllMusic();
+
+	void UpdateSongs(float aDeltaTime);
 
 	~SoundFileHandler();
 private:
