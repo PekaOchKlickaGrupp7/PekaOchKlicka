@@ -52,7 +52,13 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 
 	myBufferedObjects.clear();
 	myBufferedObjects.reserve(someSprites.size());
+
+
+	// Changed ratioX to use the correct ratio of 1920 / 1080
+	//const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
 	const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
+
+
 	for (unsigned int i = 0; i < someSprites.size(); i++)
 	{
 		CSprite* sprite = someSprites[i];

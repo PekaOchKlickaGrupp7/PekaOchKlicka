@@ -60,7 +60,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 void EventTalk::Render(Synchronizer &aSynchronizer)
 {
-	float onePixel = 0.002f;
+	float offset = 0.002f;
 
 	RenderCommand command;
 	DX2D::Vector2f outlinePos = myTextRender->myPosition;
@@ -68,19 +68,19 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	command.myType = eRenderType::eText;
 	command.myText = myTextOutline;
 	//outline left
-	command.myPosition = { outlinePos.x - onePixel, outlinePos.y };
+	command.myPosition = { outlinePos.x - offset, outlinePos.y };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline right
-	command.myPosition = { outlinePos.x + onePixel, outlinePos.y };
+	command.myPosition = { outlinePos.x + offset, outlinePos.y };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline top
-	command.myPosition = { outlinePos.x, outlinePos.y - onePixel };
+	command.myPosition = { outlinePos.x, outlinePos.y - offset };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline bottom
-	command.myPosition = { outlinePos.x, outlinePos.y + onePixel };
+	command.myPosition = { outlinePos.x, outlinePos.y + offset };
 	aSynchronizer.AddRenderCommand(command);
 
 	command.myText = myTextRender;
