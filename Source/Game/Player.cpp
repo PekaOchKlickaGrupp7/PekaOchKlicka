@@ -56,7 +56,7 @@ void Player::Init(DX2D::Vector2f aPosition)
 	myPosition = aPosition;
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
-	myDepthScaleFactor = 1.5f;
+	myDepthScaleFactor = 1.0f;
 	myIsMoving = false;
 	myInventory.Init("Sprites/inventory.png");
 }
