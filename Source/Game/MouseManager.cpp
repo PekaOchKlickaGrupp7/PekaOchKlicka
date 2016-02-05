@@ -30,7 +30,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	mySpriteInteractive[eMouse(eInteractive::eTalkTo)]->SetPivot({ 0.5f, 0.0f });
 	mySpriteInteractive[eMouse(eInteractive::eExamine)]->SetPivot({ 0.5f, 0.5f });
-	mySpriteInteractive[eMouse(eInteractive::eChooseOption)]->SetPivot({ 0.6f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::eChooseOption)]->SetPivot({ 0.5f, 0.5f });
 	mySpriteInteractive[eMouse(eInteractive::ePickUp)]->SetPivot({ 0.5f, 0.5f });
 	mySpriteInteractive[eMouse(eInteractive::eGrabAndDrag)]->SetPivot({ 0.5f, 0.0f });
 
@@ -95,20 +95,20 @@ void MouseManager::Update(float)
 		myPosition.y = 1;
 	}
 
-	EventVariablesManager::GetInstance()->GetVariable(myInMenu, "InMenu"); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
-	if (myInMenu == false)
-	{
-		mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
-		//std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
-		if (mySprite->GetScale().x <= 0.8f)
-		{
-			mySprite->SetSize({ 0.8f, 0.8f });
-		}
-	}
-	else
-	{
-		mySprite->SetSize({ 1.0f, 1.0f });
-	}
+	//EventVariablesManager::GetInstance()->GetVariable(myInMenu, "InMenu"); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
+	//if (myInMenu == false)
+	//{
+	//	mySprite->SetSize({ (myPosition.y + 0.2f) * 1.5f, (myPosition.y + 0.2f) * 1.5f });
+	//	//std::cout << "Size x: " << mySprite->GetSize().x << std::endl;
+	//	if (mySprite->GetScale().x <= 0.8f)
+	//	{
+	//		mySprite->SetSize({ 0.8f, 0.8f });
+	//	}
+	//}
+	//else
+	//{
+	//	mySprite->SetSize({ 1.0f, 1.0f });
+	//}
 }
 
 bool MouseManager::ButtonClicked(eMouseButtons aButton)
