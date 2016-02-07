@@ -59,11 +59,18 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 	//const float ratioX = 960.0f / 540.0f;
 
 	float prevY = 20520520502;
-	float nextX = 0;
 	int counter = 0;
+	float mySize = 0;
+	float mySizeY = 0;
 	for (unsigned int i = 0; i < someSprites.size(); i++)
 	{
 		CSprite* sprite = someSprites[i];
+		CTexturedQuad* texQuad = sprite->GetTexturedQuad();
+		if (i == 0)
+		{
+			mySize = texQuad->mySizeMultiplier.x / 0.025f;
+			mySizeY = texQuad->mySizeMultiplier.y;
+		}
 
 		if (!sprite->GetShouldRender())
 		{
@@ -87,23 +94,15 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 		type.myPivot.Set(sprite->GetPivot().x, sprite->GetPivot().y, 0, 0);
 
 		++counter;
-		CTexturedQuad* texQuad = sprite->GetTexturedQuad();
-		bool setX = true;
- 		if (prevY - 0.04f > type.myPosition.y + texQuad->mySizeMultiplier.y)
+ 		if (prevY - mySizeY > type.myPosition.y)
 		{
 			prevY = type.myPosition.y;
 			counter = 0;
-			nextX = 0;
-			setX = false;
 		}
 
-		type.myPosition.x += 3.0f * (0.015f * counter);// / 1920.0f * i;
+		//type.myPosition.x += mySize *(0.015f *counter);// / 1920.0f * i;
+		type.myPosition.y -= mySizeY;
 		type.myRotationAndSize.x = sprite->GetRotation();
-
-		if (setX == true || counter == 0)
-		{
-			nextX = texQuad->mySizeMultiplier.x;
-		}
 
 		if (sprite->HasChangedSize())
 		{

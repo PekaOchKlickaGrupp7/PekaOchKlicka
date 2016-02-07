@@ -144,16 +144,21 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 		return 0;
 	}
 	float nextX = 0.0f;
+	float maxX = 0.0f;
 	for (unsigned int i = 0; i < aText.size(); i++)
 	{
 		int aChar = aText[i];
 		if (aChar == '\n')
 		{
-			break;//!
+			if (nextX > maxX)
+			{
+				maxX = nextX;
+				continue;
+			}
 		}
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
-		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize) * (DX2D::CEngine::GetInstance()->GetWindowRatio() * 0.91f);
+		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize) * (DX2D::CEngine::GetInstance()->GetWindowRatio() * 1.1f);
 	}
 
 	return nextX;
@@ -278,7 +283,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		renderText.uvScale.y = sizeY;
 		renderText.myColor = aColor;
 
-		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 0.6f;
+		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 1.3f;
 
 		aTextBuffer.push_back(renderText);
 
