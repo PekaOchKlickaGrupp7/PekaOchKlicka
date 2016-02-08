@@ -68,7 +68,7 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 	myRenderPosition = aPosition;
 	myDepthScaleFactor = 1.5f;
 	myIsMoving = false;
-	myInventory.Init("Sprites/inventory.png");
+	myInventory.Init("Sprites/Inventory/inventory.dds");
 
 	SoundFileHandler::GetInstance()->Load(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
 }
