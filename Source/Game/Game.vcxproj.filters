@@ -82,6 +82,9 @@
     <Filter Include="Source\System\Pathfinding">
       <UniqueIdentifier>{9e4e1877-96f9-4342-bb34-b260e3912cfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System\Options Ingame">
+      <UniqueIdentifier>{24f3433f-a59f-49b2-9df6-887a9217d318}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -295,7 +298,12 @@
     <ClInclude Include="EventAnswer.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventStopTalk.h" />
+    <ClInclude Include="EventStopTalk.h">
+      <Filter>Source\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -472,6 +480,11 @@
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventStopTalk.cpp" />
+    <ClCompile Include="EventStopTalk.cpp">
+      <Filter>Source\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

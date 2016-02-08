@@ -9,11 +9,7 @@
 enum class eInteractive
 {
 	eRegular,
-	eTalkTo,
-	eExamine,
-	eChooseOption,
-	ePickUp,
-	eGrabAndDrag
+	eActive,
 };
 enum class eMouseButtons
 {
