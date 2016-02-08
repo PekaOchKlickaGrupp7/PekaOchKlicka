@@ -14,6 +14,7 @@ public:
 	std::string myTargetLevelName;
 	DX2D::Vector2f myTargetPosition;
 	bool myUseFading;
+	int myPlayerDirection;
 
 	std::string myNextTheme;
 protected:

@@ -9,9 +9,9 @@
 EventChangeLevel::EventChangeLevel()
 {
 	myUseFading = false;
+	myPlayerDirection = -1;
 	Reset();
 }
-
 
 EventChangeLevel::~EventChangeLevel()
 {
@@ -28,7 +28,6 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 			myCached = true;
 		}
 
-
 		bool doChange = true;
 		if (myUseFading == true)
 		{
@@ -44,8 +43,11 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 				myGameWorld->GetPlayer()->SetIsMoving(false);
 				myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
 				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
+				if (myPlayerDirection > -1)
+				{
+					myGameWorld->GetPlayer()->SetAnimation(myPlayerDirection);
+				}
 				myGameWorld->SetFadeIn(false);
-
 
 				if (myTargetLevelName == "mainmenu" || myTargetLevelName == "splashscreen" || myTargetLevelName == "optionsmenu")
 				{

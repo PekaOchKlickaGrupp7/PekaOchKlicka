@@ -239,6 +239,11 @@ DX2D::Vector2f& Player::GetPreviousPosition()
 	return myPreviousPosition;
 }
 
+void Player::SetAnimation(const int aIndex)
+{
+	myCurentAnimation = aIndex;
+}
+
 void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition)
 {
 	int resultAnimation = myCurentAnimation;

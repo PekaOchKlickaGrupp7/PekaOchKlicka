@@ -88,6 +88,10 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		{
 			changeLevel->myNextTheme = extra["NextTheme"].GetString();
 		}
+		if (extra.HasMember("PlayerDirection") == true)
+		{
+			changeLevel->myPlayerDirection = extra["PlayerDirection"].GetInt() - 1;
+		}
 
 		event = changeLevel;
 		break;
