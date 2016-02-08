@@ -110,7 +110,24 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 			}
 		}
 	}
+	else if (aType == EventTypes::OnActivated || aType == EventTypes::OnDisabled)
+	{
+		for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
+		{
+			if (aData->myEvents[j]->myType == aType)
+			{
+				AddEvent(aData->myEvents[j]);
+			}
+		}
+	}
 	return false;
+}
+
+bool EventManager::OnEvent(ObjectData* aData, EventTypes aType)
+{
+	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
+	
+	return OnEvent(aData, aType, mousePosition.x, mousePosition.y, 0, 0);
 }
 
 bool EventManager::Update(const float aDeltaTime)
@@ -159,6 +176,11 @@ bool EventManager::Update(const float aDeltaTime)
 		myIsSwitchingRoom = false;
 
 		RemoveAllEvents();
+
+		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		{
+			OnEvent((*myObjects)[i], EventTypes::OnFirstLoad, mousePosition.x, mousePosition.y, 0, 0);
+		}
 
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{

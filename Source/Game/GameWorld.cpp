@@ -85,7 +85,7 @@ void CGameWorld::Init()
 	myTextFPS = new DX2D::CText("Text/courier.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
-	myTextFPS->mySize = 0.6f;
+	myTextFPS->mySize = 0.8f;
 
 	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f), this);
 
