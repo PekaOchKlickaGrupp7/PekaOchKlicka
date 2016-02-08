@@ -9,6 +9,7 @@
 #include "Item.h"
 #include <tga2d\text\text.h>
 #include "Pathfinding.h"
+#include "Options.h"
 
 class Room;
 
@@ -51,6 +52,8 @@ private:
 	Pathfinding myPathfinding;
 	JSON myJson;
 	Room* myCurrentRoom;
+
+	Options myOptionsMenu;
 
 	int myCurrentWaypoint;
 	float myFadeIn;

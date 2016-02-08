@@ -7,7 +7,7 @@ public:
 
 	void Initialize();
 	void Update(float aDeltaTime);
-	void Render(float aDeltaTime);
+	void Render(Synchronizer& aSynchronizer);
 
 	~Options();
 private:
@@ -18,7 +18,5 @@ private:
 
 	DX2D::CSprite* myVolumeMusicSlider;
 	DX2D::CSprite* myVolumeMusicKnob;
-
-	float myVolumeWidth
 };
 
