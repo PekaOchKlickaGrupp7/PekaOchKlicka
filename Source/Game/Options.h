@@ -19,6 +19,6 @@ private:
 	DX2D::CSprite* myVolumeMusicSlider;
 	DX2D::CSprite* myVolumeMusicKnob;
 
-	float myVolumeWidth
+	float myVolumeWidth;
 };
 

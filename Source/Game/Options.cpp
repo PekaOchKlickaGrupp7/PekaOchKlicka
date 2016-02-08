@@ -9,7 +9,7 @@ Options::Options()
 void Options::Initialize()
 {
 	myBackground = new DX2D::CSprite("Sprites/Options_InG/Background.dds");
-	myVolumeSFXSlider = new DX2D::CSprite
+	myVolumeSFXSlider = new DX2D::CSprite(nullptr);
 }
 
 Options::~Options()
