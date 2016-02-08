@@ -111,6 +111,7 @@ void CGameWorld::Init()
 		myDotSprites.Add(sprite);
 	}
 	
+	myOptionsMenu.Initialize();
 }
 
 eStateStatus CGameWorld::Update(float aTimeDelta)
@@ -364,6 +365,9 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		}
 	}
 	
+	 // if options clicked in inventory
+	//	myOptionsMenu.Render(aSynchronizer);
+
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
