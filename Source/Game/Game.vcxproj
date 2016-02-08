@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EventAnswer.h" />
+    <ClInclude Include="EventChangePlayerDirection.h" />
     <ClInclude Include="EventHideMouse.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventPickupItem.h" />
@@ -239,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventAnswer.cpp" />
+    <ClCompile Include="EventChangePlayerDirection.cpp" />
     <ClCompile Include="EventHideMouse.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />

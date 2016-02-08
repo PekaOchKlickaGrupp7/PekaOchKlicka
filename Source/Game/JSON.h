@@ -36,7 +36,8 @@ enum EventActions
 	HideMouse,
 	SetCinematic,
 	PickupItem,
-	IsItem
+	IsItem,
+	ChangePlayerDirection
 };
 
 class JSON

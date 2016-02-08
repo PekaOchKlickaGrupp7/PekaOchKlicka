@@ -304,6 +304,7 @@
     <ClInclude Include="Options.h">
       <Filter>Source\System\Options Ingame</Filter>
     </ClInclude>
+    <ClInclude Include="EventChangePlayerDirection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -486,5 +487,6 @@
     <ClCompile Include="Options.cpp">
       <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
+    <ClCompile Include="EventChangePlayerDirection.cpp" />
   </ItemGroup>
 </Project>

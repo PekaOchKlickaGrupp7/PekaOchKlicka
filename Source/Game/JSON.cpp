@@ -37,6 +37,7 @@
 #include "EventSetCinematic.h"
 #include "EventPickupItem.h"
 #include "EventIsItem.h"
+#include "EventChangePlayerDirection.h"
 
 using namespace rapidjson;
 
@@ -94,6 +95,15 @@ Event* JSON::CreateEventData(ObjectData* aData, Value& aParent, Room* aRoom, CGa
 		}
 
 		event = changeLevel;
+		break;
+	}
+	case EventActions::ChangePlayerDirection:
+	{
+		EventChangePlayerDirection* changePlayerDirection = new EventChangePlayerDirection();
+
+		changePlayerDirection->Init(aRoom, aGameWorld);
+
+		event = changePlayerDirection;
 		break;
 	}
 	case EventActions::Talk:
