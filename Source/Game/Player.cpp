@@ -163,8 +163,8 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	{
 		myIsMoving = false;
 	}
-	//else if (myIsMoving == true)
-	//{
+	else if (myIsMoving == true)
+	{
 		DX2D::Vector2f characterPos(myPosition);
 		//Calculate distance between target and object
 		DX2D::Vector2f delta = DX2D::Vector2f(
@@ -189,7 +189,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 		{
 			myIsMoving = false;
 		}
-	//}
+	}
 }
 
 void Player::SetPosition(const DX2D::Vector2f& aPoint)
