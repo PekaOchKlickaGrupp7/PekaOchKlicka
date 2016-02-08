@@ -4,8 +4,4 @@ This simplifies file loading, among other things.
 - Linus
 
 0.dds - Regular
-1.dds - TalkTo
-2.dds - Examine
-3.dds - ChooseOption
-4.dds - PickUp
-5.dds - GrabAndDrag
+1.dds - Active

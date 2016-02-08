@@ -19,7 +19,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	myInputManager = aInputManager;
 
-	mySpriteInteractive.Init(6); // There are six different cursors
+	mySpriteInteractive.Init(2); // There are six different cursors
 	for (unsigned short i = 0; i < aFilePath.Size(); i++)
 	{
 		mySprite = new DX2D::CSprite(aFilePath[i].c_str());
@@ -28,11 +28,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 
 	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
 
-	mySpriteInteractive[eMouse(eInteractive::eTalkTo)]->SetPivot({ 0.5f, 0.0f });
-	mySpriteInteractive[eMouse(eInteractive::eExamine)]->SetPivot({ 0.5f, 0.5f });
-	mySpriteInteractive[eMouse(eInteractive::eChooseOption)]->SetPivot({ 0.5f, 0.5f });
-	mySpriteInteractive[eMouse(eInteractive::ePickUp)]->SetPivot({ 0.5f, 0.5f });
-	mySpriteInteractive[eMouse(eInteractive::eGrabAndDrag)]->SetPivot({ 0.5f, 0.0f });
+	mySpriteInteractive[eMouse(eInteractive::eActive)]->SetPivot({ 0.5f, 0.5f });
 
 	myPosition = { 0.5f, 0.5f };
 	mySprite->SetPivot({ 0.5f, 0.5f });
