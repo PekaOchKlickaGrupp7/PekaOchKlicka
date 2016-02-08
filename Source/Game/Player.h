@@ -31,6 +31,7 @@ public:
 
 	DX2D::Vector2f& GetPosition();
 	DX2D::Vector2f& GetPreviousPosition();
+	void SetAnimation(const int aIndex);
 
 private:
 	void LoadAnimations(rapidjson::Value& aAnimations);

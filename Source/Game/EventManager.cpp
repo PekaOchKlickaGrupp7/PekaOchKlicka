@@ -126,7 +126,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 bool EventManager::OnEvent(ObjectData* aData, EventTypes aType)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
-	
+
 	return OnEvent(aData, aType, mousePosition.x, mousePosition.y, 0, 0);
 }
 
@@ -177,9 +177,13 @@ bool EventManager::Update(const float aDeltaTime)
 
 		RemoveAllEvents();
 
-		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		if (myVisitedRooms.find(myCurrentRoom) == myVisitedRooms.end())
 		{
-			OnEvent((*myObjects)[i], EventTypes::OnFirstLoad, mousePosition.x, mousePosition.y, 0, 0);
+			myVisitedRooms[myCurrentRoom] = true;
+			for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+			{
+				OnEvent((*myObjects)[i], EventTypes::OnFirstLoad, mousePosition.x, mousePosition.y, 0, 0);
+			}
 		}
 
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
