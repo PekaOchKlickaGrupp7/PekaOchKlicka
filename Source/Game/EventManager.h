@@ -60,7 +60,7 @@ private:
 	Room* myCurrentRoom;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
 
-	std::map<std::string, bool> myVisitedRooms;
+	std::map<Room*, bool> myVisitedRooms;
 
 	bool myIsSwitchingRoom;
 	bool myClicked;
