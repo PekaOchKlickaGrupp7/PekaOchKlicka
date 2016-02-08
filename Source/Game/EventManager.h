@@ -32,6 +32,7 @@ public:
 		myInstance = nullptr;
 	}
 
+	bool OnEvent(ObjectData* aData, EventTypes aType);
 	bool OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY);
 	void Init(CU::DirectInput::InputManager* aInputManager, CGameWorld* aGameWorld) { myInputManager = aInputManager; myGameWorld = aGameWorld; };
 	void ChangeRoom(Room* aCurrentRoom);
@@ -58,6 +59,9 @@ private:
 	CU::DirectInput::InputManager* myInputManager;
 	Room* myCurrentRoom;
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> *myObjects;
+
+	std::map<std::string, bool> myVisitedRooms;
+
 	bool myIsSwitchingRoom;
 	bool myClicked;
 

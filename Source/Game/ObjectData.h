@@ -19,7 +19,9 @@ enum EventTypes
 	OnLeave,
 	OnLoad,
 	Custom,
-	OnUseItem
+	OnFirstLoad,
+	OnActivated,
+	OnDisabled
 };
 
 namespace DX2D
