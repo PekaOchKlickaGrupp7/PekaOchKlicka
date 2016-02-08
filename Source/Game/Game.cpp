@@ -163,8 +163,8 @@ void CGame::InitCallBack()
 	MouseManager::CreateInstance();
 	// Create all file paths to the different cursors
 	CommonUtilities::GrowingArray<std::string> spriteFilePaths;
-	spriteFilePaths.Init(6); // There are six different cursors
-	for (size_t i = 0; i < 6; i++)
+	spriteFilePaths.Init(2); // There are six different cursors
+	for (size_t i = 0; i <= 1; i++)
 	{
 		std::string tempString = "Sprites/Cursor/" + std::to_string(i) + ".dds";
 		spriteFilePaths.Add(tempString);

@@ -131,7 +131,10 @@ bool MouseManager::ButtonClicked(eMouseButtons aButton)
 }
 void MouseManager::SetInteractiveMode(eInteractive aInteractiveMode)
 {
-	mySprite = mySpriteInteractive[eMouse(aInteractiveMode)];
+	if (eMouse(aInteractiveMode) >= 0 && eMouse(aInteractiveMode) <= 1)
+	{
+		mySprite = mySpriteInteractive[eMouse(aInteractiveMode)];
+	}
 }
 
 void MouseManager::Render(Synchronizer &aSynchronizer)
