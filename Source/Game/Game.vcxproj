@@ -173,6 +173,7 @@
     <ClInclude Include="EventPickupItem.h" />
     <ClInclude Include="EventSetCinematic.h" />
     <ClInclude Include="EventSetGlobalVariable.h" />
+    <ClInclude Include="EventsFactory.h" />
     <ClInclude Include="EventStopTalk.h" />
     <ClInclude Include="EventToggleFullscreen.h" />
     <ClInclude Include="EventChangeImage.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="EventPickupItem.cpp" />
     <ClCompile Include="EventSetCinematic.cpp" />
     <ClCompile Include="EventSetGlobalVariable.cpp" />
+    <ClCompile Include="EventsFactory.cpp" />
     <ClCompile Include="EventStopTalk.cpp" />
     <ClCompile Include="EventToggleFullscreen.cpp" />
     <ClCompile Include="EventChangeImage.cpp" />

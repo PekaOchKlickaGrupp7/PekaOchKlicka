@@ -2,43 +2,13 @@
 #include <string>
 #include <map>
 #include "rapidjson\document.h"
+#include "EventsFactory.h"
 
 class Room;
 class ObjectData;
 class CGameWorld;
 class Event;
 class Inventory;
-
-enum EventActions
-{
-	None,
-	SetActive,
-	ChangeLevel,
-	Talk,
-	ChangeCursor,
-	PlaySoundFile,
-	ChangeImage,
-	ChangeToOriginalImage,
-	Delay,
-	IfVariable,
-	StopSound,
-	ChangeSoundPosition,
-	Quit,
-	FadeColor,
-	SetColor,
-	FadePosition,
-	SetPosition,
-	SetVariable,
-	IfGlobalVariable,
-	SetGlobalVariable,
-	ToggleFullscreen,
-	WalkTo,
-	HideMouse,
-	SetCinematic,
-	PickupItem,
-	IsItem,
-	ChangePlayerDirection
-};
 
 class JSON
 {
@@ -60,9 +30,8 @@ private:
 
 	void LoadEvent(ObjectData* aNode, Event* aEvent, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
 	void LoadEvent(ObjectData* aNode, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
-	//void LoadEvent(Event* aNode, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
 
-	Event* CreateEventData(ObjectData* aData, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
+	EventsFactory myEventsFactory;
 
 	const char* ReadFile(const char* aFile);
 };
