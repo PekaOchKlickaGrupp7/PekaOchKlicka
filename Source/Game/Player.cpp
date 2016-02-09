@@ -140,7 +140,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		}
 		else
 		{
-			myInventory.DeSelect();
+			//myInventory.DeSelect();
 			
 		}
 		
@@ -163,7 +163,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 	{
 		myIsMoving = false;
 	}
-	else if (myIsMoving == true)
+	//else if (myIsMoving == true)
 	{
 		DX2D::Vector2f characterPos(myPosition);
 		//Calculate distance between target and object
