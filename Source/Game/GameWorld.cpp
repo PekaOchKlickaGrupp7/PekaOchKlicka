@@ -61,6 +61,11 @@ void CGameWorld::SetFadeIn(bool aFade)
 	myDoFadeIn = aFade;
 }
 
+Options* CGameWorld::GetOptions()
+{
+	return &myOptionsMenu; 
+};
+
 void CGameWorld::Init()
 {
 	std::string name = "";

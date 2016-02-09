@@ -9,10 +9,12 @@
 
 using namespace rapidjson;
 
+class Options;
 class CGameWorld
 {
 public:
 	bool PlayerHasReachedTarget();
+	Options* GetOptions();
 };
 
 Player::Player()
@@ -66,7 +68,7 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
 	myDepthScaleFactor = 1.5f;
-	myInventory.Init("Sprites/Inventory/inventory.dds");
+	myInventory.Init("Sprites/Inventory/inventory.dds", myGameWorldPtr->GetOptions());
 
 	SoundFileHandler::GetInstance()->Load(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
 }

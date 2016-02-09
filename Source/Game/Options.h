@@ -10,6 +10,7 @@ public:
 	void Render(Synchronizer& aSynchronizer);
 
 	void SetActive(bool aActive) { myIsActive = aActive; };
+	bool GetActive(){ return myIsActive; };
 
 	~Options();
 private:

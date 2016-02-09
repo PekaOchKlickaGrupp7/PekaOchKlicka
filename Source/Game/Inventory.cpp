@@ -117,7 +117,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 	if (CommonUtilities::Intersection::PointVsRect(
 		Vector2<float>(aPointerPosition.x, aPointerPosition.y), topLeft, botRight) == true)
 	{
-		//TODO: OPEN OPTIONS MENU
+		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
 	}
 }
 

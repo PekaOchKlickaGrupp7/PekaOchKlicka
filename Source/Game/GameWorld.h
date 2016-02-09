@@ -20,6 +20,7 @@ public:
 		CU::TimeSys::TimerManager& aTimerManager);
 	~CGameWorld();
 
+	Options* GetOptions();
 	void Init();
 	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);

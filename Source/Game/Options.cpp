@@ -28,6 +28,11 @@ void Options::Initialize()
 	myVolumeMusicKnob->SetPosition({ myVolumeMusicSlider->GetPosition().x + myVolumeMusicSlider->GetSize().x, myVolumeMusicSlider->GetPosition().y + myVolumeMusicSlider->GetSize().y / 2 });
 }
 
+void Options::Update(float aDeltaTime)
+{
+
+}
+
 void Options::Render(Synchronizer& aSynchronizer)
 {
 	if (myIsActive == true)
