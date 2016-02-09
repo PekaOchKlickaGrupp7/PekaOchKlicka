@@ -7,6 +7,7 @@
 
 class Synchronizer;
 class InputManager;
+class Options;
 
 class Inventory
 {
@@ -15,7 +16,7 @@ public:
 	~Inventory();
 
 	//Initialize the inventory
-	void Init(const char* aFilePath);
+	void Init(const char* aFilePath, Options* aOptionsPtr);
 
 	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
@@ -68,6 +69,8 @@ private:
 
 	DX2D::Vector2f myStartPosition;
 	DX2D::Vector2f myEndPosition;
+
+	Options* myOptionsPtr;
 
 	float myMovementPerFrame;
 	float myXOffset;
