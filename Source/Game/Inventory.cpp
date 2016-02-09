@@ -21,6 +21,7 @@ Inventory::Inventory()
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
 	mySelectedItem = nullptr;
+	myPreviouslySelectedItem = nullptr;
 }
 
 Inventory::~Inventory()
@@ -38,6 +39,7 @@ void Inventory::Init(const char* aFilePath)
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
 	mySelectedItem = nullptr;
+	myPreviouslySelectedItem = nullptr;
 
 	UpdateSelectedItem();
 }
@@ -61,7 +63,8 @@ void Inventory::DeSelect()
 /* Jag la till den här för att den behövs för att ens kunna ta bort items genom editorn /Danne */
 void Inventory::RemoveSelectedItem()
 {
-	Remove(mySelectedItem);
+	Remove(myPreviouslySelectedItem);
+	myPreviouslySelectedItem = nullptr;
 	DeSelect();
 }
 
@@ -92,6 +95,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 			if (mySelectedItem == nullptr)
 			{
 				mySelectedItem = myContents[i];
+				myPreviouslySelectedItem = mySelectedItem;
 				UpdateSelectedItem();
 				return;
 			}
@@ -100,6 +104,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				if (Combine(mySelectedItem, myContents[i]) == true)
 				{
 					mySelectedItem = nullptr;
+					myPreviouslySelectedItem = nullptr;
 					UpdateSelectedItem();
 					return;
 				}

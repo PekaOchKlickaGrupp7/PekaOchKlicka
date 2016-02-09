@@ -67,6 +67,7 @@ private:
 	DX2D::Vector2f myPosition;
 
 	Item* mySelectedItem;
+	Item* myPreviouslySelectedItem;
 
 	DX2D::Vector2f myStartPosition;
 	DX2D::Vector2f myEndPosition;
