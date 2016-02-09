@@ -58,6 +58,13 @@ void Inventory::DeSelect()
 	UpdateSelectedItem();
 }
 
+/* Jag la till den här för att den behövs för att ens kunna ta bort items genom editorn /Danne */
+void Inventory::RemoveSelectedItem()
+{
+	Remove(mySelectedItem);
+	DeSelect();
+}
+
 //Update the inventory
 void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime)
 {

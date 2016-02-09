@@ -171,6 +171,7 @@
     <ClInclude Include="EventHideMouse.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventPickupItem.h" />
+    <ClInclude Include="EventRemoveSelectedItem.h" />
     <ClInclude Include="EventSetCinematic.h" />
     <ClInclude Include="EventSetGlobalVariable.h" />
     <ClInclude Include="EventsFactory.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="EventHideMouse.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />
+    <ClCompile Include="EventRemoveSelectedItem.cpp" />
     <ClCompile Include="EventSetCinematic.cpp" />
     <ClCompile Include="EventSetGlobalVariable.cpp" />
     <ClCompile Include="EventsFactory.cpp" />

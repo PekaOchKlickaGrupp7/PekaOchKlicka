@@ -34,7 +34,8 @@ enum EventActions
 	SetCinematic,
 	PickupItem,
 	IsItem,
-	ChangePlayerDirection
+	ChangePlayerDirection,
+	RemoveSelectedItem
 };
 
 class EventsFactory

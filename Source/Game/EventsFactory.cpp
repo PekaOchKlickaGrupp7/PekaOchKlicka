@@ -27,6 +27,7 @@
 #include "EventPickupItem.h"
 #include "EventIsItem.h"
 #include "EventChangePlayerDirection.h"
+#include "EventRemoveSelectedItem.h";
 
 using namespace rapidjson;
 
@@ -420,6 +421,14 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 			var->myItemName = extra["item"].GetString();
 		}
 
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::RemoveSelectedItem:
+	{
+		EventRemoveSelectedItem* var = new EventRemoveSelectedItem();
 		var->Init(aRoom, aGameWorld);
 
 		event = var;

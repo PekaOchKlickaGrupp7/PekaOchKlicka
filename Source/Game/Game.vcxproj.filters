@@ -310,6 +310,9 @@
     <ClInclude Include="EventsFactory.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="EventRemoveSelectedItem.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -497,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="EventsFactory.cpp">
       <Filter>Source\System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventRemoveSelectedItem.cpp">
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
