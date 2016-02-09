@@ -482,7 +482,8 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		}
 	}
 
-	
+	std::cout << std::boolalpha << myPlayerCanMove << std::endl;
+	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
@@ -490,7 +491,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 		{
 			DX2D::Vector2f playerPos = myPlayer.GetPosition();
-			//playerPos.y -= myPlayer
+			playerPos.y -= myPlayer.GetAnimation()->GetSize().y;
 			(*myCurrentRoom->GetObjectList())[i]->myX = playerPos.x;
 			(*myCurrentRoom->GetObjectList())[i]->myY = playerPos.y;
 			(*myCurrentRoom->GetObjectList())[i]->myGlobalX = playerPos.x;
