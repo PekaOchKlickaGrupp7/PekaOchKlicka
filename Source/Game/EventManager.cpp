@@ -181,7 +181,7 @@ bool EventManager::Update(const float aDeltaTime)
 		myGameWorld->GetPlayer()->GetInventory().DeSelect();
 		myClicked = true;
 	}
-	
+
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;

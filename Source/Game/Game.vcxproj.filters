@@ -313,6 +313,9 @@
     <ClInclude Include="EventRemoveSelectedItem.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventDeselect.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -502,6 +505,9 @@
       <Filter>Source\System\Events</Filter>
     </ClCompile>
     <ClCompile Include="EventRemoveSelectedItem.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDeselect.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
