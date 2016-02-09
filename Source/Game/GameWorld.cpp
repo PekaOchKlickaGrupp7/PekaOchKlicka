@@ -42,7 +42,6 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myHasPath = false;
 	myHasNewTargetPosition = false;
-	myPlayer.SetIsMoving(false);
 	myInputManager.Update();
 }
 
@@ -436,7 +435,6 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 					myTargetPosition.x = -1;
 					myTargetPosition.y = -1;
 					myHasPath = true;
-					myPlayer.SetIsMoving(true);
 				}
 			}
 		}
@@ -464,7 +462,6 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		{
 			//Framme
 			myHasPath = false;
-			myPlayer.SetIsMoving(false);
 		}
 		else
 		{

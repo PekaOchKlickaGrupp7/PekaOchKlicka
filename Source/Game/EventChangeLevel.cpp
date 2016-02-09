@@ -40,7 +40,6 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 			if (myUseFading == false || myTime >= 0.2f)
 			{
 				myGameWorld->ChangeLevel(myTargetLevelName);
-				myGameWorld->GetPlayer()->SetIsMoving(false);
 				myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
 				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);
 				if (myPlayerDirection > -1)

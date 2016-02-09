@@ -24,8 +24,6 @@ public:
 	void SetPosition(const DX2D::Vector2f& aPoint);
 	void SetPreviousPosition(const DX2D::Vector2f& aPoint);
 	void SetSpeed(float aSpeed);
-	bool GetIsMoving();
-	void SetIsMoving(bool aValue);
 	void AddItemToInventory(Item* aItemToAdd);
 	Inventory& GetInventory();
 
@@ -50,7 +48,6 @@ private:
 	float myMovementSpeed;
 	float myDepthScaleFactor;
 
-	bool myIsMoving;
 	bool myIsInventoryOpen;
 
 	CGameWorld* myGameWorldPtr;
