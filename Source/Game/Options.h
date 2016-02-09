@@ -9,6 +9,8 @@ public:
 	void Update(float aDeltaTime);
 	void Render(Synchronizer& aSynchronizer);
 
+	void SetActive(bool aActive) { myIsActive = aActive; };
+
 	~Options();
 private:
 	DX2D::CSprite* myBackground;
@@ -18,5 +20,7 @@ private:
 
 	DX2D::CSprite* myVolumeMusicSlider;
 	DX2D::CSprite* myVolumeMusicKnob;
+
+	bool myIsActive;
 };
 

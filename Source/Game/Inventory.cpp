@@ -3,6 +3,7 @@
 #include "Synchronizer.h"
 #include "..\CommonUtilities\Intersection.h"
 #include "EventVariablesManager.h"
+#include "Options.h"
 
 Inventory::Inventory()
 {
@@ -31,7 +32,7 @@ Inventory::~Inventory()
 	//myContents.DeleteAll();
 }
 
-void Inventory::Init(const char* aFilePath)
+void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
 	myEndPosition.y = 1.0f - myBackground->GetSize().y;
@@ -40,6 +41,8 @@ void Inventory::Init(const char* aFilePath)
 	myMovementPerFrame = 0.3f;
 	mySelectedItem = nullptr;
 	myPreviouslySelectedItem = nullptr;
+
+	myOptionsPtr = aOptionsPtr;
 
 	UpdateSelectedItem();
 }

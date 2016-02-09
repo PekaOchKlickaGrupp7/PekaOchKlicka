@@ -8,6 +8,8 @@ Options::Options()
 
 void Options::Initialize()
 {
+	myIsActive = false;
+
 	myBackground = new DX2D::CSprite("Sprites/Options_InG/Background.dds");
 	myVolumeSFXSlider = new DX2D::CSprite("Sprites/Options_InG/Slider.dds");
 	myVolumeMusicSlider = new DX2D::CSprite("Sprites/Options_InG/Slider.dds");
@@ -28,35 +30,38 @@ void Options::Initialize()
 
 void Options::Render(Synchronizer& aSynchronizer)
 {
-	RenderCommand background;
-	background.mySprite = myBackground;
-	background.myType = eRenderType::eSprite;
-	background.myPosition = myBackground->GetPosition();
-	aSynchronizer.AddRenderCommand(background);
+	if (myIsActive == true)
+	{
+		RenderCommand background;
+		background.mySprite = myBackground;
+		background.myType = eRenderType::eSprite;
+		background.myPosition = myBackground->GetPosition();
+		aSynchronizer.AddRenderCommand(background);
 
-	RenderCommand volumeSFXSlider;
-	volumeSFXSlider.mySprite = myVolumeSFXSlider;
-	volumeSFXSlider.myType = eRenderType::eSprite;
-	volumeSFXSlider.myPosition = myVolumeSFXSlider->GetPosition();
-	aSynchronizer.AddRenderCommand(volumeSFXSlider);
+		RenderCommand volumeSFXSlider;
+		volumeSFXSlider.mySprite = myVolumeSFXSlider;
+		volumeSFXSlider.myType = eRenderType::eSprite;
+		volumeSFXSlider.myPosition = myVolumeSFXSlider->GetPosition();
+		aSynchronizer.AddRenderCommand(volumeSFXSlider);
 
-	RenderCommand volumeMusicSlider;
-	volumeMusicSlider.mySprite = myVolumeMusicSlider;
-	volumeMusicSlider.myType = eRenderType::eSprite;
-	volumeMusicSlider.myPosition = myVolumeMusicSlider->GetPosition();
-	aSynchronizer.AddRenderCommand(volumeMusicSlider);
+		RenderCommand volumeMusicSlider;
+		volumeMusicSlider.mySprite = myVolumeMusicSlider;
+		volumeMusicSlider.myType = eRenderType::eSprite;
+		volumeMusicSlider.myPosition = myVolumeMusicSlider->GetPosition();
+		aSynchronizer.AddRenderCommand(volumeMusicSlider);
 
-	RenderCommand volumeMusicKnob;
-	volumeMusicKnob.mySprite = myVolumeMusicKnob;
-	volumeMusicKnob.myType = eRenderType::eSprite;
-	volumeMusicKnob.myPosition = myVolumeMusicKnob->GetPosition();
-	aSynchronizer.AddRenderCommand(volumeMusicKnob);
+		RenderCommand volumeMusicKnob;
+		volumeMusicKnob.mySprite = myVolumeMusicKnob;
+		volumeMusicKnob.myType = eRenderType::eSprite;
+		volumeMusicKnob.myPosition = myVolumeMusicKnob->GetPosition();
+		aSynchronizer.AddRenderCommand(volumeMusicKnob);
 
-	RenderCommand volumeSFXKnob;
-	volumeSFXKnob.mySprite = myVolumeSFXKnob;
-	volumeSFXKnob.myType = eRenderType::eSprite;
-	volumeSFXKnob.myPosition = myVolumeSFXKnob->GetPosition();
-	aSynchronizer.AddRenderCommand(volumeSFXKnob);
+		RenderCommand volumeSFXKnob;
+		volumeSFXKnob.mySprite = myVolumeSFXKnob;
+		volumeSFXKnob.myType = eRenderType::eSprite;
+		volumeSFXKnob.myPosition = myVolumeSFXKnob->GetPosition();
+		aSynchronizer.AddRenderCommand(volumeSFXKnob);
+	}
 }
 
 Options::~Options()

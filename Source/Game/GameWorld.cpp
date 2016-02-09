@@ -179,6 +179,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
+	myOptionsMenu.Update(aTimeDelta);
+
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
 	if (myCurrentRoom != nullptr)
 	{
@@ -365,7 +367,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	}
 	
 	 // if options clicked in inventory
-	//	myOptionsMenu.Render(aSynchronizer);
+	myOptionsMenu.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
