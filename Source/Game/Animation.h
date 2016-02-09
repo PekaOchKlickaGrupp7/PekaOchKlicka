@@ -19,6 +19,7 @@ public:
 	void Destroy();
 	void SetSize(float aScale);
 	float GetScale();
+	DX2D::Vector2f GetSize();
 private:
 	void UpdateTextureRect();
 	float myFrameDuration,
