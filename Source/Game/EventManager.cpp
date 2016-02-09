@@ -15,6 +15,7 @@ EventManager::EventManager()
 	myActiveEvents.Init(128);
 	myIsSwitchingRoom = false;
 	myClicked = false;
+	myIsInsideAObject = false;
 }
 
 EventManager::~EventManager()
@@ -82,6 +83,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 					}
 					return true;
 				}
+				myIsInsideAObject = true;
 			}
 			else
 			{
@@ -135,6 +137,7 @@ bool EventManager::Update(const float aDeltaTime)
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	myClicked = false;
+	myIsInsideAObject = false;
 	if (myInputManager->LeftMouseButtonClicked() == true)
 	{
 		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
@@ -169,6 +172,14 @@ bool EventManager::Update(const float aDeltaTime)
 			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
+	}
+
+	std::string value = "";
+	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
+	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
+	{
+		myGameWorld->GetPlayer()->GetInventory().DeSelect();
+		myClicked = true;
 	}
 	
 	if (myIsSwitchingRoom == true)

@@ -23,6 +23,8 @@ public:
 	void Remove(Item* aItemToRemove);
 	bool Combine(Item* aItemToCombine, Item* aItemToCombineWith);
 
+	void RemoveSelectedItem();
+
 	//Update the inventory
 	void Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime);
 

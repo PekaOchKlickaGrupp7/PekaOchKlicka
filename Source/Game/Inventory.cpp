@@ -61,6 +61,13 @@ void Inventory::DeSelect()
 	UpdateSelectedItem();
 }
 
+/* Jag la till den här för att den behövs för att ens kunna ta bort items genom editorn /Danne */
+void Inventory::RemoveSelectedItem()
+{
+	Remove(mySelectedItem);
+	DeSelect();
+}
+
 //Update the inventory
 void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime)
 {
@@ -101,6 +108,16 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				}
 			}
 		}
+	}
+	
+	//Options area in the inventory
+	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
+	Vector2f botRight = { 0.97656f, 1 - 0.032407f };
+
+	if (CommonUtilities::Intersection::PointVsRect(
+		Vector2<float>(aPointerPosition.x, aPointerPosition.y), topLeft, botRight) == true)
+	{
+		//TODO: OPEN OPTIONS MENU
 	}
 }
 

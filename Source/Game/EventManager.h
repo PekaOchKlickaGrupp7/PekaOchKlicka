@@ -63,6 +63,7 @@ private:
 	std::map<Room*, bool> myVisitedRooms;
 
 	bool myIsSwitchingRoom;
+	bool myIsInsideAObject;
 	bool myClicked;
 
 	EventManager();
