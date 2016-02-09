@@ -16,7 +16,7 @@ void Options::Initialize()
 	myVolumeSFXKnob = new DX2D::CSprite("Sprites/Options_InG/Knob.dds");
 	myVolumeMusicKnob = new DX2D::CSprite("Sprites/Options_InG/Knob.dds");
 
-	myBackground->SetPosition({ 0.5f - myBackground->GetSize().x / 2, 0.5f - myBackground->GetSize().y / 2 + 0.05f });
+	myBackground->SetPosition({ 0.5f - myBackground->GetSize().x / 2, 0.5f - myBackground->GetSize().y / 2 });
 
 	myVolumeSFXSlider->SetPosition({ 0.5f - myVolumeSFXSlider->GetSize().x / 2, myBackground->GetPosition().y + 0.22f  });
 	myVolumeMusicSlider->SetPosition({ 0.5f - myVolumeMusicSlider->GetSize().x / 2, myBackground->GetPosition().y + 0.32f });

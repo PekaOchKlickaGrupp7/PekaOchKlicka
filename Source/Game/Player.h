@@ -27,6 +27,7 @@ public:
 	void AddItemToInventory(Item* aItemToAdd);
 	Inventory& GetInventory();
 
+	Animation* GetAnimation() { return myAnimations[myCurentAnimation];};
 	DX2D::Vector2f& GetPosition();
 	DX2D::Vector2f& GetPreviousPosition();
 	void SetAnimation(const int aIndex);

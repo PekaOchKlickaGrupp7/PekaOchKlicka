@@ -99,8 +99,12 @@ void CGameWorld::Init()
 
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
+	myShouldRenderFPS = false;
+	myShouldRenderNavPoints = false;
+#ifdef _DEBUG
 	myShouldRenderFPS = true;
 	myShouldRenderNavPoints = true;
+#endif
 
 	myCurrentWaypoint = 0;
 	myHasPath = false;

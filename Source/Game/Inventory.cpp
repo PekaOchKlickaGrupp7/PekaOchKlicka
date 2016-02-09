@@ -35,7 +35,7 @@ Inventory::~Inventory()
 void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myEndPosition.y = 1.0f - myBackground->GetSize().y;
+	myEndPosition.y = 1.0f - myBackground->GetSize().y + 0.005f;
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
