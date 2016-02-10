@@ -17,6 +17,7 @@ bool EventPlaySound::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
 
+	//SoundFileHandler::GetInstance()->SetupStream(myTargetSound, myIdentifier, myIs3D);
 	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
 
 	SoundPtr->SetVolume(myVolume);

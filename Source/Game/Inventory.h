@@ -7,6 +7,7 @@
 
 class Synchronizer;
 class InputManager;
+class Options;
 
 class Inventory
 {
@@ -15,12 +16,15 @@ public:
 	~Inventory();
 
 	//Initialize the inventory
-	void Init(const char* aFilePath);
+	void Init(const char* aFilePath, Options* aOptionsPtr);
 
 	//Adds an item to the inventory
 	void Add(Item* aItemToAdd);
 	void Remove(Item* aItemToRemove);
 	bool Combine(Item* aItemToCombine, Item* aItemToCombineWith);
+	void Clear();
+
+	void RemoveSelectedItem();
 
 	//Update the inventory
 	void Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime);
@@ -65,9 +69,12 @@ private:
 	DX2D::Vector2f myPosition;
 
 	Item* mySelectedItem;
+	Item* myPreviouslySelectedItem;
 
 	DX2D::Vector2f myStartPosition;
 	DX2D::Vector2f myEndPosition;
+
+	Options* myOptionsPtr;
 
 	float myMovementPerFrame;
 	float myXOffset;

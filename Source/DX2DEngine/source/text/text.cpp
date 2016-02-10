@@ -37,6 +37,16 @@ float DX2D::CText::GetWidth() const
 	return myTextService->GetSentenceWidth(myText, mySize, myPathAndName);
 }
 
+float DX2D::CText::GetWidth(const std::string &aString, const float &aSize, const std::string &aPathAndName)
+{
+	DX2D::CTextService* textService = &DX2D::CEngine::GetInstance()->GetTextService();
+	if (!textService)
+	{
+		return 0.0f;
+	}
+	return textService->GetSentenceWidth(aString, aSize, aPathAndName);
+}
+
 float DX2D::CText::GetHeight() const
 {
 	if (!myTextService)
@@ -46,14 +56,14 @@ float DX2D::CText::GetHeight() const
 	return myTextService->GetSentenceHeight(myText, mySize, myPathAndName);
 }
 
-float DX2D::CText::GetWidth(const std::string &aString, const float &aSize, const std::string &aPathAndName)
+float DX2D::CText::GetHeight(const std::string &aString, const float &aSize, const std::string &aPathAndName)
 {
 	DX2D::CTextService* textService = &DX2D::CEngine::GetInstance()->GetTextService();
 	if (!textService)
 	{
 		return 0.0f;
 	}
-	return textService->GetSentenceWidth(aString, aSize, aPathAndName);
+	return textService->GetSentenceHeight(aString, aSize, aPathAndName);
 }
 
 const std::string& DX2D::CText::GetPathAndName()

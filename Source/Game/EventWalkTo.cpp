@@ -8,7 +8,6 @@ EventWalkTo::EventWalkTo()
 	mySet = false;
 }
 
-
 EventWalkTo::~EventWalkTo()
 {
 }
@@ -38,6 +37,11 @@ bool EventWalkTo::Update(const float)
 			myAutoActivateRecursive = true;
 			return true;
 		}
+	}
+	else
+	{
+		myAutoActivateRecursive = false;
+		return true;
 	}
 	return false;
 }

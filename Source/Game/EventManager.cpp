@@ -15,6 +15,7 @@ EventManager::EventManager()
 	myActiveEvents.Init(128);
 	myIsSwitchingRoom = false;
 	myClicked = false;
+	myIsInsideAObject = false;
 }
 
 EventManager::~EventManager()
@@ -33,6 +34,10 @@ void EventManager::AddEvent(Event* aEvent)
 {
 	if (aEvent->myActive == false)
 	{
+		if (aEvent->myType == EventTypes::OnClick)
+		{
+			++aEvent->myObjectData->myAmountActiveEvents;
+		}
 		aEvent->myActive = true;
 		aEvent->Reset();
 		myActiveEvents.Add(aEvent);
@@ -61,11 +66,14 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
+					if (aData->myAmountActiveEvents == 0)
 					{
-						if (aData->myEvents[j]->myType == EventTypes::OnClick)
+						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 						{
-							AddEvent(aData->myEvents[j]);
+							if (aData->myEvents[j]->myType == EventTypes::OnClick)
+							{
+								AddEvent(aData->myEvents[j]);
+							}
 						}
 					}
 					return true;
@@ -82,6 +90,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 					}
 					return true;
 				}
+				myIsInsideAObject = true;
 			}
 			else
 			{
@@ -135,7 +144,8 @@ bool EventManager::Update(const float aDeltaTime)
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	myClicked = false;
-	if (myInputManager->LeftMouseButtonClicked() == true)
+	myIsInsideAObject = false;
+	if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
 	{
 		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 		{
@@ -167,10 +177,22 @@ bool EventManager::Update(const float aDeltaTime)
 					AddEvent(event->myChilds[j]);
 				}
 			}
+			if (event->myType == EventTypes::OnClick)
+			{
+				--event->myObjectData->myAmountActiveEvents;
+			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
-	
+
+	std::string value = "";
+	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
+	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
+	{
+		myGameWorld->GetPlayer()->GetInventory().DeSelect();
+		myClicked = true;
+	}
+
 	if (myIsSwitchingRoom == true)
 	{
 		myIsSwitchingRoom = false;
@@ -189,6 +211,27 @@ bool EventManager::Update(const float aDeltaTime)
 		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
 		{
 			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
+		}
+
+		for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+		{
+			Event* event = myActiveEvents[i];
+			if (event->Update(aDeltaTime) == true)
+			{
+				event->myActive = false;
+				if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
+				{
+					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+					{
+						AddEvent(event->myChilds[j]);
+					}
+				}
+				myActiveEvents.RemoveCyclicAtIndex(i);
+				if (event->myType == EventTypes::OnClick)
+				{
+					--event->myObjectData->myAmountActiveEvents;
+				}
+			}
 		}
 
 		myGameWorld->DoChangeLevel(myCurrentRoom);

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SoundFileHandler.h"
+#include <iostream>
 
 SoundFileHandler* SoundFileHandler::mySoundFileHandler = nullptr;
 
@@ -8,7 +9,7 @@ SoundFileHandler::SoundFileHandler()
 
 }
 
-void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D, bool aIsSong)
+void SoundFileHandler::Load(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong)
 {
 	if (aIsSong == false)
 	{
@@ -32,6 +33,35 @@ void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier, 
 		{
 			Sound aSoundToAdd;
 			aSoundToAdd.Create(aSoundPath.c_str(), anIdentifier);
+			myMusic[anIdentifier] = aSoundToAdd;
+		}
+	}
+}
+
+void SoundFileHandler::SetupStream(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong)
+{
+	if (aIsSong == false)
+	{
+		if (mySounds.find(anIdentifier) == mySounds.end())
+		{
+			Sound aSoundToAdd;
+			if (aIs3D == false)
+			{
+				aSoundToAdd.Stream(aSoundPath.c_str(), anIdentifier);
+			}
+			else
+			{
+				aSoundToAdd.Stream3D(aSoundPath.c_str(), anIdentifier);
+			}
+			mySounds[anIdentifier] = aSoundToAdd;
+		}
+	}
+	else
+	{
+		if (myMusic.find(anIdentifier) == myMusic.end())
+		{
+			Sound aSoundToAdd;
+			aSoundToAdd.Stream(aSoundPath.c_str(), anIdentifier);
 			myMusic[anIdentifier] = aSoundToAdd;
 		}
 	}

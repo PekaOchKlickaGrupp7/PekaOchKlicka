@@ -9,7 +9,7 @@ EventStopTalk::~EventStopTalk()
 {
 }
 
-bool EventStopTalk::Update(const float aDeltaTime)
+bool EventStopTalk::Update(const float)
 {
 	return true;
 }

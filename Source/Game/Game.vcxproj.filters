@@ -156,9 +156,6 @@
     <ClInclude Include="ObjectData.h">
       <Filter>Source\System\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="LevelData.h">
-      <Filter>Source\System\JSON</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
@@ -307,6 +304,24 @@
     <ClInclude Include="EventsFactory.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="EventRemoveSelectedItem.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDeselect.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventResetGame.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="SFXSlider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicSlider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
     <ClInclude Include="EventAnswer.h">
       <Filter>Source\Events\Conversation</Filter>
     </ClInclude>
@@ -343,9 +358,6 @@
       <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="ObjectData.cpp">
-      <Filter>Source\System\JSON</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelData.cpp">
       <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
@@ -494,6 +506,24 @@
     </ClCompile>
     <ClCompile Include="EventsFactory.cpp">
       <Filter>Source\System\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventRemoveSelectedItem.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDeselect.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventResetGame.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="SFXSlider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicSlider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Source\Events\Conversation</Filter>

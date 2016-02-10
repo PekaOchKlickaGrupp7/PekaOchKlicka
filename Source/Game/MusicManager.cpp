@@ -10,18 +10,18 @@ MusicManager::MusicManager()
 	myCurrentThemeName = "";
 }
 
-void MusicManager::Load(std::string &aSongPath, std::string &anIdentifier)
+void MusicManager::Load(const std::string &aSongPath, const std::string &anIdentifier)
 {
-	SoundFileHandler::GetInstance()->Load(aSongPath, anIdentifier, false, true);
+	SoundFileHandler::GetInstance()->SetupStream(aSongPath, anIdentifier, false, true);
 }
 
 void MusicManager::StartSystem()
 {
-	SoundFileHandler::GetInstance()->GetSong(std::string("BugsAndFish"))->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong(std::string("Fossils"))->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong(std::string("MainRoom"))->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong(std::string("Observatory"))->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong(std::string("Paintings"))->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("BugsAndFish")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Fossils")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("MainRoom")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Observatory")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Paintings")->PlaySong();
 }
 
 bool MusicManager::ChangeTheme(const std::string &aNextTheme)
@@ -50,7 +50,7 @@ void MusicManager::Update(float aDeltaTime)
 }
 
 
-void MusicManager::DestroySong(std::string &anID)
+void MusicManager::DestroySong(const std::string &anID)
 {
 	SoundFileHandler::GetInstance()->DestroySong(anID);
 }

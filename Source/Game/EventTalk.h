@@ -34,9 +34,10 @@ protected:
 	DX2D::CText* myTextRender;
 
 	int myWordCount;
-	size_t myCurrentLetter;
+	unsigned int myCurrentLetter;
 
 	float myCurrentTime;
 	float myWidth;
+	float myHeight;
 };
 

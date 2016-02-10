@@ -33,9 +33,25 @@ class ObjectData
 {
 public:
 	ObjectData();
+	ObjectData(const std::string& aName);
 	~ObjectData();
 
 	void AddTriangle(Triangle& aTriangle);
+
+	inline float GetX() const;
+	inline float GetY() const;
+	inline float GetGlobalX() const;
+	inline float GetGlobalY() const;
+	inline float GetScaleX() const;
+	inline float GetScaleY() const;
+	inline float GetRotation() const;
+	inline float GetPivotX() const;
+	inline float GetPivotY() const;
+
+	inline bool GetActive() const;
+
+	inline DX2D::CColor& GetColor() const;
+	inline std::string& GetName() const;
 
 	DX2D::CSprite* mySprite;
 	DX2D::CSprite* myOriginalSprite;
@@ -50,7 +66,10 @@ public:
 	float myRotation;
 	float myPivotX;
 	float myPivotY;
+
 	bool myActive;
+	int myAmountActiveEvents;
+
 	DX2D::CColor myColor;
 
 	bool myTriggerEnabled;
@@ -60,8 +79,14 @@ public:
 
 	bool myIsHovering;
 
+	void CreateOriginalData();
+	void ResetToOriginalData();
+
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event*, unsigned int> myEvents;
 	CommonUtilities::GrowingArray<Triangle, unsigned int> myTriangles;
+protected:
+	//Reset Game Data
+	ObjectData* myOriginalData;
 };
 

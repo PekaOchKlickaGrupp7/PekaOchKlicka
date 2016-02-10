@@ -18,6 +18,8 @@
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
 
+#include "..\CommonUtilities\Vector3.h"
+
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -42,7 +44,6 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 	myCurrentRoom = aCurrentRoom;
 	myHasPath = false;
 	myHasNewTargetPosition = false;
-	myPlayer.SetIsMoving(false);
 	myInputManager.Update();
 }
 
@@ -62,11 +63,33 @@ void CGameWorld::SetFadeIn(bool aFade)
 	myDoFadeIn = aFade;
 }
 
+Options* CGameWorld::GetOptions()
+{
+	return &myOptionsMenu; 
+};
+
 void CGameWorld::Init()
 {
+	Vector3f Vec1({ 1, 0, 0 });
+	Vector3f Vec2({ -1, 0, 0 });
+	std::cout << "Angle in rad: " << Vec1.Angle(Vec2) << std::endl;
+	std::cout << "Angle in degrees: " << (Vec1.Angle(Vec2) * (180.0f / 3.14159265359f)) << std::endl;
+
 	std::string name = "";
+	unsigned char timer = myTimerManager.CreateTimer();
+	myTimerManager.UpdateTimers();
+
 	myJson.Load("root.json", myRooms, this, name);
+
+	myTimerManager.UpdateTimers();
+	double delta = myTimerManager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	std::cout << "Loading root.json and levels took " << delta << " milliseconds" << std::endl;
+
+	myTimerManager.UpdateTimers();
 	myJson.LoadMusic("JSON/Music.json");
+	myTimerManager.UpdateTimers();
+	delta = myTimerManager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	std::cout << "Loading music took " << delta << " milliseconds" << std::endl;
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
@@ -95,21 +118,27 @@ void CGameWorld::Init()
 
 	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
+	myShouldRenderFPS = false;
+	myShouldRenderNavPoints = false;
+#ifdef _DEBUG
 	myShouldRenderFPS = true;
 	myShouldRenderNavPoints = true;
+#endif
 
 	myCurrentWaypoint = 0;
 	myHasPath = false;
 	myHasNewTargetPosition = false;
 	myTargetPosition = { 0.0f, 0.0f };
 	myNewTargetPosition = myTargetPosition;
-
+	
+#ifdef _DEBUG
 	myDotSprites.Init(12000);
 	for (int i = 0; i < 12000; ++i)
 	{
 		DX2D::CSprite* sprite = new DX2D::CSprite("Sprites/Dot.dds");
 		myDotSprites.Add(sprite);
 	}
+#endif
 	
 	myOptionsMenu.Initialize();
 }
@@ -146,18 +175,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		std::string name = "";
-		myJson.Load("root.json", myRooms, this, name);
+		ResetGame();
 
-		if (CGame::myTestLevel.size() > 0)
-		{
-			DL_PRINT(CGame::myTestLevel.c_str());
-			ChangeLevel(CGame::myTestLevel);
-		}
-		else
-		{
-			ChangeLevel(name);
-		}
+		std::cout << "Resetted game" << std::endl;
 	}
 
 	float fadeSpeed = 2.0f;
@@ -179,6 +199,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
+
+	myOptionsMenu.Update(aTimeDelta);
 
 	bool input = EventManager::GetInstance()->Update(aTimeDelta);
 	if (myCurrentRoom != nullptr)
@@ -219,6 +241,31 @@ bool CGameWorld::PlayerHasReachedTarget()
 void CGameWorld::SetCinematicMode(bool aOn)
 {
 	myPlayerCanMove = !aOn;
+}
+
+bool CGameWorld::GetCinematicMode() const
+{
+	return !myPlayerCanMove;
+}
+
+void CGameWorld::ResetGame()
+{
+	SetCinematicMode(false);
+	MouseManager::GetInstance()->SetHideGameMouse(false);
+
+	DX2D::Vector2f pos = GetPlayer()->GetPosition();
+	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
+
+	myPlayer.GetInventory().Clear();
+
+	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); iterator++)
+	{
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *iterator->second->GetObjectList();
+		for (unsigned int i = 0; i < objects.Size(); ++i)
+		{
+			objects[i]->ResetToOriginalData();
+		}
+	}
 }
 
 void CGameWorld::Quit()
@@ -318,7 +365,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	if (myShouldRenderNavPoints == true)
+	if (myDotSprites.GetIsInitialized() == true && myShouldRenderNavPoints == true)
 	{
 		CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
 		int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
@@ -366,7 +413,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	}
 	
 	 // if options clicked in inventory
-	//	myOptionsMenu.Render(aSynchronizer);
+	myOptionsMenu.Render(aSynchronizer);
 
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
@@ -436,7 +483,6 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 					myTargetPosition.x = -1;
 					myTargetPosition.y = -1;
 					myHasPath = true;
-					myPlayer.SetIsMoving(true);
 				}
 			}
 		}
@@ -464,7 +510,6 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		{
 			//Framme
 			myHasPath = false;
-			myPlayer.SetIsMoving(false);
 		}
 		else
 		{
@@ -473,7 +518,13 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 			myTargetPosition.y = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
 		}
 	}
+	else if (myHasPath == true)
+	{
+		myHasPath = false;
+	}
 
+/*	std::cout << std::boolalpha << myPlayerCanMove << std::endl;
+	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
@@ -481,6 +532,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
 		{
 			DX2D::Vector2f playerPos = myPlayer.GetPosition();
+			playerPos.y -= myPlayer.GetAnimation()->GetSize().y;
 			(*myCurrentRoom->GetObjectList())[i]->myX = playerPos.x;
 			(*myCurrentRoom->GetObjectList())[i]->myY = playerPos.y;
 			(*myCurrentRoom->GetObjectList())[i]->myGlobalX = playerPos.x;

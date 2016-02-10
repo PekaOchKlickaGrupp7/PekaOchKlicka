@@ -61,6 +61,7 @@ public:
 	void Render(Synchronizer &aSynchronizer);
 	void Update(float aDeltaTime);
 	bool ButtonClicked(eMouseButtons aButton);
+	bool ButtonPressed(eMouseButtons aButton);
 
 	void SetHideGameMouse(bool aSet) { myHideGameMouse = aSet; };
 	bool GetHideGameMouse() { return myHideGameMouse; };

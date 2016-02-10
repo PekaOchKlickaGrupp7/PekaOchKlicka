@@ -35,6 +35,14 @@ void Animation::SetSize(float aScale)
 {
 	mySprite->SetSize(DX2D::Vector2f(aScale / myFramesPerRow, aScale / myFramesPerRow));
 }
+DX2D::Vector2f Animation::GetSize()
+{
+	return mySprite->GetSize();
+}
+float Animation::GetScale()
+{
+	return mySprite->GetScale().x;
+}
 void Animation::Update(float aDelta)
 {
 	

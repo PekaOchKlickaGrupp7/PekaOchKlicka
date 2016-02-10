@@ -9,17 +9,18 @@
 
 using namespace rapidjson;
 
+class Options;
 class CGameWorld
 {
 public:
 	bool PlayerHasReachedTarget();
+	Options* GetOptions();
 };
 
 Player::Player()
 {
 	myPosition = DX2D::Vector2f(0.0, 0.0);
 	myMovementSpeed = 1.0f;
-	myIsMoving = false;
 	myIsInventoryOpen = false;
 	myAnimations.Init(10);
 	myCurentAnimation = 0;
@@ -67,10 +68,9 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
 	myDepthScaleFactor = 1.5f;
-	myIsMoving = false;
-	myInventory.Init("Sprites/Inventory/inventory.dds");
+	myInventory.Init("Sprites/Inventory/inventory.dds", myGameWorldPtr->GetOptions());
 
-	SoundFileHandler::GetInstance()->Load(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
+	SoundFileHandler::GetInstance()->SetupStream(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
 }
 
 void Player::LoadAnimations(rapidjson::Value& aAnimations)
@@ -113,7 +113,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	//Opening/Closing the inventory
 	static float inventoryHoverArea = 1.0f - 0.01f;
 	if (myInventory.IsOpen() == false && 
-		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea && aUpdateInput)
+		MouseManager::GetInstance()->GetPosition().y >= inventoryHoverArea && aUpdateInput == true)
 	{
 		myInventory.SetOpen();
 	}
@@ -140,7 +140,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		}
 		else
 		{
-			myInventory.DeSelect();
+			//myInventory.DeSelect();
 			
 		}
 		
@@ -159,36 +159,25 @@ void Player::Render(Synchronizer& aSynchronizer)
 
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
 {
-	if (myInventory.IsClicked() == true)
+	DX2D::Vector2f characterPos(myPosition);
+	//Calculate distance between target and object
+	DX2D::Vector2f delta = DX2D::Vector2f(
+		characterPos.x - aTargetPosition.x,
+		characterPos.y - aTargetPosition.y);
+	//Pythagoras to get the vector distance
+	float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
+	if (distance > 0.01f)
 	{
-		myIsMoving = false;
-	}
-	else if (myIsMoving == true)
-	{
-		DX2D::Vector2f characterPos(myPosition);
-		//Calculate distance between target and object
-		DX2D::Vector2f delta = DX2D::Vector2f(
-			characterPos.x - aTargetPosition.x,
-			characterPos.y - aTargetPosition.y);
-		//Pythagoras to get the vector distance
-		float distance = sqrt(powf(delta.x, 2) + (powf(delta.y, 2)));
-		if (distance > 0.01f)
-		{
-			//Divide the X & Y distances with the vector distance to get a normalized direction vector
-			delta.Normalize();
+		//Divide the X & Y distances with the vector distance to get a normalized direction vector
+		delta.Normalize();
 
-			//Move the object
-			myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
-			myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
-				myPosition = DX2D::Vector2f(
-				myRenderPosition.x,
-				myRenderPosition.y);
-			PlayApropriateAnimation(delta);
-		}
-		else
-		{
-			myIsMoving = false;
-		}
+		//Move the object
+		myRenderPosition.x = characterPos.x - delta.x * aMovementSpeed * aDeltaT;
+		myRenderPosition.y = characterPos.y - delta.y * aMovementSpeed * aDeltaT;
+			myPosition = DX2D::Vector2f(
+			myRenderPosition.x,
+			myRenderPosition.y);
+		PlayApropriateAnimation(delta);
 	}
 }
 
@@ -207,16 +196,6 @@ void Player::SetPreviousPosition(const DX2D::Vector2f& aPoint)
 void Player::SetSpeed(float aSpeed)
 {
 	myMovementSpeed = aSpeed;
-}
-
-bool Player::GetIsMoving()
-{
-	return myIsMoving;
-}
-
-void Player::SetIsMoving(bool aValue)
-{
-	myIsMoving = aValue;
 }
 
 void Player::AddItemToInventory(Item* aItemToAdd)

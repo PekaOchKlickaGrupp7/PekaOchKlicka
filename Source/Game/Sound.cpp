@@ -25,15 +25,26 @@ void Sound::Destroy()
 	mySFX->release();
 }
 
-void Sound::Create(const char* aFile, std::string &anIdentifier)
+void Sound::Create(const char* aFile, const std::string &anIdentifier)
 {
 	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound(aFile);
 }
-void Sound::Create3D(const char* aFile, std::string &anIdentifier)
+void Sound::Create3D(const char* aFile, const std::string &anIdentifier)
 {
 	myIdentifier = anIdentifier;
 	mySFX = SoundManager::GetInstance()->CreateSound3D(aFile);
+}
+
+void Sound::Stream(const char* aFile, const std::string &anIdentifier)
+{
+	myIdentifier = anIdentifier;
+	mySFX = SoundManager::GetInstance()->CreateStream(aFile);
+}
+void Sound::Stream3D(const char* aFile, const std::string &anIdentifier)
+{
+	myIdentifier = anIdentifier;
+	mySFX = SoundManager::GetInstance()->CreateStream3D(aFile);
 }
 
 void Sound::PlaySound(DX2D::Vector2f aPosition)

@@ -3,6 +3,7 @@
 #include "Synchronizer.h"
 #include "..\CommonUtilities\Intersection.h"
 #include "EventVariablesManager.h"
+#include "Options.h"
 
 Inventory::Inventory()
 {
@@ -21,6 +22,7 @@ Inventory::Inventory()
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
 	mySelectedItem = nullptr;
+	myPreviouslySelectedItem = nullptr;
 }
 
 Inventory::~Inventory()
@@ -30,14 +32,17 @@ Inventory::~Inventory()
 	//myContents.DeleteAll();
 }
 
-void Inventory::Init(const char* aFilePath)
+void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myEndPosition.y = 1.0f - myBackground->GetSize().y;
+	myEndPosition.y = 1.0f - myBackground->GetSize().y + 0.005f;
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
 	mySelectedItem = nullptr;
+	myPreviouslySelectedItem = nullptr;
+
+	myOptionsPtr = aOptionsPtr;
 
 	UpdateSelectedItem();
 }
@@ -56,6 +61,20 @@ void Inventory::DeSelect()
 {
 	mySelectedItem = nullptr;
 	UpdateSelectedItem();
+}
+
+/* Tömmer inventory från ResetGame i GameWorld.cpp /Danne */
+void Inventory::Clear()
+{
+	myContents.RemoveAll();
+}
+
+/* Jag la till den här för att den behövs för att ens kunna ta bort items genom editorn /Danne */
+void Inventory::RemoveSelectedItem()
+{
+	Remove(myPreviouslySelectedItem);
+	myPreviouslySelectedItem = nullptr;
+	DeSelect();
 }
 
 //Update the inventory
@@ -85,6 +104,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 			if (mySelectedItem == nullptr)
 			{
 				mySelectedItem = myContents[i];
+				myPreviouslySelectedItem = mySelectedItem;
 				UpdateSelectedItem();
 				return;
 			}
@@ -93,11 +113,22 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				if (Combine(mySelectedItem, myContents[i]) == true)
 				{
 					mySelectedItem = nullptr;
+					myPreviouslySelectedItem = nullptr;
 					UpdateSelectedItem();
 					return;
 				}
 			}
 		}
+	}
+	
+	//Options area in the inventory
+	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
+	Vector2f botRight = { 0.97656f, 1 - 0.032407f };
+
+	if (CommonUtilities::Intersection::PointVsRect(
+		Vector2<float>(aPointerPosition.x, aPointerPosition.y), topLeft, botRight) == true)
+	{
+		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
 	}
 }
 
