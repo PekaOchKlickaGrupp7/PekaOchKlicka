@@ -38,6 +38,23 @@ void SoundFileHandler::Load(const std::string &aSoundPath, const std::string &an
 	}
 }
 
+void SoundFileHandler::SetupStream(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D)
+{
+	if (mySounds.find(anIdentifier) == mySounds.end())
+	{
+		Sound aSoundToAdd;
+		if (aIs3D == false)
+		{
+			aSoundToAdd.Stream(aSoundPath.c_str(), anIdentifier);
+		}
+		else
+		{
+			aSoundToAdd.Stream3D(aSoundPath.c_str(), anIdentifier);
+		}
+		mySounds[anIdentifier] = aSoundToAdd;
+	}
+}
+
 void SoundFileHandler::UpdateSongs(float aDeltaTime)
 {
 	for (std::map<std::string, Sound>::iterator i = myMusic.begin(); i != myMusic.end(); ++i)

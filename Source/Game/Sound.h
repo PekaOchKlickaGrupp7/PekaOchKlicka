@@ -19,6 +19,8 @@ class Sound
 {
 public:
 	Sound();
+	void Stream(const char* aFile, const std::string &anIdentifier);
+	void Stream3D(const char* aFile, const std::string &anIdentifier);
 	void Create(const char* aFile, const std::string &anIdentifier);
 	void Create3D(const char* aFile, const std::string &anIdentifier);
 	void SetLooping(bool aBool) { myIsLooping = aBool; };

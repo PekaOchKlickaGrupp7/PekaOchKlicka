@@ -36,6 +36,17 @@ void Sound::Create3D(const char* aFile, const std::string &anIdentifier)
 	mySFX = SoundManager::GetInstance()->CreateSound3D(aFile);
 }
 
+void Sound::Stream(const char* aFile, const std::string &anIdentifier)
+{
+	myIdentifier = anIdentifier;
+	mySFX = SoundManager::GetInstance()->CreateStream(aFile);
+}
+void Sound::Stream3D(const char* aFile, const std::string &anIdentifier)
+{
+	myIdentifier = anIdentifier;
+	mySFX = SoundManager::GetInstance()->CreateStream3D(aFile);
+}
+
 void Sound::PlaySound(DX2D::Vector2f aPosition)
 {
 	bool aBool = false;

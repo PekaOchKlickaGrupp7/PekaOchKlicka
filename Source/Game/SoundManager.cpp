@@ -90,6 +90,28 @@ SoundClass SoundManager::CreateSound(const char* aFile)
 	return tempSoundClass;
 }
 
+SoundClass SoundManager::CreateStream3D(const char* aFile)
+{
+	SoundClass tempSoundClass = nullptr;
+	mySystem->createStream(aFile, FMOD_3D, 0, &tempSoundClass);
+	tempSoundClass->set3DMinMaxDistance(0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+	return tempSoundClass;
+}
+
+SoundClass SoundManager::CreateStream(const char* aFile)
+{
+	SoundClass tempSoundClass = nullptr;
+	FMOD_RESULT aRes;
+	aRes = mySystem->createStream(aFile, FMOD_2D, 0, &tempSoundClass);
+	if (aRes == 18)
+	{
+		std::string outputstring = "Stream error: Sound file could not be found. File name was: '" + std::string(aFile) + "'";
+		DL_DEBUG(outputstring.c_str());
+		std::cout << "Stream error: Sound file could not be found! File name was: " + std::string(aFile) + " Check empty playsound events" << std::endl;
+	}
+	return tempSoundClass;
+}
+
 void SoundManager::SetPan(FMOD::Channel *aChannel, float aPanFloat)
 {
 	aChannel->setPan(aPanFloat);

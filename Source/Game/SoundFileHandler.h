@@ -44,6 +44,7 @@ public:
 
 
 	void Load(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong = false);
+	void SetupStream(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D);
 	Sound* GetSound(const std::string &anID){ return &mySounds[anID]; };
 	Sound* GetSong(const std::string &anID){ return &myMusic[anID]; };
 
