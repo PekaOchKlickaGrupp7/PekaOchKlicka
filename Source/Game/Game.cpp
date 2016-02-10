@@ -7,6 +7,7 @@
 #include <functional>
 #include <time.h>
 #include "..\CommonUtilities\ThreadHelper.h"
+#include "..\CommonUtilities\TimerManager.h"
 
 #include "GameWorld.h"
 
@@ -145,6 +146,11 @@ void CGame::Init(const char** argv, const int argc)
 
 void CGame::InitCallBack()
 {
+	CU::TimeSys::TimerManager time = CU::TimeSys::TimerManager();
+
+	unsigned char timer = time.CreateTimer();
+	time.UpdateTimers();
+
 	#pragma region Intialize Debug & Input & Threads
 	DL_Debug::Debug::Create();
 
@@ -185,10 +191,11 @@ void CGame::InitCallBack()
 
 	CGameWorld* GameWorld = new CGameWorld(myStateStackProxy, myInputManager, myTimerManager);
 
+	time.UpdateTimers();
+
 	EventManager::GetInstance()->Init(&myInputManager, GameWorld);
 
 	#pragma endregion
-
 
 	myStateStack.PushMainGameState(GameWorld);
 
@@ -200,6 +207,9 @@ void CGame::InitCallBack()
 	{
 		ResolutionManager::GetInstance()->SetupWindow();
 	}
+
+	double delta = time.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	std::cout << "Startup took: " << delta << " milliseconds" << std::endl;
 }
 
 const bool CGame::Update()

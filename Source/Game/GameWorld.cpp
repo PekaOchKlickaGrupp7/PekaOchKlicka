@@ -69,8 +69,20 @@ Options* CGameWorld::GetOptions()
 void CGameWorld::Init()
 {
 	std::string name = "";
+	unsigned char timer = myTimerManager.CreateTimer();
+	myTimerManager.UpdateTimers();
+
 	myJson.Load("root.json", myRooms, this, name);
+
+	myTimerManager.UpdateTimers();
+	double delta = myTimerManager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	std::cout << "Loading root.json and levels took " << delta << " milliseconds" << std::endl;
+
+	myTimerManager.UpdateTimers();
 	myJson.LoadMusic("JSON/Music.json");
+	myTimerManager.UpdateTimers();
+	delta = myTimerManager.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	std::cout << "Loading music took " << delta << " milliseconds" << std::endl;
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
