@@ -24,10 +24,15 @@ public:
 	void Init();
 	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);
-	Player* CGameWorld::GetPlayer();
+	Player* GetPlayer();
 	void SetPlayerTargetPosition(Point2f aPoint);
 	const Vector2f GetPlayerTargetPosition() const;
+
 	void SetCinematicMode(bool aOn = true);
+	bool GetCinematicMode() const;
+
+	void ResetGame();
+
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;
 	bool PlayerHasReachedTarget();

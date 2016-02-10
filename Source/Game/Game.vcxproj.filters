@@ -156,9 +156,6 @@
     <ClInclude Include="ObjectData.h">
       <Filter>Source\System\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="LevelData.h">
-      <Filter>Source\System\JSON</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
@@ -361,9 +358,6 @@
       <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="ObjectData.cpp">
-      <Filter>Source\System\JSON</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelData.cpp">
       <Filter>Source\System\JSON</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">

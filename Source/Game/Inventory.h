@@ -22,6 +22,7 @@ public:
 	void Add(Item* aItemToAdd);
 	void Remove(Item* aItemToRemove);
 	bool Combine(Item* aItemToCombine, Item* aItemToCombineWith);
+	void Clear();
 
 	void RemoveSelectedItem();
 
