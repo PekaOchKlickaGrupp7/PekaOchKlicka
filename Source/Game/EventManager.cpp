@@ -202,6 +202,23 @@ bool EventManager::Update(const float aDeltaTime)
 			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
 		}
 
+		for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+		{
+			Event* event = myActiveEvents[i];
+			if (event->Update(aDeltaTime) == true)
+			{
+				event->myActive = false;
+				if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
+				{
+					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+					{
+						AddEvent(event->myChilds[j]);
+					}
+				}
+				myActiveEvents.RemoveCyclicAtIndex(i);
+			}
+		}
+
 		myGameWorld->DoChangeLevel(myCurrentRoom);
 		return false;
 	}
