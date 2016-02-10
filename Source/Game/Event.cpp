@@ -77,6 +77,5 @@ ObjectData* Event::GetGameObject(const std::string& aName, ObjectData* aParent) 
 			return data;
 		}
 	}
-	DL_DEBUG(("Couldn't find object named: " + aName).c_str());
 	return nullptr;
 }

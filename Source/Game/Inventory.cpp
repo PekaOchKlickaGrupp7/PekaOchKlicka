@@ -63,6 +63,12 @@ void Inventory::DeSelect()
 	UpdateSelectedItem();
 }
 
+/* Tömmer inventory från ResetGame i GameWorld.cpp /Danne */
+void Inventory::Clear()
+{
+	myContents.RemoveAll();
+}
+
 /* Jag la till den här för att den behövs för att ens kunna ta bort items genom editorn /Danne */
 void Inventory::RemoveSelectedItem()
 {

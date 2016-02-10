@@ -33,7 +33,7 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myIsTalking = true;
 
 
-//	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
 	myWidth = 0;
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
@@ -45,10 +45,10 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		float x = object->myX;
+		float x = object->myGlobalX - myWidth / 2;
 		
-		myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
-
+		myTextRender->myPosition = DX2D::Vector2f(x, object->myGlobalY - myTextRender->GetHeight());
+		
 		if (myCurrentTime > myWordLength * myWordCount)
 		{
 			return NewSubString();

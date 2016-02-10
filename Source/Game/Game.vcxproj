@@ -225,7 +225,6 @@
     <ClInclude Include="Options.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="LevelData.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderCommand.h" />
@@ -293,7 +292,6 @@
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="LevelData.cpp" />
     <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />

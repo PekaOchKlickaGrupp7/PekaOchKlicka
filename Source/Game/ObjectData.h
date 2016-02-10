@@ -66,7 +66,10 @@ public:
 	float myRotation;
 	float myPivotX;
 	float myPivotY;
+
 	bool myActive;
+	int myAmountActiveEvents;
+
 	DX2D::CColor myColor;
 
 	bool myTriggerEnabled;
