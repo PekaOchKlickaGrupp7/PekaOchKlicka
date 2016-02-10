@@ -316,6 +316,9 @@
     <ClInclude Include="EventDeselect.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventResetGame.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -508,6 +511,9 @@
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="EventDeselect.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventResetGame.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

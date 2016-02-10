@@ -168,9 +168,6 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 		std::cout << diff << std::endl;
 		aRoom->SetGridSize(gridSize);
 		aRoom->SetNavPoints(nodes);
-
-//		std::cout << nodes[(600 / gridSize) + (210 / gridSize) * (windowWidth / gridSize)] << std::endl;
-//		std::cout << aRoom->GetGridAt(600 / 1920.0f, 210 / 1080.0f) << std::endl;
 	}
 
 	level.GetAllocator().Clear();
