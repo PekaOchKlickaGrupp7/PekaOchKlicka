@@ -54,6 +54,8 @@ namespace CommonUtilities
 		myNumberOfOccupied = 0;
 	}
 
+#pragma warning (push)
+#pragma warning (disable: 4127)
 	template <typename T, int Capacity, typename CountType, bool UseSafeModeFlag>
 	VectorOnStack<T, Capacity, CountType, UseSafeModeFlag>&
 		VectorOnStack<T, Capacity, CountType, UseSafeModeFlag>::operator=(const VectorOnStack &aVectorOnStack)
@@ -74,6 +76,7 @@ namespace CommonUtilities
 		}
 		return *this;
 	}
+#pragma warning (pop)
 
 	template <typename T, int Capacity, typename CountType, bool UseSafeModeFlag>
 	inline T& VectorOnStack<T, Capacity, CountType, UseSafeModeFlag>::operator[](const CountType& aIndex)

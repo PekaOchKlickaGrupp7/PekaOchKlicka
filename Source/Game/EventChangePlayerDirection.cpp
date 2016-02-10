@@ -10,7 +10,7 @@ EventChangePlayerDirection::~EventChangePlayerDirection()
 {
 }
 
-bool EventChangePlayerDirection::Update(const float aDeltaTime)
+bool EventChangePlayerDirection::Update(const float)
 {
 	myGameWorld->GetPlayer()->SetAnimation(myPlayerDirection);
 	return true;

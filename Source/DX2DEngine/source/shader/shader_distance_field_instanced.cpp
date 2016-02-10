@@ -55,10 +55,10 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 
 
 	// Changed ratioX to use the correct ratio of 1920 / 1080
-	const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
+	//const float ratioX = (float)myDirect3dEngine->myWindowSize.x / (float)myDirect3dEngine->myWindowSize.y;
 	//const float ratioX = 960.0f / 540.0f;
 
-	float prevY = 20520520502;
+	float prevY = 205205202.0f;
 	int counter = 0;
 	float mySize = 0;
 	float mySizeY = 0;
