@@ -219,6 +219,7 @@
     <ClInclude Include="JSON.h" />
     <ClInclude Include="MouseManager.h" />
     <ClInclude Include="MusicManager.h" />
+    <ClInclude Include="MusicSlider.h" />
     <ClInclude Include="NavPolygon.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NPC.h" />
@@ -231,6 +232,8 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResolutionManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SFXSlider.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundFileHandler.h" />
     <ClInclude Include="SoundManager.h" />
@@ -286,6 +289,7 @@
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="MusicManager.cpp" />
+    <ClCompile Include="MusicSlider.cpp" />
     <ClCompile Include="NavPolygon.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NPC.cpp" />
@@ -296,6 +300,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResolutionManager.cpp" />
+    <ClCompile Include="SFXSlider.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundFileHandler.cpp" />
     <ClCompile Include="SoundManager.cpp" />

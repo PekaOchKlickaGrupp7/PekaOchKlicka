@@ -59,36 +59,39 @@ void MouseManager::Update(float)
 
 	//Release
 #ifdef NDEBUG
-	int X = ((((
+	float X = ((((
 		ResolutionManager::GetInstance()->GetRenderAreaDimension().x * 0.5f) +
 		ResolutionManager::GetInstance()->GetRenderAreaPosition().x)) + mySprite->GetSize().x);
-	int Y = ((((
-		ResolutionManager::GetInstance()->GetRenderAreaDimension().y * 0.5f) +
-		ResolutionManager::GetInstance()->GetRenderAreaPosition().y)) + mySprite->GetSize().y);
-	myInputManager->SetAbsoluteMousePos(X, Y);
+	float Y = ((((
+		(ResolutionManager::GetInstance()->GetRenderAreaDimension().y) * 0.5f) +
+		(ResolutionManager::GetInstance()->GetRenderAreaPosition().y))) + mySprite->GetSize().y);
+	myInputManager->SetAbsoluteMousePos(static_cast<int>(X), static_cast<int>(Y));
 #endif 
 
 
 	static float aSpeed = 0.0005f;
-	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
-	myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed * ResolutionManager::GetInstance()->GetAspectRatio();
+	if (myHideGameMouse != true)
+	{
+		myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
+		myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed * ResolutionManager::GetInstance()->GetAspectRatio();
 
-	if (myPosition.x <= 0)
-	{
-		myPosition.x = 0;
-	}
-	else if ((myPosition.x) >= 1)
-	{
-		myPosition.x = 1;
-	}
-	
-	if (myPosition.y <= 0)
-	{
-		myPosition.y = 0;
-	}
-	else if ((myPosition.y) >= 1)
-	{
-		myPosition.y = 1;
+		if (myPosition.x <= 0)
+		{
+			myPosition.x = 0;
+		}
+		else if ((myPosition.x) >= 1)
+		{
+			myPosition.x = 1;
+		}
+
+		if (myPosition.y <= 0)
+		{
+			myPosition.y = 0;
+		}
+		else if ((myPosition.y) >= 1)
+		{
+			myPosition.y = 1;
+		}
 	}
 
 	//EventVariablesManager::GetInstance()->GetVariable(myInMenu, "InMenu"); // Doing this every frame might not be a great idea. Fuck it. Will fix in the event. /Linus
@@ -119,6 +122,24 @@ bool MouseManager::ButtonClicked(eMouseButtons aButton)
 		break;
 	case eMouseButtons::eCenter:
 		return myInputManager->MiddleMouseButtonClicked();
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+bool MouseManager::ButtonPressed(eMouseButtons aButton)
+{
+	switch (aButton)
+	{
+	case eMouseButtons::eLeft:
+		return myInputManager->LeftMouseButtonDown();
+		break;
+	case eMouseButtons::eRight:
+		return myInputManager->RightMouseButtonDown();
+		break;
+	case eMouseButtons::eCenter:
+		return myInputManager->MiddleMouseButtonDown();
 		break;
 	default:
 		return false;
