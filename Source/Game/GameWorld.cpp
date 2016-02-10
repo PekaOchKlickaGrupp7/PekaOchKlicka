@@ -111,13 +111,15 @@ void CGameWorld::Init()
 	myHasNewTargetPosition = false;
 	myTargetPosition = { 0.0f, 0.0f };
 	myNewTargetPosition = myTargetPosition;
-
+	
+#ifdef _DEBUG
 	myDotSprites.Init(12000);
 	for (int i = 0; i < 12000; ++i)
 	{
 		DX2D::CSprite* sprite = new DX2D::CSprite("Sprites/Dot.dds");
 		myDotSprites.Add(sprite);
 	}
+#endif
 	
 	myOptionsMenu.Initialize();
 }
@@ -328,7 +330,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(fps);
 	}
 
-	if (myShouldRenderNavPoints == true)
+	if (myDotSprites.GetIsInitialized() == true && myShouldRenderNavPoints == true)
 	{
 		CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
 		int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
@@ -482,8 +484,8 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 		}
 	}
 
-	std::cout << std::boolalpha << myPlayerCanMove << std::endl;
-	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;
+/*	std::cout << std::boolalpha << myPlayerCanMove << std::endl;
+	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
