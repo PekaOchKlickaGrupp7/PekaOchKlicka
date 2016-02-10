@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SoundFileHandler.h"
+#include <iostream>
 
 SoundFileHandler* SoundFileHandler::mySoundFileHandler = nullptr;
 
