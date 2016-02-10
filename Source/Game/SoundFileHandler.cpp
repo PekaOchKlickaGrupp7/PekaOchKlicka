@@ -18,11 +18,11 @@ void SoundFileHandler::Load(const std::string &aSoundPath, const std::string &an
 			Sound aSoundToAdd;
 			if (aIs3D == false)
 			{
-				aSoundToAdd.Create(aSoundPath.c_str(), anIdentifier);
+				aSoundToAdd.Stream(aSoundPath.c_str(), anIdentifier);
 			}
 			else
 			{
-				aSoundToAdd.Create3D(aSoundPath.c_str(), anIdentifier);
+				aSoundToAdd.Stream3D(aSoundPath.c_str(), anIdentifier);
 			}
 			mySounds[anIdentifier] = aSoundToAdd;
 		}
