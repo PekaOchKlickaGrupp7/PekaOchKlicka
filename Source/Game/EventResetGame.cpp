@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EventResetGame.h"
+#include "GameWorld.h"
 
 EventResetGame::EventResetGame()
 {
@@ -9,12 +10,12 @@ EventResetGame::~EventResetGame()
 {
 }
 
-bool Update(const float)
+bool EventResetGame::Update(const float)
 {
 	return true;
 }
 
-void Reset()
+void EventResetGame::Reset()
 {
 
 }

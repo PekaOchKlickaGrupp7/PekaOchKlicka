@@ -243,7 +243,7 @@ bool JSON::LoadMusic(const std::string& aMusicFile)
 		std::string songPath = song["file"].GetString();
 		std::string songName = song["name"].GetString();
 
-		MusicManager::GetInstance()->Load(songPath, songName);
+		//MusicManager::GetInstance()->Load(songPath, songName);
 	}
 
 	MusicManager::GetInstance()->StartSystem();
