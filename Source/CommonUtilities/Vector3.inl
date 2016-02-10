@@ -136,6 +136,18 @@ T Vector3<T>::Dot(const Vector3<T> &aLeft, const Vector3<T> &aRight)
 	return ((aLeft.x * aRight.x) + (aLeft.y * aRight.y) + (aLeft.z * aRight.z));
 }
 
+template<typename T>
+T Vector3<T>::Angle(const Vector3 &aLeft, const Vector3 &aRight)
+{
+	return (acos(aLeft.Dot(aRight) / (aLeft.Length() * aRight.Length())));
+}
+
+template <typename T>
+T Vector3<T>::Angle(const Vector3<T> &aRight) const
+{
+	return (acos(Dot(aRight) / (Length() * aRight.Length())));
+}
+
 template <typename T>
 T Length2(const Vector3<T>& aVector)
 {

@@ -247,8 +247,6 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 	{
 		int aChar = aText[i];
 
-
-
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
 		minS = theChar.sMin_;

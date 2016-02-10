@@ -8,6 +8,7 @@ ObjectData::ObjectData()
 	myIsHovering = false; 
 	myColor = { 1, 1, 1, 1 };
 	myTriangles.Init(2);
+	myAmountActiveEvents = 0;
 }
 
 ObjectData::~ObjectData()
@@ -46,10 +47,10 @@ void ObjectData::CreateOriginalData()
 	myOriginalData->myColor = myColor;
 	myOriginalData->myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myEvents);
 
-	for (unsigned int i = 0; i < myChilds.Size(); ++i)
+	/*for (unsigned int i = 0; i < myChilds.Size(); ++i)
 	{
 		myChilds[i]->CreateOriginalData();
-	}
+	}*/
 }
 void ObjectData::ResetToOriginalData()
 {
@@ -64,11 +65,10 @@ void ObjectData::ResetToOriginalData()
 	myName = myOriginalData->myName;
 	myPivotX = myOriginalData->myPivotX;
 	myPivotY = myOriginalData->myPivotY;
-	myPivotX = myOriginalData->myPivotX;
-	myActive = myOriginalData->myActive;
 	myColor = myOriginalData->myColor;
 	myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myOriginalData->myEvents);
 
+	myAmountActiveEvents = 0;
 	myIsHovering = false;
 
 	for (unsigned int i = 0; i < myChilds.Size(); ++i)

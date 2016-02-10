@@ -97,6 +97,7 @@ public:
 	T Length(void) const;
 	T Length2(void) const;
 	static T Length2(const Vector3<T>& aVector);
+	T Angle(const Vector3<T> &aRight) const;
 	T Dot(const Vector3<T> &aRight) const;
 	Vector3 Cross(const Vector3 &aRight) const;
 	Vector3 GetNormalized(void) const;
@@ -126,6 +127,7 @@ public:
 			b;
 	};
 
+	static T Angle(const Vector3 &aFirstVector, const Vector3 &aSecondVector);
 	static T Dot(const Vector3 &aFirstVector, const Vector3 &aSecondVector);
 	static Vector3 Cross(const Vector3 &aLeft, const Vector3 &aRight);
 	static Vector3 Normalize(Vector3 aVector);

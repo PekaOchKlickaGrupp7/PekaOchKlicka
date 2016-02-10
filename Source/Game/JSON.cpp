@@ -330,6 +330,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	ObjectData* parentData = nullptr;
 	dataObject->myChilds.Init(12);
 
+	dataObject->CreateOriginalData();
 	if (aParentObject == nullptr)
 	{
 		aObjects->Add(dataObject);

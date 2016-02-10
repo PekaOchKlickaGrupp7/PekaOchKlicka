@@ -18,6 +18,8 @@
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
 
+#include "..\CommonUtilities\Vector3.h"
+
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -68,6 +70,11 @@ Options* CGameWorld::GetOptions()
 
 void CGameWorld::Init()
 {
+	Vector3f Vec1({ 1, 0, 0 });
+	Vector3f Vec2({ -1, 0, 0 });
+	std::cout << "Angle in rad: " << Vec1.Angle(Vec2) << std::endl;
+	std::cout << "Angle in degrees: " << (Vec1.Angle(Vec2) * (180.0f / 3.14159265359f)) << std::endl;
+
 	std::string name = "";
 	unsigned char timer = myTimerManager.CreateTimer();
 	myTimerManager.UpdateTimers();
@@ -168,18 +175,9 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		std::string name = "";
-		myJson.Load("root.json", myRooms, this, name);
+		ResetGame();
 
-		if (CGame::myTestLevel.size() > 0)
-		{
-			DL_PRINT(CGame::myTestLevel.c_str());
-			ChangeLevel(CGame::myTestLevel);
-		}
-		else
-		{
-			ChangeLevel(name);
-		}
+		std::cout << "Resetted game" << std::endl;
 	}
 
 	float fadeSpeed = 2.0f;
@@ -243,6 +241,31 @@ bool CGameWorld::PlayerHasReachedTarget()
 void CGameWorld::SetCinematicMode(bool aOn)
 {
 	myPlayerCanMove = !aOn;
+}
+
+bool CGameWorld::GetCinematicMode() const
+{
+	return !myPlayerCanMove;
+}
+
+void CGameWorld::ResetGame()
+{
+	SetCinematicMode(false);
+	MouseManager::GetInstance()->SetHideGameMouse(false);
+
+	DX2D::Vector2f pos = GetPlayer()->GetPosition();
+	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
+
+	myPlayer.GetInventory().Clear();
+
+	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); iterator++)
+	{
+		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *iterator->second->GetObjectList();
+		for (unsigned int i = 0; i < objects.Size(); ++i)
+		{
+			objects[i]->ResetToOriginalData();
+		}
+	}
 }
 
 void CGameWorld::Quit()
@@ -494,6 +517,10 @@ void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 			myTargetPosition.x = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetX()) * myCurrentRoom->GetGridSize()) / 1920.0f;
 			myTargetPosition.y = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
 		}
+	}
+	else if (myHasPath == true)
+	{
+		myHasPath = false;
 	}
 
 /*	std::cout << std::boolalpha << myPlayerCanMove << std::endl;

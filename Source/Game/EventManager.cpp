@@ -34,6 +34,10 @@ void EventManager::AddEvent(Event* aEvent)
 {
 	if (aEvent->myActive == false)
 	{
+		if (aEvent->myType == EventTypes::OnClick)
+		{
+			++aEvent->myObjectData->myAmountActiveEvents;
+		}
 		aEvent->myActive = true;
 		aEvent->Reset();
 		myActiveEvents.Add(aEvent);
@@ -62,11 +66,14 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
+					if (aData->myAmountActiveEvents == 0)
 					{
-						if (aData->myEvents[j]->myType == EventTypes::OnClick)
+						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 						{
-							AddEvent(aData->myEvents[j]);
+							if (aData->myEvents[j]->myType == EventTypes::OnClick)
+							{
+								AddEvent(aData->myEvents[j]);
+							}
 						}
 					}
 					return true;
@@ -138,7 +145,7 @@ bool EventManager::Update(const float aDeltaTime)
 
 	myClicked = false;
 	myIsInsideAObject = false;
-	if (myInputManager->LeftMouseButtonClicked() == true)
+	if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
 	{
 		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 		{
@@ -169,6 +176,10 @@ bool EventManager::Update(const float aDeltaTime)
 				{
 					AddEvent(event->myChilds[j]);
 				}
+			}
+			if (event->myType == EventTypes::OnClick)
+			{
+				--event->myObjectData->myAmountActiveEvents;
 			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
@@ -216,6 +227,10 @@ bool EventManager::Update(const float aDeltaTime)
 					}
 				}
 				myActiveEvents.RemoveCyclicAtIndex(i);
+				if (event->myType == EventTypes::OnClick)
+				{
+					--event->myObjectData->myAmountActiveEvents;
+				}
 			}
 		}
 
