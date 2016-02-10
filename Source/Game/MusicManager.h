@@ -30,12 +30,12 @@ public:
 		}
 	}
 
-	void Load(std::string &aSongPath, std::string &anIdentifier);
+	void Load(const std::string &aSongPath, const std::string &anIdentifier);
 
 	void StartSystem();
 	bool ChangeTheme(const std::string &aNextTheme);
 
-	void DestroySong(std::string &anID);
+	void DestroySong(const std::string &anID);
 	void DestroyAll();
 
 	void Update(float aDeltaTime);

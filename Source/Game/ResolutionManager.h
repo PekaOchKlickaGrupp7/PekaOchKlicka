@@ -58,6 +58,8 @@ private:
 	float myRatio;
 	const float myAspectRatio = 1920.0f / 1080.0f;
 
+	ResolutionManager &operator=(const ResolutionManager&) = delete;
+
 	DX2D::Vector2<int> myRenderAreaPosition;
 	DX2D::Vector2<int> myRenderAreaDimensions;
 

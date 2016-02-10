@@ -8,7 +8,7 @@ SoundFileHandler::SoundFileHandler()
 
 }
 
-void SoundFileHandler::Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D, bool aIsSong)
+void SoundFileHandler::Load(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong)
 {
 	if (aIsSong == false)
 	{

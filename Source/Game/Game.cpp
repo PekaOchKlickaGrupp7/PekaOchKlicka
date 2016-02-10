@@ -129,9 +129,8 @@ void CGame::Init(const char** argv, const int argc)
 	// Sets whether the engine should launch in fullscreen or not.
 	createParameters.myStartInFullScreen = ResolutionManager::GetInstance()->GetIsFullscreen();
 
-	std::string str = std::string("IsFullscreen");
-	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), str);
-	EventVariablesManager::GetInstance()->SetVariable(true, std::string("InMenu"));
+	EventVariablesManager::GetInstance()->SetVariable(ResolutionManager::GetInstance()->GetIsFullscreen(), "IsFullscreen");
+	EventVariablesManager::GetInstance()->SetVariable(true, "InMenu");
 	
 	createParameters.myApplicationName = appname;
 	createParameters.myEnableVSync = false;

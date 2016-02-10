@@ -19,8 +19,8 @@ class Sound
 {
 public:
 	Sound();
-	void Create(const char* aFile, std::string &anIdentifier);
-	void Create3D(const char* aFile, std::string &anIdentifier);
+	void Create(const char* aFile, const std::string &anIdentifier);
+	void Create3D(const char* aFile, const std::string &anIdentifier);
 	void SetLooping(bool aBool) { myIsLooping = aBool; };
 	void PlaySound(DX2D::Vector2f aPosition = { 0.0f, 0.0f });
 	void PlaySong();

@@ -30,7 +30,7 @@ void Options::Initialize()
 
 void Options::Update(float aDeltaTime)
 {
-
+	(aDeltaTime);
 }
 
 void Options::Render(Synchronizer& aSynchronizer)

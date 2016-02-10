@@ -43,14 +43,14 @@ public:
 	}
 
 
-	void Load(std::string &aSoundPath, std::string &anIdentifier, bool aIs3D, bool aIsSong = false);
-	Sound* GetSound(std::string &anID){ return &mySounds[anID]; };
-	Sound* GetSong(std::string &anID){ return &myMusic[anID]; };
+	void Load(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong = false);
+	Sound* GetSound(const std::string &anID){ return &mySounds[anID]; };
+	Sound* GetSong(const std::string &anID){ return &myMusic[anID]; };
 
-	void DestroySound(std::string &anID){ mySounds[anID].Destroy(); };
+	void DestroySound(const std::string &anID){ mySounds[anID].Destroy(); };
 	void DestroyAll();
 
-	void DestroySong(std::string &anID){ myMusic[anID].Destroy(); };
+	void DestroySong(const std::string &anID){ myMusic[anID].Destroy(); };
 	void DestroyAllMusic();
 
 	void UpdateSongs(float aDeltaTime);
