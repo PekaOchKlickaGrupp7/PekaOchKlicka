@@ -319,6 +319,15 @@
     <ClInclude Include="EventResetGame.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="SFXSlider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicSlider.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -515,6 +524,15 @@
     </ClCompile>
     <ClCompile Include="EventResetGame.cpp">
       <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="SFXSlider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicSlider.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

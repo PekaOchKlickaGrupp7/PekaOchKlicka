@@ -18,6 +18,8 @@
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
 
+#include "..\CommonUtilities\Vector3.h"
+
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -68,6 +70,11 @@ Options* CGameWorld::GetOptions()
 
 void CGameWorld::Init()
 {
+	Vector3f Vec1({ 1, 0, 0 });
+	Vector3f Vec2({ -1, 0, 0 });
+	std::cout << "Angle in rad: " << Vec1.Angle(Vec2) << std::endl;
+	std::cout << "Angle in degrees: " << (Vec1.Angle(Vec2) * (180.0f / 3.14159265359f)) << std::endl;
+
 	std::string name = "";
 	unsigned char timer = myTimerManager.CreateTimer();
 	myTimerManager.UpdateTimers();

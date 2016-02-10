@@ -1,5 +1,8 @@
 #pragma once
 #include "tga2d\sprite\sprite.h"
+#include "SFXSlider.h"
+#include "MusicSlider.h"
+
 class Options
 {
 public:
@@ -16,11 +19,8 @@ public:
 private:
 	DX2D::CSprite* myBackground;
 
-	DX2D::CSprite* myVolumeSFXSlider;
-	DX2D::CSprite* myVolumeSFXKnob;
-
-	DX2D::CSprite* myVolumeMusicSlider;
-	DX2D::CSprite* myVolumeMusicKnob;
+	MusicSlider myMusicSlider;
+	SFXSlider mySFXSlider;
 
 	bool myIsActive;
 };
