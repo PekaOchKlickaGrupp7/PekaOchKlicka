@@ -21,17 +21,21 @@ public:
 	bool myIsTalking;
 	float myShowTime;
 	float myWordLength;
+	float myLetterLenght;
 
 	float mySize;
 
 protected:
 
 	bool NewSubString();
+	bool TypeNextLetter();
 
 	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
 	int myWordCount;
+	size_t myCurrentLetter;
+
 	float myCurrentTime;
 	float myWidth;
 };

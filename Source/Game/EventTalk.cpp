@@ -28,12 +28,14 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myTextOutline = new DX2D::CText(myFontPath.c_str());
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
+	myLetterLenght = 0.1f;
+	myCurrentLetter = 0;
 
 	Reset();
 	myIsTalking = true;
 
 
-//	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
 	myWidth = 0;
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
@@ -45,22 +47,34 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		float x = object->myX;
-		
+		float x = object->myX - myWidth / 2;
+
+		if (x < 0.0f || (x + myWidth) >= 1.0f)
+		{
+			if ((x + myWidth) > 1.0f)
+			{
+				x = (1.0f - myWidth) - 0.01f;
+			}
+			else
+			{
+				x = 0.01f;
+			}
+		}
+
 		myTextRender->myPosition = DX2D::Vector2f(x, object->myY);
 
-		if (myCurrentTime > myWordLength * myWordCount)
+		if (myCurrentTime > myLetterLenght * myCurrentLetter)// * aDeltaTime)
 		{
-			return NewSubString();
+			return TypeNextLetter();
+			
 		}
 	}
-
 	return false;
 }
 
 void EventTalk::Render(Synchronizer &aSynchronizer)
 {
-	float offset = 0.002f;
+	float offset = 1.0f / 1080.0f;
 
 	RenderCommand command;
 	DX2D::Vector2f outlinePos = myTextRender->myPosition;
@@ -88,51 +102,22 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 }
 
-bool EventTalk::NewSubString()
+bool EventTalk::TypeNextLetter()
 {
-	std::string::size_type nextWhiteSpace = myText.find(" ", 0);
-
-	if (myWordCount == 0)
+	if (myCurrentLetter <= myText.size())
 	{
-		myTextRender->myText = myText.substr(0, nextWhiteSpace);
-		myTextOutline->myText = myTextRender->myText;
-
-		++myWordCount;
+		myTextRender->myText = myText.substr(0, myCurrentLetter);
+		++myCurrentLetter;
 		return false;
 	}
 	else
 	{
-		nextWhiteSpace = myText.find(" ", myTextRender->myText.length() + 1);
-		if (nextWhiteSpace != std::string::npos)
+		if (myCurrentTime > myShowTime)
 		{
-			myTextRender->myText = myText.substr(0, nextWhiteSpace);
-			myTextOutline->myText = myTextRender->myText;
-
-			++myWordCount;
-			return false;
-		}
-		else if (myTextRender->myText.length() < myText.length())
-		{
-			myTextRender->myText = myText;
-			myTextOutline->myText = myTextRender->myText;
-
-			++myWordCount;
-			return false;
-		}
-		else
-		{
-			if (myCurrentTime >= myShowTime)
-			{
-				myTextRender->myText = " ";
-				myTextOutline->myText = myTextRender->myText;
-
-				myWordCount = 0;
-				myIsTalking = false;
-				return true;
-			}
-			return false;
+			return true;
 		}
 	}
+	return true;
 }
 
 void EventTalk::Reset()

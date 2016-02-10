@@ -94,7 +94,7 @@ void CShaderDistanceFieldInstanced::SetShaderParameters(std::vector<CSprite*>& s
 		type.myPivot.Set(sprite->GetPivot().x, sprite->GetPivot().y, 0, 0);
 
 		++counter;
- 		if (prevY - mySizeY > type.myPosition.y)
+		if (prevY - mySizeY > type.myPosition.y)
 		{
 			prevY = type.myPosition.y;
 			counter = 0;
