@@ -38,7 +38,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myInputManager->SetHideMouse(true);
 }
 
-void MouseManager::Update(float)
+void MouseManager::Update(float aDeltaTime)
 {
 
 
@@ -71,7 +71,7 @@ void MouseManager::Update(float)
 
 	static float aSpeed = 0.0005f;
 	myPosition.x += (myInputManager->GetRelativeMousePos().x) * aSpeed;
-	myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed;
+	myPosition.y += (myInputManager->GetRelativeMousePos().y) * aSpeed * ResolutionManager::GetInstance()->GetAspectRatio();
 
 	if (myPosition.x <= 0)
 	{
