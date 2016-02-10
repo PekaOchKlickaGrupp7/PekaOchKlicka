@@ -27,7 +27,7 @@
 #include "EventPickupItem.h"
 #include "EventIsItem.h"
 #include "EventChangePlayerDirection.h"
-#include "EventRemoveSelectedItem.h";
+#include "EventRemoveSelectedItem.h"
 #include "EventDeselect.h"
 
 using namespace rapidjson;

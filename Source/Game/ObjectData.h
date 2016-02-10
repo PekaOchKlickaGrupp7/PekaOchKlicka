@@ -60,6 +60,12 @@ public:
 
 	bool myIsHovering;
 
+	void CreateOriginalData();
+	void ResetToOriginalData();
+
+	//Reset Game Data
+	ObjectData* myOriginalData;
+
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myChilds;
 	CommonUtilities::GrowingArray<Event*, unsigned int> myEvents;
 	CommonUtilities::GrowingArray<Triangle, unsigned int> myTriangles;

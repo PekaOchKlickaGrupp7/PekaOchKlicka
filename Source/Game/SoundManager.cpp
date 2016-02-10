@@ -53,6 +53,7 @@ FMOD::ChannelGroup* SoundManager::GetChannelGroup(const std::string &aName)
 	{
 		std::cout << "Channel group not found! Tried to get channel group: " << aName << std::endl;
 	}
+	return nullptr;
 
 	//const int name_length = 32;
 	//char* musicChannelName[name_length];
