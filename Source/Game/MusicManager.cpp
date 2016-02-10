@@ -12,7 +12,7 @@ MusicManager::MusicManager()
 
 void MusicManager::Load(const std::string &aSongPath, const std::string &anIdentifier)
 {
-	SoundFileHandler::GetInstance()->Load(aSongPath, anIdentifier, false, true);
+	SoundFileHandler::GetInstance()->SetupStream(aSongPath, anIdentifier, false, true);
 }
 
 void MusicManager::StartSystem()

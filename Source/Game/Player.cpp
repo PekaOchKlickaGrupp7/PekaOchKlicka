@@ -70,7 +70,7 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 	myDepthScaleFactor = 1.5f;
 	myInventory.Init("Sprites/Inventory/inventory.dds", myGameWorldPtr->GetOptions());
 
-	SoundFileHandler::GetInstance()->Load(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
+	SoundFileHandler::GetInstance()->SetupStream(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
 }
 
 void Player::LoadAnimations(rapidjson::Value& aAnimations)
