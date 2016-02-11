@@ -1,15 +1,15 @@
 #pragma once
 #include "Event.h"
-class EventResetGame :
+class EventItemIsNot :
 	public Event
 {
 public:
-	EventResetGame();
-	virtual ~EventResetGame();
+	EventItemIsNot();
+	virtual ~EventItemIsNot();
 
 	virtual bool Update(const float aDeltaTime) override;
 	virtual void Reset() override;
 
-	std::string myTargetScene;
+	std::string myItemName;
 };
 

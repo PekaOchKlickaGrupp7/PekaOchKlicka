@@ -21,6 +21,8 @@ public:
 	//Update the character
 	void Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer = true);
 
+	void SetColor(DX2D::CColor& aColor);
+
 	void SetPosition(const DX2D::Vector2f& aPoint);
 	void SetPreviousPosition(const DX2D::Vector2f& aPoint);
 	void SetSpeed(float aSpeed);
@@ -38,6 +40,7 @@ private:
 	void PlayApropriateAnimation(DX2D::Vector2f aTargetPosition);
 
 	Inventory myInventory;
+	DX2D::CColor myColor;
 
 	CommonUtilities::GrowingArray<Animation*, int> myAnimations;
 	int myCurentAnimation;

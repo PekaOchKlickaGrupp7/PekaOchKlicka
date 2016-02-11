@@ -145,22 +145,26 @@ bool EventManager::Update(const float aDeltaTime)
 
 	myClicked = false;
 	myIsInsideAObject = false;
-	if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
+
+	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false)
 	{
+		if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
+		{
+			for (int i = (*myObjects).Size() - 1; i >= 0; --i)
+			{
+				if (OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0) == true)
+				{
+					break;
+				}
+			}
+		}
+
 		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 		{
-			if (OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0) == true)
+			if (OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0) == true)
 			{
 				break;
 			}
-		}
-	}
-
-	for (int i = (*myObjects).Size() - 1; i >= 0; --i)
-	{
-		if (OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0) == true)
-		{
-			break;
 		}
 	}
 

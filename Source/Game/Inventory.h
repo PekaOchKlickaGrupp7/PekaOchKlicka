@@ -55,6 +55,8 @@ public:
 
 	inline ItemList* GetMasterItemList();
 
+	bool GetIsOpen();
+
 private:
 
 	void Open(float aDeltaTime, CU::DirectInput::InputManager& aInputManager);

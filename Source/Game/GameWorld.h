@@ -31,7 +31,7 @@ public:
 	void SetCinematicMode(bool aOn = true);
 	bool GetCinematicMode() const;
 
-	void ResetGame();
+	void ResetGame(const std::string& aTargetLevel);
 
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;
@@ -42,7 +42,6 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 private:
-	void ItemPickUp();
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;

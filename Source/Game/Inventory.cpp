@@ -132,6 +132,18 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 	}
 }
 
+bool Inventory::GetIsOpen()
+{
+	if (myOptionsPtr->GetActive() == true || myIsOpen == true)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void Inventory::UpdateSelectedItem()
 {
 	std::string identifier = "_SELECTED_ITEM";
