@@ -292,9 +292,6 @@
     <ClInclude Include="Pathfinding.h">
       <Filter>Source\System\Pathfinding</Filter>
     </ClInclude>
-    <ClInclude Include="EventAnswer.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Options.h">
       <Filter>Source\System\Options Ingame</Filter>
     </ClInclude>
@@ -324,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="MusicSlider.h">
       <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="EventAnswer.h">
+      <Filter>Source\Events\Conversation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,9 +495,6 @@
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Source\System\Pathfinding</Filter>
     </ClCompile>
-    <ClCompile Include="EventAnswer.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Options.cpp">
       <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
@@ -527,6 +524,9 @@
     </ClCompile>
     <ClCompile Include="MusicSlider.cpp">
       <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="EventAnswer.cpp">
+      <Filter>Source\Events\Conversation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

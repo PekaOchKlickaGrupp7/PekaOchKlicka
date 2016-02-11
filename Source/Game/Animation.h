@@ -17,6 +17,7 @@ public:
 	void Resume();
 	void Reset();
 	void Destroy();
+	void SetColor(DX2D::CColor& aColor);
 	void SetSize(float aScale);
 	float GetScale();
 	DX2D::Vector2f GetSize();
@@ -24,6 +25,9 @@ private:
 	void UpdateTextureRect();
 	float myFrameDuration,
 		myCurentFrameDuration;
+
+	DX2D::CColor myColor;
+
 	DX2D::CSprite *mySprite;
 	int myNumberOfFrames,
 		myFrame,

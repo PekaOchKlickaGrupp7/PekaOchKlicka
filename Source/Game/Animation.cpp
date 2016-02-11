@@ -26,6 +26,11 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 	//HEJ BERRA
 }
 
+void Animation::SetColor(DX2D::CColor& aColor)
+{
+	myColor = aColor;
+}
+
 void Animation::UpdateTextureRect()
 {
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
@@ -77,6 +82,7 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
 	command.myPosition = aPos;
+	mySprite->SetColor(myColor);
 	command.mySprite = mySprite;
 
 	aSynchronizer.AddRenderCommand(command);

@@ -266,31 +266,14 @@ void CGameWorld::ResetGame()
 			objects[i]->ResetToOriginalData();
 		}
 	}
+
+	DX2D::CColor color = { 1, 1, 1, 1 };
+	myPlayer.SetColor(color);
 }
 
 void CGameWorld::Quit()
 {
 	myDoQuit = true;
-}
-
-void CGameWorld::ItemPickUp()
-{
-	if (myCurrentRoom != nullptr)
-	{
-		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
-		{
-			if (CommonUtilities::Intersection::PointVsRect(
-				Vector2<float>(myTargetPosition.x, myTargetPosition.y)
-				, Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x, myCurrentRoom->GetItem(i)->GetPosition().y)
-				,Vector2<float>(myCurrentRoom->GetItem(i)->GetPosition().x + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().x
-				, myCurrentRoom->GetItem(i)->GetPosition().y + myCurrentRoom->GetItem(i)->GetSprite()->GetSize().y)))
-			{
-				myPlayer.AddItemToInventory(myCurrentRoom->GetItem(i));
-				myCurrentRoom->RemoveItem(i);
-				return;
-			}
-		}
-	}
 }
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
@@ -308,6 +291,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				//RenderPlayer();
 				if (renderedPlayer == false)
 				{
+					myPlayer.SetColor((*myCurrentRoom->GetObjectList())[i]->myColor);
 					myPlayer.Render(aSynchronizer);
 				}
 			}
@@ -329,8 +313,19 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 					{
 						if (renderedPlayer == false)
 						{
-							myPlayer.Render(aSynchronizer);
-							renderedPlayer = true;
+							for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
+							{
+								if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
+								{
+									//RenderPlayer();
+									if (renderedPlayer == false)
+									{
+										myPlayer.SetColor((*myCurrentRoom->GetObjectList())[i]->myColor);
+										myPlayer.Render(aSynchronizer);
+										renderedPlayer = true;
+									}
+								}
+							}
 						}
 					}
 					RenderObject(aSynchronizer, objects[j], 0, 0);
