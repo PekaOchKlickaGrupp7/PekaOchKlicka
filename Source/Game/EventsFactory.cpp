@@ -121,7 +121,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		}
 		if (extra.HasMember("wordLength") == true)
 		{
-			talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
+			talk->myLetterLength = static_cast<float>(extra["wordLength"].GetDouble());
 		}
 		if (extra.HasMember("color") == true)
 		{

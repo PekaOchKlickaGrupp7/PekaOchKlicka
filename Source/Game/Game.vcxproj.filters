@@ -328,6 +328,9 @@
     <ClInclude Include="EventItemIsNot.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="EventActions.h">
+      <Filter>Source\System\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
