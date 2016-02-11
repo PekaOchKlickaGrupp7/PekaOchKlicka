@@ -40,10 +40,10 @@ float Slider::ConvertValueToPosition()
 {
 	float finalPosition;
 
-	//float beginPos = mySlider->GetPosition().x;
+	float beginPos = mySlider->GetPosition().x;
 	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x;
 
-	finalPosition = myValue * endPos;
+	finalPosition = beginPos + (myValue * (endPos - beginPos));
 
 	return finalPosition;
 }
@@ -52,10 +52,11 @@ float Slider::ConvertPositionToValue(float aPos)
 {
 	float finalValue;
 
-	//float beginPos = mySlider->GetPosition().x;
+	float beginPos = mySlider->GetPosition().x;
 	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x;
 
-	finalValue = aPos / endPos;
+	
+	finalValue = (aPos - beginPos) / (endPos - beginPos);
 
 	return finalValue;
 }
