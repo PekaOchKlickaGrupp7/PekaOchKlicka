@@ -153,15 +153,26 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 			if (nextX > maxX)
 			{
 				maxX = nextX;
+				nextX = 0.0f;
 				continue;
 			}
 		}
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
 		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize) * (DX2D::CEngine::GetInstance()->GetWindowRatio() * 1.1f);
+		if (i == aText.size() - 1)
+		{
+			if (nextX > maxX)
+			{
+				maxX = nextX;
+				continue;
+			}
+		}
 	}
 
-	return nextX;
+	std::cout << maxX << std::endl;
+
+	return maxX;
 
 }
 
