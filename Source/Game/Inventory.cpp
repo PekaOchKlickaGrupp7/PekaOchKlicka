@@ -120,6 +120,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 			}
 		}
 	}
+	mySelectedItem = nullptr;
 	
 	//Options area in the inventory
 	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
@@ -151,6 +152,13 @@ void Inventory::UpdateSelectedItem()
 	if (mySelectedItem != nullptr)
 	{
 		value = mySelectedItem->GetName();
+	}
+	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
+	identifier = "_PREV_SELECTED_ITEM";
+	value = "";
+	if (myPreviouslySelectedItem != nullptr)
+	{
+		value = myPreviouslySelectedItem->GetName();
 	}
 	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
 }

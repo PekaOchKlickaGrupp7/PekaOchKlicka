@@ -13,7 +13,7 @@ EventItemIsNot::~EventItemIsNot()
 bool EventItemIsNot::Update(const float)
 {
 	std::string str = "";
-	std::string testWith = "_SELECTED_ITEM";
+	std::string testWith = "_PREV_SELECTED_ITEM";
 	if (EventVariablesManager::GetInstance()->GetVariable(str, testWith) == true)
 	{
 		if (myItemName == "None")

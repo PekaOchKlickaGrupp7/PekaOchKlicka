@@ -171,8 +171,6 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 		}
 	}
 
-	std::cout << maxX << std::endl;
-
 	return maxX;
 
 }

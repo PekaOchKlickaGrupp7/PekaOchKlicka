@@ -20,7 +20,7 @@ void MusicSlider::SliderSpecificUpdate()
 void MusicSlider::ProgressGet()
 {
 	SoundManager::GetInstance()->GetChannelGroup("Music")->getVolume(&myValue);
-	std::cout << "Music volume: " << myValue << std::endl;
+	//std::cout << "Music volume: " << myValue << std::endl;
 }
 void MusicSlider::ProgressSet()
 {

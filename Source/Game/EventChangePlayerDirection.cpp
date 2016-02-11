@@ -4,6 +4,7 @@
 
 EventChangePlayerDirection::EventChangePlayerDirection()
 {
+	myPlayerDirection = -1;
 }
 
 EventChangePlayerDirection::~EventChangePlayerDirection()
@@ -12,7 +13,10 @@ EventChangePlayerDirection::~EventChangePlayerDirection()
 
 bool EventChangePlayerDirection::Update(const float)
 {
-	myGameWorld->GetPlayer()->SetAnimation(myPlayerDirection);
+	if (myPlayerDirection >= 0 && myPlayerDirection < 4)
+	{
+		myGameWorld->GetPlayer()->SetAnimation(myPlayerDirection);
+	}
 	return true;
 }
 

@@ -24,6 +24,8 @@ public:
 
 	float mySize;
 
+	static bool myIsActive;
+
 protected:
 
 	bool TypeNextLetter(float aDeltaTime);

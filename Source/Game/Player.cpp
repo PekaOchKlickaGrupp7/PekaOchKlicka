@@ -145,12 +145,9 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		}
 		else
 		{
-			//myInventory.DeSelect();
-			
+			myInventory.DeSelect();
 		}
-		
 	}
-	
 
 	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
