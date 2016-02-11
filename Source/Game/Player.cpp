@@ -90,6 +90,11 @@ void Player::LoadAnimations(rapidjson::Value& aAnimations)
 	}
 }
 
+void Player::SetColor(DX2D::CColor& aColor)
+{
+	myColor = aColor;
+}
+
 //Update the character
 void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer)
 {
@@ -153,6 +158,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 void Player::Render(Synchronizer& aSynchronizer)
 {
+	myAnimations[myCurentAnimation]->SetColor(myColor);
 	myAnimations[myCurentAnimation]->Render(aSynchronizer, myRenderPosition);
 	myInventory.Render(aSynchronizer);
 }

@@ -266,6 +266,9 @@ void CGameWorld::ResetGame()
 			objects[i]->ResetToOriginalData();
 		}
 	}
+
+	DX2D::CColor color = { 1, 1, 1, 1 };
+	myPlayer.SetColor(color);
 }
 
 void CGameWorld::Quit()
@@ -308,6 +311,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				//RenderPlayer();
 				if (renderedPlayer == false)
 				{
+					myPlayer.SetColor((*myCurrentRoom->GetObjectList())[i]->myColor);
 					myPlayer.Render(aSynchronizer);
 				}
 			}
