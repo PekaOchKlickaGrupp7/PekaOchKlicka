@@ -102,6 +102,11 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	{
 		EventChangePlayerDirection* changePlayerDirection = new EventChangePlayerDirection();
 
+		if (extra.HasMember("PlayerDirection") == true)
+		{
+			changePlayerDirection->myPlayerDirection = extra["PlayerDirection"].GetInt();
+		}
+
 		changePlayerDirection->Init(aRoom, aGameWorld);
 
 		event = changePlayerDirection;
