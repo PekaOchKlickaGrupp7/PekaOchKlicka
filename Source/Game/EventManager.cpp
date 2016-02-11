@@ -218,6 +218,16 @@ bool EventManager::Update(const float aDeltaTime)
 			Event* event = myActiveEvents[i];
 			if (event->Update(aDeltaTime) == true)
 			{
+				if (event->myAction == EventActions::Answer)
+				{
+					for (int i = myActiveEvents.Size(); i >= 0; --i)
+					{
+						if (event->myAction == EventActions::Answer)
+						{
+							myActiveEvents.RemoveCyclicAtIndex(i);
+						}
+					}
+				}
 				event->myActive = false;
 				if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 				{

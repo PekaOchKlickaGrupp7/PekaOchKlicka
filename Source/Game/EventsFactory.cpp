@@ -29,6 +29,8 @@
 #include "EventChangePlayerDirection.h"
 #include "EventRemoveSelectedItem.h"
 #include "EventDeselect.h"
+#include "EventAnswer.h"
+#include "EventResetGame.h"
 
 using namespace rapidjson;
 
@@ -119,7 +121,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		}
 		if (extra.HasMember("wordLength") == true)
 		{
-			talk->myWordLength = static_cast<float>(extra["wordLength"].GetDouble());
+			talk->myLetterLength = static_cast<float>(extra["wordLength"].GetDouble());
 		}
 		if (extra.HasMember("color") == true)
 		{
@@ -443,12 +445,39 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		event = var;
 		break;
 	}
+	case EventActions::Answer:
+	{
+		EventAnswer* var = new EventAnswer();
+
+		if (extra.HasMember("TextIndex") == true)
+		{
+			var->myTextIndex = extra["TextIndex"].GetInt();
+		}
+		if (extra.HasMember("Text") == true)
+		{
+			var->myText = extra["Text"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::ResetGame:
+	{
+		EventResetGame* var = new EventResetGame();
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
 		break;
 	}
 	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
+	event->myAction = action;
 	event->myTarget = std::string(aParent["target"].GetString());
 	event->myObjectData = aData;
 

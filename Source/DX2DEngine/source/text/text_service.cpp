@@ -281,7 +281,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		renderText.uvScale.y = sizeY;
 		renderText.myColor = aColor;
 
-		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 1.3f;
+		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 1.777f;
 
 		aTextBuffer.push_back(renderText);
 

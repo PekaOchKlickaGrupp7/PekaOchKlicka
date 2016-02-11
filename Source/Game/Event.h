@@ -1,5 +1,6 @@
 #pragma once
 #include "ObjectData.h"
+#include "EventActions.h"
 
 class Room;
 class CGameWorld;
@@ -20,6 +21,7 @@ public:
 
 	std::string myTarget;
 	EventTypes myType;
+	EventActions myAction;
 
 	ObjectData* myObjectData;
 

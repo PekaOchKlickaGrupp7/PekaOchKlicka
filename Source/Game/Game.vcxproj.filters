@@ -304,26 +304,17 @@
     <ClInclude Include="EventsFactory.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
-    <ClInclude Include="EventRemoveSelectedItem.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="EventDeselect.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="EventResetGame.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Slider.h">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClInclude>
-    <ClInclude Include="SFXSlider.h">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClInclude>
-    <ClInclude Include="MusicSlider.h">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClInclude>
     <ClInclude Include="EventAnswer.h">
       <Filter>Source\Events\Conversation</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDeselect.h" />
+    <ClInclude Include="EventRemoveSelectedItem.h" />
+    <ClInclude Include="EventResetGame.h" />
+    <ClInclude Include="MusicSlider.h" />
+    <ClInclude Include="SFXSlider.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="EventActions.h">
+      <Filter>Source\System\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -507,26 +498,14 @@
     <ClCompile Include="EventsFactory.cpp">
       <Filter>Source\System\Events</Filter>
     </ClCompile>
-    <ClCompile Include="EventRemoveSelectedItem.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="EventDeselect.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="EventResetGame.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Slider.cpp">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClCompile>
-    <ClCompile Include="SFXSlider.cpp">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClCompile>
-    <ClCompile Include="MusicSlider.cpp">
-      <Filter>Source\System\Options Ingame</Filter>
-    </ClCompile>
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Source\Events\Conversation</Filter>
     </ClCompile>
+    <ClCompile Include="EventDeselect.cpp" />
+    <ClCompile Include="EventRemoveSelectedItem.cpp" />
+    <ClCompile Include="EventResetGame.cpp" />
+    <ClCompile Include="MusicSlider.cpp" />
+    <ClCompile Include="SFXSlider.cpp" />
+    <ClCompile Include="Slider.cpp" />
   </ItemGroup>
 </Project>

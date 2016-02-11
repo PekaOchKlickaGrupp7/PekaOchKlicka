@@ -20,8 +20,7 @@ public:
 
 	bool myIsTalking;
 	float myShowTime;
-	float myWordLength;
-	float myLetterLenght;
+	float myLetterLength;
 
 	float mySize;
 
@@ -33,7 +32,6 @@ protected:
 	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
-	int myWordCount;
 	unsigned int myCurrentLetter;
 
 	float myCurrentTime;

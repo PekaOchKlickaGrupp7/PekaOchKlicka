@@ -28,7 +28,9 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myTextOutline = new DX2D::CText(myFontPath.c_str());
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
-	myLetterLenght = 0.1f;
+
+
+	myLetterLength = 0.1f;
 	myCurrentLetter = 0;
 
 	Reset();
@@ -63,10 +65,9 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		myTextRender->myPosition = DX2D::Vector2f(x, y);
 
-		if (myCurrentTime > myLetterLenght * myCurrentLetter)// * aDeltaTime)
+		if (myCurrentTime > myLetterLength * myCurrentLetter)
 		{
 			return TypeNextLetter();
-			
 		}
 	}
 	return false;
@@ -74,27 +75,30 @@ bool EventTalk::Update(const float aDeltaTime)
 
 void EventTalk::Render(Synchronizer &aSynchronizer)
 {
-	float offset = 1.0f / 1080.0f;
+	float offsetX = 1.0f / 1920.0f;
+	float offsetY = 1.0f / 1080.0f;
 
 	RenderCommand command;
 	DX2D::Vector2f outlinePos = myTextRender->myPosition;
 
+	myTextOutline->myText = myTextRender->myText;
+
 	command.myType = eRenderType::eText;
 	command.myText = myTextOutline;
 	//outline left
-	command.myPosition = { outlinePos.x - offset, outlinePos.y };
+	command.myPosition = { outlinePos.x - offsetX, outlinePos.y };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline right
-	command.myPosition = { outlinePos.x + offset, outlinePos.y };
+	command.myPosition = { outlinePos.x + offsetX, outlinePos.y };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline top
-	command.myPosition = { outlinePos.x, outlinePos.y - offset };
+	command.myPosition = { outlinePos.x, outlinePos.y - offsetY };
 	aSynchronizer.AddRenderCommand(command);
 
 	//outline bottom
-	command.myPosition = { outlinePos.x, outlinePos.y + offset };
+	command.myPosition = { outlinePos.x, outlinePos.y + offsetY };
 	aSynchronizer.AddRenderCommand(command);
 
 	command.myText = myTextRender;
@@ -121,6 +125,6 @@ bool EventTalk::TypeNextLetter()
 void EventTalk::Reset()
 {
 	myCurrentTime = 0.0f;
-	myWordCount = 0;
+	myCurrentLetter = 0;
 	myTextRender->myText = " ";
 }
