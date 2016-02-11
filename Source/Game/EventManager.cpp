@@ -44,6 +44,12 @@ void EventManager::AddEvent(Event* aEvent)
 	}
 }
 
+void EventManager::Reset()
+{
+	myActiveEvents.RemoveAll();
+	myVisitedRooms.clear();
+}
+
 bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY)
 {
 	if (aData->myActive == true)
@@ -174,6 +180,10 @@ bool EventManager::Update(const float aDeltaTime)
 		if (event->Update(aDeltaTime) == true)
 		{
 			event->myActive = false;
+			if (myActiveEvents.Size() == 0)
+			{
+				break;
+			}
 			if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 			{
 				for (unsigned int j = 0; j < event->myChilds.Size(); ++j)

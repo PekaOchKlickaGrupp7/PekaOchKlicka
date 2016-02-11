@@ -2,11 +2,12 @@
 #include "EventTalk.h"
 #include <tga2d\engine.h>
 
+bool EventTalk::myIsActive = false;
+
 EventTalk::EventTalk() : myTextRender(nullptr)
 {
-
+	myIsActive = false;
 }
-
 
 EventTalk::~EventTalk()
 {

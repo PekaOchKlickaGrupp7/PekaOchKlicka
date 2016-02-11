@@ -270,7 +270,8 @@ void CGameWorld::ResetGame(const std::string& aTargetLevel)
 	DX2D::CColor color = { 1, 1, 1, 1 };
 	myPlayer.SetColor(color);
 
-	ChangeLevel(aTargetLevel);
+	EventManager::GetInstance()->Reset();
+	//ChangeLevel(aTargetLevel);
 }
 
 void CGameWorld::Quit()
