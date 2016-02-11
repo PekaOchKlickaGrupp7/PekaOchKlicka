@@ -26,14 +26,14 @@ public:
 
 protected:
 
-	bool NewSubString();
-	bool TypeNextLetter();
+	bool TypeNextLetter(float aDeltaTime);
 
 	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
 	unsigned int myCurrentLetter;
 
+	float myShowedTime;
 	float myCurrentTime;
 	float myWidth;
 	float myHeight;

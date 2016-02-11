@@ -67,7 +67,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		if (myCurrentTime > myLetterLength * myCurrentLetter)
 		{
-			return TypeNextLetter();
+			return TypeNextLetter(aDeltaTime);
 		}
 	}
 	return false;
@@ -106,7 +106,7 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 }
 
-bool EventTalk::TypeNextLetter()
+bool EventTalk::TypeNextLetter(float aDeltaTime)
 {
 	if (myCurrentLetter <= myText.size())
 	{
@@ -114,16 +114,21 @@ bool EventTalk::TypeNextLetter()
 		++myCurrentLetter;
 		return false;
 	}
-
-	if (myCurrentTime > myShowTime)
-	{
-		return true;
+	else
+	{	
+		myShowedTime += aDeltaTime;
+		if (myShowedTime > myShowTime)
+		{
+			return true;
+		}
 	}
+
 	return false;
 }
 
 void EventTalk::Reset()
 {
+	myShowedTime = 0.0f;
 	myCurrentTime = 0.0f;
 	myCurrentLetter = 0;
 	myTextRender->myText = " ";
