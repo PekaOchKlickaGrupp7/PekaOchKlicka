@@ -14,4 +14,3 @@ public:
 
 	Event* CreateEventData(ObjectData* aData, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld) const;
 };
-
