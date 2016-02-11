@@ -42,7 +42,6 @@ public:
 	void Render(Synchronizer& aSynchronizer)override;
 	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 private:
-	void ItemPickUp();
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;

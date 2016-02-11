@@ -325,6 +325,9 @@
     <ClInclude Include="EventAnswer.h">
       <Filter>Source\Events\Conversation</Filter>
     </ClInclude>
+    <ClInclude Include="EventItemIsNot.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -527,6 +530,9 @@
     </ClCompile>
     <ClCompile Include="EventAnswer.cpp">
       <Filter>Source\Events\Conversation</Filter>
+    </ClCompile>
+    <ClCompile Include="EventItemIsNot.cpp">
+      <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

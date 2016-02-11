@@ -36,7 +36,8 @@ enum EventActions
 	IsItem,
 	ChangePlayerDirection,
 	RemoveSelectedItem,
-	Deselect
+	Deselect,
+	ItemIsNot
 };
 
 class EventsFactory

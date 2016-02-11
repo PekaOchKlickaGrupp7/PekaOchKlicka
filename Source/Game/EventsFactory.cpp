@@ -29,6 +29,7 @@
 #include "EventChangePlayerDirection.h"
 #include "EventRemoveSelectedItem.h"
 #include "EventDeselect.h"
+#include "EventItemIsNot.h"
 
 using namespace rapidjson;
 
@@ -438,6 +439,20 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	case EventActions::Deselect:
 	{
 		EventDeselect* var = new EventDeselect();
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::ItemIsNot:
+	{
+		EventItemIsNot* var = new EventItemIsNot();
+
+		if (extra.HasMember("item") == true)
+		{
+			var->myItemName = extra["item"].GetString();
+		}
+
 		var->Init(aRoom, aGameWorld);
 
 		event = var;
