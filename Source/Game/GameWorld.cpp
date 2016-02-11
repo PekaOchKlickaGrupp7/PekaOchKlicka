@@ -175,7 +175,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		ResetGame();
+		ResetGame("kitchen");
 
 		std::cout << "Resetted game" << std::endl;
 	}
@@ -248,7 +248,7 @@ bool CGameWorld::GetCinematicMode() const
 	return !myPlayerCanMove;
 }
 
-void CGameWorld::ResetGame()
+void CGameWorld::ResetGame(const std::string& aTargetLevel)
 {
 	SetCinematicMode(false);
 	MouseManager::GetInstance()->SetHideGameMouse(false);
@@ -269,6 +269,8 @@ void CGameWorld::ResetGame()
 
 	DX2D::CColor color = { 1, 1, 1, 1 };
 	myPlayer.SetColor(color);
+
+	ChangeLevel(aTargetLevel);
 }
 
 void CGameWorld::Quit()
@@ -446,7 +448,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if ((aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
+	if ((myPlayer.GetInventory().GetIsOpen() == false && aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
 		myPlayer.GetInventory().IsOpen() == false) || myHasNewTargetPosition == true)
 	{
 		std::string identifier = "_SELECTED_ITEM";

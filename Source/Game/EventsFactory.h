@@ -37,6 +37,7 @@ enum EventActions
 	ChangePlayerDirection,
 	RemoveSelectedItem,
 	Deselect,
+	ResetGame,
 	ItemIsNot
 };
 

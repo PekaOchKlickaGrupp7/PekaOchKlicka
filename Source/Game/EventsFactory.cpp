@@ -30,6 +30,7 @@
 #include "EventRemoveSelectedItem.h"
 #include "EventDeselect.h"
 #include "EventItemIsNot.h"
+#include "EventResetGame.h"
 
 using namespace rapidjson;
 
@@ -421,6 +422,20 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		if (extra.HasMember("item") == true)
 		{
 			var->myItemName = extra["item"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::ResetGame:
+	{
+		EventResetGame* var = new EventResetGame();
+
+		if (extra.HasMember("TargetScene") == true)
+		{
+			var->myTargetScene = extra["TargetScene"].GetString();
 		}
 
 		var->Init(aRoom, aGameWorld);
