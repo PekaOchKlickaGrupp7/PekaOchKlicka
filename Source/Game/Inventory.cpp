@@ -149,6 +149,13 @@ void Inventory::UpdateSelectedItem()
 {
 	std::string identifier = "_SELECTED_ITEM";
 	std::string value = "";
+	if (mySelectedItem != nullptr)
+	{
+		value = mySelectedItem->GetName();
+	}
+	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
+	identifier = "_PREV_SELECTED_ITEM";
+	value = "";
 	if (myPreviouslySelectedItem != nullptr)
 	{
 		value = myPreviouslySelectedItem->GetName();

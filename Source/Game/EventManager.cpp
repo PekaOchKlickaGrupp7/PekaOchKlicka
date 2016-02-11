@@ -242,6 +242,10 @@ bool EventManager::Update(const float aDeltaTime)
 						}
 					}
 				}
+				if (myActiveEvents.Size() == 0)
+				{
+					break;
+				}
 				event->myActive = false;
 				if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 				{
