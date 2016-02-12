@@ -1,6 +1,5 @@
 #pragma once
 #include "Event.h"
-#include "../CommonUtilities/GrowingArray.h"
 
 //Work in progress
 class EventAnswer :
@@ -16,17 +15,12 @@ public:
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
 	std::string myText;
-	std::string myFontPath;
-	std::string mySpritePath;
-
-	int myTextIndex;
-
 	DX2D::CColor myColor;
 	DX2D::CColor myHighlightColor;
+	int myTextIndex;
 protected:
-	DX2D::CSprite* mySprite;
+	DX2D::CSprite* myBackgroundSprite;
 
 	float myHeight;
-
 };
 
