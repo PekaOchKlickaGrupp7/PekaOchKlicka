@@ -35,7 +35,11 @@ public:
 	float GetRatio(){ return myRatio; };
 
 	bool GetIsFullscreen() { return myIsFullscreen; };
-	void SetFullscreen(bool aSet) { myIsFullscreen = aSet; };
+	void SetFullscreen(bool aSet)
+	{ 
+		myIsFullscreen = aSet; 
+		EventVariablesManager::GetInstance()->SetVariable(myIsFullscreen, "IsFullscreen");
+	};
 
 	void SetupWindow(int aX, int aY);
 	void SetupWindow();

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ResolutionManager.h"
+#include "EventVariablesManager.h"
 
 #include <iostream>
 
@@ -86,7 +87,7 @@ void ResolutionManager::ToggleFullscreen()
 {
 	myIsFullscreen = !myIsFullscreen;
 	DX2D::CEngine::GetInstance()->SetFullScreen(myIsFullscreen);
-
+	EventVariablesManager::GetInstance()->SetVariable(myIsFullscreen, "IsFullscreen");
 
 	RECT returnedResolution;
 	GetClientRect(*DX2D::CEngine::GetInstance()->GetHWND(), &returnedResolution);
