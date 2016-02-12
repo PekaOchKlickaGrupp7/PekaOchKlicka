@@ -47,7 +47,7 @@ void EventManager::AddEvent(Event* aEvent)
 
 void EventManager::Reset()
 {
-	myActiveEvents.RemoveAll();
+	RemoveAllEvents();
 	myVisitedRooms.clear();
 }
 
@@ -146,14 +146,14 @@ bool EventManager::OnEvent(ObjectData* aData, EventTypes aType)
 	return OnEvent(aData, aType, mousePosition.x, mousePosition.y, 0, 0);
 }
 
-bool EventManager::Update(const float aDeltaTime)
+bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	myClicked = false;
 	myIsInsideAObject = false;
 
-	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false)
+	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false)
 	{
 		if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
 		{
@@ -292,5 +292,9 @@ void EventManager::Render(Synchronizer &aSynchronizer)
 
 void EventManager::RemoveAllEvents()
 {
+	for (int i = 0; i < myActiveEvents.Size(); ++i)
+	{
+		myActiveEvents[i]->myActive = false;
+	}
 	myActiveEvents.RemoveAll();
 }

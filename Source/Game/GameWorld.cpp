@@ -104,6 +104,7 @@ void CGameWorld::Init()
 	}
 
 	myDoQuit = false;
+	myTalkIsOn = false;
 	myPlayerCanMove = true;
 
 	myTextFPS = new DX2D::CText("Text/courier.ttf_sdf");
@@ -201,13 +202,14 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
-	myOptionsMenu.Update(aTimeDelta);
-
-	bool input = EventManager::GetInstance()->Update(aTimeDelta);
+	bool myCachedTalkIsOn = myTalkIsOn;
+	bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
 	if (myCurrentRoom != nullptr)
 	{
-		PlayerMovement(input, aTimeDelta);
+		PlayerMovement(input, myCachedTalkIsOn, aTimeDelta);
 	}
+
+	myOptionsMenu.Update(aTimeDelta);
 
 	if (myDoQuit == true)
 	{
@@ -247,6 +249,16 @@ void CGameWorld::SetCinematicMode(bool aOn)
 bool CGameWorld::GetCinematicMode() const
 {
 	return !myPlayerCanMove;
+}
+
+void CGameWorld::SetTalkIsOn()
+{
+	myTalkIsOn = true;
+}
+
+void CGameWorld::SetTalkIsOff()
+{
+	myTalkIsOn = false;
 }
 
 void CGameWorld::ResetGame()
@@ -447,10 +459,10 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	}
 }
 
-void CGameWorld::PlayerMovement(bool aCheckInput, float aTimeDelta)
+void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, float aTimeDelta)
 {
 	//Move character if inside nav mesh
-	if ((myPlayer.GetInventory().GetIsOpen() == false && aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
+	if ((myPlayer.GetInventory().GetIsOpen() == false && aTalkIsOn == false && aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
 		myPlayer.GetInventory().IsOpen() == false) || myHasNewTargetPosition == true)
 	{
 		std::string identifier = "_SELECTED_ITEM";

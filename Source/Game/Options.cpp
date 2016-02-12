@@ -38,31 +38,45 @@ void Options::Initialize()
 
 	ButtonSetOfArguments ButtonArgsFullscreen;
 	ButtonSetOfArguments ButtonArgsMenu;
+	ButtonSetOfArguments ButtonArgsResume;
+	
 
 	myFullscreenButton.InitSprites(ButtonArgsFullscreen.mySpriteArguments);
 
 	ButtonArgsMenu.mySpriteArguments.myButtonCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
 	ButtonArgsMenu.mySpriteArguments.myButtonUnCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
 	ButtonArgsMenu.mySpriteArguments.myButtonHoveredPath = "Sprites/Options_InG/ReturnToMenu_Checked.dds";
+	ButtonArgsResume.mySpriteArguments.myButtonCheckedPath = "Sprites/Options_InG/Resume_Unchecked.dds";
+	ButtonArgsResume.mySpriteArguments.myButtonUnCheckedPath = "Sprites/Options_InG/Resume_Unchecked.dds";
+	ButtonArgsResume.mySpriteArguments.myButtonHoveredPath = "Sprites/Options_InG/Resume_Checked.dds";
 
 	myMenuButton.InitSprites(ButtonArgsMenu.mySpriteArguments);
+	myResumeButton.InitSprites(ButtonArgsResume.mySpriteArguments);
 
 	ButtonArgsFullscreen.myPositionArguments.myButtonPivot = {0.5f, 0.5f};
-	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.462f };
+	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.445f };
 
 	ButtonArgsMenu.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
-	ButtonArgsMenu.myPositionArguments.myButtonPosition = { 0.5f, myBackground->GetPosition().y + 0.574f };
+	ButtonArgsMenu.myPositionArguments.myButtonPosition = { myBackground->GetPosition().x + 0.0625f, myBackground->GetPosition().y + 0.574f };
+
+	ButtonArgsResume.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
+	ButtonArgsResume.myPositionArguments.myButtonPosition = { myBackground->GetPosition().x + myBackground->GetSize().x - 0.0625f, myBackground->GetPosition().y + 0.574f };
 
 	myFullscreenButton.InitPositions(ButtonArgsFullscreen.myPositionArguments);
 	myMenuButton.InitPositions(ButtonArgsMenu.myPositionArguments);
+	myResumeButton.InitPositions(ButtonArgsResume.myPositionArguments);
 }
 
 void Options::Update(float aDeltaTime)
 {
-	myMusicSlider.Update(aDeltaTime);
-	mySFXSlider.Update(aDeltaTime);
-	myFullscreenButton.Update(aDeltaTime);
-	myMenuButton.Update(aDeltaTime);
+	if (myIsActive == true)
+	{
+		myMusicSlider.Update(aDeltaTime);
+		mySFXSlider.Update(aDeltaTime);
+		myFullscreenButton.Update(aDeltaTime);
+		myMenuButton.Update(aDeltaTime);
+		myResumeButton.Update(aDeltaTime);
+	}
 }
 
 void Options::Render(Synchronizer& aSynchronizer)
@@ -79,6 +93,7 @@ void Options::Render(Synchronizer& aSynchronizer)
 		mySFXSlider.Render(aSynchronizer);
 		myFullscreenButton.Render(aSynchronizer);
 		myMenuButton.Render(aSynchronizer);
+		myResumeButton.Render(aSynchronizer);
 	}
 }
 
