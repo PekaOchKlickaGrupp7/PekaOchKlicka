@@ -7,6 +7,7 @@
 #include <iostream>
 #include "GameWorld.h"
 #include "EventVariablesManager.h"
+#include "EventRandom.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -186,9 +187,21 @@ bool EventManager::Update(const float aDeltaTime)
 			}
 			if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
 			{
-				for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+				if (event->myAction == EventActions::Random)
 				{
-					AddEvent(event->myChilds[j]);
+					EventRandom* random = static_cast<EventRandom*>(event);
+					unsigned int index = static_cast<unsigned int>(random->myIndex);
+					if (index >= 0 && index < event->myChilds.Size())
+					{
+						AddEvent(event->myChilds[index]);
+					}
+				}
+				else
+				{
+					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+					{
+						AddEvent(event->myChilds[j]);
+					}
 				}
 			}
 			if (event->myType == EventTypes::OnClick)
@@ -203,7 +216,7 @@ bool EventManager::Update(const float aDeltaTime)
 	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
 	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
 	{
-		myGameWorld->GetPlayer()->GetInventory().DeSelect();
+		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
 		myClicked = true;
 	}
 

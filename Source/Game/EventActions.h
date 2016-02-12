@@ -33,5 +33,7 @@ enum EventActions
 	Deselect,
 	ResetGame,
 	ItemIsNot,
-	Answer
+	Answer,
+	Random,
+	IfNotGlobalVariable
 };

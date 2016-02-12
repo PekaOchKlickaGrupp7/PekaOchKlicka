@@ -31,6 +31,9 @@
 #include "EventDeselect.h"
 #include "EventItemIsNot.h"
 #include "EventResetGame.h"
+#include "EventRandom.h"
+#include "EventAnswer.h"
+#include "EventIfNotGlobalVariable.h"
 
 using namespace rapidjson;
 
@@ -301,6 +304,22 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		event = var;
 		break;
 	}
+	case EventActions::IfNotGlobalVariable:
+	{
+		EventIfNotGlobalVariable* var = new EventIfNotGlobalVariable();
+
+		if (extra.HasMember("Type") == true && extra.HasMember("VariableName") == true && extra.HasMember("VariableValue") == true)
+		{
+			var->myVariableType = static_cast<IfVariableType>(extra["Type"].GetInt());
+			var->myVariable = extra["VariableName"].GetString();
+			var->myVariableValue = extra["VariableValue"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
 	case EventActions::FadeColor:
 	{
 		EventFadeColor* var = new EventFadeColor();
@@ -471,6 +490,20 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		if (extra.HasMember("item") == true)
 		{
 			var->myItemName = extra["item"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::Random:
+	{
+		EventRandom* var = new EventRandom();
+
+		if (extra.HasMember("Factor") == true)
+		{
+			var->myRandomFactor = extra["Factor"].GetInt();
 		}
 
 		var->Init(aRoom, aGameWorld);

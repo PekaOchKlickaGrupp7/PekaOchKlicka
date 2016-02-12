@@ -331,6 +331,12 @@
     <ClInclude Include="EventActions.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="EventRandom.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventIfNotGlobalVariable.h">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -535,6 +541,12 @@
       <Filter>Source\Events\Conversation</Filter>
     </ClCompile>
     <ClCompile Include="EventItemIsNot.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventRandom.cpp">
+      <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventIfNotGlobalVariable.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

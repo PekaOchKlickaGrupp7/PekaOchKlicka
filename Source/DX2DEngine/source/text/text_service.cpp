@@ -282,6 +282,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		Vector2f size;
 		size.x = (sizeX * aSize);
 		size.y = (sizeY)* aSize;
+		//size.y *= 1.777f;
 
 		STextToRender renderText;
 		renderText.myPosition.Set((aPosition.x + nextX), nextY + aPosition.y - (offset.y * aSize));

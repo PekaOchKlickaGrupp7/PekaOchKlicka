@@ -171,9 +171,11 @@
     <ClInclude Include="EventChangePlayerDirection.h" />
     <ClInclude Include="EventDeselect.h" />
     <ClInclude Include="EventHideMouse.h" />
+    <ClInclude Include="EventIfNotGlobalVariable.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventItemIsNot.h" />
     <ClInclude Include="EventPickupItem.h" />
+    <ClInclude Include="EventRandom.h" />
     <ClInclude Include="EventRemoveSelectedItem.h" />
     <ClInclude Include="EventResetGame.h" />
     <ClInclude Include="EventSetCinematic.h" />
@@ -251,9 +253,11 @@
     <ClCompile Include="EventChangePlayerDirection.cpp" />
     <ClCompile Include="EventDeselect.cpp" />
     <ClCompile Include="EventHideMouse.cpp" />
+    <ClCompile Include="EventIfNotGlobalVariable.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventItemIsNot.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />
+    <ClCompile Include="EventRandom.cpp" />
     <ClCompile Include="EventRemoveSelectedItem.cpp" />
     <ClCompile Include="EventResetGame.cpp" />
     <ClCompile Include="EventSetCinematic.cpp" />

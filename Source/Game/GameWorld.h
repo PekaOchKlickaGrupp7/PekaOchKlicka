@@ -31,7 +31,7 @@ public:
 	void SetCinematicMode(bool aOn = true);
 	bool GetCinematicMode() const;
 
-	void ResetGame(const std::string& aTargetLevel);
+	void ResetGame();
 
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;

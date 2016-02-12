@@ -10,6 +10,7 @@ EventChangeLevel::EventChangeLevel()
 {
 	myUseFading = false;
 	myPlayerDirection = -1;
+	myTargetPosition = { 0, 0 };
 	Reset();
 }
 
