@@ -202,13 +202,19 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
-	bool myCachedTalkIsOn = myTalkIsOn;
-	bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
-	if (myCurrentRoom != nullptr)
+	if (myOptionsMenu.GetActive() == true)
 	{
-		PlayerMovement(input, myCachedTalkIsOn, aTimeDelta);
+		PlayerMovement(false, false, false, aTimeDelta);
 	}
-
+	else
+	{
+		bool myCachedTalkIsOn = myTalkIsOn;
+		bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
+		if (myCurrentRoom != nullptr)
+		{
+			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
+		}
+	}
 	myOptionsMenu.Update(aTimeDelta);
 
 	if (myDoQuit == true)
@@ -459,7 +465,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	}
 }
 
-void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, float aTimeDelta)
+void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCanMove, float aTimeDelta)
 {
 	//Move character if inside nav mesh
 	if ((myPlayer.GetInventory().GetIsOpen() == false && aTalkIsOn == false && aCheckInput == true && myInputManager.LeftMouseButtonClicked() == true && myPlayerCanMove == true &&
@@ -499,7 +505,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, float aTimeDel
 		}
 	}
 
-	if (myHasPath == true && myWaypointNodes->Size() > 0)
+	if (aPlayerCanMove == true && myHasPath == true && myWaypointNodes->Size() > 0)
 	{
 		Vector2f playerPosition;
 		playerPosition.x = myPlayer.GetPosition().x;
