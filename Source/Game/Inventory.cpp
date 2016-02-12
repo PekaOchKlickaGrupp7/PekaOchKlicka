@@ -133,6 +133,8 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 	if (CommonUtilities::Intersection::PointVsRect(
 		Vector2<float>(aPointerPosition.x, aPointerPosition.y), topLeft, botRight) == true)
 	{
+		mySelectedItem = nullptr;
+		myPreviouslySelectedItem = nullptr;
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
 	}
 }
