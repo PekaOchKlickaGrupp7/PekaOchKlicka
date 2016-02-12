@@ -27,7 +27,16 @@ bool EventAnswer::Update(const float)
 
 void EventAnswer::Render(Synchronizer& aSynchronzier)
 {
+	/*
+	float y = myTextIndex * myBackground.GetSize().y;
 
+	RenderCommand command;
+	command.mySprite = myBackground;
+	command.myPosition = 
+
+	myBackground->
+	myBackground->Render();
+	*/
 }
 
 void EventAnswer::Reset()
