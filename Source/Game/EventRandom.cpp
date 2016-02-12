@@ -14,6 +14,7 @@ EventRandom::~EventRandom()
 bool EventRandom::Update(const float)
 {
 	myIndex = (rand() % myRandomFactor) % static_cast<int>(myChilds.Size());
+	return true;
 }
 
 void EventRandom::Reset()
