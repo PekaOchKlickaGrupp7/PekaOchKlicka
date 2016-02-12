@@ -4,6 +4,7 @@
 #include "MusicSlider.h"
 #include "FullscreenButton.h"
 #include "MainMenuButton.h"
+#include "ResumeButton.h"
 
 class Options
 {
@@ -26,6 +27,7 @@ private:
 
 	FullscreenButton myFullscreenButton;
 	MainMenuButton myMenuButton;
+	ResumeButton myResumeButton;
 
 	bool myIsActive;
 };
