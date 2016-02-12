@@ -21,7 +21,6 @@ void EventAnswer::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myTextRender = new DX2D::CText("Text/courier.ttf_sdf");
 	myTextRender->myText = myText;
 
-	
 	myBackgroundSprite = new DX2D::CSprite("Sprites/TalkBackground.dds");
 	myBackgroundSprite->SetSize({ 1.0f, myTextRender->GetHeight() });
 }
@@ -50,5 +49,6 @@ void EventAnswer::Render(Synchronizer& aSynchronzier)
 
 void EventAnswer::Reset()
 {
-
+	myTextIndex = 0;
+	myText = " ";
 }
