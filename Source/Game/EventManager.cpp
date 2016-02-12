@@ -47,7 +47,7 @@ void EventManager::AddEvent(Event* aEvent)
 
 void EventManager::Reset()
 {
-	myActiveEvents.RemoveAll();
+	RemoveAllEvents();
 	myVisitedRooms.clear();
 }
 
@@ -292,5 +292,9 @@ void EventManager::Render(Synchronizer &aSynchronizer)
 
 void EventManager::RemoveAllEvents()
 {
+	for (int i = 0; i < myActiveEvents.Size(); ++i)
+	{
+		myActiveEvents[i]->myActive = false;
+	}
 	myActiveEvents.RemoveAll();
 }
