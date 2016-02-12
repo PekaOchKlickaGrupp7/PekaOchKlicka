@@ -41,14 +41,14 @@ void Options::Initialize()
 
 	myFullscreenButton.InitSprites(ButtonArgsFullscreen.mySpriteArguments);
 
-	ButtonArgsMenu.mySpriteArguments.myButtonCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
-	ButtonArgsMenu.mySpriteArguments.myButtonUnCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
-	ButtonArgsMenu.mySpriteArguments.myButtonHoveredPath = "Sprites/Options_InG/ReturnToMenu_Checked.dds";
+	ButtonArgsMenu.mySpriteArguments.myButtonCheckedPath = "Sprites/Options_InG/ReturnToMenu_Checked.dds";
+	ButtonArgsMenu.mySpriteArguments.myButtonUnCheckedPath = "Sprites/Options_InG/ReturnToMenu_Checked.dds";
+	ButtonArgsMenu.mySpriteArguments.myButtonHoveredPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
 
 	myMenuButton.InitSprites(ButtonArgsMenu.mySpriteArguments);
 
 	ButtonArgsFullscreen.myPositionArguments.myButtonPivot = {0.5f, 0.5f};
-	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.462f };
+	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.445f };
 
 	ButtonArgsMenu.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
 	ButtonArgsMenu.myPositionArguments.myButtonPosition = { 0.5f, myBackground->GetPosition().y + 0.574f };
