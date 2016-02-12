@@ -1,55 +1,55 @@
 {
-    "movmentSpeed": 0.25,
+    "movmentSpeed": 0.20,
 	"animation" 
         :[
 		{
 			"path" : "Sprites/Animations/walk_2048/camera1.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/walk_2048/camera3.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/walk_2048/camera5.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/walk_2048/camera7.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
 
         {
 			"path" : "Sprites/Animations/idle_2048/camera1.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/idle_2048/camera3.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/idle_2048/camera5.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		},
         {
 			"path" : "Sprites/Animations/idle_2048/camera7.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
-			"animationSpeed" : 0.1
+			"animationSpeed" : 0.05
 		}
 	]
 }

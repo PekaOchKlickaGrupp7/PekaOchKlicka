@@ -2,6 +2,7 @@
 #include "..\DX2DEngine\tga2d\sprite\sprite.h"
 #include "..\DX2DEngine\tga2d\d3d\ResolutionViewPort.h"
 #include "..\DX2DEngine\tga2d\engine.h"
+#include "EventVariablesManager.h"
 #include <Windows.h>
 
 class ResolutionManager
@@ -35,7 +36,11 @@ public:
 	float GetRatio(){ return myRatio; };
 
 	bool GetIsFullscreen() { return myIsFullscreen; };
-	void SetFullscreen(bool aSet) { myIsFullscreen = aSet; };
+	void SetFullscreen(bool aSet)
+	{ 
+		myIsFullscreen = aSet; 
+		EventVariablesManager::GetInstance()->SetVariable(myIsFullscreen, "IsFullscreen");
+	};
 
 	void SetupWindow(int aX, int aY);
 	void SetupWindow();

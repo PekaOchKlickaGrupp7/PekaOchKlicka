@@ -147,8 +147,8 @@ bool Slider::OnMouseHover()
 	if (MouseManager::GetInstance()->GetPosition().x >= myKnob->GetPosition().x - myKnob->GetSize().x / 2 &&
 		MouseManager::GetInstance()->GetPosition().x <= myKnob->GetPosition().x + myKnob->GetSize().x / 2)
 	{
-		if (MouseManager::GetInstance()->GetPosition().y >= myKnob->GetPosition().y - myKnob->GetSize().y / 2 &&
-			MouseManager::GetInstance()->GetPosition().y <= myKnob->GetPosition().y + myKnob->GetSize().y / 2)
+		if (MouseManager::GetInstance()->GetPosition().y + 0.010f >= myKnob->GetPosition().y - myKnob->GetSize().y / 2 &&
+			MouseManager::GetInstance()->GetPosition().y - 0.010f <= myKnob->GetPosition().y + myKnob->GetSize().y / 2)
 		{
 			return true;
 		}
