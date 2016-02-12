@@ -232,6 +232,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="ResumeButton.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="Player.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Player.cpp" />

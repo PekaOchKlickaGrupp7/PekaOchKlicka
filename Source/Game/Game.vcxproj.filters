@@ -340,12 +340,9 @@
     <ClInclude Include="MainMenuButton.h">
       <Filter>Source\System\Options Ingame</Filter>
     </ClInclude>
-    <ClInclude Include="EventRandom.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="EventIfNotGlobalVariable.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
+    <ClInclude Include="EventIfNotGlobalVariable.h" />
+    <ClInclude Include="EventRandom.h" />
+    <ClInclude Include="ResumeButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -561,11 +558,8 @@
     <ClCompile Include="MainMenuButton.cpp">
       <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
-    <ClCompile Include="EventRandom.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="EventIfNotGlobalVariable.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
+    <ClCompile Include="EventIfNotGlobalVariable.cpp" />
+    <ClCompile Include="EventRandom.cpp" />
+    <ClCompile Include="ResumeButton.cpp" />
   </ItemGroup>
 </Project>
