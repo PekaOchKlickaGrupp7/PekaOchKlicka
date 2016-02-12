@@ -38,10 +38,13 @@ public:
 	bool PlayerHasReachedTarget();
 	void Quit();
 
+	void SetTalkIsOn();
+	void SetTalkIsOff();
+
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
-	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 private:
+	void PlayerMovement(bool aCheckInput, float aTimeDelta);
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;
@@ -63,6 +66,7 @@ private:
 	int myCurrentWaypoint;
 	float myFadeIn;
 
+	bool myTalkIsOn;
 	bool myDoQuit;
 	bool myPlayerCanMove;
 	bool myHasNewTargetPosition;
