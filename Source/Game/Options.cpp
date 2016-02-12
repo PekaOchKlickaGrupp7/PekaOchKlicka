@@ -59,10 +59,13 @@ void Options::Initialize()
 
 void Options::Update(float aDeltaTime)
 {
-	myMusicSlider.Update(aDeltaTime);
-	mySFXSlider.Update(aDeltaTime);
-	myFullscreenButton.Update(aDeltaTime);
-	myMenuButton.Update(aDeltaTime);
+	if (myIsActive == true)
+	{
+		myMusicSlider.Update(aDeltaTime);
+		mySFXSlider.Update(aDeltaTime);
+		myFullscreenButton.Update(aDeltaTime);
+		myMenuButton.Update(aDeltaTime);
+	}
 }
 
 void Options::Render(Synchronizer& aSynchronizer)
