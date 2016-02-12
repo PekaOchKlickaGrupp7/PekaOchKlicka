@@ -2,6 +2,8 @@
 #include "tga2d\sprite\sprite.h"
 #include "SFXSlider.h"
 #include "MusicSlider.h"
+#include "FullscreenButton.h"
+#include "MainMenuButton.h"
 
 class Options
 {
@@ -21,6 +23,9 @@ private:
 
 	MusicSlider myMusicSlider;
 	SFXSlider mySFXSlider;
+
+	FullscreenButton myFullscreenButton;
+	MainMenuButton myMenuButton;
 
 	bool myIsActive;
 };

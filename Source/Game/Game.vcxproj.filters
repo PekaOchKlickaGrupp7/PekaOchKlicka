@@ -331,6 +331,15 @@
     <ClInclude Include="EventActions.h">
       <Filter>Source\System\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="FullscreenButton.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuButton.h">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClInclude>
     <ClInclude Include="EventRandom.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
@@ -542,6 +551,15 @@
     </ClCompile>
     <ClCompile Include="EventItemIsNot.cpp">
       <Filter>Source\Events\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="FullscreenButton.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuButton.cpp">
+      <Filter>Source\System\Options Ingame</Filter>
     </ClCompile>
     <ClCompile Include="EventRandom.cpp">
       <Filter>Source\Events\Utilities</Filter>

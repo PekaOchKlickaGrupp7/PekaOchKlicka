@@ -166,6 +166,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="EventActions.h" />
     <ClInclude Include="EventAnswer.h" />
     <ClInclude Include="EventChangePlayerDirection.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="EventStopSound.h" />
     <ClInclude Include="EventVariablesManager.h" />
     <ClInclude Include="EventWalkTo.h" />
+    <ClInclude Include="FullscreenButton.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Event.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JSON.h" />
+    <ClInclude Include="MainMenuButton.h" />
     <ClInclude Include="MouseManager.h" />
     <ClInclude Include="MusicManager.h" />
     <ClInclude Include="MusicSlider.h" />
@@ -249,6 +252,7 @@
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="EventAnswer.cpp" />
     <ClCompile Include="EventChangePlayerDirection.cpp" />
     <ClCompile Include="EventDeselect.cpp" />
@@ -278,6 +282,7 @@
     <ClCompile Include="EventStopSound.cpp" />
     <ClCompile Include="EventVariablesManager.cpp" />
     <ClCompile Include="EventWalkTo.cpp" />
+    <ClCompile Include="FullscreenButton.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -294,6 +299,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="MainMenuButton.cpp" />
     <ClCompile Include="MouseManager.cpp" />
     <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="MusicSlider.cpp" />

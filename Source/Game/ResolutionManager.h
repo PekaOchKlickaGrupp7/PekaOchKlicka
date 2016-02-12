@@ -4,6 +4,7 @@
 #include "..\DX2DEngine\tga2d\engine.h"
 #include "EventVariablesManager.h"
 #include <Windows.h>
+#include "EventVariablesManager.h"
 
 class ResolutionManager
 {
