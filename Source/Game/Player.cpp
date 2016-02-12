@@ -132,6 +132,8 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	myInventory.Update(aInputManager, aDeltaT);
 
+	PlayApropriateAnimation(aTargetPos, aMovePlayer);
+
 	if (aMovePlayer == true)
 	{
 		Move(aTargetPos, myMovementSpeed, aDeltaT);
@@ -180,7 +182,7 @@ void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aD
 			myPosition = DX2D::Vector2f(
 			myRenderPosition.x,
 			myRenderPosition.y);
-		PlayApropriateAnimation(delta);
+		PlayApropriateAnimation(delta,true);
 	}
 }
 
@@ -226,34 +228,44 @@ void Player::SetAnimation(const int aIndex)
 	myCurentAnimation = aIndex;
 }
 
-void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition)
+void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition,bool aMove)
 {
 	int resultAnimation = myCurentAnimation;
 
-	if (abs(aTargetPosition.y) > abs(aTargetPosition.x))
-	{		
-		//Upp
-		if (aTargetPosition.y > 0)
-		{
-			resultAnimation = 2;
-		}
-		//Down
-		else
-		{
-			resultAnimation = 0;
-		}
-	}	
-	else 
+	if (aMove == true)
 	{
-		//Right
-		if (aTargetPosition.x < 0)
+		if (abs(aTargetPosition.y) > abs(aTargetPosition.x))
 		{
-			resultAnimation = 3;
+			//Upp
+			if (aTargetPosition.y > 0)
+			{
+				resultAnimation = 2;
+			}
+			//Down
+			else
+			{
+				resultAnimation = 0;
+			}
 		}
-		//Left
 		else
 		{
-			resultAnimation = 1;
+			//Right
+			if (aTargetPosition.x < 0)
+			{
+				resultAnimation = 3;
+			}
+			//Left
+			else
+			{
+				resultAnimation = 1;
+			}
+		}
+	}
+	else
+	{
+		if (resultAnimation < 4)
+		{
+			resultAnimation += 4;
 		}
 	}
 	myCurentAnimation = resultAnimation;

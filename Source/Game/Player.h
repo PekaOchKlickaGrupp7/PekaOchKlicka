@@ -37,7 +37,7 @@ public:
 private:
 	void LoadAnimations(rapidjson::Value& aAnimations);
 	const char* ReadFile(const char* aFile);
-	void PlayApropriateAnimation(DX2D::Vector2f aTargetPosition);
+	void PlayApropriateAnimation(DX2D::Vector2f aTargetPosition, bool aMove);
 
 	Inventory myInventory;
 	DX2D::CColor myColor;
