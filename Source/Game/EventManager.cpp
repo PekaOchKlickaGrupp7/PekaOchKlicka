@@ -146,14 +146,14 @@ bool EventManager::OnEvent(ObjectData* aData, EventTypes aType)
 	return OnEvent(aData, aType, mousePosition.x, mousePosition.y, 0, 0);
 }
 
-bool EventManager::Update(const float aDeltaTime)
+bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
 	myClicked = false;
 	myIsInsideAObject = false;
 
-	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false)
+	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false)
 	{
 		if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
 		{

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EventTalk.h"
 #include <tga2d\engine.h>
+#include "MouseManager.h"
+#include "GameWorld.h"
 
 bool EventTalk::myIsActive = false;
 
@@ -46,6 +48,15 @@ bool EventTalk::Update(const float aDeltaTime)
 {
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
+
+	myGameWorld->SetTalkIsOn();
+	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
+	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+	{
+		myGameWorld->SetTalkIsOff();
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+		return true;
+	}
 
 	if (object != nullptr)
 	{
@@ -120,6 +131,8 @@ bool EventTalk::TypeNextLetter(float aDeltaTime)
 		myShowedTime += aDeltaTime;
 		if (myShowedTime > myShowTime)
 		{
+			myGameWorld->SetTalkIsOff();
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 			return true;
 		}
 	}
