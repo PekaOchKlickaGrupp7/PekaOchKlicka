@@ -519,6 +519,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	event->myType = static_cast<EventTypes>(aParent["type"].GetInt());
 	event->myTarget = std::string(aParent["target"].GetString());
 	event->myObjectData = aData;
+	event->myAction = action;
 
 	return event;
 }

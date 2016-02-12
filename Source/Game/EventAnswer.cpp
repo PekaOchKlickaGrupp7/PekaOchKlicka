@@ -3,21 +3,20 @@
 
 //Work in progress
 
-EventAnswer::EventAnswer() : mySprite(nullptr)
+EventAnswer::EventAnswer() : myBackgroundSprite(nullptr)
 {
-	myTextIndex = 1;
+	myTextIndex = 0;
 }
 
 EventAnswer::~EventAnswer()
 {
-	delete mySprite;
-	mySprite = nullptr;
+	SAFE_DELETE(myBackgroundSprite);
 }
 
 void EventAnswer::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
-	mySprite = new DX2D::CSprite(mySpritePath.c_str());
+	myBackgroundSprite = new DX2D::CSprite("Text/Courier.");
 }
 
 bool EventAnswer::Update(const float)
@@ -27,16 +26,12 @@ bool EventAnswer::Update(const float)
 
 void EventAnswer::Render(Synchronizer& aSynchronzier)
 {
-	/*
-	float y = myTextIndex * myBackground.GetSize().y;
+	float y = myTextIndex * myBackgroundSprite->GetSize().y;
 
 	RenderCommand command;
-	command.mySprite = myBackground;
-	command.myPosition = 
-
-	myBackground->
-	myBackground->Render();
-	*/
+	command.mySprite = myBackgroundSprite;
+	command.myPosition = { 0, y };
+	aSynchronzier.AddRenderCommand(command);
 }
 
 void EventAnswer::Reset()

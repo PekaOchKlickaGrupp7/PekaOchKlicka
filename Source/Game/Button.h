@@ -5,9 +5,9 @@
 // Simplifies argument sending and initializing. They only need different positions. // Linus
 struct ButtonSpriteArguments
 {
-	const char* myButtonUnCheckedPath = "Sprites/Options_InG/Fullscreen_Unchecked.dds";
-	const char* myButtonCheckedPath = "Sprites/Options_InG/Fullscreen_Checked.dds";
-	const char* myButtonHoveredPath = "Sprites/Options_InG/Fullscreen_Unchecked.dds";
+	const char* myButtonUnCheckedPath = "Sprites/Options_InG/Fullscreen_Unchecked2.dds";
+	const char* myButtonCheckedPath = "Sprites/Options_InG/Fullscreen_Checked2.dds";
+	const char* myButtonHoveredPath = "Sprites/Options_InG/Fullscreen_Unchecked2.dds";
 };
 struct ButtonPositionArguments
 {
