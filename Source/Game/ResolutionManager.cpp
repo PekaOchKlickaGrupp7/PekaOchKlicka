@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ResolutionManager.h"
-#include "EventVariablesManager.h"
+
 
 #include <iostream>
 

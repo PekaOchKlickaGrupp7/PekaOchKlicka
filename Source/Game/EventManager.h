@@ -49,6 +49,9 @@ public:
 
 	//Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
 	Event& GetEvent(const std::string& aName);
+	
+	Room* GetCurrentRoom() { return myCurrentRoom; }
+	CGameWorld* GetGameWorld() { return myGameWorld; }
 
 private:
 	static EventManager* myInstance;

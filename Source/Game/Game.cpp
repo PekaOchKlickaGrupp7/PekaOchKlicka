@@ -146,10 +146,10 @@ void CGame::Init(const char** argv, const int argc)
 
 void CGame::InitCallBack()
 {
-	CU::TimeSys::TimerManager time = CU::TimeSys::TimerManager();
+	CU::TimeSys::TimerManager time2 = CU::TimeSys::TimerManager();
 
-	unsigned char timer = time.CreateTimer();
-	time.UpdateTimers();
+	unsigned char timer = time2.CreateTimer();
+	time2.UpdateTimers();
 
 	#pragma region Intialize Debug & Input & Threads
 	DL_Debug::Debug::Create();
@@ -187,11 +187,13 @@ void CGame::InitCallBack()
 
 	#pragma region Event Manager
 
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	EventManager::CreateInstance();
 
 	CGameWorld* GameWorld = new CGameWorld(myStateStackProxy, myInputManager, myTimerManager);
 
-	time.UpdateTimers();
+	time2.UpdateTimers();
 
 	EventManager::GetInstance()->Init(&myInputManager, GameWorld);
 
@@ -208,7 +210,7 @@ void CGame::InitCallBack()
 		ResolutionManager::GetInstance()->SetupWindow();
 	}
 
-	double delta = time.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
+	double delta = time2.GetTimer(timer).GetTimeElapsed().GetMiliseconds();
 	std::cout << "Startup took: " << delta << " milliseconds" << std::endl;
 }
 

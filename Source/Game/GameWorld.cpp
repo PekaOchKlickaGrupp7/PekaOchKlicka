@@ -175,7 +175,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
-		ResetGame("kitchen");
+		ChangeLevel("kitchen");
+		ResetGame();
 
 		std::cout << "Resetted game" << std::endl;
 	}
@@ -248,7 +249,7 @@ bool CGameWorld::GetCinematicMode() const
 	return !myPlayerCanMove;
 }
 
-void CGameWorld::ResetGame(const std::string& aTargetLevel)
+void CGameWorld::ResetGame()
 {
 	SetCinematicMode(false);
 	MouseManager::GetInstance()->SetHideGameMouse(false);

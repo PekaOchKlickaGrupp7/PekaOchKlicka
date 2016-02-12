@@ -12,7 +12,7 @@ EventResetGame::~EventResetGame()
 
 bool EventResetGame::Update(const float)
 {
-	myGameWorld->ResetGame(myTargetScene);
+	myGameWorld->ResetGame();
 
 	return true;
 }

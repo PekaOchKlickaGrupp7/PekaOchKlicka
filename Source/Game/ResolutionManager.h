@@ -2,6 +2,7 @@
 #include "..\DX2DEngine\tga2d\sprite\sprite.h"
 #include "..\DX2DEngine\tga2d\d3d\ResolutionViewPort.h"
 #include "..\DX2DEngine\tga2d\engine.h"
+#include "EventVariablesManager.h"
 #include <Windows.h>
 #include "EventVariablesManager.h"
 
