@@ -18,7 +18,7 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 
 	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
-	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1));
+	mySprite->SetUVScale(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
 	mySprite->SetPivot(aPivot);
 
@@ -34,7 +34,7 @@ void Animation::SetColor(DX2D::CColor& aColor)
 void Animation::UpdateTextureRect()
 {
 	mySprite->SetUVOffset(DX2D::Vector2f((1.f / myFramesPerRow)*(myFrame% myFramesPerRow),
-		(mySprite->GetSize().y*myCurentRow)));
+		(1.f / myFramesPerRow) * (myFrame / myFramesPerRow)));
 }
 void Animation::SetSize(float aScale)
 {
@@ -60,7 +60,7 @@ void Animation::Update(float aDelta)
 			myCurentFrameDuration = 0;
 			myRowFrameCounter++;
 
-			if (myRowFrameCounter == myNumberOfFrames)
+			if (myRowFrameCounter == myFramesPerRow)
 			{
 				myCurentRow++;
 				myRowFrameCounter = 0;
