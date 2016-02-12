@@ -9,6 +9,7 @@ bool EventTalk::myIsActive = false;
 EventTalk::EventTalk() : myTextRender(nullptr)
 {
 	myIsActive = false;
+	myLetterLength = 0.1f;
 }
 
 EventTalk::~EventTalk()
@@ -32,8 +33,6 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
 
-
-	myLetterLength = 0.1f;
 	myCurrentLetter = 0;
 
 	Reset();
@@ -51,7 +50,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	myGameWorld->SetTalkIsOn();
 	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
-	if (myFirstFrame == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+	if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 	{
 		myGameWorld->SetTalkIsOff();
 		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
