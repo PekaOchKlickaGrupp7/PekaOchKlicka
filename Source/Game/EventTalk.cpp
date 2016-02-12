@@ -51,12 +51,13 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	myGameWorld->SetTalkIsOn();
 	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
-	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+	if (myFirstFrame == true && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 	{
 		myGameWorld->SetTalkIsOff();
 		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 		return true;
 	}
+	myFirstFrame = true;
 
 	if (object != nullptr)
 	{
@@ -142,6 +143,7 @@ bool EventTalk::TypeNextLetter(float aDeltaTime)
 
 void EventTalk::Reset()
 {
+	myFirstFrame = false;
 	myShowedTime = 0.0f;
 	myCurrentTime = 0.0f;
 	myCurrentLetter = 0;
