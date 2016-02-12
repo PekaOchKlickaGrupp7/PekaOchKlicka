@@ -20,7 +20,10 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	myRoom = aRoom;
 	myGameWorld = aGameWorld;
-	myChilds.Init(1);
+	if (myChilds.GetIsInitialized() == false)
+	{
+		myChilds.Init(1);
+	}
 }
 
 void Event::Render(Synchronizer &)
