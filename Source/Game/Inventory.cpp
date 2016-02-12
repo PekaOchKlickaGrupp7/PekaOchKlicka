@@ -117,11 +117,15 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 					UpdateSelectedItem();
 					return;
 				}
+				else
+				{
+					mySelectedItem = myContents[i];
+					myPreviouslySelectedItem = mySelectedItem;
+				}
 			}
 		}
 	}
-	mySelectedItem = nullptr;
-	
+
 	//Options area in the inventory
 	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
 	Vector2f botRight = { 0.97656f, 1 - 0.032407f };
