@@ -191,6 +191,7 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 				{
 					EventRandom* random = static_cast<EventRandom*>(event);
 					unsigned int index = static_cast<unsigned int>(random->myIndex);
+					std::cout << index << std::endl;
 					if (index >= 0 && index < event->myChilds.Size())
 					{
 						AddEvent(event->myChilds[index]);
