@@ -197,6 +197,21 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 						AddEvent(event->myChilds[index]);
 					}
 				}
+				else if (event->myAction == EventActions::Answer)
+				{
+					for (int j = myActiveEvents.Size() - 1; j >= 0; --j)
+					{
+						Event* event2 = myActiveEvents[j];
+						if (event != event2 && event2->myAction == EventActions::Answer)
+						{
+							myActiveEvents.RemoveCyclicAtIndex(j);
+						}
+					}
+					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
+					{
+						AddEvent(event->myChilds[j]);
+					}
+				}
 				else
 				{
 					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
