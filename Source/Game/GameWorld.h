@@ -44,7 +44,7 @@ public:
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 private:
-	void PlayerMovement(bool aCheckInput, bool aTalkIsOn, float aTimeDelta);
+	void PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCanMove, float aTimeDelta);
 	void RenderObject(Synchronizer& aData, ObjectData* aNode, float relativeX, float relativeY);
 
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;

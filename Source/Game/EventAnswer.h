@@ -15,10 +15,13 @@ public:
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
 	std::string myText;
+
 	DX2D::CColor myColor;
 	DX2D::CColor myHighlightColor;
 	int myTextIndex;
 protected:
+	
+	DX2D::CText* myTextRender;
 	DX2D::CSprite* myBackgroundSprite;
 
 	float myHeight;
