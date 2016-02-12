@@ -35,12 +35,34 @@ void Options::Initialize()
 
 	mySFXSlider.InitPositions(SliderArgsSFX.myPositionArguments);
 	myMusicSlider.InitPositions(SliderArgsMusic.myPositionArguments);
+
+	ButtonSetOfArguments ButtonArgsFullscreen;
+	ButtonSetOfArguments ButtonArgsMenu;
+
+	myFullscreenButton.InitSprites(ButtonArgsFullscreen.mySpriteArguments);
+
+	ButtonArgsMenu.mySpriteArguments.myButtonCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
+	ButtonArgsMenu.mySpriteArguments.myButtonUnCheckedPath = "Sprites/Options_InG/ReturnToMenu_Unchecked.dds";
+	ButtonArgsMenu.mySpriteArguments.myButtonHoveredPath = "Sprites/Options_InG/ReturnToMenu_Checked.dds";
+
+	myMenuButton.InitSprites(ButtonArgsMenu.mySpriteArguments);
+
+	ButtonArgsFullscreen.myPositionArguments.myButtonPivot = {0.5f, 0.5f};
+	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.462f };
+
+	ButtonArgsMenu.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
+	ButtonArgsMenu.myPositionArguments.myButtonPosition = { 0.5f, myBackground->GetPosition().y + 0.574f };
+
+	myFullscreenButton.InitPositions(ButtonArgsFullscreen.myPositionArguments);
+	myMenuButton.InitPositions(ButtonArgsMenu.myPositionArguments);
 }
 
 void Options::Update(float aDeltaTime)
 {
 	myMusicSlider.Update(aDeltaTime);
 	mySFXSlider.Update(aDeltaTime);
+	myFullscreenButton.Update(aDeltaTime);
+	myMenuButton.Update(aDeltaTime);
 }
 
 void Options::Render(Synchronizer& aSynchronizer)
@@ -55,6 +77,8 @@ void Options::Render(Synchronizer& aSynchronizer)
 
 		myMusicSlider.Render(aSynchronizer);
 		mySFXSlider.Render(aSynchronizer);
+		myFullscreenButton.Render(aSynchronizer);
+		myMenuButton.Render(aSynchronizer);
 	}
 }
 

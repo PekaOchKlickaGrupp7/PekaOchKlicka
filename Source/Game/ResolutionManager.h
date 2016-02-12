@@ -3,6 +3,7 @@
 #include "..\DX2DEngine\tga2d\d3d\ResolutionViewPort.h"
 #include "..\DX2DEngine\tga2d\engine.h"
 #include <Windows.h>
+#include "EventVariablesManager.h"
 
 class ResolutionManager
 {
