@@ -2,7 +2,7 @@
 #include "MainMenuButton.h"
 #include "EventManager.h"
 #include "EventChangeLevel.h"
-
+#include "GameWorld.h"
 
 MainMenuButton::MainMenuButton()
 {
@@ -21,6 +21,8 @@ void MainMenuButton::ButtonSpecificUpdate()
 	myEvent->myNextTheme = "None";
 	myEvent->myTargetLevelName = "mainmenu";
 	myEvent->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
+	EventManager::GetInstance()->GetGameWorld()->GetOptions()->SetActive(false);
+	EventManager::GetInstance()->GetGameWorld()->ResetGame();
 	EventManager::GetInstance()->AddEvent(myEvent);
 }
 
