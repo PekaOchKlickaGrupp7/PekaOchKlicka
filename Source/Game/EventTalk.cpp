@@ -49,10 +49,12 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	myGameWorld->SetCinematicMode();
+	myGameWorld->SetTalkIsOn();
+	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 	{
-		myGameWorld->SetCinematicMode(false);
+		myGameWorld->SetTalkIsOff();
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 		return true;
 	}
 
@@ -129,7 +131,8 @@ bool EventTalk::TypeNextLetter(float aDeltaTime)
 		myShowedTime += aDeltaTime;
 		if (myShowedTime > myShowTime)
 		{
-			myGameWorld->SetCinematicMode(false);
+			myGameWorld->SetTalkIsOff();
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 			return true;
 		}
 	}

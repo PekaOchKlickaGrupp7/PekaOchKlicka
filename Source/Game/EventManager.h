@@ -40,7 +40,7 @@ public:
 
 	void AddKey(int aKey);
 
-	bool Update(const float aDeltaTime);
+	bool Update(const float aDeltaTime, const bool aTalkIsOn);
 	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
