@@ -39,5 +39,7 @@ protected:
 	float myCurrentTime;
 	float myWidth;
 	float myHeight;
+
+	bool myFirstFrame;
 };
 
