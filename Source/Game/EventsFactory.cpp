@@ -511,6 +511,33 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		event = var;
 		break;
 	}
+	case EventActions::Answer:
+	{
+		EventAnswer* var = new EventAnswer();
+
+		if (extra.HasMember("Index") == true)
+		{
+			var->myTextIndex = extra["Index"].GetInt();
+		}
+		if (extra.HasMember("Text") == true)
+		{
+			var->myText = extra["Text"].GetString();
+		}
+		if (extra.HasMember("Color") == true)
+		{
+			var->myColor = {
+				extra["Color"]["r"].GetFloat(),
+				extra["Color"]["g"].GetFloat(),
+				extra["Color"]["b"].GetFloat(),
+				extra["Color"]["a"].GetFloat()
+			};
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
 	default:
 		event = new EventNone();
 		event->Init(aRoom, aGameWorld);
