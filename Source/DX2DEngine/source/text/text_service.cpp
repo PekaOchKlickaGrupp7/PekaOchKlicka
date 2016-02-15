@@ -304,6 +304,10 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		{
 			offsetTheDammOffset = baseOffset;
 		}
+		else if (aChar == 'y')
+		{
+			offsetTheDammOffset = baseOffset;
+		}
 
 		renderText.myPosition.Set((aPosition.x + nextX), nextY + (aPosition.y - (offset.y * aSize)) + offsetTheDammOffset);
 		renderText.mySize = size;
