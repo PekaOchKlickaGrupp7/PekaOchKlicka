@@ -517,7 +517,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 
 		if (extra.HasMember("Index") == true)
 		{
-			var->myTextIndex = extra["Index"].GetInt();
+			var->myTextIndex = extra["Index"].GetInt() - 1;
 		}
 		if (extra.HasMember("Text") == true)
 		{

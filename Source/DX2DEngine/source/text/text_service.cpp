@@ -175,7 +175,7 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 
 }
 
-#define NEW_LINE_HEIGHT 0.05f
+#define NEW_LINE_HEIGHT 0.09f
 
 float DX2D::CTextService::GetSentenceHeight(const std::string& aText, float aSize, const std::string& aName)
 {
@@ -276,7 +276,6 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		float sizeX = (theChar.width_ / (float)fontData->myTexture->myImageSize.x);
 		float sizeY = (theChar.height_ / (float)fontData->myTexture->myImageSize.y);
 
-
 		Vector2f offset(theChar.xoffset_ / (float)fontData->myTexture->myImageSize.x, theChar.yoffset_ / (float)fontData->myTexture->myImageSize.y);
 		offset /= 2.0f;
 
@@ -286,7 +285,27 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		size.y *= 1.777f;
 
 		STextToRender renderText;
-		renderText.myPosition.Set((aPosition.x + nextX), nextY + aPosition.y - (offset.y * aSize));
+
+		float baseOffset = 0.004f;
+		float offsetTheDammOffset = 0;
+		if (aChar == 'g')
+		{
+			offsetTheDammOffset = baseOffset;
+		}
+		else if (aChar == 'j')
+		{
+			offsetTheDammOffset = baseOffset;
+		}
+		else if (aChar == 'p')
+		{
+			offsetTheDammOffset = baseOffset;
+		}
+		else if (aChar == 'q')
+		{
+			offsetTheDammOffset = baseOffset;
+		}
+
+		renderText.myPosition.Set((aPosition.x + nextX), nextY + (aPosition.y - (offset.y * aSize)) + offsetTheDammOffset);
 		renderText.mySize = size;
 		renderText.myUV.Set(minS, maxT);
 		renderText.uvScale.x = sizeX;
@@ -296,11 +315,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 1.777f;
 
 		aTextBuffer.push_back(renderText);
-
 	}
-
-
-
 }
 
 
