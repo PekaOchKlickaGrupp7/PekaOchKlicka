@@ -159,7 +159,7 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 		}
 		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
-		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize)  * 1.777f;
+		nextX += (((theChar.xadvance_ - theChar.xoffset_) / 1920.0f) * aSize);
 		if (i == aText.size() - 1)
 		{
 			if (nextX > maxX)
@@ -175,7 +175,7 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 
 }
 
-#define NEW_LINE_HEIGHT 0.09f
+#define NEW_LINE_HEIGHT 0.086f
 
 float DX2D::CTextService::GetSentenceHeight(const std::string& aText, float aSize, const std::string& aName)
 {
@@ -286,7 +286,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 
 		STextToRender renderText;
 
-		float baseOffset = 0.004f;
+		float baseOffset = 0.0032f;
 		float offsetTheDammOffset = 0;
 		if (aChar == 'g')
 		{
@@ -312,7 +312,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		renderText.uvScale.y = sizeY;
 		renderText.myColor = aColor;
 
-		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize) * 1.777f;
+		nextX += (((((theChar.xadvance_ - theChar.xoffset_) / 1920.0f))) * aSize);// *1.777f;
 
 		aTextBuffer.push_back(renderText);
 	}

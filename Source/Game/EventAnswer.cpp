@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EventAnswer.h"
 #include "MouseManager.h"
+#include "GameWorld.h"
 
 //Work in progress
 
@@ -18,9 +19,9 @@ EventAnswer::~EventAnswer()
 void EventAnswer::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
-	myTextRender = new DX2D::CText("Text/courier.ttf_sdf");
+	myTextRender = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 	myTextRender->myText = myText;
-	myTextRender->mySize = 0.5f;
+	myTextRender->mySize = 0.3f;
 
 	myHighlightColor = { 1.0f, 0.45f, 0.0f, 1.0f };
 
@@ -37,11 +38,13 @@ bool EventAnswer::Update(const float)
 {
 	DX2D::Vector2f mousePos = MouseManager::GetInstance()->GetPosition();
 
+	myGameWorld->SetTalkIsOn();
 	if (mousePos.y > myY && mousePos.y < myY + myHeight)
 	{
 		myTextRender->myColor = myHighlightColor;
 		if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
+			myGameWorld->SetTalkIsOff();
 			return true;
 		}
 	}

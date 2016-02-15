@@ -23,13 +23,14 @@ EventTalk::~EventTalk()
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
+	std::string fontPath = "Text/PassionOne-Regular.ttf_sdf";
 	Event::Init(aRoom, aGameWorld);
 
-	myTextRender = new DX2D::CText(myFontPath.c_str());
+	myTextRender = new DX2D::CText(fontPath.c_str());
 	myTextRender->myColor = myColor;
 	myTextRender->mySize = mySize;
 
-	myTextOutline = new DX2D::CText(myFontPath.c_str());
+	myTextOutline = new DX2D::CText(fontPath.c_str());
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
 
@@ -38,8 +39,8 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	Reset();
 	myIsTalking = true;
 
-	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, myFontPath.c_str());
-	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, myFontPath.c_str());
+	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, fontPath.c_str());
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, fontPath.c_str());
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
 
