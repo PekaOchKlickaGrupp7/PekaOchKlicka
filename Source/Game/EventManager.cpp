@@ -175,6 +175,54 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 		}
 	}
 
+	UpdateActiveEvents(aDeltaTime);
+
+	std::string value = "";
+	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
+	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
+	{
+		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
+		myClicked = true;
+	}
+
+	if (myIsSwitchingRoom == true)
+	{
+		myIsSwitchingRoom = false;
+
+		RemoveAllEvents();
+
+		if (myVisitedRooms.find(myCurrentRoom) == myVisitedRooms.end())
+		{
+			myVisitedRooms[myCurrentRoom] = true;
+			for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+			{
+				OnEvent((*myObjects)[i], EventTypes::OnFirstLoad, mousePosition.x, mousePosition.y, 0, 0);
+			}
+		}
+
+		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
+		{
+			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
+		}
+
+		UpdateActiveEvents(aDeltaTime);
+		myGameWorld->DoChangeLevel(myCurrentRoom);
+		return false;
+	}
+	return !myClicked;
+}
+
+void EventManager::Render(Synchronizer &aSynchronizer)
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		Event* event = myActiveEvents[i];
+		event->Render(aSynchronizer);
+	}
+}
+
+void EventManager::UpdateActiveEvents(const float aDeltaTime)
+{
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
@@ -227,83 +275,6 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
-
-	std::string value = "";
-	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
-	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
-	{
-		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
-		myClicked = true;
-	}
-
-	if (myIsSwitchingRoom == true)
-	{
-		myIsSwitchingRoom = false;
-
-		RemoveAllEvents();
-
-		if (myVisitedRooms.find(myCurrentRoom) == myVisitedRooms.end())
-		{
-			myVisitedRooms[myCurrentRoom] = true;
-			for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
-			{
-				OnEvent((*myObjects)[i], EventTypes::OnFirstLoad, mousePosition.x, mousePosition.y, 0, 0);
-			}
-		}
-
-		for (unsigned int i = 0; i < (*myObjects).Size(); ++i)
-		{
-			OnEvent((*myObjects)[i], EventTypes::OnLoad, mousePosition.x, mousePosition.y, 0, 0);
-		}
-
-		for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
-		{
-			Event* event = myActiveEvents[i];
-			if (event->Update(aDeltaTime) == true)
-			{
-				if (event->myAction == EventActions::Answer)
-				{
-					for (int i = myActiveEvents.Size(); i >= 0; --i)
-					{
-						if (event->myAction == EventActions::Answer)
-						{
-							myActiveEvents.RemoveCyclicAtIndex(i);
-						}
-					}
-				}
-				if (myActiveEvents.Size() == 0)
-				{
-					break;
-				}
-				event->myActive = false;
-				if (event->myChilds.GetIsInitialized() == true && event->myAutoActivateRecursive == true)
-				{
-					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
-					{
-						AddEvent(event->myChilds[j]);
-					}
-				}
-				myActiveEvents.RemoveCyclicAtIndex(i);
-				if (event->myType == EventTypes::OnClick)
-				{
-					--event->myObjectData->myAmountActiveEvents;
-				}
-			}
-		}
-
-		myGameWorld->DoChangeLevel(myCurrentRoom);
-		return false;
-	}
-	return !myClicked;
-}
-
-void EventManager::Render(Synchronizer &aSynchronizer)
-{
-	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
-	{
-		Event* event = myActiveEvents[i];
-		event->Render(aSynchronizer);
-	}
 }
 
 void EventManager::RemoveAllEvents()
@@ -311,6 +282,7 @@ void EventManager::RemoveAllEvents()
 	for (int i = 0; i < myActiveEvents.Size(); ++i)
 	{
 		myActiveEvents[i]->myActive = false;
+		myActiveEvents[i]->myObjectData->myAmountActiveEvents = 0;
 	}
 	myActiveEvents.RemoveAll();
 }

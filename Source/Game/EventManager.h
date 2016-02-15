@@ -4,6 +4,8 @@
 #include "..\CommonUtilities\GrowingArray.h"
 #include "ResolutionManager.h"
 
+#pragma region Forward Declerations
+
 class ObjectData;
 class Event;
 
@@ -12,9 +14,12 @@ class InputManager;
 class Room;
 enum EventTypes;
 
+#pragma endregion
+
 class EventManager
 {
 public:
+	#pragma region Singleton
 	static void CreateInstance()
 	{
 		if (myInstance == nullptr)
@@ -31,6 +36,7 @@ public:
 		delete myInstance;
 		myInstance = nullptr;
 	}
+	#pragma endregion
 
 	void Reset();
 	bool OnEvent(ObjectData* aData, EventTypes aType);
@@ -38,24 +44,18 @@ public:
 	void Init(CU::DirectInput::InputManager* aInputManager, CGameWorld* aGameWorld) { myInputManager = aInputManager; myGameWorld = aGameWorld; };
 	void ChangeRoom(Room* aCurrentRoom);
 
-	void AddKey(int aKey);
-
 	bool Update(const float aDeltaTime, const bool aTalkIsOn);
 	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent);
 	void RemoveAllEvents();
-	//void LoadObjects(const CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
-
-	//Event& CreateEvent(ObjectData& aObject, const std::string& aName, const std::string& aEvent);
-	Event& GetEvent(const std::string& aName);
-	
 	Room* GetCurrentRoom() { return myCurrentRoom; }
 	CGameWorld* GetGameWorld() { return myGameWorld; }
 
 private:
 	static EventManager* myInstance;
-	float Remap(float value, float from1, float to1, float from2, float to2);
+
+	void UpdateActiveEvents(const float aDeltaTime);
 
 	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
 
