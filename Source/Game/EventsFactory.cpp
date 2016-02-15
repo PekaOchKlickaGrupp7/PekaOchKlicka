@@ -143,10 +143,6 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		{
 			talk->mySize = static_cast<float>(extra["size"].GetDouble());
 		}
-		if (extra.HasMember("fontPath") == true)
-		{
-			talk->myFontPath = extra["fontPath"].GetString();
-		}
 
 		talk->Init(aRoom, aGameWorld);
 

@@ -14,7 +14,6 @@ public:
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
 	std::string myText;
-	std::string myFontPath;
 
 	DX2D::CColor myColor;
 
