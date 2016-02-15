@@ -240,7 +240,6 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 				{
 					EventRandom* random = static_cast<EventRandom*>(event);
 					unsigned int index = static_cast<unsigned int>(random->myIndex);
-					std::cout << index << std::endl;
 					if (index >= 0 && index < event->myChilds.Size())
 					{
 						AddEvent(event->myChilds[index]);
@@ -251,6 +250,7 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 					myActiveEvents.RemoveCyclicAtIndex(i);
 					--i;
 					doRemove = false;
+					myClicked = true;
 
 					for (int j = myActiveEvents.Size() - 1; j >= 0; --j)
 					{
