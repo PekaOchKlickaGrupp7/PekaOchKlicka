@@ -27,7 +27,9 @@ void EventAnswer::Init(Room* aRoom, CGameWorld* aGameWorld)
 
 bool EventAnswer::Update(const float)
 {
-	MouseManager::GetInstance()->GetPosition();
+	DX2D::Vector2f mousePos = MouseManager::GetInstance()->GetPosition();
+
+
 	return true;
 }
 
