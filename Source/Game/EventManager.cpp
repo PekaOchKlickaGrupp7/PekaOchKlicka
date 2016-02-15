@@ -155,7 +155,7 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 
 	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false)
 	{
-		if (myGameWorld->GetCinematicMode() == false && MouseManager::GetInstance()->GetHideGameMouse() == false && myInputManager->LeftMouseButtonClicked() == true)
+		if (myGameWorld->GetCinematicMode() == false && myInputManager->LeftMouseButtonClicked() == true)
 		{
 			for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 			{
