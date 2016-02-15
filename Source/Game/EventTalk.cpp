@@ -76,6 +76,18 @@ bool EventTalk::Update(const float aDeltaTime)
 			}
 		}
 
+		if (y < 0.0f || (y + myHeight) > 1.0f)
+		{
+			if ((y + myHeight) > 1.0f)
+			{
+				y = (1.0f - myHeight) - 0.01f;
+			}
+			else
+			{
+				y = 0.01f;
+			}
+		}
+
 		myTextRender->myPosition = DX2D::Vector2f(x, y);
 
 		if (myCurrentTime > myLetterLength * myCurrentLetter)
