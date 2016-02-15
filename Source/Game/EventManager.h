@@ -56,6 +56,7 @@ private:
 	static EventManager* myInstance;
 
 	void UpdateActiveEvents(const float aDeltaTime);
+	void RemoveAllAnswers();
 
 	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;
 
