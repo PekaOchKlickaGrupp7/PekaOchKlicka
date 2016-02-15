@@ -35,7 +35,7 @@ Inventory::~Inventory()
 void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 {
 	myBackground = new DX2D::CSprite(aFilePath);
-	myEndPosition.y = 1.0f - myBackground->GetSize().y + 0.005f;
+	myEndPosition.y = 1.0f - myBackground->GetSize().y;
 	myStartPosition.y = 1.0f;
 	myPosition.y = myStartPosition.y;
 	myMovementPerFrame = 0.3f;
@@ -286,6 +286,10 @@ void Inventory::Open(float aDeltaTime, CU::DirectInput::InputManager& aInputMana
 	if (myPosition.y >= myEndPosition.y)
 	{
 		myPosition.y -= myMovementPerFrame * aDeltaTime;
+		if (myPosition.y < myEndPosition.y)
+		{
+			myPosition.y = myEndPosition.y;
+		}
 	}
 
 	if (MouseManager::GetInstance()->GetPosition().y >= myPosition.y &&
