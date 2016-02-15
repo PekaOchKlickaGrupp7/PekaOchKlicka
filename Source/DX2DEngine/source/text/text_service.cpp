@@ -257,14 +257,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 	for (unsigned int i = 0; i< aText.size(); i++)
 	{
 		int aChar = aText[i];
-		if (aChar == 130)
-		{
-			std::cout << "fisk";
-		}
-		else
-		{
-			aChar = aChar < 0 ? 63 : aChar;
-		}
+		aChar = aChar < 0 ? 63 : aChar;
 		const fontChar& theChar = fontData->myFontChars[aChar];
 		minS = theChar.sMin_;
 		maxT = theChar.tMin_;
