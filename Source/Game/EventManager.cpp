@@ -228,6 +228,7 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 		Event* event = myActiveEvents[i];
 		if (event->Update(aDeltaTime) == true)
 		{
+			bool doRemove = true;
 			event->myActive = false;
 			if (myActiveEvents.Size() == 0)
 			{
@@ -247,11 +248,19 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 				}
 				else if (event->myAction == EventActions::Answer)
 				{
+					myActiveEvents.RemoveCyclicAtIndex(i);
+					--i;
+					doRemove = false;
+
 					for (int j = myActiveEvents.Size() - 1; j >= 0; --j)
 					{
 						Event* event2 = myActiveEvents[j];
 						if (event != event2 && event2->myAction == EventActions::Answer)
 						{
+							if (i == myActiveEvents.Size() - 1)
+							{
+								i = j - 1;
+							}
 							myActiveEvents.RemoveCyclicAtIndex(j);
 						}
 					}
@@ -272,7 +281,10 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 			{
 				--event->myObjectData->myAmountActiveEvents;
 			}
-			myActiveEvents.RemoveCyclicAtIndex(i);
+			if (doRemove == true)
+			{
+				myActiveEvents.RemoveCyclicAtIndex(i);
+			}
 		}
 	}
 }
