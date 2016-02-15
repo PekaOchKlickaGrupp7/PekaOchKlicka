@@ -223,9 +223,16 @@ void EventManager::Render(Synchronizer &aSynchronizer)
 
 void EventManager::UpdateActiveEvents(const float aDeltaTime)
 {
+	bool doRemoveAnswers = false;
+	Event* removeAnswerEvent = nullptr;
+
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
+		if (event->myAction == EventActions::Answer && doRemoveAnswers == true)
+		{
+			continue;
+		}
 		if (event->Update(aDeltaTime) == true)
 		{
 			bool doRemove = true;
@@ -247,27 +254,13 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 				}
 				else if (event->myAction == EventActions::Answer)
 				{
-					myActiveEvents.RemoveCyclicAtIndex(i);
-					--i;
-					doRemove = false;
+					if (doRemoveAnswers == true)
+					{
+						continue;
+					}
+					doRemoveAnswers = true;
 					myClicked = true;
-
-					for (int j = myActiveEvents.Size() - 1; j >= 0; --j)
-					{
-						Event* event2 = myActiveEvents[j];
-						if (event != event2 && event2->myAction == EventActions::Answer)
-						{
-							if (i == myActiveEvents.Size() - 1)
-							{
-								i = j - 1;
-							}
-							myActiveEvents.RemoveCyclicAtIndex(j);
-						}
-					}
-					for (unsigned int j = 0; j < event->myChilds.Size(); ++j)
-					{
-						AddEvent(event->myChilds[j]);
-					}
+					removeAnswerEvent = event;
 				}
 				else
 				{
@@ -285,6 +278,35 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 			{
 				myActiveEvents.RemoveCyclicAtIndex(i);
 			}
+		}
+	}
+
+	if (doRemoveAnswers == true)
+	{
+		RemoveAllAnswers();
+	}
+
+	if (removeAnswerEvent != nullptr)
+	{
+		for (unsigned int j = 0; j < removeAnswerEvent->myChilds.Size(); ++j)
+		{
+			AddEvent(removeAnswerEvent->myChilds[j]);
+		}
+	}
+}
+
+void EventManager::RemoveAllAnswers()
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		if (myActiveEvents[i]->myAction == EventActions::Answer)
+		{
+			myActiveEvents[i]->myActive = false;
+			if (myActiveEvents[i]->myType == EventTypes::OnClick)
+			{
+				--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
+			}
+			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
 }

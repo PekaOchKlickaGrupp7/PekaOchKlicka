@@ -13,11 +13,13 @@ ObjectData::ObjectData()
 
 ObjectData::~ObjectData()
 {
-	for (unsigned int i = 0; i < myChilds.Size(); ++i)
+	if (myChilds.GetIsInitialized() == true)
 	{
-		delete myChilds[i];
+		for (unsigned int i = 0; i < myChilds.Size(); ++i)
+		{
+			delete myChilds[i];
+		}
 	}
-	myChilds.~GrowingArray();
 	myEvents.DeleteAll();
 	delete myOriginalSprite;
 	myOriginalSprite = nullptr;
