@@ -10,14 +10,14 @@ void EventPlaySound::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
 
-	SoundFileHandler::GetInstance()->Load(myTargetSound, myIdentifier, myIs3D);
+	//SoundFileHandler::GetInstance()->Load(myTargetSound, myIdentifier, myIs3D);
 }
 
 bool EventPlaySound::Update(const float aDeltaTime)
 {
 	(aDeltaTime);
 
-	//SoundFileHandler::GetInstance()->SetupStream(myTargetSound, myIdentifier, myIs3D);
+	SoundFileHandler::GetInstance()->SetupStream(myTargetSound, myIdentifier, myIs3D);
 	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
 
 	SoundPtr->SetVolume(myVolume);

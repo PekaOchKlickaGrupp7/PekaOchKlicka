@@ -3,6 +3,8 @@
 #include "JSON.h"
 #include "..\CommonUtilities\DL_Debug.h"
 
+#include "SoundFileHandler.h"
+
 Item::Item()
 {
 	mySprite = nullptr;
@@ -62,7 +64,7 @@ void Item::Destroy()
 
 void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
 	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
-	const std::string& aLevelToSpawnIn)
+	const std::string& aLevelToSpawnIn, const std::string& aCombineSoundPath)
 {
 	InitSprites(aWorldSpritePath, aInventorySpritePath);
 
@@ -74,6 +76,18 @@ void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, 
 
 	myIsCombinable = aCombinableStatus;
 	myIsClicked = false;
+
+	myCombineSoundPath = aCombineSoundPath;
+}
+
+void Item::PlayCombineSound()
+{
+	SoundFileHandler::GetInstance()->SetupStream(myCombineSoundPath, myCombineSoundPath, false);
+	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myCombineSoundPath);
+
+	SoundPtr->SetVolume(1.0f);
+	SoundPtr->SetLooping(false);
+	SoundPtr->PlaySound();
 }
 
 void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)

@@ -20,7 +20,8 @@ public:
 		const std::string& aItemDescription, 
 		DX2D::Vector2f& aPosition, 
 		bool aCombinableStatus,
-		const std::string& aLevelToSpawnIn);
+		const std::string& aLevelToSpawnIn,
+		const std::string& aCombineSoundPath);
 
 	void Destroy();
 
@@ -40,6 +41,8 @@ public:
 	inline bool IsCombinable();
 	inline bool IsClicked();
 	bool operator ==(const Item& aItem);
+
+	void PlayCombineSound();
 
 private:
 
@@ -61,6 +64,7 @@ private:
 	bool myIsCombinable;
 	bool myIsClicked;
 
+	std::string myCombineSoundPath;
 };
 
 std::string& Item::GetNameOfResultingItem()
