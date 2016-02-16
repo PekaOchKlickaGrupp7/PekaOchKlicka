@@ -175,7 +175,7 @@ float DX2D::CTextService::GetSentenceWidth(const std::string& aText, float aSize
 
 }
 
-#define NEW_LINE_HEIGHT 0.086f
+#define NEW_LINE_HEIGHT 0.088f
 
 float DX2D::CTextService::GetSentenceHeight(const std::string& aText, float aSize, const std::string& aName)
 {
@@ -257,7 +257,15 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 	for (unsigned int i = 0; i< aText.size(); i++)
 	{
 		int aChar = aText[i];
-		aChar = aChar < 0 ? 63 : aChar;
+
+		if (aChar == -23)
+		{
+			aChar = 233;
+		}
+		else
+		{
+			aChar = aChar < 0 ? 63 : aChar;
+		}
 		const fontChar& theChar = fontData->myFontChars[aChar];
 		minS = theChar.sMin_;
 		maxT = theChar.tMin_;
@@ -309,7 +317,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		}
 		else if (aChar == '\'')
 		{
-			offsetTheDammOffset = -baseOffset * 2;
+			offsetTheDammOffset = -baseOffset * 3;
 		}
 
 		renderText.myPosition.Set((aPosition.x + nextX), nextY + (aPosition.y - (offset.y * aSize)) + offsetTheDammOffset);
