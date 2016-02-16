@@ -117,7 +117,6 @@ void CGameWorld::Init()
 	myFadeIn = 1.0f;
 	myDoFadeIn = false;
 
-	myResTest = new DX2D::CSprite("Sprites/ResolutionTest.dds");
 	myShouldRenderDebug = false;
 	myShouldRenderFPS = false;
 	myShouldRenderNavPoints = false;
@@ -366,13 +365,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 
-	if (myShouldRenderDebug == true)
-	{
-		RenderCommand resTest;
-		resTest.myType = eRenderType::eSprite;
-		resTest.mySprite = myResTest;
-		aSynchronizer.AddRenderCommand(resTest);
-	}
 	if (myShouldRenderFPS == true)
 	{
 		RenderCommand fps;

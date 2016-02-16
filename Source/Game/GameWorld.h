@@ -54,7 +54,6 @@ private:
 	DX2D::Vector2f myTargetPosition;
 	DX2D::Vector2f myNewTargetPosition;
 	DX2D::CText* myTextFPS;
-	DX2D::CSprite* myResTest;
 
 	Player myPlayer;
 	Pathfinding myPathfinding;
