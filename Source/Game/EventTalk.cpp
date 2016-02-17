@@ -65,7 +65,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
-			if (myCurrentLetter == myText.size())
+			if (myCurrentLetter == myText.size() + 1)
 			{
 				myGameWorld->SetTalkIsOff();
 				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
@@ -74,7 +74,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			}
 			else
 			{
-				myCurrentLetter = myText.size();
+				myCurrentLetter = myText.size() + 1;
 				myTextRender->myText = myText;
 				myShowedTime = -1;
 			}
@@ -122,7 +122,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		myTextRender->myPosition = DX2D::Vector2f(x, y);
 
-		if (myCurrentLetter < myText.size() && myCurrentTime > myLetterLength * myCurrentLetter)
+		if (myCurrentLetter <= myText.size() && myCurrentTime > myLetterLength * myCurrentLetter)
 		{
 			return TypeNextLetter(aDeltaTime);
 		}

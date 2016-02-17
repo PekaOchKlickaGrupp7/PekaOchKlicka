@@ -52,6 +52,12 @@ private:
 	float myMovementSpeed;
 	float myDepthScaleFactor;
 
+	float myMaxScale;
+	float myMinScale;
+
+	float myMaxY;
+	float myMinY;
+
 	bool myIsInventoryOpen;
 
 	CGameWorld* myGameWorldPtr;

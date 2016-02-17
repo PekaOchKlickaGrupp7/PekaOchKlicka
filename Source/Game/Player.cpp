@@ -5,6 +5,7 @@
 #include <fstream>
 #include <math.h>
 #include "..\CommonUtilities\DL_Debug.h"
+#include "..\CommonUtilities\CU.h"
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
 
@@ -68,7 +69,13 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 	myPosition = aPosition;
 	myPreviousPosition = aPosition;
 	myRenderPosition = aPosition;
+
 	myDepthScaleFactor = 1.5f;
+	myMaxY = 1.0f;
+	myMinY = 0.5f;
+	myMaxScale = 1.5f;
+	myMinScale = 0.5f;
+
 	myInventory.Init("Sprites/Inventory/inventory.dds", myGameWorldPtr->GetOptions());
 
 	SoundFileHandler::GetInstance()->SetupStream(std::string("Sound/SoundFX/Walk.ogg"), std::string("Walk"), false);
@@ -152,7 +159,9 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		}
 	}
 
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH");
+	//CU::map
+	
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MIN");
 
 	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
