@@ -20,7 +20,7 @@ bool EventPlaySound::Update(const float aDeltaTime)
 	SoundFileHandler::GetInstance()->SetupStream(myTargetSound, myIdentifier, myIs3D);
 	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
 
-	SoundPtr->SetVolume(myVolume);
+	
 	SoundPtr->SetLooping(myIsLooping);
 
 	if (myIs3D)
@@ -34,6 +34,7 @@ bool EventPlaySound::Update(const float aDeltaTime)
 	}
 
 	SoundPtr->PlaySound();
+	SoundPtr->SetVolume(myVolume);
 	return true;
 }
 
