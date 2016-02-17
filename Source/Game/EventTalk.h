@@ -21,11 +21,10 @@ public:
 	bool myIsTalking;
 	float myShowTime;
 	float myLetterLength;
-
 	float mySize;
+	bool myCanBeInterupted;
 
 	static bool myIsActive;
-
 protected:
 	bool TypeNextLetter(float aDeltaTime);
 	void CutUpString();

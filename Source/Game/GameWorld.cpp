@@ -45,6 +45,7 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 	myHasPath = false;
 	myHasNewTargetPosition = false;
 	myInputManager.Update();
+	myTalkIsOn = false;
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -107,7 +108,7 @@ void CGameWorld::Init()
 	myTalkIsOn = false;
 	myPlayerCanMove = true;
 
-	myTextFPS = new DX2D::CText("Text/courier.ttf_sdf");
+	myTextFPS = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.8f;
@@ -212,6 +213,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myCurrentRoom != nullptr)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
+			for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
+			{
+				UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
+			}
 		}
 	}
 	myOptionsMenu.Update(aTimeDelta);
@@ -270,6 +275,8 @@ void CGameWorld::ResetGame()
 {
 	SetCinematicMode(false);
 	MouseManager::GetInstance()->SetHideGameMouse(false);
+
+	myTalkIsOn = false;
 
 	DX2D::Vector2f pos = GetPlayer()->GetPosition();
 	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
@@ -357,10 +364,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
 		}
-		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
-		{
-			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
-		}
 	}
 
 	EventManager::GetInstance()->Render(aSynchronizer);
@@ -427,6 +430,24 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
+void CGameWorld::UpdateObject(ObjectData* aNode, float aDeltaTime)
+{
+	if (aNode->myActive == true)
+	{
+		if (aNode->myIsAnimation == true)
+		{
+			aNode->myAnimations[aNode->myCurrentAnimation]->Update(aDeltaTime);
+		}
+		if (aNode->myChilds.GetIsInitialized() == true)
+		{
+			for (unsigned int i = 0; i < aNode->myChilds.Size(); ++i)
+			{
+				UpdateObject(aNode->myChilds[i], aDeltaTime);
+			}
+		}
+	}
+}
+
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
 {
 	RenderCommand command;
@@ -442,9 +463,16 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 			aNode->mySprite->SetRotation(aNode->myRotation);
 
 			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
-			command.mySprite = aNode->mySprite;
-			command.mySprite->SetColor(aNode->myColor);
-			aSynchronizer.AddRenderCommand(command);
+			if (aNode->myIsAnimation == true)
+			{
+				aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
+			}
+			else
+			{
+				command.mySprite = aNode->mySprite;
+				command.mySprite->SetColor(aNode->myColor);
+				aSynchronizer.AddRenderCommand(command);
+			}
 		}
 
 		if (aNode->myChilds.GetIsInitialized() == true)

@@ -34,6 +34,8 @@
 #include "EventRandom.h"
 #include "EventAnswer.h"
 #include "EventIfNotGlobalVariable.h"
+#include "EventCreateAnimation.h"
+#include "EventUpdateAnimation.h"
 
 using namespace rapidjson;
 
@@ -527,6 +529,47 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 				extra["Color"]["b"].GetFloat(),
 				extra["Color"]["a"].GetFloat()
 			};
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::CreateAnimation:
+	{
+		EventCreateAnimation* var = new EventCreateAnimation();
+
+		if (extra.HasMember("FilePath") == true)
+		{
+			var->myFilePath = extra["FilePath"].GetString();
+		}
+		if (extra.HasMember("FrameDuration") == true)
+		{
+			var->myFrameDuration = extra["FrameDuration"].GetFloat();
+		}
+		if (extra.HasMember("FramesPerRow") == true)
+		{
+			var->myFramesPerRow = extra["FramesPerRow"].GetInt();
+		}
+		if (extra.HasMember("NumberOfFrames") == true)
+		{
+			var->myNumberOfFrames = extra["NumberOfFrames"].GetInt();
+		}
+
+		var->myObjectData = aData;
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
+		break;
+	}
+	case EventActions::UpdateAnimation:
+	{
+		EventUpdateAnimation* var = new EventUpdateAnimation();
+
+		if (extra.HasMember("AnimationIndex") == true)
+		{
+			var->myAnimationIndex = extra["AnimationIndex"].GetInt() - 1;
 		}
 
 		var->Init(aRoom, aGameWorld);

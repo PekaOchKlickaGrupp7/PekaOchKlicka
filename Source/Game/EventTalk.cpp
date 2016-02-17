@@ -13,6 +13,7 @@ EventTalk::EventTalk() : myTextRender(nullptr)
 {
 	myIsActive = false;
 	myLetterLength = 0.1f;
+	myCanBeInterupted = true;
 }
 
 EventTalk::~EventTalk()
@@ -57,20 +58,25 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	myGameWorld->SetTalkIsOn();
-	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
-	if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+	if (myCanBeInterupted == true)
 	{
-		myGameWorld->SetTalkIsOff();
-		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
-		return true;
+		myGameWorld->SetTalkIsOn();
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
+
+		if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+		{
+			{
+				myGameWorld->SetTalkIsOff();
+				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+			}
+			return true;
+		}
+		myFirstFrame = true;
 	}
-	myFirstFrame = true;
 
 	if (object != nullptr)
 	{
 		float x = object->myGlobalX - myWidth / 2;
-
 		float y = object->myGlobalY - (myHeight);
 
 		if (object->mySprite != nullptr)

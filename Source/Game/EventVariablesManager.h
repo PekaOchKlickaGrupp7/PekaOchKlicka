@@ -27,6 +27,7 @@ public:
 	void		SetVariable(float aFloat,				const std::string &anIdentifier);
 	void		SetVariable(std::string &aString,		const std::string &anIdentifier);
 
+	void Print();
 
 	bool		GetVariable(bool &aBool,				const std::string &anIdentifier);
 	bool		GetVariable(int &aInt,					const std::string &anIdentifier);
