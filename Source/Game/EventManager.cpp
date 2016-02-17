@@ -33,7 +33,7 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 
 void EventManager::AddEvent(Event* aEvent)
 {
-	if (aEvent->myActive == false)
+	if (aEvent->myObjectData->myActive == true && aEvent->myActive == false)
 	{
 		if (aEvent->myType == EventTypes::OnClick)
 		{
