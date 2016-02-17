@@ -4,6 +4,9 @@
 #include "MouseManager.h"
 #include "GameWorld.h"
 
+#define SHAKE_CHAR '@'
+#define FONTPATH "Text/PassionOne-Regular.ttf_sdf"
+
 bool EventTalk::myIsActive = false;
 
 EventTalk::EventTalk() : myTextRender(nullptr)
@@ -19,28 +22,33 @@ EventTalk::~EventTalk()
 
 	delete myTextOutline;
 	myTextOutline = nullptr;
+
+	myTextRenders.DeleteAll();
 }
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	std::string fontPath = "Text/PassionOne-Regular.ttf_sdf";
+	myTextRenders.Init(5);
+
 	Event::Init(aRoom, aGameWorld);
 
-	myTextRender = new DX2D::CText(fontPath.c_str());
+	myTextRender = new DX2D::CText(FONTPATH);
 	myTextRender->myColor = myColor;
 	myTextRender->mySize = mySize;
 
-	myTextOutline = new DX2D::CText(fontPath.c_str());
+	myTextOutline = new DX2D::CText(FONTPATH);
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
 
 	myCurrentLetter = 0;
+	myShakeStart = 0;
+	myShakeStop = 0;
 
 	Reset();
 	myIsTalking = true;
 
-	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, fontPath.c_str());
-	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, fontPath.c_str());
+	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, FONTPATH);
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, FONTPATH);
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
 
@@ -161,6 +169,42 @@ bool EventTalk::TypeNextLetter(float aDeltaTime)
 	}
 
 	return false;
+}
+
+void EventTalk::CutUpString()
+{
+	//std::size_t start = 0;
+	//std::size_t found = myText.find('@', start);
+	//std::size_t
+
+	//if (found != std::string::npos)
+	//{
+	//	std::string subString = myText.substr(start, found);
+
+	//	DX2D::CText* textRender = new DX2D::CText(FONTPATH);
+	//	textRender->myColor = myColor;
+	//	textRender->mySize = mySize;
+	//	textRender->myText = subString;
+
+	//	myTextRenders.Add(textRender);
+
+	//	start = found + 1;
+	//	
+
+	//	++myShakeStart;
+	//	myShakeStop = myShakeStart;
+	//
+	//	for (std::size_t i = 0; i < subString.size(); ++i)
+	//	{
+	//		++myShakeStop;
+	//	}
+
+	//
+
+
+	//	found = myText.find('@');
+
+	//}
 }
 
 void EventTalk::Reset()
