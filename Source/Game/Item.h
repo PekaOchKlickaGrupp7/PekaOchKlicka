@@ -11,7 +11,7 @@ public:
 	Item();
 	//Item(const Item* aItem);
 	Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
-		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable);
+		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable, const std::string& aPath);
 	~Item();
 
 	void Init(const char* aWorldSpritePath, 

@@ -39,7 +39,7 @@ Item::Item(const Item* aItem)
 */
 //only what is needed for the inventory-part of items.
 Item::Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
-	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable)
+	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable, const std::string& aPath)
 {
 	myName = aName;
 	InitSprites(aInventorySpritePath, aInventorySpritePath);
@@ -48,6 +48,8 @@ Item::Item(const std::string& aName, const char* aInventorySpritePath, const std
 	myCombinableWith = aCombinableWith;
 	myResultingItem = aResultingItem;
 	myLevelToSpawnIn = "Test Level";
+
+	myCombineSoundPath = aPath;
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
