@@ -212,6 +212,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myCurrentRoom != nullptr)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
+			for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
+			{
+				UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
+			}
 		}
 	}
 	myOptionsMenu.Update(aTimeDelta);
@@ -427,6 +431,24 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	MouseManager::GetInstance()->Render(aSynchronizer);
 }
 
+void CGameWorld::UpdateObject(ObjectData* aNode, float aDeltaTime)
+{
+	if (aNode->myActive == true)
+	{
+		if (aNode->myIsAnimation == true)
+		{
+			aNode->myAnimations[aNode->myCurrentAnimation]->Update(aDeltaTime);
+		}
+		if (aNode->myChilds.GetIsInitialized() == true)
+		{
+			for (unsigned int i = 0; i < aNode->myChilds.Size(); ++i)
+			{
+				UpdateObject(aNode->myChilds[i], aDeltaTime);
+			}
+		}
+	}
+}
+
 void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, float aRelativeX, float aRelativeY)
 {
 	RenderCommand command;
@@ -442,9 +464,16 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 			aNode->mySprite->SetRotation(aNode->myRotation);
 
 			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
-			command.mySprite = aNode->mySprite;
-			command.mySprite->SetColor(aNode->myColor);
-			aSynchronizer.AddRenderCommand(command);
+			if (aNode->myIsAnimation == true)
+			{
+				aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
+			}
+			else
+			{
+				command.mySprite = aNode->mySprite;
+				command.mySprite->SetColor(aNode->myColor);
+				aSynchronizer.AddRenderCommand(command);
+			}
 		}
 
 		if (aNode->myChilds.GetIsInitialized() == true)
