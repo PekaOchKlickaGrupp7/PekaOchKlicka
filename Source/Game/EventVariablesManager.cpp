@@ -40,11 +40,6 @@ void EventVariablesManager::SetVariable(std::string &aString, const std::string 
 	myStringVariables[anIdentifier] = aString;
 }
 
-void EventVariablesManager::Print()
-{
-	std::cout << myBoolVariables.size() << std::endl;
-}
-
 #pragma endregion
 
 #pragma region GetVariables
