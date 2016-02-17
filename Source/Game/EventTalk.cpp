@@ -69,6 +69,10 @@ bool EventTalk::Update(const float aDeltaTime)
 		{
 			y = object->myGlobalY - (myHeight + (object->mySprite->GetSize().y / 2));
 		}
+		else if (object->myName == "Player")
+		{
+			y = object->myGlobalY;
+		}
 
 		if (x < 0.0f || (x + myWidth) >= 1.0f)
 		{
