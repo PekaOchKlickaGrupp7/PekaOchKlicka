@@ -53,7 +53,8 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			std::string combinableWith = item["CombinableWith"].GetString();
 			std::string resultingItem = item["ResultingItem"].GetString();
 			bool isCombinable = item["IsCombinable"].GetBool();
-			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+			std::string aPath = item["SoundPath"].GetString();
+			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
 		}
 	}
 
@@ -209,7 +210,8 @@ bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
 		std::string combinableWith = item["combinableWith"].GetString();
 		std::string resultingItem = item["resultingItem"].GetString();
 		bool isCombinable = item["isCombinable"].GetBool();
-		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+		std::string aPath = item["SoundPath"].GetString();
+		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
 	}
 	return true;
 }

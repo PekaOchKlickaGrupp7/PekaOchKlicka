@@ -3,6 +3,8 @@
 #include "JSON.h"
 #include "..\CommonUtilities\DL_Debug.h"
 
+#include "SoundFileHandler.h"
+
 Item::Item()
 {
 	mySprite = nullptr;
@@ -37,7 +39,7 @@ Item::Item(const Item* aItem)
 */
 //only what is needed for the inventory-part of items.
 Item::Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
-	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable)
+	const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable, const std::string& aPath)
 {
 	myName = aName;
 	InitSprites(aInventorySpritePath, aInventorySpritePath);
@@ -46,6 +48,8 @@ Item::Item(const std::string& aName, const char* aInventorySpritePath, const std
 	myCombinableWith = aCombinableWith;
 	myResultingItem = aResultingItem;
 	myLevelToSpawnIn = "Test Level";
+
+	myCombineSoundPath = aPath;
 
 	myPosition = DX2D::Vector2f(0.0f, 0.0f);
 }
@@ -62,7 +66,7 @@ void Item::Destroy()
 
 void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, const std::string& aItemName,
 	const std::string& aItemDescription, DX2D::Vector2f& aPosition, bool aCombinableStatus,
-	const std::string& aLevelToSpawnIn)
+	const std::string& aLevelToSpawnIn, const std::string& aCombineSoundPath)
 {
 	InitSprites(aWorldSpritePath, aInventorySpritePath);
 
@@ -74,6 +78,18 @@ void Item::Init(const char* aWorldSpritePath, const char* aInventorySpritePath, 
 
 	myIsCombinable = aCombinableStatus;
 	myIsClicked = false;
+
+	myCombineSoundPath = aCombineSoundPath;
+}
+
+void Item::PlayCombineSound()
+{
+	SoundFileHandler::GetInstance()->SetupStream(myCombineSoundPath, myCombineSoundPath, false);
+	Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myCombineSoundPath);
+
+	SoundPtr->SetVolume(1.0f);
+	SoundPtr->SetLooping(false);
+	SoundPtr->PlaySound();
 }
 
 void Item::InitSprites(const char* aWorldSpritePath, const char* aInventorySpritePath)
