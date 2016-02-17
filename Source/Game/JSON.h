@@ -20,8 +20,6 @@ public:
 	
 	bool LoadLevel(const std::string& aLevelName, CommonUtilities::GrowingArray<ObjectData*, unsigned int>& aObjects);
 
-	bool LoadItems(const std::string& aRootFile, Inventory aInventory);
-
 	bool LoadMusic(const std::string& aMusicFile);
 
 private:
