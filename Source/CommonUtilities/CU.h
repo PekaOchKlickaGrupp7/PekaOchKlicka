@@ -2,8 +2,8 @@
 
 namespace CU
 {
-	float map(float s, float a1, float a2, float b1, float b2)
+	float Remap(float value, float from1, float to1, float from2, float to2) 
 	{
-		return b1 + (s - a1)*(b2 - b1) / (a2 - a1);
+		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 }
