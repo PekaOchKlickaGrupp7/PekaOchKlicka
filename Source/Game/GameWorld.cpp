@@ -45,6 +45,7 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 	myHasPath = false;
 	myHasNewTargetPosition = false;
 	myInputManager.Update();
+	myTalkIsOn = false;
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -275,6 +276,8 @@ void CGameWorld::ResetGame()
 	SetCinematicMode(false);
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
+	myTalkIsOn = false;
+
 	DX2D::Vector2f pos = GetPlayer()->GetPosition();
 	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
 
@@ -360,10 +363,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			{
 				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
-		}
-		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
-		{
-			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
 		}
 	}
 
