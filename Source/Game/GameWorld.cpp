@@ -108,7 +108,7 @@ void CGameWorld::Init()
 	myTalkIsOn = false;
 	myPlayerCanMove = true;
 
-	myTextFPS = new DX2D::CText("Text/courier.ttf_sdf");
+	myTextFPS = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.8f;
