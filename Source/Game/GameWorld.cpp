@@ -45,6 +45,7 @@ void CGameWorld::DoChangeLevel(Room* aCurrentRoom)
 	myHasPath = false;
 	myHasNewTargetPosition = false;
 	myInputManager.Update();
+	myTalkIsOn = false;
 }
 
 void CGameWorld::ChangeLevel(const std::string& aString)
@@ -107,7 +108,7 @@ void CGameWorld::Init()
 	myTalkIsOn = false;
 	myPlayerCanMove = true;
 
-	myTextFPS = new DX2D::CText("Text/courier.ttf_sdf");
+	myTextFPS = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 	myTextFPS->myPosition = { 0.5f, 0.05f };
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.8f;
@@ -275,6 +276,8 @@ void CGameWorld::ResetGame()
 	SetCinematicMode(false);
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
+	myTalkIsOn = false;
+
 	DX2D::Vector2f pos = GetPlayer()->GetPosition();
 	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
 
@@ -360,10 +363,6 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 			{
 				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
-		}
-		for (int i = 0; i < myCurrentRoom->GetItemListSize(); ++i)
-		{
-			myCurrentRoom->GetItem(i)->Render(aSynchronizer);
 		}
 	}
 
