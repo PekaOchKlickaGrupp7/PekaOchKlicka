@@ -170,6 +170,7 @@
     <ClInclude Include="EventActions.h" />
     <ClInclude Include="EventAnswer.h" />
     <ClInclude Include="EventChangePlayerDirection.h" />
+    <ClInclude Include="EventCreateAnimation.h" />
     <ClInclude Include="EventDeselect.h" />
     <ClInclude Include="EventHideMouse.h" />
     <ClInclude Include="EventIfNotGlobalVariable.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="EventQuit.h" />
     <ClInclude Include="EventSetColor.h" />
     <ClInclude Include="EventStopSound.h" />
+    <ClInclude Include="EventUpdateAnimation.h" />
     <ClInclude Include="EventVariablesManager.h" />
     <ClInclude Include="EventWalkTo.h" />
     <ClInclude Include="FullscreenButton.h" />
@@ -256,6 +258,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EventAnswer.cpp" />
     <ClCompile Include="EventChangePlayerDirection.cpp" />
+    <ClCompile Include="EventCreateAnimation.cpp" />
     <ClCompile Include="EventDeselect.cpp" />
     <ClCompile Include="EventHideMouse.cpp" />
     <ClCompile Include="EventIfNotGlobalVariable.cpp" />
@@ -281,6 +284,7 @@
     <ClCompile Include="EventQuit.cpp" />
     <ClCompile Include="EventSetColor.cpp" />
     <ClCompile Include="EventStopSound.cpp" />
+    <ClCompile Include="EventUpdateAnimation.cpp" />
     <ClCompile Include="EventVariablesManager.cpp" />
     <ClCompile Include="EventWalkTo.cpp" />
     <ClCompile Include="FullscreenButton.cpp" />

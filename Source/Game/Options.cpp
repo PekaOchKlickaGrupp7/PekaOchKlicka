@@ -21,8 +21,8 @@ void Options::Initialize()
 	mySFXSlider.InitSprites(SliderArgsSFX.mySpriteArguments);
 	myMusicSlider.InitSprites(SliderArgsMusic.mySpriteArguments);
 
-	SliderArgsSFX.myPositionArguments.mySliderPosition = { 0.5f - mySFXSlider.GetSliderSize().x / 2, myBackground->GetPosition().y + 0.22f };
-	SliderArgsMusic.myPositionArguments.mySliderPosition = { 0.5f - myMusicSlider.GetSliderSize().x / 2, myBackground->GetPosition().y + 0.32f };
+	SliderArgsSFX.myPositionArguments.mySliderPosition = { 0.5f - mySFXSlider.GetSliderSize().x / 2 + (0.058f / 2), myBackground->GetPosition().y + 0.22f + 0.145f };
+	SliderArgsMusic.myPositionArguments.mySliderPosition = { 0.5f - myMusicSlider.GetSliderSize().x / 2 + (0.058f / 2), myBackground->GetPosition().y + 0.32f + 0.15f };
 
 	SliderArgsSFX.myPositionArguments.myKnobPivot = {0.5f, 0.5f};
 	SliderArgsMusic.myPositionArguments.myKnobPivot = { 0.5f, 0.5f };
@@ -54,13 +54,17 @@ void Options::Initialize()
 	myResumeButton.InitSprites(ButtonArgsResume.mySpriteArguments);
 
 	ButtonArgsFullscreen.myPositionArguments.myButtonPivot = {0.5f, 0.5f};
-	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.445f };
+	ButtonArgsFullscreen.myPositionArguments.myButtonPosition = {0.5f, myBackground->GetPosition().y + 0.445f + 0.14f};
 
-	ButtonArgsMenu.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
-	ButtonArgsMenu.myPositionArguments.myButtonPosition = { myBackground->GetPosition().x + 0.0625f, myBackground->GetPosition().y + 0.574f };
+	ButtonArgsMenu.myPositionArguments.myButtonPivot = { 0.0f, 0.0f };
+	ButtonArgsMenu.myPositionArguments.myButtonPosition = { 
+		myBackground->GetPosition().x + 0.015f, 
+		myBackground->GetPosition().y + 0.574f + 0.15f };
 
-	ButtonArgsResume.myPositionArguments.myButtonPivot = { 0.5f, 0.5f };
-	ButtonArgsResume.myPositionArguments.myButtonPosition = { myBackground->GetPosition().x + myBackground->GetSize().x - 0.0625f, myBackground->GetPosition().y + 0.574f };
+	ButtonArgsResume.myPositionArguments.myButtonPivot = { 0.0f, 0.0f };
+	ButtonArgsResume.myPositionArguments.myButtonPosition = { 
+		myBackground->GetPosition().x + myBackground->GetSize().x - myResumeButton.GetSize().x + (0.056f / 2) - 0.015f, 
+		myBackground->GetPosition().y + 0.574f + 0.15f };
 
 	myFullscreenButton.InitPositions(ButtonArgsFullscreen.myPositionArguments);
 	myMenuButton.InitPositions(ButtonArgsMenu.myPositionArguments);

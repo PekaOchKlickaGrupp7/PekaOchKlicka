@@ -2,6 +2,7 @@
 #include "ObjectData.h"
 #include "tga2d\sprite\sprite.h"
 #include "Event.h"
+#include "Animation.h"
 
 ObjectData::ObjectData()
 {
@@ -9,6 +10,10 @@ ObjectData::ObjectData()
 	myColor = { 1, 1, 1, 1 };
 	myTriangles.Init(2);
 	myAmountActiveEvents = 0;
+
+	myIsAnimation = false;
+	myCurrentAnimation = 0;
+	myAnimations.Init(12);
 }
 
 ObjectData::~ObjectData()
@@ -23,6 +28,8 @@ ObjectData::~ObjectData()
 	myEvents.DeleteAll();
 	delete myOriginalSprite;
 	myOriginalSprite = nullptr;
+
+	myAnimations.DeleteAll();
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)
@@ -44,7 +51,6 @@ void ObjectData::CreateOriginalData()
 	myOriginalData->myName = myName;
 	myOriginalData->myPivotX = myPivotX;
 	myOriginalData->myPivotY = myPivotY;
-	myOriginalData->myPivotX = myPivotX;
 	myOriginalData->myActive = myActive;
 	myOriginalData->myColor = myColor;
 	myOriginalData->myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myEvents);
