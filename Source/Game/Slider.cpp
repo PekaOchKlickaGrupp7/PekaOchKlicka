@@ -41,7 +41,7 @@ float Slider::ConvertValueToPosition()
 	float finalPosition;
 
 	float beginPos = mySlider->GetPosition().x;
-	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x;
+	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x - 0.058f;
 
 	finalPosition = beginPos + (myValue * (endPos - beginPos));
 
@@ -53,7 +53,7 @@ float Slider::ConvertPositionToValue(float aPos)
 	float finalValue;
 
 	float beginPos = mySlider->GetPosition().x;
-	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x;
+	float endPos = mySlider->GetPosition().x + mySlider->GetSize().x - 0.058f;
 
 	
 	finalValue = (aPos - beginPos) / (endPos - beginPos);
@@ -82,15 +82,13 @@ void Slider::Update(float)
 	{
 		myKnob = myKnobPressed;
 
-		if (MouseManager::GetInstance()->GetPosition().x > mySlider->GetPosition().x + mySlider->GetSize().x)
+		if (MouseManager::GetInstance()->GetPosition().x > mySlider->GetPosition().x + mySlider->GetSize().x - 0.058f)
 		{
-			myKnob->SetPosition({ mySlider->GetPosition().x + mySlider->GetSize().x, myKnob->GetPosition().y });
 			myValue = 1.0f;
 			SetAllKnobs(ConvertValueToPosition());
 		}
 		else if (MouseManager::GetInstance()->GetPosition().x < mySlider->GetPosition().x)
 		{
-			myKnob->SetPosition({ mySlider->GetPosition().x, myKnob->GetPosition().y });
 			myValue = 0.0f;
 			SetAllKnobs(ConvertValueToPosition());
 		}
