@@ -35,5 +35,7 @@ enum EventActions
 	ItemIsNot,
 	Answer,
 	Random,
-	IfNotGlobalVariable
+	IfNotGlobalVariable,
+	CreateAnimation,
+	UpdateAnimation
 };

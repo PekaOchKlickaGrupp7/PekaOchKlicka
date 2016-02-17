@@ -178,44 +178,6 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 	return true;
 }
 
-bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
-{
-	const char* data = ReadFile(aRootFile.c_str());
-
-	Document items;
-	items.Parse(data);
-
-	if (items.HasParseError() == true)
-	{
-		DL_DEBUG("Failed to load items.json.");
-		items.GetAllocator().~MemoryPoolAllocator();
-		return false;
-	}
-
-	Value& inventoryItems = items["inventoryItems"];
-	if (inventoryItems.IsNull() == true)
-	{
-		DL_DEBUG("inventoryItems is not a member of items.json");
-		items.GetAllocator().~MemoryPoolAllocator();
-		return false;
-	}
-
-	for (unsigned int i = 0; i < inventoryItems.Size(); ++i)
-	{
-		Value& item = inventoryItems[i];
-
-		std::string name = item["name"].GetString();
-		const char* path = item["path"].GetString();
-		std::string description = item["description"].GetString();
-		std::string combinableWith = item["combinableWith"].GetString();
-		std::string resultingItem = item["resultingItem"].GetString();
-		bool isCombinable = item["isCombinable"].GetBool();
-		std::string aPath = item["SoundPath"].GetString();
-		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
-	}
-	return true;
-}
-
 bool JSON::LoadMusic(const std::string& aMusicFile)
 {
 	const char* data = ReadFile(aMusicFile.c_str());

@@ -4,6 +4,7 @@
 #include "Triangle.h"
 
 class Event;
+class Animation;
 
 enum TriggerType
 {
@@ -43,6 +44,11 @@ public:
 	DX2D::CSprite* myOriginalSprite;
 
 	std::string myName;
+
+	int myCurrentAnimation;
+	bool myIsAnimation;
+	CommonUtilities::GrowingArray<Animation*, unsigned int> myAnimations;
+
 	float myX;
 	float myY;
 	float myGlobalX;

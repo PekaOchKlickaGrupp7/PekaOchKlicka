@@ -349,6 +349,12 @@
     <ClInclude Include="ResumeButton.h">
       <Filter>Source\System\Options Ingame</Filter>
     </ClInclude>
+    <ClInclude Include="EventCreateAnimation.h">
+      <Filter>Source\Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EventUpdateAnimation.h">
+      <Filter>Source\Events\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -572,6 +578,12 @@
     </ClCompile>
     <ClCompile Include="ResumeButton.cpp">
       <Filter>Source\System\Options Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="EventCreateAnimation.cpp">
+      <Filter>Source\Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventUpdateAnimation.cpp">
+      <Filter>Source\Events\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
