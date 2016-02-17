@@ -37,6 +37,7 @@ protected:
 	unsigned int myCurrentLetter;
 	unsigned int myShakeStart;
 	unsigned int myShakeStop;
+	unsigned int myCurrentIndex;
 
 	float myShowedTime;
 	float myCurrentTime;
