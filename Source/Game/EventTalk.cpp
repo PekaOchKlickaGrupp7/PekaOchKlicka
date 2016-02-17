@@ -65,7 +65,7 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
-			if (myCurrentLetter == myText.size() - 1)
+			if (myCurrentLetter == myText.size())
 			{
 				myGameWorld->SetTalkIsOff();
 				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
@@ -74,7 +74,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			}
 			else
 			{
-				myCurrentLetter = myText.size() - 1;
+				myCurrentLetter = myText.size();
 				myTextRender->myText = myText;
 				myShowedTime = -1;
 			}
@@ -122,10 +122,32 @@ bool EventTalk::Update(const float aDeltaTime)
 
 		myTextRender->myPosition = DX2D::Vector2f(x, y);
 
-		if (myCurrentTime > myLetterLength * myCurrentLetter)
+		if (myCurrentLetter < myText.size() && myCurrentTime > myLetterLength * myCurrentLetter)
 		{
 			return TypeNextLetter(aDeltaTime);
 		}
+		else if (myCurrentLetter >= myText.size() - 1)
+		{
+			myShowedTime += aDeltaTime;
+			if (myShowedTime > myShowTime)
+			{
+				if (myCanBeInterupted == true)
+				{
+					myGameWorld->SetTalkIsOff();
+					MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+				}
+				return true;
+			}
+		}
+	}
+	else
+	{
+		if (myCanBeInterupted == true)
+		{
+			myGameWorld->SetTalkIsOff();
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+		}
+		return true;
 	}
 	return false;
 }
@@ -163,26 +185,13 @@ void EventTalk::Render(Synchronizer &aSynchronizer)
 	aSynchronizer.AddRenderCommand(command);
 }
 
-bool EventTalk::TypeNextLetter(float aDeltaTime)
+bool EventTalk::TypeNextLetter(float)
 {
 	if (myCurrentLetter <= myText.size())
 	{
 		myTextRender->myText = myText.substr(0, myCurrentLetter);
 		++myCurrentLetter;
 		return false;
-	}
-	else
-	{	
-		myShowedTime += aDeltaTime;
-		if (myShowedTime > myShowTime)
-		{
-			if (myCanBeInterupted == true)
-			{
-				myGameWorld->SetTalkIsOff();
-				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
-			}
-			return true;
-		}
 	}
 
 	return false;

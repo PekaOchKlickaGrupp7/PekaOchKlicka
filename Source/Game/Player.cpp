@@ -6,6 +6,7 @@
 #include <math.h>
 #include "..\CommonUtilities\DL_Debug.h"
 #include "SoundFileHandler.h"
+#include "EventVariablesManager.h"
 
 using namespace rapidjson;
 
@@ -150,6 +151,8 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 			myInventory.DeSelect();
 		}
 	}
+
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH");
 
 	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
