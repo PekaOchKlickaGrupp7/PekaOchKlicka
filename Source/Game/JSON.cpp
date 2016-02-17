@@ -126,7 +126,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			aRoom->AddNavPolygon(poly);
 		}
 
-		float gridSize = 38;
+		float gridSize = 24;
 		float windowWidth = 1920.0f;
 		float windowHeight = 1080.0f;
 		float numberOfMaxPoints = 1920.0f / gridSize + 1080.0f / gridSize;
