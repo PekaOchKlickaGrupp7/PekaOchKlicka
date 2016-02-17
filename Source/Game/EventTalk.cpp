@@ -4,12 +4,16 @@
 #include "MouseManager.h"
 #include "GameWorld.h"
 
+#define SHAKE_CHAR '@'
+#define FONTPATH "Text/PassionOne-Regular.ttf_sdf"
+
 bool EventTalk::myIsActive = false;
 
 EventTalk::EventTalk() : myTextRender(nullptr)
 {
 	myIsActive = false;
 	myLetterLength = 0.1f;
+	myCanBeInterupted = true;
 }
 
 EventTalk::~EventTalk()
@@ -19,28 +23,33 @@ EventTalk::~EventTalk()
 
 	delete myTextOutline;
 	myTextOutline = nullptr;
+
+	myTextRenders.DeleteAll();
 }
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
-	std::string fontPath = "Text/PassionOne-Regular.ttf_sdf";
+	myTextRenders.Init(5);
+
 	Event::Init(aRoom, aGameWorld);
 
-	myTextRender = new DX2D::CText(fontPath.c_str());
+	myTextRender = new DX2D::CText(FONTPATH);
 	myTextRender->myColor = myColor;
 	myTextRender->mySize = mySize;
 
-	myTextOutline = new DX2D::CText(fontPath.c_str());
+	myTextOutline = new DX2D::CText(FONTPATH);
 	myTextOutline->myColor = { 0, 0, 0, 1 }; // Black
 	myTextOutline->mySize = mySize;
 
 	myCurrentLetter = 0;
+	myShakeStart = 0;
+	myShakeStop = 0;
 
 	Reset();
 	myIsTalking = true;
 
-	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, fontPath.c_str());
-	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, fontPath.c_str());
+	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, FONTPATH);
+	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, FONTPATH);
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 }
 
@@ -49,20 +58,33 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
-	myGameWorld->SetTalkIsOn();
-	MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
-	if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+	if (myCanBeInterupted == true)
 	{
-		myGameWorld->SetTalkIsOff();
-		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
-		return true;
+		myGameWorld->SetTalkIsOn();
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
+
+		if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
+		{
+			if (myCurrentLetter == myText.size() - 1)
+			{
+				myGameWorld->SetTalkIsOff();
+				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+
+				return true;
+			}
+			else
+			{
+				myCurrentLetter = myText.size() - 1;
+				myTextRender->myText = myText;
+				myShowedTime = -1;
+			}
+		}
+		myFirstFrame = true;
 	}
-	myFirstFrame = true;
 
 	if (object != nullptr)
 	{
 		float x = object->myGlobalX - myWidth / 2;
-
 		float y = object->myGlobalY - (myHeight);
 
 		if (object->mySprite != nullptr)
@@ -154,13 +176,52 @@ bool EventTalk::TypeNextLetter(float aDeltaTime)
 		myShowedTime += aDeltaTime;
 		if (myShowedTime > myShowTime)
 		{
-			myGameWorld->SetTalkIsOff();
-			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+			if (myCanBeInterupted == true)
+			{
+				myGameWorld->SetTalkIsOff();
+				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+			}
 			return true;
 		}
 	}
 
 	return false;
+}
+
+void EventTalk::CutUpString()
+{
+	//std::size_t start = 0;
+	//std::size_t found = myText.find('@', start);
+	//std::size_t
+
+	//if (found != std::string::npos)
+	//{
+	//	std::string subString = myText.substr(start, found);
+
+	//	DX2D::CText* textRender = new DX2D::CText(FONTPATH);
+	//	textRender->myColor = myColor;
+	//	textRender->mySize = mySize;
+	//	textRender->myText = subString;
+
+	//	myTextRenders.Add(textRender);
+
+	//	start = found + 1;
+	//	
+
+	//	++myShakeStart;
+	//	myShakeStop = myShakeStart;
+	//
+	//	for (std::size_t i = 0; i < subString.size(); ++i)
+	//	{
+	//		++myShakeStop;
+	//	}
+
+	//
+
+
+	//	found = myText.find('@');
+
+	//}
 }
 
 void EventTalk::Reset()
