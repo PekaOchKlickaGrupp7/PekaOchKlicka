@@ -150,7 +150,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 			myInventory.DeSelect();
 		}
 	}
-
+	
 	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
 }
@@ -231,6 +231,8 @@ void Player::SetAnimation(const int aIndex)
 void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition,bool aMove)
 {
 	int resultAnimation = myCurentAnimation;
+	bool hasClass = false;
+	EventVariablesManager::GetInstance()->GetVariable(hasClass, "PlayerHasClass");
 
 	if (aMove == true)
 	{
@@ -263,9 +265,18 @@ void Player::PlayApropriateAnimation(DX2D::Vector2f aTargetPosition,bool aMove)
 	}
 	else
 	{
-		if (resultAnimation < 4)
+		if (resultAnimation < 4 && hasClass == false
+			|| resultAnimation < 12 && hasClass == true)
 		{
 			resultAnimation += 4;
+		}
+	}
+
+	if (hasClass == true)
+	{
+		if (resultAnimation < 8)
+		{
+			resultAnimation += 8;	
 		}
 	}
 	myCurentAnimation = resultAnimation;

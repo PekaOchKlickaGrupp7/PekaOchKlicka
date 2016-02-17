@@ -50,6 +50,57 @@
             "frames" : 36,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.045
+		},
+
+
+        {
+			"path" : "Sprites/Animations/walk_1024/camera1.dds",
+            "frames" : 24,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/walk_1024/camera3.dds",
+            "frames" : 24,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/walk_1024/camera5.dds",
+            "frames" : 24,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/walk_1024/camera7.dds",
+            "frames" : 24,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+
+        {
+			"path" : "Sprites/Animations/idle_1024/camera1.dds",
+            "frames" : 36,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/idle_1024/camera3.dds",
+            "frames" : 36,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/idle_1024/camera5.dds",
+            "frames" : 36,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
+		},
+        {
+			"path" : "Sprites/Animations/idle_1024/camera7.dds",
+            "frames" : 36,
+		    "framesPerRow" : 8,
+			"animationSpeed" : 0.045
 		}
 	]
 }
