@@ -193,6 +193,9 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 						myContents.Add(&myMasterItemList->GetItemList()[j]);
 						mySelectedItem = nullptr;
 						UpdateSelectedItem();
+
+						myMasterItemList->GetItemList()[j].PlayCombineSound();
+
 						return true;
 					}
 				}

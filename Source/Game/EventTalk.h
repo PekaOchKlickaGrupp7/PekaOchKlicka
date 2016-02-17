@@ -1,5 +1,6 @@
 #pragma once
 #include "Event.h"
+#include "../CommonUtilities/GrowingArray.h"
 
 class EventTalk :
 	public Event
@@ -26,13 +27,13 @@ public:
 	static bool myIsActive;
 
 protected:
-
 	bool TypeNextLetter(float aDeltaTime);
 
 	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
 	unsigned int myCurrentLetter;
+	
 
 	float myShowedTime;
 	float myCurrentTime;

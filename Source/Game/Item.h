@@ -11,7 +11,7 @@ public:
 	Item();
 	//Item(const Item* aItem);
 	Item(const std::string& aName, const char* aInventorySpritePath, const std::string& aDescription,
-		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable);
+		const std::string& aCombinableWith, const std::string& aResultingItem, bool aIsCombinable, const std::string& aPath);
 	~Item();
 
 	void Init(const char* aWorldSpritePath, 
@@ -20,7 +20,8 @@ public:
 		const std::string& aItemDescription, 
 		DX2D::Vector2f& aPosition, 
 		bool aCombinableStatus,
-		const std::string& aLevelToSpawnIn);
+		const std::string& aLevelToSpawnIn,
+		const std::string& aCombineSoundPath);
 
 	void Destroy();
 
@@ -40,6 +41,8 @@ public:
 	inline bool IsCombinable();
 	inline bool IsClicked();
 	bool operator ==(const Item& aItem);
+
+	void PlayCombineSound();
 
 private:
 
@@ -61,6 +64,7 @@ private:
 	bool myIsCombinable;
 	bool myIsClicked;
 
+	std::string myCombineSoundPath;
 };
 
 std::string& Item::GetNameOfResultingItem()

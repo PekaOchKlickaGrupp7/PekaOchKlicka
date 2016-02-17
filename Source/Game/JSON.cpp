@@ -53,7 +53,8 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			std::string combinableWith = item["CombinableWith"].GetString();
 			std::string resultingItem = item["ResultingItem"].GetString();
 			bool isCombinable = item["IsCombinable"].GetBool();
-			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+			std::string aPath = item["SoundPath"].GetString();
+			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
 		}
 	}
 
@@ -125,7 +126,7 @@ bool JSON::LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<Objec
 			aRoom->AddNavPolygon(poly);
 		}
 
-		float gridSize = 38;
+		float gridSize = 24;
 		float windowWidth = 1920.0f;
 		float windowHeight = 1080.0f;
 		float numberOfMaxPoints = 1920.0f / gridSize + 1080.0f / gridSize;
@@ -209,7 +210,8 @@ bool JSON::LoadItems(const std::string& aRootFile, Inventory aInventory)
 		std::string combinableWith = item["combinableWith"].GetString();
 		std::string resultingItem = item["resultingItem"].GetString();
 		bool isCombinable = item["isCombinable"].GetBool();
-		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable));
+		std::string aPath = item["SoundPath"].GetString();
+		aInventory.GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
 	}
 	return true;
 }

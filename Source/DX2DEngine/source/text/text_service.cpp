@@ -260,7 +260,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 
 		if (aChar == -23)
 		{
-			aChar == 233;
+			aChar = 233;
 		}
 		else
 		{
