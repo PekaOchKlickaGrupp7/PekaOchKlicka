@@ -72,9 +72,9 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 
 	myDepthScaleFactor = 1.5f;
 	myMaxY = 1.0f;
-	myMinY = 0.5f;
-	myMaxScale = 1.5f;
-	myMinScale = 0.5f;
+	myMinY = 0.65f;
+	myMaxScale = 2.0f;
+	myMinScale = 0.7f;
 
 	myInventory.Init("Sprites/Inventory/inventory.dds", myGameWorldPtr->GetOptions());
 
@@ -159,11 +159,17 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		}
 	}
 
-	//CU::map
 	
 	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MAX");
 
-	myAnimations[myCurentAnimation]->SetSize(myPosition.y * myDepthScaleFactor);
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MAX");
+
+	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
+	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
+
+	myAnimations[myCurentAnimation]->SetSize(scaleY);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
 }
 
