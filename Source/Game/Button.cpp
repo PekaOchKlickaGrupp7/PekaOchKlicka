@@ -88,11 +88,11 @@ void Button::Update(float)
 
 bool Button::OnMouseHover()
 {
-	if (MouseManager::GetInstance()->GetPosition().x >= mySprite->GetPosition().x - mySprite->GetSize().x / 2 &&
-		MouseManager::GetInstance()->GetPosition().x <= mySprite->GetPosition().x + mySprite->GetSize().x / 2)
+	if (MouseManager::GetInstance()->GetPosition().x >= mySprite->GetPosition().x &&
+		MouseManager::GetInstance()->GetPosition().x <= mySprite->GetPosition().x + mySprite->GetSize().x - (0.056f / 2))
 	{
-		if (MouseManager::GetInstance()->GetPosition().y >= mySprite->GetPosition().y - mySprite->GetSize().y / 2 &&
-			MouseManager::GetInstance()->GetPosition().y <= mySprite->GetPosition().y + mySprite->GetSize().y / 2)
+		if (MouseManager::GetInstance()->GetPosition().y >= mySprite->GetPosition().y &&
+			MouseManager::GetInstance()->GetPosition().y <= mySprite->GetPosition().y + mySprite->GetSize().y - (0.0111f / 2))
 		{
 			myIsHovering = true;
 			return true;
