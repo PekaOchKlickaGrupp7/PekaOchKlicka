@@ -432,9 +432,6 @@
     <ClCompile Include="EventChangeLevel.cpp">
       <Filter>Events\Level</Filter>
     </ClCompile>
-    <ClCompile Include="EventNone.cpp">
-      <Filter>Source\Events</Filter>
-    </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>Source\System\Mouse</Filter>
     </ClCompile>
@@ -584,6 +581,9 @@
     </ClCompile>
     <ClCompile Include="EventUpdateAnimation.cpp">
       <Filter>Source\Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventNone.cpp">
+      <Filter>Source\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
