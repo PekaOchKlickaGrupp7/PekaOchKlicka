@@ -560,6 +560,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		{
 			var->myNumberOfFrames = extra["NumberOfFrames"].GetInt();
 		}
+		if (extra.HasMember("Scale") == true)
+		{
+			var->myScale = extra["Scale"].GetFloat();
+		}
 
 		var->myObjectData = aData;
 		var->Init(aRoom, aGameWorld);
