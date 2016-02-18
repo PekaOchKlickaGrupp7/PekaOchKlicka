@@ -15,5 +15,6 @@ public:
 	int myNumberOfFrames;
 	int myFramesPerRow;
 	float myFrameDuration;
+	float myScale;
 };
 
