@@ -117,6 +117,10 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 					UpdateSelectedItem();
 					return;
 				}
+				else if (mySelectedItem == myContents[i])
+				{
+					DeSelect();
+				}
 				else
 				{
 					mySelectedItem = myContents[i];
