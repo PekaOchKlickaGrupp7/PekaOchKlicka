@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "Options.h"
 #include "..\CommonUtilities\Macros.h"
+#include "SoundFileHandler.h"
 
 
 Options::Options()
 {
+	SoundFileHandler::GetInstance()->SetupStream("Sound/SoundFX/GUI/Hover.ogg", "ButtonHover", false);
+	SoundFileHandler::GetInstance()->SetupStream("Sound/SoundFX/GUI/Click.ogg", "ButtonClick", false);
 }
 
 void Options::Initialize()
