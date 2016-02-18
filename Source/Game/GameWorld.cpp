@@ -202,6 +202,14 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
+	myPlayerIsPresent = false;
+	if (myCurrentRoom != nullptr)
+	{
+		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
+		{
+			UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
+		}
+	}
 	if (myOptionsMenu.GetActive() == true)
 	{
 		PlayerMovement(false, false, false, aTimeDelta);
@@ -213,10 +221,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myCurrentRoom != nullptr)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
-			for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
-			{
-				UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
-			}
 		}
 	}
 	myOptionsMenu.Update(aTimeDelta);
@@ -440,6 +444,10 @@ void CGameWorld::UpdateObject(ObjectData* aNode, float aDeltaTime)
 		{
 			aNode->myAnimations[aNode->myCurrentAnimation]->Update(aDeltaTime);
 		}
+		else if (aNode->myName == "Player")
+		{
+			myPlayerIsPresent = true;
+		}
 		if (aNode->myChilds.GetIsInitialized() == true)
 		{
 			for (unsigned int i = 0; i < aNode->myChilds.Size(); ++i)
@@ -564,7 +572,10 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 
 /*	std::cout << std::boolalpha << myPlayerCanMove << std::endl;
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
-	myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
+	if (myPlayerIsPresent == true)
+	{
+		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
+	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
 	{

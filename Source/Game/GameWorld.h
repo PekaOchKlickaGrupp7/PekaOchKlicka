@@ -76,4 +76,5 @@ private:
 	bool myShouldRenderNavPoints;
 	bool myDoFadeIn;
 	bool myHasPath;
+	bool myPlayerIsPresent;
 };
