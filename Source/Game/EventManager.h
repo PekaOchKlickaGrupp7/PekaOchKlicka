@@ -55,6 +55,8 @@ public:
 private:
 	static EventManager* myInstance;
 
+	DX2D::CText* myText;
+
 	void UpdateActiveEvents(const float aDeltaTime);
 	bool GetRootIsClick(Event* aEvent);
 	void RemoveAllAnswers();
