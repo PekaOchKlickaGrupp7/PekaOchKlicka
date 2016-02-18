@@ -153,8 +153,6 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
 	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
 
-	std::cout << scaleY << " : " << myPosition.y << " : " << scale << std::endl;
-
 	if (aMovePlayer == true)
 	{
 		Move(aTargetPos, myMovementSpeed * (scaleY / 2), aDeltaT);
@@ -180,7 +178,7 @@ void Player::Render(Synchronizer& aSynchronizer)
 {
 	myAnimations[myCurentAnimation]->SetColor(myColor);
 	myAnimations[myCurentAnimation]->Render(aSynchronizer, myRenderPosition);
-	myInventory.Render(aSynchronizer);
+	//myInventory.Render(aSynchronizer);
 }
 
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)

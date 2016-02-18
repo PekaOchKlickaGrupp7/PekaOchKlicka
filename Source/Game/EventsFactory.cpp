@@ -80,7 +80,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 
 		if (extra.HasMember("TargetPositionX") == true && extra.HasMember("TargetPositionY") == true)
 		{
-			var->myTargetOffset = { extra["TargetPositionX"].GetFloat(), extra["TargetPositionY"].GetFloat() };
+			var->myTargetOffset = { extra["TargetPositionX"].GetFloat() / 1920.0f, extra["TargetPositionY"].GetFloat() / 1080.0f };
 		}
 
 		event = var;
