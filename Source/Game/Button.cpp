@@ -2,6 +2,8 @@
 #include "Button.h"
 #include "..\CommonUtilities\Macros.h"
 
+#include "SoundFileHandler.h"
+
 
 Button::Button()
 {
@@ -76,6 +78,11 @@ void Button::Update(float)
 	{
 		if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
+			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonClick");
+
+			SoundPtr->SetLooping(false);
+			SoundPtr->PlaySound();
+
 			myIsChecked = !myIsChecked;
 			ButtonSpecificUpdate();
 			UpdateImage();
@@ -94,6 +101,15 @@ bool Button::OnMouseHover()
 		if (MouseManager::GetInstance()->GetPosition().y >= mySprite->GetPosition().y &&
 			MouseManager::GetInstance()->GetPosition().y <= mySprite->GetPosition().y + mySprite->GetSize().y - (0.0111f / 2))
 		{
+			if (myIsHovering == false)
+			{
+				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+
+				SoundPtr->SetLooping(false);
+				SoundPtr->PlaySound();
+			}
+
+
 			myIsHovering = true;
 			return true;
 		}

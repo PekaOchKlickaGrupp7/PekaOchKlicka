@@ -2,6 +2,8 @@
 #include "Slider.h"
 #include "..\CommonUtilities\Macros.h"
 
+#include "SoundFileHandler.h"
+
 
 Slider::Slider()
 {
@@ -148,6 +150,14 @@ bool Slider::OnMouseHover()
 		if (MouseManager::GetInstance()->GetPosition().y + 0.010f >= myKnob->GetPosition().y - myKnob->GetSize().y / 2 &&
 			MouseManager::GetInstance()->GetPosition().y - 0.010f <= myKnob->GetPosition().y + myKnob->GetSize().y / 2)
 		{
+			if (myIsHoveringKnob == false)
+			{
+				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+
+				SoundPtr->SetLooping(false);
+				SoundPtr->PlaySound();
+			}
+
 			return true;
 		}
 		else
@@ -164,6 +174,14 @@ bool Slider::OnMouseClick()
 	{
 		if (MouseManager::GetInstance()->ButtonPressed(eMouseButtons::eLeft) == true)
 		{
+			if (myIsDraggingKnob == false)
+			{
+				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonClick");
+
+				SoundPtr->SetLooping(false);
+				SoundPtr->PlaySound();
+			}
+
 			return true;
 		}
 		else
