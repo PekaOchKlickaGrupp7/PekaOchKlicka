@@ -93,11 +93,11 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 		Close(aDeltaTime);
 	}
 
-	/*
+	
 	if (aInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
-	}*/
+	}
 }
 
 //Check where in the inventory the user clicks and trigger appropiate actions
