@@ -8,6 +8,8 @@
 #include "..\CommonUtilities\CU.h"
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
+#include <iostream>
+
 
 using namespace rapidjson;
 
@@ -142,14 +144,16 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	PlayApropriateAnimation(aTargetPos, aMovePlayer);
 
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MIN");
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MAX");
+	EventVariablesManager::GetInstance()->GetVariable(myMinY, "_DEPTH_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myMaxY, "_DEPTH_MAX");
 
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MIN");
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MAX");
+	EventVariablesManager::GetInstance()->GetVariable(myMinScale, "_SCALE_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myMaxScale, "_SCALE_MAX");
 
 	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
 	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
+
+	std::cout << scaleY << " : " << myPosition.y << " : " << scale << std::endl;
 
 	if (aMovePlayer == true)
 	{
