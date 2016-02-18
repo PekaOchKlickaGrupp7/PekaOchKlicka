@@ -142,9 +142,18 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	PlayApropriateAnimation(aTargetPos, aMovePlayer);
 
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MAX");
+
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MIN");
+	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MAX");
+
+	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
+	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
+
 	if (aMovePlayer == true)
 	{
-		Move(aTargetPos, myMovementSpeed, aDeltaT);
+		Move(aTargetPos, myMovementSpeed * (scaleY / 2), aDeltaT);
 	}
 
 	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
@@ -158,16 +167,6 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 			myInventory.DeSelect();
 		}
 	}
-
-	
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MIN");
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_DEPTH_MAX");
-
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MIN");
-	EventVariablesManager::GetInstance()->GetVariable(myDepthScaleFactor, "_SCALE_MAX");
-
-	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
-	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
 
 	myAnimations[myCurentAnimation]->SetSize(scaleY);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);

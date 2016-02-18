@@ -257,11 +257,42 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 	for (unsigned int i = 0; i< aText.size(); i++)
 	{
 		int aChar = aText[i];
-
+		
+		
+		// é
 		if (aChar == -23)
 		{
 			aChar = 233;
 		}
+		else if (aChar == -27) // å
+		{
+			aChar = 229;
+		}
+		else if (aChar == -59) // Å
+		{
+			aChar = 197;
+		}
+
+		else if (aChar == -28) // ä
+		{
+			aChar = 228;
+		}
+		else if (aChar == -60)  // Ä
+		{
+			aChar = 196;
+		}
+
+		else if (aChar == -10) // ö
+		{
+			aChar = 246;
+		}
+		else if (aChar == -42)  // Ö
+		{
+			aChar = 214;
+		} 
+
+
+
 		else
 		{
 			aChar = aChar < 0 ? 63 : aChar;
