@@ -17,6 +17,10 @@ EventManager::EventManager()
 	myIsSwitchingRoom = false;
 	myClicked = false;
 	myIsInsideAObject = false;
+
+	myText = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
+	myText->myPosition = { 0.7f, 0.1f };
+	myText->mySize = 0.4f;
 }
 
 EventManager::~EventManager()
@@ -81,6 +85,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		{
 			if (aData->myHitBox.IsMouseColliding(MouseManager::GetInstance()->GetPosition().x, MouseManager::GetInstance()->GetPosition().y, aRelativeX, aRelativeY) == true)
 			{
+				myIsInsideAObject = true;
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
@@ -112,7 +117,6 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 					}
 					return true;
 				}
-				myIsInsideAObject = true;
 			}
 			else
 			{
@@ -197,8 +201,12 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
 	{
 		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
+		//value = "";
+		//EventVariablesManager::GetInstance()->SetVariable(value, "_PREV_SELECTED_ITEM");
 		myClicked = true;
 	}
+
+	myText->myText = std::string("Active Events: ") + std::to_string(myActiveEvents.Size());
 
 	if (myIsSwitchingRoom == true)
 	{
@@ -234,6 +242,12 @@ void EventManager::Render(Synchronizer &aSynchronizer)
 		Event* event = myActiveEvents[i];
 		event->Render(aSynchronizer);
 	}
+
+	RenderCommand command;
+	command.myPosition = myText->myPosition;
+	command.myText = myText;
+	command.myType = eRenderType::eText;
+	aSynchronizer.AddRenderCommand(command);
 }
 
 void EventManager::UpdateActiveEvents(const float aDeltaTime)
