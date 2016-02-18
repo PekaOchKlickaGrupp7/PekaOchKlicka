@@ -26,7 +26,6 @@ bool EventSetPosition::Update(const float)
 	{
 		return true;
 	}
-	return false;
 }
 
 void EventSetPosition::Reset()
