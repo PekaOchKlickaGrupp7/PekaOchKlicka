@@ -10,6 +10,7 @@ public:
 	void ButtonSpecificUpdate() override;
 	void ProgressGet() override;
 	void ProgressSet() override;
+	bool OnMouseHover() override;
 
 	~FullscreenButton();
 };

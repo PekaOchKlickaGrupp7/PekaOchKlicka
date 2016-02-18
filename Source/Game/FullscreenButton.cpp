@@ -3,6 +3,8 @@
 #include "EventVariablesManager.h"
 #include "ResolutionManager.h"
 
+#include "SoundFileHandler.h"
+
 FullscreenButton::FullscreenButton()
 {
 }
@@ -25,6 +27,36 @@ void FullscreenButton::ProgressGet()
 void FullscreenButton::ProgressSet()
 {
 	EventVariablesManager::GetInstance()->SetVariable(myIsChecked, "IsFullscreen");
+}
+
+bool FullscreenButton::OnMouseHover()
+{
+	if (MouseManager::GetInstance()->GetPosition().x >= mySprite->GetPosition().x - mySprite->GetSize().x / 2 &&
+		MouseManager::GetInstance()->GetPosition().x <= mySprite->GetPosition().x + mySprite->GetSize().x / 2)
+	{
+		if (MouseManager::GetInstance()->GetPosition().y >= mySprite->GetPosition().y - mySprite->GetSize().y / 2 &&
+			MouseManager::GetInstance()->GetPosition().y <= mySprite->GetPosition().y + mySprite->GetSize().y / 2)
+		{
+			if (myIsHovering == false)
+			{
+				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+
+				SoundPtr->SetLooping(false);
+				SoundPtr->PlaySound();
+			}
+
+
+			myIsHovering = true;
+			return true;
+		}
+		else
+		{
+			myIsHovering = false;
+			return false;
+		}
+	}
+	myIsHovering = false;
+	return false;
 }
 
 

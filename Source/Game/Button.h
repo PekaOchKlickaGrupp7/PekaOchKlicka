@@ -49,7 +49,7 @@ protected:
 	bool myShouldHover;
 
 	bool OnMouseClick();
-	bool OnMouseHover();
+	virtual bool OnMouseHover();
 
 	virtual void ButtonSpecificUpdate() = 0;
 
