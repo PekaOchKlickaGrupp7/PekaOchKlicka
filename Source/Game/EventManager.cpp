@@ -206,7 +206,9 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 		myClicked = true;
 	}
 
+#ifdef _DEBUG
 	myText->myText = std::string("Active Events: ") + std::to_string(myActiveEvents.Size());
+#endif
 
 	if (myIsSwitchingRoom == true)
 	{
