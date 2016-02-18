@@ -9,6 +9,7 @@ Event::Event()
 	myActive = false;
 	myAutoActivateRecursive = true;
 	myParent = nullptr;
+	myObjectData = nullptr;
 }
 
 Event::~Event()
