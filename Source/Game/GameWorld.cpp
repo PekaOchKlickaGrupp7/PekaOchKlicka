@@ -149,11 +149,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myTextFPS->myText = "FPS " + std::to_string(myTimerManager.GetMasterTimer().GetFPS());
 	myTextFPS->myPosition = { 0.5f - myTextFPS->GetWidth() / 2, 0.05f };
 
-	if (myInputManager.KeyPressed(DIK_ESCAPE) == true)
-	{
-		return eStateStatus::ePopMainState;
-	}
-
 	if (myInputManager.KeyPressed(DIK_F1) == true)
 	{
 		ResolutionManager::GetInstance()->ToggleFullscreen();

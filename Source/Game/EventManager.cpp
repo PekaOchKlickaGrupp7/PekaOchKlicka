@@ -33,15 +33,26 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 
 void EventManager::AddEvent(Event* aEvent)
 {
-	if (aEvent->myObjectData->myActive == true && aEvent->myActive == false)
+	if (aEvent->myActive == false)
 	{
-		if (GetRootIsClick(aEvent) == true)
+		bool canActivate = true;
+		if (aEvent->myObjectData != nullptr)
 		{
-			++aEvent->myObjectData->myAmountActiveEvents;
+			if (aEvent->myObjectData->myActive == false)
+			{
+				canActivate = false;
+			}
 		}
-		aEvent->myActive = true;
-		aEvent->Reset();
-		myActiveEvents.Add(aEvent);
+		if (canActivate == true)
+		{
+			if (GetRootIsClick(aEvent) == true)
+			{
+				++aEvent->myObjectData->myAmountActiveEvents;
+			}
+			aEvent->myActive = true;
+			aEvent->Reset();
+			myActiveEvents.Add(aEvent);
+		}
 	}
 }
 
