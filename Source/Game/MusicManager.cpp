@@ -22,6 +22,7 @@ void MusicManager::StartSystem()
 	SoundFileHandler::GetInstance()->GetSong("MainRoom")->PlaySong();
 	SoundFileHandler::GetInstance()->GetSong("Observatory")->PlaySong();
 	SoundFileHandler::GetInstance()->GetSong("Paintings")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("MainMenu")->PlaySong();
 }
 
 bool MusicManager::ChangeTheme(const std::string &aNextTheme)
