@@ -35,7 +35,7 @@ void EventManager::AddEvent(Event* aEvent)
 {
 	if (aEvent->myObjectData->myActive == true && aEvent->myActive == false)
 	{
-		if (aEvent->myType == EventTypes::OnClick)
+		if (GetRootIsClick(aEvent) == true)
 		{
 			++aEvent->myObjectData->myAmountActiveEvents;
 		}
@@ -270,7 +270,7 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 					}
 				}
 			}
-			if (event->myType == EventTypes::OnClick)
+			if (GetRootIsClick(event) == true)
 			{
 				--event->myObjectData->myAmountActiveEvents;
 			}
@@ -293,6 +293,20 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 			AddEvent(removeAnswerEvent->myChilds[j]);
 		}
 	}
+}
+
+bool EventManager::GetRootIsClick(Event* aEvent)
+{
+	if (aEvent == nullptr)
+	{
+		return false;
+	}
+	if (aEvent->myType == EventTypes::OnClick)
+	{
+		return true;
+	}
+
+	return GetRootIsClick(aEvent->myParent);
 }
 
 void EventManager::RemoveAllAnswers()
