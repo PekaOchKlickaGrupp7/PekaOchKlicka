@@ -121,6 +121,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	{
 		EventTalk* talk = new EventTalk();
 
+		if (extra.HasMember("CanBeInterupted") == true)
+		{
+			talk->myCanBeInterupted = extra["CanBeInterupted"].GetBool();
+		}
 		if (extra.HasMember("text") == true)
 		{
 			talk->myText = extra["text"].GetString();
