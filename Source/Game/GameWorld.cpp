@@ -368,6 +368,8 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	EventManager::GetInstance()->Render(aSynchronizer);
 
+	myPlayer.GetInventory().Render(aSynchronizer);
+
 	if (myShouldRenderFPS == true)
 	{
 		RenderCommand fps;

@@ -180,7 +180,7 @@ void Player::Render(Synchronizer& aSynchronizer)
 {
 	myAnimations[myCurentAnimation]->SetColor(myColor);
 	myAnimations[myCurentAnimation]->Render(aSynchronizer, myRenderPosition);
-	myInventory.Render(aSynchronizer);
+	//myInventory.Render(aSynchronizer);
 }
 
 void Player::Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT)
