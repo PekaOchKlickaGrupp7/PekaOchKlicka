@@ -86,8 +86,13 @@ bool EventTalk::Update(const float aDeltaTime)
 		myFirstFrame = true;
 	}
 
+
 	if (object != nullptr)
 	{
+		if (myObjectData->myActive == false || object->myActive == false)
+		{
+			return true;
+		}
 		float x = object->myGlobalX - myWidth / 2;
 		float y = object->myGlobalY - (myHeight);
 
