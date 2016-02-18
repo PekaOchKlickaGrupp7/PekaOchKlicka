@@ -32,6 +32,9 @@ public:
 	//Check where in the inventory the user clicks and trigger appropiate actions
 	void OnClick(DX2D::Vector2f& aPointerPosition);
 
+	//On hover over an inventory item
+	void OnHover(DX2D::Vector2f& aPointerPosition);
+
 	bool IsClicked();
 
 	//Render the inventory through the synchronizer
@@ -69,6 +72,7 @@ private:
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
+	DX2D::CText* myHoverText;
 
 	Item* mySelectedItem;
 	Item* myPreviouslySelectedItem;

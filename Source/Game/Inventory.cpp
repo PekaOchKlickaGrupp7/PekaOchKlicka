@@ -15,6 +15,8 @@ Inventory::Inventory()
 	myStartPosition = DX2D::Vector2f(0.0, 0.0);
 	myEndPosition = DX2D::Vector2f(0.0, 0.0);
 
+	myHoverText = nullptr;
+
 	myMovementPerFrame = 0.0f;
 	myXOffset = 0.02f;
 	myYOffset = 0.02f;
@@ -43,6 +45,8 @@ void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 	myPreviouslySelectedItem = nullptr;
 
 	myOptionsPtr = aOptionsPtr;
+
+	myHoverText = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 
 	UpdateSelectedItem();
 }
@@ -223,6 +227,8 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 //Render the inventory through the synchronizer
 void Inventory::Render(Synchronizer& aSynchronizer)
 {
+	DX2D::Vector2f mousePos = MouseManager::GetInstance()->GetPosition();
+
 	RenderCommand command;
 	command.mySprite = myBackground;
 	command.myPosition = myPosition;
@@ -257,6 +263,25 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 			}
 			
 			myContents[i]->Render(aSynchronizer);
+
+			if (CommonUtilities::Intersection::PointVsRect(
+				Vector2<float>(mousePos.x, mousePos.y)
+				, Vector2<float>(myContents[i]->GetPosition().x, myContents[i]->GetPosition().y)
+				, Vector2<float>(myContents[i]->GetPosition().x + myContents[i]->GetSprite()->GetSize().x
+				, myContents[i]->GetPosition().y + myContents[i]->GetSprite()->GetSize().y)))
+			{
+				myHoverText->myPosition = mousePos;
+				myHoverText->mySize = 0.3f;
+				myHoverText->myText = myContents[i]->GetDescription();
+
+				command.myType = eRenderType::eText;
+				command.myText = myHoverText;
+				command.myPosition = myHoverText->myPosition;
+				aSynchronizer.AddRenderCommand(command);
+			}
+
+			command.myType = eRenderType::eSprite;
+
 		}
 	
 	}
