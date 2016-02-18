@@ -24,6 +24,7 @@ public:
 	EventActions myAction;
 
 	ObjectData* myObjectData;
+	Event* myParent;
 
 	CommonUtilities::GrowingArray<Event*, unsigned int> myChilds;
 	bool myActive;

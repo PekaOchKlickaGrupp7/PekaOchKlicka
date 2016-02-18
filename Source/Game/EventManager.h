@@ -56,6 +56,7 @@ private:
 	static EventManager* myInstance;
 
 	void UpdateActiveEvents(const float aDeltaTime);
+	bool GetRootIsClick(Event* aEvent);
 	void RemoveAllAnswers();
 
 	CommonUtilities::GrowingArray<Event*, int> myActiveEvents;

@@ -337,6 +337,7 @@ void JSON::LoadEvent(ObjectData* aNode, Event* aEvent, Value& aParent, Room* aRo
 			aEvent->myChilds.Init(12);
 		}
 		aEvent->myChilds.Add(event);
+		event->myParent = aEvent;
 	}
 
 	for (unsigned int i = 0; i < aParent["childs"]["$values"].Size(); ++i)
