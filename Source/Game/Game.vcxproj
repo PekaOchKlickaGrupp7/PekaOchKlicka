@@ -182,6 +182,7 @@
     <ClInclude Include="EventResetGame.h" />
     <ClInclude Include="EventSetCinematic.h" />
     <ClInclude Include="EventSetGlobalVariable.h" />
+    <ClInclude Include="EventSetPosition.h" />
     <ClInclude Include="EventsFactory.h" />
     <ClInclude Include="EventStopTalk.h" />
     <ClInclude Include="EventToggleFullscreen.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="EventResetGame.cpp" />
     <ClCompile Include="EventSetCinematic.cpp" />
     <ClCompile Include="EventSetGlobalVariable.cpp" />
+    <ClCompile Include="EventSetPosition.cpp" />
     <ClCompile Include="EventsFactory.cpp" />
     <ClCompile Include="EventStopTalk.cpp" />
     <ClCompile Include="EventToggleFullscreen.cpp" />

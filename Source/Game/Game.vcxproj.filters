@@ -240,9 +240,6 @@
     <ClInclude Include="EventSetColor.h">
       <Filter>Source\Events\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="EventFadePosition.h">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="EventFadePosition.h" />
     <ClInclude Include="EventToggleFullscreen.h">
       <Filter>Source\Events\Options</Filter>
@@ -353,6 +350,12 @@
       <Filter>Source\Events\Object</Filter>
     </ClInclude>
     <ClInclude Include="EventUpdateAnimation.h">
+      <Filter>Source\Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFadePosition.h">
+      <Filter>Source\Events\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSetPosition.h">
       <Filter>Source\Events\Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -471,9 +474,6 @@
     <ClCompile Include="EventSetColor.cpp">
       <Filter>Source\Events\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="EventFadePosition.cpp">
-      <Filter>Source\Events\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="EventToggleFullscreen.cpp">
       <Filter>Source\Events\Options</Filter>
     </ClCompile>
@@ -584,6 +584,12 @@
     </ClCompile>
     <ClCompile Include="EventNone.cpp">
       <Filter>Source\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventFadePosition.cpp">
+      <Filter>Source\Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSetPosition.cpp">
+      <Filter>Source\Events\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
