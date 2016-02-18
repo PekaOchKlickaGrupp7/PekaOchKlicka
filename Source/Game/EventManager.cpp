@@ -84,6 +84,10 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
+					if (aData->myName == "Chef")
+					{
+						std::cout << aData->myAmountActiveEvents << std::endl;
+					}
 					if (aData->myAmountActiveEvents == 0)
 					{
 						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
@@ -327,7 +331,7 @@ void EventManager::RemoveAllAnswers()
 		if (myActiveEvents[i]->myAction == EventActions::Answer)
 		{
 			myActiveEvents[i]->myActive = false;
-			if (myActiveEvents[i]->myType == EventTypes::OnClick)
+			if (GetRootIsClick(myActiveEvents[i]) == true)
 			{
 				--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
 			}
