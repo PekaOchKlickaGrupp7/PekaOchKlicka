@@ -18,6 +18,7 @@
 #include "EventIfGlobalVariable.h"
 #include "EventFadeColor.h"
 #include "EventSetColor.h"
+#include "EventSetPosition.h"
 #include "EventFadePosition.h"
 #include "EventToggleFullscreen.h"
 #include "EventSetGlobalVariable.h"
@@ -70,6 +71,19 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		}
 
 		event = setActive;
+		break;
+	}
+	case EventActions::SetPosition:
+	{
+		EventSetPosition* var = new EventSetPosition();
+		var->Init(aRoom, aGameWorld);
+
+		if (extra.HasMember("TargetPositionX") == true && extra.HasMember("TargetPositionY") == true)
+		{
+			var->myTargetOffset = { extra["TargetPositionX"].GetFloat(), extra["TargetPositionY"].GetFloat() };
+		}
+
+		event = var;
 		break;
 	}
 	case EventActions::ChangeLevel:
@@ -564,6 +578,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		{
 			var->myScale = extra["Scale"].GetFloat();
 		}
+
+		var->myFrameDuration = max(0.0001f, var->myFrameDuration);
+		var->myFramesPerRow = max(1, var->myFramesPerRow);
+		var->myNumberOfFrames = max(1, var->myNumberOfFrames);
 
 		var->myObjectData = aData;
 		var->Init(aRoom, aGameWorld);
