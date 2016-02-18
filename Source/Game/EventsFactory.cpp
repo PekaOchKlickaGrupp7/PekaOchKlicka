@@ -565,7 +565,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 			var->myScale = extra["Scale"].GetFloat();
 		}
 
-		var->myFrameDuration = max(0.01f, var->myFrameDuration);
+		var->myFrameDuration = max(0.0001f, var->myFrameDuration);
 		var->myFramesPerRow = max(1, var->myFramesPerRow);
 		var->myNumberOfFrames = max(1, var->myNumberOfFrames);
 
