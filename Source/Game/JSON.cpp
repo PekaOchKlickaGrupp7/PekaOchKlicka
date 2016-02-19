@@ -366,7 +366,7 @@ const char* JSON::ReadFile(const char* aFile)
 
 	data[a] = '\0';
 	input.close();
-	
+
 	return data;
 }
 

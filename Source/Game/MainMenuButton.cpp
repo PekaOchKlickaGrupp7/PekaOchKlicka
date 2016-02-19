@@ -39,4 +39,5 @@ void MainMenuButton::ProgressSet()
 
 MainMenuButton::~MainMenuButton()
 {
+	delete myEvent;
 }
