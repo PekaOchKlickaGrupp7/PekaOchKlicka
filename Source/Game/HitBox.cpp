@@ -22,13 +22,14 @@ void HitBox::Init(ObjectData* aObject)
 
 bool HitBox::IsMouseColliding(const float aX, const float aY, const float aRelativeX, const float aRelativeY)
 {
-	if (myObject->myActive == false || myObject->myTriggerEnabled == false)
-	{
-		return false;
-	}
 	if (myObject == nullptr)
 	{
 		DL_ASSERT("DataObject is nullptr");
+		return false;
+	}
+	if (myObject->myActive == false || myObject->myTriggerEnabled == false)
+	{
+		return false;
 	}
 	if (myObject->myTriggerType == TriggerType::Box)
 	{

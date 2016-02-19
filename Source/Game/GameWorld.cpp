@@ -457,6 +457,10 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 {
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
+	if (aNode == nullptr)
+	{
+		return;
+	}
 	if (aNode->myActive == true)
 	{
 		aNode->myGlobalX = aRelativeX + aNode->myX;
@@ -569,7 +573,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	if (myPlayerIsPresent == true)
 	{
-		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove, myHasPath && myWaypointNodes->Size() > 0);
+		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0);
 	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
