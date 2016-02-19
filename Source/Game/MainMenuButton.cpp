@@ -18,13 +18,13 @@ void MainMenuButton::InitValue()
 
 void MainMenuButton::ButtonSpecificUpdate()
 {
-	myEvent->myNextTheme = "MainMenu";
+	/*myEvent->myNextTheme = "MainMenu";
 	myEvent->myTargetLevelName = "mainmenu";
 	myEvent->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
 	EventManager::GetInstance()->GetGameWorld()->GetOptions()->SetActive(false);
 	EventManager::GetInstance()->GetGameWorld()->ResetGame();
-	EventManager::GetInstance()->AddEvent(myEvent);
-	//EventManager::GetInstance()->GetGameWorld()->Quit();
+	EventManager::GetInstance()->AddEvent(myEvent);*/
+	EventManager::GetInstance()->GetGameWorld()->Quit();
 }
 
 void MainMenuButton::ProgressGet()

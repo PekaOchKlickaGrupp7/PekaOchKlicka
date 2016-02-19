@@ -24,6 +24,16 @@ void Room::OnLoad()
 
 }
 
+std::string& Room::GetName()
+{
+	return myName;
+}
+
+void Room::SetName(std::string& aName)
+{
+	myName = aName;
+}
+
 void Room::Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints)
 {
 	NavPolygon poly;

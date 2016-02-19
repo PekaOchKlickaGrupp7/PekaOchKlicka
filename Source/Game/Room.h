@@ -21,6 +21,10 @@ public:
 
 	void LoadLevel();
 	void AddNavPolygon(NavPolygon poly);
+
+	std::string& GetName();
+	void SetName(std::string& aName);
+
 	CommonUtilities::GrowingArray<NavPolygon>& GetNavMeshes();
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* GetObjectList() { return &myObjects; }
 
@@ -36,6 +40,7 @@ public:
 	CommonUtilities::VectorOnStack<Node*, 8> GetNeighbours(Node* aNode);
 private:
 	float myGridSize;
+	std::string myName;
 
 	CommonUtilities::GrowingArray<ObjectData*, unsigned int> myObjects;
 	CommonUtilities::GrowingArray<Node, int> myNavPoints;

@@ -72,9 +72,10 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 		}
 		
 		Room* room = new Room();
+		std::string name = level["name"].GetString();
+		room->SetName(name);
 		room->GetObjectList()->Init(128);
 
-		std::string name = level["name"].GetString();
 		aRooms[name] = room;
 		
 		if (i == 0)

@@ -272,28 +272,45 @@ void CGameWorld::SetTalkIsOff()
 
 void CGameWorld::ResetGame()
 {
+	DL_PRINT("Reset game");
+	DL_PRINT("Set cinematic");
 	SetCinematicMode(false);
+	DL_PRINT("Set hide mouse");
+
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
+
+
+	DL_PRINT("Set talk is off");
 	myTalkIsOn = false;
 
+	DL_PRINT("Get player position");
 	DX2D::Vector2f pos = GetPlayer()->GetPosition();
+	DL_PRINT("Set player target position to the player position");
 	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
 
+	DL_PRINT("Set player target position");
 	myPlayer.GetInventory().Clear();
 
+	DL_PRINT("Reset all data to original");
 	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); iterator++)
 	{
+		std::string name = iterator->second->GetName();
+		DL_PRINT(("In room: " + name).c_str());
 		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *iterator->second->GetObjectList();
 		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
+			std::string name = objects[i]->myName;
+			DL_PRINT(("Resetting object: " + name).c_str());
 			objects[i]->ResetToOriginalData();
 		}
 	}
 
+	DL_PRINT("Set player color");
 	DX2D::CColor color = { 1, 1, 1, 1 };
 	myPlayer.SetColor(color);
 
+	DL_PRINT("Reset event manager");
 	EventManager::GetInstance()->Reset();
 	//ChangeLevel(aTargetLevel);
 }
