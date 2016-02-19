@@ -24,7 +24,7 @@ public:
 
 private:
 	bool LoadLevel(const char* aLevelPath, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld);
-	void LoadObject(rapidjson::Value& aNode, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y);
+	void LoadObject(rapidjson::Value& aNode, ObjectData* aParentObject, CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float aX, float aY);
 
 	void LoadEvent(ObjectData* aNode, Event* aEvent, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
 	void LoadEvent(ObjectData* aNode, rapidjson::Value& aParent, Room* aRoom, CGameWorld* aGameWorld);
