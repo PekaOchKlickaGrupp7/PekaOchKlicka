@@ -34,8 +34,10 @@ public:
 	void SetPosition(DX2D::Vector2f aPosition);
 	DX2D::Vector2f GetPosition() { return myPosition; };
 	void SetPan(float aPan);
+	void SetPitch(float aPitch);
 	void SetVolume(float aVolume);
 	float GetVolume();
+	float GetPitch();
 	bool IsPlaying();
 
 	void Update(float aDeltaTime);

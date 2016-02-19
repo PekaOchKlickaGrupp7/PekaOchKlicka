@@ -289,6 +289,11 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		{
 			aChar = 214;
 		} 
+		else if (aChar == '*')
+		{
+			aChar = '\'';
+		}
+
 		else
 		{
 			aChar = aChar < 0 ? 63 : aChar;
