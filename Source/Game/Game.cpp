@@ -221,6 +221,11 @@ const bool CGame::Update()
 	MusicManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
+	if (deltaTime <= 0)
+	{
+		myStateStack.RenderCurrentState(mySynchronizer);
+		return false;
+	}
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);
