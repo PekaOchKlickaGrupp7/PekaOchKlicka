@@ -14,6 +14,22 @@ ObjectData::ObjectData()
 	myIsAnimation = false;
 	myCurrentAnimation = 0;
 	myAnimations.Init(12);
+
+	mySprite = nullptr;
+	myOriginalSprite = nullptr;
+
+	myX = 0;
+	myY = 0;
+	myGlobalX = 0;
+	myGlobalY = 0;
+	myScaleX = 0;
+	myScaleY = 0;
+	myRotation = 0;
+	myPivotX = 0;
+	myPivotY = 0; 
+	myActive = false;
+	
+	myOriginalData = nullptr;
 }
 
 ObjectData::~ObjectData()
@@ -62,25 +78,35 @@ void ObjectData::CreateOriginalData()
 }
 void ObjectData::ResetToOriginalData()
 {
-	myActive = myOriginalData->myActive;
-	mySprite = myOriginalData->mySprite;
-	myX = myOriginalData->myX;
-	myY = myOriginalData->myY;
-	myGlobalX = myOriginalData->myGlobalX;
-	myGlobalY = myOriginalData->myGlobalY;
-	myScaleX = myOriginalData->myScaleX;
-	myScaleY = myOriginalData->myScaleY;
-	myName = myOriginalData->myName;
-	myPivotX = myOriginalData->myPivotX;
-	myPivotY = myOriginalData->myPivotY;
-	myColor = myOriginalData->myColor;
-	myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myOriginalData->myEvents);
-
-	myAmountActiveEvents = 0;
-	myIsHovering = false;
-
-	for (unsigned int i = 0; i < myChilds.Size(); ++i)
+	if (myOriginalData != nullptr)
 	{
-		myChilds[i]->ResetToOriginalData();
+		myActive = myOriginalData->myActive;
+		mySprite = myOriginalData->mySprite;
+		myX = myOriginalData->myX;
+		myY = myOriginalData->myY;
+		myGlobalX = myOriginalData->myGlobalX;
+		myGlobalY = myOriginalData->myGlobalY;
+		myScaleX = myOriginalData->myScaleX;
+		myScaleY = myOriginalData->myScaleY;
+		myName = myOriginalData->myName;
+		myPivotX = myOriginalData->myPivotX;
+		myPivotY = myOriginalData->myPivotY;
+		myColor = myOriginalData->myColor;
+		myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myOriginalData->myEvents);
+
+		myAmountActiveEvents = 0;
+		myIsHovering = false;
+
+		if (myChilds.GetIsInitialized() == true)
+		{
+			for (unsigned int i = 0; i < myChilds.Size(); ++i)
+			{
+				myChilds[i]->ResetToOriginalData();
+			}
+		}
+	}
+	else
+	{
+		return;
 	}
 }
