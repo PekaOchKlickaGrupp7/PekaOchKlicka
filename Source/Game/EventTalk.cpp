@@ -3,9 +3,12 @@
 #include <tga2d\engine.h>
 #include "MouseManager.h"
 #include "GameWorld.h"
+#include "SoundManager.h"
+#include "SoundFileHandler.h"
 
 #define SHAKE_CHAR '@'
 #define FONTPATH "Text/PassionOne-Regular.ttf_sdf"
+#define TARGETSOUND "Sound/SoundFX/Talk.ogg"
 
 bool EventTalk::myIsActive = false;
 
@@ -14,6 +17,9 @@ EventTalk::EventTalk() : myTextRender(nullptr)
 	myIsActive = false;
 	myLetterLength = 0.1f;
 	myCanBeInterupted = true;
+	myTextRender = nullptr;
+	myTextOutline = nullptr;
+
 }
 
 EventTalk::~EventTalk()
@@ -55,12 +61,25 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myHeight = DX2D::CText::GetHeight(myText, myTextRender->mySize, FONTPATH);
 	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, FONTPATH);
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
+
+
 }
 
 bool EventTalk::Update(const float aDeltaTime)
 {
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
+
+
+	if (object->myName == "Player")
+	{
+		mySoundPath = "Sound/SoundFX/TalkPlayer.ogg";
+	}
+	else if (object->myName == "Chef")
+	{
+		mySoundPath = "Sound/SoundFX/TalkChef.ogg";
+	}
+	
 
 	if (myCanBeInterupted == true)
 	{
@@ -102,7 +121,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		}
 		else if (object->myName == "Player")
 		{
-			y = object->myGlobalY;
+			y = object->myGlobalY - myHeight;
 		}
 
 		if (x < 0.0f || (x + myWidth) >= 1.0f)
@@ -208,6 +227,25 @@ bool EventTalk::TypeNextLetter(float)
 {
 	if (myCurrentLetter <= myText.size())
 	{
+
+		if (myCurrentLetter % 3 == 0 && myText[myCurrentLetter] != ' ')
+		{
+			std::string identifier = "text" + std::to_string(myCurrentLetter);
+			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, identifier, false);
+			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(identifier);
+
+			SoundPtr->PlaySound();
+
+
+			float random = ((float)rand()) / (float)RAND_MAX;
+			float diff = 1.25f - 0.85f;
+			float r = random * diff;
+			float pitch = 0.85f + r;
+
+
+			SoundPtr->SetPitch(pitch);
+		}
+
 		myTextRender->myText = myText.substr(0, myCurrentLetter);
 		++myCurrentLetter;
 		return false;

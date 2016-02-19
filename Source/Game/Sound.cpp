@@ -158,6 +158,11 @@ void Sound::SetPosition(DX2D::Vector2f aPosition)
 	SoundManager::GetInstance()->SetChannelAttributes(myChannel, myPosition);
 }
 
+void Sound::SetPitch(float aPitch)
+{
+	myChannel->setPitch(aPitch);
+}
+
 void Sound::SetPan(float aPan)
 {
 	myChannel->setPan(aPan);
@@ -187,5 +192,12 @@ float Sound::GetVolume()
 {
 	float tempFloat = 0;
 	myChannel->getVolume(&tempFloat);
+	return tempFloat;
+}
+
+float Sound::GetPitch()
+{
+	float tempFloat = 0;
+	myChannel->getPitch(&tempFloat);
 	return tempFloat;
 }

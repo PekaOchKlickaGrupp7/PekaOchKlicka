@@ -32,6 +32,8 @@ protected:
 	DX2D::CText* myTextOutline;
 	DX2D::CText* myTextRender;
 
+	std::string mySoundPath;
+
 	CommonUtilities::GrowingArray < DX2D::CText* > myTextRenders;
 
 	unsigned int myCurrentLetter;
