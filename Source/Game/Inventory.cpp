@@ -276,7 +276,9 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 
 				command.myType = eRenderType::eText;
 				command.myText = myHoverText;
-				command.myPosition = myHoverText->myPosition;
+				command.myPosition.x = myContents[i]->GetPosition().x;
+
+				command.myPosition.y = myContents[i]->GetPosition().y - myHoverText->GetHeight();
 				aSynchronizer.AddRenderCommand(command);
 			}
 

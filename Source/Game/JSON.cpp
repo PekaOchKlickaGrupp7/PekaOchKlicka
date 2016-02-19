@@ -218,7 +218,7 @@ bool JSON::LoadMusic(const std::string& aMusicFile)
 #pragma region Private Methods
 
 void JSON::LoadObject(Value& node, ObjectData* aParentObject,
-	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float x, float y)
+	CommonUtilities::GrowingArray<ObjectData*, unsigned int>* aObjects, Room* aRoom, CGameWorld* aGameWorld, float aX, float aY)
 {
 	Value& object = node;
 
@@ -231,8 +231,8 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 	dataObject->myScaleY = static_cast<float>(object["sy"].GetDouble());
 	dataObject->myX = (static_cast<float>(object["x"].GetDouble())) / 1920.0f;
 	dataObject->myY = (static_cast<float>(object["y"].GetDouble())) / 1080.0f;
-	dataObject->myGlobalX = (static_cast<float>(object["x"].GetDouble()) + x) / 1920.0f;
-	dataObject->myGlobalY = (static_cast<float>(object["y"].GetDouble()) + y) / 1080.0f;
+	dataObject->myGlobalX = (static_cast<float>(object["x"].GetDouble()) + aX) / 1920.0f;
+	dataObject->myGlobalY = (static_cast<float>(object["y"].GetDouble()) + aY) / 1080.0f;
 	dataObject->myRotation = static_cast<float>(object["rotation"].GetDouble());
 	dataObject->myPivotX = static_cast<float>(object["pivotX"].GetDouble());
 	dataObject->myPivotY = static_cast<float>(object["pivotY"].GetDouble());
@@ -309,7 +309,7 @@ void JSON::LoadObject(Value& node, ObjectData* aParentObject,
 
 	for (unsigned int j = 0; j < object["childs"]["$values"].Size(); ++j)
 	{
-		LoadObject(object["childs"]["$values"][j], parentData, aObjects, aRoom, aGameWorld, x + static_cast<float>(object["x"].GetDouble()), y + static_cast<float>(object["y"].GetDouble()));
+		LoadObject(object["childs"]["$values"][j], parentData, aObjects, aRoom, aGameWorld, aX + static_cast<float>(object["x"].GetDouble()), aY + static_cast<float>(object["y"].GetDouble()));
 	}
 }
 
