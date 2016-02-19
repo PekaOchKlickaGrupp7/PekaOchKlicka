@@ -19,7 +19,6 @@ EventTalk::EventTalk() : myTextRender(nullptr)
 	myCanBeInterupted = true;
 	myTextRender = nullptr;
 	myTextOutline = nullptr;
-
 }
 
 EventTalk::~EventTalk()
@@ -228,22 +227,30 @@ bool EventTalk::TypeNextLetter(float)
 	if (myCurrentLetter <= myText.size())
 	{
 
+
 		if (myCurrentLetter % 3 == 0 && myText[myCurrentLetter] != ' ')
 		{
+			if (myCurrentIndex != 0)
+			{
+				std::string pastIdentifier = "text" + std::to_string(myCurrentLetter - 1);
+				SoundFileHandler::GetInstance()->SetupStream(mySoundPath, pastIdentifier, false);
+				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(pastIdentifier);
+				SoundPtr->Stop();
+			}
+			
 			std::string identifier = "text" + std::to_string(myCurrentLetter);
 			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, identifier, false);
 			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(identifier);
 
 			SoundPtr->PlaySound();
 
-
 			float random = ((float)rand()) / (float)RAND_MAX;
-			float diff = 1.25f - 0.85f;
+			float diff = 1.25f - 0.75f;
 			float r = random * diff;
-			float pitch = 0.85f + r;
-
+			float pitch = 0.75f + r;
 
 			SoundPtr->SetPitch(pitch);
+			SoundPtr->SetVolume(0.5f);
 		}
 
 		myTextRender->myText = myText.substr(0, myCurrentLetter);

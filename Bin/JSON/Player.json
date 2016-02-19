@@ -54,50 +54,50 @@
 
 
         {
-			"path" : "Sprites/Animations/walk_1024/camera1.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-walk/camera1.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.0225
 		},
         {
-			"path" : "Sprites/Animations/walk_1024/camera3.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-walk/camera3.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.0225
 		},
         {
-			"path" : "Sprites/Animations/walk_1024/camera5.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-walk/camera5.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.0225
 		},
         {
-			"path" : "Sprites/Animations/walk_1024/camera7.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-walk/camera7.dds",
             "frames" : 24,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.0225
 		},
 
         {
-			"path" : "Sprites/Animations/idle_1024/camera1.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-idle/camera1.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.045
 		},
         {
-			"path" : "Sprites/Animations/idle_1024/camera3.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-idle/camera3.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.045
 		},
         {
-			"path" : "Sprites/Animations/idle_1024/camera5.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-idle/camera5.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.045
 		},
         {
-			"path" : "Sprites/Animations/idle_1024/camera7.dds",
+			"path" : "Sprites/Animations/AnimationsNew/valerieFancyClothes-idle/camera7.dds",
             "frames" : 36,
 		    "framesPerRow" : 8,
 			"animationSpeed" : 0.045
