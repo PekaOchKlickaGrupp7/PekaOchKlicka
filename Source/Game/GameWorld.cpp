@@ -197,6 +197,11 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
 
+	if (myResettedGame == true)
+	{
+		myResettedGame = false;
+		return eStateStatus::eKeepState;
+	}
 	myPlayerIsPresent = false;
 	if (myCurrentRoom != nullptr)
 	{
@@ -213,6 +218,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	{
 		bool myCachedTalkIsOn = myTalkIsOn;
 		bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
+		if (myResettedGame == true)
+		{
+			return eStateStatus::eKeepState;
+		}
 		if (myCurrentRoom != nullptr)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
@@ -279,8 +288,6 @@ void CGameWorld::ResetGame()
 
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
-
-
 	DL_PRINT("Set talk is off");
 	myTalkIsOn = false;
 
@@ -313,6 +320,8 @@ void CGameWorld::ResetGame()
 	DL_PRINT("Reset event manager");
 	EventManager::GetInstance()->Reset();
 	//ChangeLevel(aTargetLevel);
+
+	myResettedGame = true;
 }
 
 void CGameWorld::Quit()
@@ -322,6 +331,10 @@ void CGameWorld::Quit()
 
 void CGameWorld::Render(Synchronizer& aSynchronizer)
 {
+	if (myResettedGame == true)
+	{
+		return;
+	}
 	RenderCommand command;
 
 	bool renderedPlayer = false;
@@ -380,72 +393,72 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 				RenderObject(aSynchronizer, (*myCurrentRoom->GetObjectList())[i], 0, 0);
 			}
 		}
-	}
 
-	EventManager::GetInstance()->Render(aSynchronizer);
+		myPlayer.GetInventory().Render(aSynchronizer);
 
-	myPlayer.GetInventory().Render(aSynchronizer);
-
-	if (myShouldRenderFPS == true)
-	{
-		RenderCommand fps;
-		fps.myType = eRenderType::eText;
-		fps.myPosition = myTextFPS->myPosition;
-		fps.myText = myTextFPS;
-		aSynchronizer.AddRenderCommand(fps);
-	}
-
-	if (myDotSprites.GetIsInitialized() == true && myShouldRenderNavPoints == true)
-	{
-		CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
-		int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
-		float x = 0;
-		float y = 0;
-
-		for (int i = 0; i < points.Size(); ++i)
+		if (myShouldRenderFPS == true)
 		{
-			if (points[i].GetIsBlocked() == false)
+			RenderCommand fps;
+			fps.myType = eRenderType::eText;
+			fps.myPosition = myTextFPS->myPosition;
+			fps.myText = myTextFPS;
+			aSynchronizer.AddRenderCommand(fps);
+		}
+
+		if (myDotSprites.GetIsInitialized() == true && myShouldRenderNavPoints == true)
+		{
+			CommonUtilities::GrowingArray<Node, int>& points = myCurrentRoom->GetNavPoints();
+			int gridSize = static_cast<int>(myCurrentRoom->GetGridSize());
+			float x = 0;
+			float y = 0;
+
+			for (int i = 0; i < points.Size(); ++i)
 			{
-				command.myType = eRenderType::eSprite;
-				myDotSprites[i]->SetPivot({ 0, 0 });
+				if (points[i].GetIsBlocked() == false)
+				{
+					command.myType = eRenderType::eSprite;
+					myDotSprites[i]->SetPivot({ 0, 0 });
 				
-				if (points[i].GetPath() == true)
-				{
-					myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+					if (points[i].GetPath() == true)
+					{
+						myDotSprites[i]->SetColor(DX2D::CColor(0, 0, 1, 1));
+					}
+					else if (points[i].myDrawBlue == true)
+					{
+						myDotSprites[i]->SetColor({ 0, 1, 0, 1 });
+					}
+					else if (points[i].myDrawRed == true)
+					{
+						myDotSprites[i]->SetColor({ 1, 0, 0, 1 });
+					}
+					else
+					{
+						myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
+					}
+					command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
+					command.mySprite = myDotSprites[i];
+					aSynchronizer.AddRenderCommand(command);
 				}
-				else if (points[i].myDrawBlue == true)
+				x += gridSize;
+				if (x >= 1920.0f)
 				{
-					myDotSprites[i]->SetColor({ 0, 1, 0, 1 });
+					x = 0.0f;
+					y += gridSize;
 				}
-				else if (points[i].myDrawRed == true)
+				if (i == points.Size() - 1)
 				{
-					myDotSprites[i]->SetColor({ 1, 0, 0, 1 });
+					//std::cout << x << std::endl;
 				}
-				else
-				{
-					myDotSprites[i]->SetColor(DX2D::CColor(1, 1, 1, 1));
-				}
-				command.myPosition = DX2D::Vector2f(x / 1920.0f, y / 1080.0f);
-				command.mySprite = myDotSprites[i];
-				aSynchronizer.AddRenderCommand(command);
-			}
-			x += gridSize;
-			if (x >= 1920.0f)
-			{
-				x = 0.0f;
-				y += gridSize;
-			}
-			if (i == points.Size() - 1)
-			{
-				//std::cout << x << std::endl;
 			}
 		}
-	}
 	
-	 // if options clicked in inventory
-	myOptionsMenu.Render(aSynchronizer);
+		EventManager::GetInstance()->Render(aSynchronizer);
 
-	MouseManager::GetInstance()->Render(aSynchronizer);
+		 // if options clicked in inventory
+		myOptionsMenu.Render(aSynchronizer);
+
+		MouseManager::GetInstance()->Render(aSynchronizer);
+	}
 }
 
 void CGameWorld::UpdateObject(ObjectData* aNode, float aDeltaTime)

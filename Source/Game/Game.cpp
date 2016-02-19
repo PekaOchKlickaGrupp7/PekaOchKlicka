@@ -88,6 +88,16 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myRenderWidth = windowWidth;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
+	CommonUtilities::GrowingArray<CommonUtilities::GrowingArray<int, int>, int> array;
+	array.Init(12);
+
+	for (int i = 0; i < 50; ++i)
+	{
+		CommonUtilities::GrowingArray<int, int> arr;
+		arr.Init(1024 * 1024);
+		array.Add(arr);
+	}
+
 	int version[] = { PRODUCTVER };
 
 	std::string versionNumber = "Giraffspelet* v";

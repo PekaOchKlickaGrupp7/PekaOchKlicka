@@ -67,6 +67,7 @@ private:
 	int myCurrentWaypoint;
 	float myFadeIn;
 
+	bool myResettedGame;
 	bool myTalkIsOn;
 	bool myDoQuit;
 	bool myPlayerCanMove;

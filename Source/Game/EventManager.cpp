@@ -35,8 +35,13 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myIsSwitchingRoom = true;
 }
 
-void EventManager::AddEvent(Event* aEvent)
+void EventManager::AddEvent(Event* aEvent, bool aForceAdd)
 {
+	if (aForceAdd == false && myResetted == true)
+	{
+		return;
+	}
+
 	if (aEvent->myActive == false)
 	{
 		bool canActivate = true;
@@ -64,10 +69,17 @@ void EventManager::Reset()
 {
 	RemoveAllEvents();
 	myVisitedRooms.clear();
+	myResetted = true;
 }
 
 bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY, bool aDoAddEvents)
 {
+	if (myResetted == true)
+	{
+		myResetted = false;
+		return true;
+	}
+
 	if (aData->myActive == true)
 	{
 		if (aData->myChilds.GetIsInitialized() == true)
@@ -174,6 +186,13 @@ bool EventManager::OnEvent(ObjectData* aData, EventTypes aType)
 bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
+
+	if (myResetted == true)
+	{
+		myResetted = false;
+		UpdateActiveEvents(aDeltaTime);
+		return false;
+	}
 
 	myClicked = false;
 	myIsInsideAObject = false;
@@ -374,7 +393,10 @@ void EventManager::RemoveAllEvents()
 	for (int i = 0; i < myActiveEvents.Size(); ++i)
 	{
 		myActiveEvents[i]->myActive = false;
-		myActiveEvents[i]->myObjectData->myAmountActiveEvents = 0;
+		if (myActiveEvents[i]->myObjectData != nullptr)
+		{
+			myActiveEvents[i]->myObjectData->myAmountActiveEvents = 0;
+		}
 		myActiveEvents[i]->Reset();
 	}
 	myActiveEvents.RemoveAll();

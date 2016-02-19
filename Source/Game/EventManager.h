@@ -46,7 +46,7 @@ public:
 
 	bool Update(const float aDeltaTime, const bool aTalkIsOn);
 	void Render(Synchronizer &aSynchronizer);
-	void AddEvent(Event* aEvent);
+	void AddEvent(Event* aEvent, bool aForceAdd = false);
 	void RemoveAllEvents();
 
 	Room* GetCurrentRoom() { return myCurrentRoom; }
@@ -73,6 +73,7 @@ private:
 	bool myIsSwitchingRoom;
 	bool myIsInsideAObject;
 	bool myClicked;
+	bool myResetted;
 
 	EventManager();
 	~EventManager();
