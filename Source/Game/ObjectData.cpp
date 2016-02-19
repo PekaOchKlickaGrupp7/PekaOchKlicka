@@ -41,11 +41,23 @@ ObjectData::~ObjectData()
 			delete myChilds[i];
 		}
 	}
-	myEvents.DeleteAll();
-	delete myOriginalSprite;
-	myOriginalSprite = nullptr;
+	if (myEvents.GetIsInitialized() == true)
+	{
+		myEvents.DeleteAll();
+	}
+	if (myOriginalSprite != nullptr)
+	{
+		delete myOriginalSprite;
+		myOriginalSprite = nullptr;
+	}
 
 	myAnimations.DeleteAll();
+
+	if (myOriginalData != nullptr)
+	{
+		delete myOriginalData;
+		myOriginalData = nullptr;
+	}
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)
