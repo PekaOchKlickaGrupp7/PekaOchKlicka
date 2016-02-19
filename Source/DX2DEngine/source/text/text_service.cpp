@@ -258,7 +258,6 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 	{
 		int aChar = aText[i];
 		
-		
 		// é
 		if (aChar == -23)
 		{
@@ -277,7 +276,7 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		{
 			aChar = 228;
 		}
-		else if (aChar == -60)  // Ä
+		else if (aChar == -60) // Ä
 		{
 			aChar = 196;
 		}
@@ -286,17 +285,15 @@ void CTextService::BuildText(const std::string& aText, const Vector2f& aPosition
 		{
 			aChar = 246;
 		}
-		else if (aChar == -42)  // Ö
+		else if (aChar == -42) // Ö
 		{
 			aChar = 214;
 		} 
-
-
-
 		else
 		{
 			aChar = aChar < 0 ? 63 : aChar;
 		}
+
 		const fontChar& theChar = fontData->myFontChars[aChar];
 		minS = theChar.sMin_;
 		maxT = theChar.tMin_;
