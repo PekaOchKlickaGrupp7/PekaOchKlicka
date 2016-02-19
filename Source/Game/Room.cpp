@@ -6,7 +6,6 @@
 Room::Room()
 {
 	myNavMeshes.Init(12);
-	myItems.Init(10);
 
 	/*
 	myItems.Add(new Item());
@@ -17,7 +16,6 @@ Room::Room()
 
 Room::~Room()
 {
-	myItems.DeleteAll();
 	myObjects.DeleteAll();
 }
 

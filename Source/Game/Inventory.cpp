@@ -63,7 +63,9 @@ void Inventory::Remove(Item* aItemToRemove)
 
 void Inventory::DeSelect()
 {
+	myPreviouslySelectedItem = mySelectedItem;
 	mySelectedItem = nullptr;
+
 	UpdateSelectedItem();
 }
 
@@ -167,20 +169,18 @@ bool Inventory::GetIsOpen()
 
 void Inventory::UpdateSelectedItem()
 {
-	std::string identifier = "_SELECTED_ITEM";
 	std::string value = "";
-	if (mySelectedItem != nullptr)
-	{
-		value = mySelectedItem->GetName();
-	}
-	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
-	identifier = "_PREV_SELECTED_ITEM";
-	value = "";
 	if (myPreviouslySelectedItem != nullptr)
 	{
 		value = myPreviouslySelectedItem->GetName();
 	}
-	EventVariablesManager::GetInstance()->SetVariable(value, identifier);
+	EventVariablesManager::GetInstance()->SetVariable(value, "_PREV_SELECTED_ITEM");
+	value = "";
+	if (mySelectedItem != nullptr)
+	{
+		value = mySelectedItem->GetName();
+	}
+	EventVariablesManager::GetInstance()->SetVariable(value, "_SELECTED_ITEM");
 }
 
 bool Inventory::IsClicked()

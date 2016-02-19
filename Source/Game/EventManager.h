@@ -40,7 +40,7 @@ public:
 
 	void Reset();
 	bool OnEvent(ObjectData* aData, EventTypes aType);
-	bool OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY);
+	bool OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY, bool aDoAddEvents = true);
 	void Init(CU::DirectInput::InputManager* aInputManager, CGameWorld* aGameWorld) { myInputManager = aInputManager; myGameWorld = aGameWorld; };
 	void ChangeRoom(Room* aCurrentRoom);
 

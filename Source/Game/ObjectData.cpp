@@ -69,13 +69,13 @@ void ObjectData::CreateOriginalData()
 	myOriginalData->myPivotY = myPivotY;
 	myOriginalData->myActive = myActive;
 	myOriginalData->myColor = myColor;
-	myOriginalData->myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myEvents);
 
 	/*for (unsigned int i = 0; i < myChilds.Size(); ++i)
 	{
 		myChilds[i]->CreateOriginalData();
 	}*/
 }
+
 void ObjectData::ResetToOriginalData()
 {
 	if (myOriginalData != nullptr)
@@ -92,7 +92,6 @@ void ObjectData::ResetToOriginalData()
 		myPivotX = myOriginalData->myPivotX;
 		myPivotY = myOriginalData->myPivotY;
 		myColor = myOriginalData->myColor;
-		myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myOriginalData->myEvents);
 
 		myAmountActiveEvents = 0;
 		myIsHovering = false;
