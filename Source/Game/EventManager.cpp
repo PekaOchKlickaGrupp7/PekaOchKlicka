@@ -56,7 +56,10 @@ void EventManager::AddEvent(Event* aEvent, bool aForceAdd)
 		{
 			if (GetRootIsClick(aEvent) == true)
 			{
-				++aEvent->myObjectData->myAmountActiveEvents;
+				if (aEvent->myObjectData != nullptr)
+				{
+					++aEvent->myObjectData->myAmountActiveEvents;
+				}
 			}
 			aEvent->myActive = true;
 			aEvent->Reset();
@@ -335,8 +338,12 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 			}
 			if (GetRootIsClick(event) == true)
 			{
-				--event->myObjectData->myAmountActiveEvents;
+				if (event->myObjectData != nullptr)
+				{
+					--event->myObjectData->myAmountActiveEvents;
+				}
 			}
+
 			if (doRemove == true)
 			{
 				myActiveEvents.RemoveCyclicAtIndex(i);
