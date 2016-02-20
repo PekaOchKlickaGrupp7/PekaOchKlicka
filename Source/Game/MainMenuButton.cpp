@@ -19,6 +19,8 @@ void MainMenuButton::InitValue()
 void MainMenuButton::ButtonSpecificUpdate()
 {
 	myEvent->myNextTheme = "MainMenu";
+	myEvent->myAction = EventActions::ChangeLevel;
+	myEvent->myType = EventTypes::OnClick;
 	myEvent->myTargetLevelName = "mainmenu";
 	myEvent->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
 	EventManager::GetInstance()->GetGameWorld()->GetOptions()->SetActive(false);
