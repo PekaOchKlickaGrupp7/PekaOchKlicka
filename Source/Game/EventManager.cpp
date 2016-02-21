@@ -26,6 +26,7 @@ EventManager::EventManager()
 EventManager::~EventManager()
 {
 	myActiveEvents.RemoveAll();
+	delete myText;
 }
 
 void EventManager::ChangeRoom(Room* aCurrentRoom)
