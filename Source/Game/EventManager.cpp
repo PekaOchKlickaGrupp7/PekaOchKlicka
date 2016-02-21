@@ -384,7 +384,10 @@ void EventManager::RemoveAllAnswers()
 			myActiveEvents[i]->myActive = false;
 			if (GetRootIsClick(myActiveEvents[i]) == true)
 			{
-				--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
+				if (myActiveEvents[i]->myObjectData != nullptr)
+				{
+					--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
+				}
 			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
