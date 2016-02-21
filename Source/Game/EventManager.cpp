@@ -104,10 +104,6 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					if (aData->myName == "Chef")
-					{
-						std::cout << aData->myAmountActiveEvents << std::endl;
-					}
 					if (aData->myAmountActiveEvents == 0)
 					{
 						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
@@ -223,16 +219,6 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 	}
 
 	UpdateActiveEvents(aDeltaTime);
-
-	std::string value = "";
-	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
-	if (myInputManager->LeftMouseButtonClicked() == true)
-	{
-		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
-		//EventVariablesManager::GetInstance()->SetVariable(value, "_PREV_SELECTED_ITEM");
-		//EventVariablesManager::GetInstance()->SetVariable("", "_SELECTED_ITEM");
-		//myClicked = true;
-	}
 
 #ifdef _DEBUG
 	EventVariablesManager::GetInstance()->GetVariable(myText->myText, "_PREV_SELECTED_ITEM");
