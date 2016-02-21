@@ -301,7 +301,6 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 		}
 		if (event->Update(aDeltaTime) == true)
 		{
-			bool doRemove = true;
 			event->myActive = false;
 			if (myActiveEvents.Size() == 0)
 			{
@@ -344,10 +343,7 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 				}
 			}
 
-			if (doRemove == true)
-			{
-				myActiveEvents.RemoveCyclicAtIndex(i);
-			}
+			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
 
