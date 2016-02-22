@@ -16,7 +16,6 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myHideGameMouse = false;
 	myInMenu = false;
 
-
 	myInputManager = aInputManager;
 
 	mySpriteInteractive.Init(2); // There are six different cursors
@@ -34,7 +33,6 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myPosition = { 0.5f, 0.5f };
 	mySprite->SetPivot({ 0.5f, 0.5f });
 	mySprite->SetPosition(myPosition);
-	
 
 	myInputManager->SetHideMouse(true);
 
@@ -42,7 +40,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myGoUp = true;
 	myTotalLines = 8;
 
-	myLineSprites.Init(myTotalLines);
+	myLineSprites.Init(static_cast<int>(myTotalLines));
 	for (int i = 0; i < myTotalLines; ++i)
 	{
 		myLineSprites.Add(new DX2D::CSprite("Sprites/Cursor/Line.dds"));
@@ -67,12 +65,11 @@ void MouseManager::DrawLine(Synchronizer& aSynchronizer, int aBuffer, DX2D::Vect
 	command.myType = eRenderType::eSprite;
 
 	aSynchronizer.AddRenderCommand(command);
-
 }
 
 void MouseManager::Update(float aDeltaTime)
 {
-	float scaleSpeed = 1.2f;
+	float scaleSpeed = 1.1f;
 	if (myGoUp == true)
 	{
 		myScale += scaleSpeed * aDeltaTime;
@@ -100,8 +97,6 @@ void MouseManager::Update(float aDeltaTime)
 	{
 		mySprite->SetRotation(0.0f);
 	}*/
-
-
 
 	//
 	//Hold L-CTRL to unlock mouse in debug
