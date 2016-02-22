@@ -5,6 +5,7 @@
 #include "GameWorld.h"
 #include "SoundManager.h"
 #include "SoundFileHandler.h"
+#include <iostream>
 
 #define SHAKE_CHAR '@'
 #define FONTPATH "Text/PassionOne-Regular.ttf_sdf"
@@ -53,6 +54,8 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	//myShakeStop = 0;
 	//myCurrentIndex = 0;
 	//myTextRenders.Init(5);
+	
+	mySounds = 0;
 
 	Reset();
 	myIsTalking = true;
@@ -69,14 +72,17 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
+	std::cout << mySounds << std::endl;
 
-	if (object->myName == "Player")
-	{
-		mySoundPath = "Sound/SoundFX/TalkPlayer.ogg";
-	}
-	else if (object->myName == "Chef")
+	 if (object->myName == "Chef")
 	{
 		mySoundPath = "Sound/SoundFX/TalkChef.ogg";
+		myIdentifier = "Chef";
+	}
+	else
+	{
+		myIdentifier = "Other";
+		mySoundPath = "Sound/SoundFX/TalkPlayer.ogg";
 	}
 	
 
@@ -226,23 +232,20 @@ bool EventTalk::TypeNextLetter(float)
 {
 	if (myCurrentLetter <= myText.size())
 	{
-
-
-		if (myCurrentLetter % 3 == 0 && myText[myCurrentLetter] != ' ')
+		if (myCurrentIndex > 0 && myCurrentLetter % 7 == 0)
 		{
-			if (myCurrentIndex != 0)
-			{
-				std::string pastIdentifier = "text" + std::to_string(myCurrentLetter - 1);
-				SoundFileHandler::GetInstance()->SetupStream(mySoundPath, pastIdentifier, false);
-				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(pastIdentifier);
-				SoundPtr->Stop();
-			}
-			
-			std::string identifier = "text" + std::to_string(myCurrentLetter);
-			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, identifier, false);
-			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(identifier);
+			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, myIdentifier, false);
+			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
+			SoundPtr->Stop();
+			--mySounds;
+		}
 
+		if (myCurrentLetter % 2 == 0 && myText[myCurrentLetter] != ' ')
+		{			
+			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, myIdentifier, false);
+			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
 			SoundPtr->PlaySound();
+			++mySounds;
 
 			float random = ((float)rand()) / (float)RAND_MAX;
 			float diff = 1.25f - 0.75f;
@@ -252,6 +255,7 @@ bool EventTalk::TypeNextLetter(float)
 			SoundPtr->SetPitch(pitch);
 			SoundPtr->SetVolume(0.5f);
 		}
+		
 
 		myTextRender->myText = myText.substr(0, myCurrentLetter);
 		++myCurrentLetter;
