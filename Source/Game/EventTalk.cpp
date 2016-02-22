@@ -48,13 +48,6 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 
 	myCurrentLetter = 0;
 	
-	// Work in progrss
-	//
-	//myShakeStart = 0;
-	//myShakeStop = 0;
-	//myCurrentIndex = 0;
-	//myTextRenders.Init(5);
-	
 	mySounds = 0;
 
 	Reset();
@@ -76,14 +69,20 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	 if (object->myName == "Chef")
 	{
-		mySoundPath = "Sound/SoundFX/TalkChef.ogg";
+		mySoundPath = "Sound/SoundFX/Talk2.ogg";
 		myIdentifier = "Chef";
+	}
+	 else if (object->myName == "Antagonist")
+	{
+		 myIdentifier = "Antagonist";
+		 mySoundPath = "Sound/SoundFX/Talk1.ogg";
 	}
 	else
 	{
-		myIdentifier = "Other";
-		mySoundPath = "Sound/SoundFX/TalkPlayer.ogg";
+		myIdentifier = "Player";
+		mySoundPath = "Sound/SoundFX/Talk3.ogg";
 	}
+
 	
 
 	if (myCanBeInterupted == true)
@@ -154,16 +153,6 @@ bool EventTalk::Update(const float aDeltaTime)
 		}
 
 		myTextRender->myPosition = DX2D::Vector2f(x, y);
-		
-		//work in progress
-		//
-		//myTextRenders[0]->myPosition = DX2D::Vector2f(x, y);
-		//for (unsigned int i = 1; i < myTextRenders.Size(); ++i)
-		//{
-		//	myTextRenders[i]->myPosition = { myTextRenders[i]->myPosition.x + myTextRenders[i]->GetWidth(), y };
-		//}
-
-
 
 		if (myCurrentLetter <= myText.size() && myCurrentTime > myLetterLength * myCurrentLetter)
 		{
@@ -232,30 +221,23 @@ bool EventTalk::TypeNextLetter(float)
 {
 	if (myCurrentLetter <= myText.size())
 	{
-		if (myCurrentIndex > 0 && myCurrentLetter % 7 == 0)
-		{
-			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, myIdentifier, false);
-			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
-			SoundPtr->Stop();
-			--mySounds;
-		}
-
-		if (myCurrentLetter % 2 == 0 && myText[myCurrentLetter] != ' ')
+		if (myCurrentLetter % 3 == 0 && myText[myCurrentLetter] != ' ')
 		{			
 			SoundFileHandler::GetInstance()->SetupStream(mySoundPath, myIdentifier, false);
 			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound(myIdentifier);
+			
+			SoundPtr->Stop();
 			SoundPtr->PlaySound();
 			++mySounds;
 
 			float random = ((float)rand()) / (float)RAND_MAX;
-			float diff = 1.25f - 0.75f;
+			float diff = 1.75f - 0.75f;
 			float r = random * diff;
 			float pitch = 0.75f + r;
 
 			SoundPtr->SetPitch(pitch);
-			SoundPtr->SetVolume(0.5f);
+			SoundPtr->SetVolume(0.4f);
 		}
-		
 
 		myTextRender->myText = myText.substr(0, myCurrentLetter);
 		++myCurrentLetter;
@@ -264,73 +246,6 @@ bool EventTalk::TypeNextLetter(float)
 
 	return false;
 }
-
-//void EventTalk::CutUpString()
-//{
-//	// work in progress
-//
-//
-//
-//
-//	std::size_t start = 0;
-//	std::size_t found = myText.find('@', start);
-//	std::size_t stop = found;
-//
-//	if (found != std::string::npos)
-//	{
-//		std::string subString = myText.substr(start, found);
-//
-//		DX2D::CText* textRender = new DX2D::CText(FONTPATH);
-//		textRender->myColor = myColor;
-//		textRender->mySize = mySize;
-//		textRender->myText = subString;
-//
-//		myTextRenders.Add(textRender);
-//
-//		start = found + 1;
-//		stop = myText.find('@', start);
-//
-//
-//
-//		++myShakeStart;
-//		myShakeStop = myShakeStart;
-//	
-//		subString = myText.substr(start, stop);
-//
-//		for (std::size_t i = 0; i < subString.size(); ++i)
-//		{
-//			++myShakeStop;
-//
-//			DX2D::CText* textRender = new DX2D::CText(FONTPATH);
-//			textRender->myColor = myColor;
-//			textRender->mySize = mySize;
-//			textRender->myText = subString[i];
-//
-//			myTextRenders.Add(textRender);
-//		}
-//
-//		start = stop;
-//
-//		subString = myText.substr(start, myText.size());
-//
-//		DX2D::CText* textRender = new DX2D::CText(FONTPATH);
-//		textRender->myColor = myColor;
-//		textRender->mySize = mySize;
-//		textRender->myText = subString;
-//
-//		myTextRenders.Add(textRender);
-//
-//		myText.erase(std::remove(myText.begin(), myText.end(), '@'), myText.end());
-//	}
-//
-//	DX2D::CText* textRender = new DX2D::CText(FONTPATH);
-//	textRender->myColor = myColor;
-//	textRender->mySize = mySize;
-//	textRender->myText = myText;
-//
-//	myTextRenders.Add(textRender);
-//
-//}
 
 void EventTalk::Reset()
 {
