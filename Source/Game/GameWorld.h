@@ -41,6 +41,8 @@ public:
 	void SetTalkIsOn();
 	void SetTalkIsOff();
 
+	void DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale);
+
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 private:
