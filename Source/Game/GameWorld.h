@@ -41,6 +41,8 @@ public:
 	void SetTalkIsOn();
 	void SetTalkIsOff();
 
+	void DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale);
+
 	eStateStatus Update(float aTimeDelta) override;
 	void Render(Synchronizer& aSynchronizer)override;
 private:
@@ -57,6 +59,7 @@ private:
 	DX2D::Vector2f myNewTargetPosition;
 	DX2D::CText* myTextFPS;
 
+
 	Player myPlayer;
 	Pathfinding myPathfinding;
 	JSON myJson;
@@ -65,8 +68,10 @@ private:
 	Options myOptionsMenu;
 
 	int myCurrentWaypoint;
+
 	float myFadeIn;
 
+	bool myResettedGame;
 	bool myTalkIsOn;
 	bool myDoQuit;
 	bool myPlayerCanMove;

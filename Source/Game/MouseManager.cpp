@@ -16,7 +16,6 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myHideGameMouse = false;
 	myInMenu = false;
 
-
 	myInputManager = aInputManager;
 
 	mySpriteInteractive.Init(2); // There are six different cursors
@@ -29,18 +28,75 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
 
 	mySpriteInteractive[eMouse(eInteractive::eActive)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eActive)]->SetColor({ 0,0,0,0 });
 
 	myPosition = { 0.5f, 0.5f };
 	mySprite->SetPivot({ 0.5f, 0.5f });
 	mySprite->SetPosition(myPosition);
-	
 
 	myInputManager->SetHideMouse(true);
+
+	myScale = 1.0f;
+	myGoUp = true;
+	myTotalLines = 8;
+
+	myLineSprites.Init(static_cast<int>(myTotalLines));
+	for (int i = 0; i < myTotalLines; ++i)
+	{
+		myLineSprites.Add(new DX2D::CSprite("Sprites/Cursor/Line.dds"));
+		myLineSprites[myLineSprites.Size() - 1]->SetPivot({ 0.0f, 0.5f });
+	}
 }
 
-void MouseManager::Update(float)
+void MouseManager::DrawLine(Synchronizer& aSynchronizer, int aBuffer, DX2D::Vector2f aPos, float aRotation, float aScale)
 {
+	float rot = aRotation + 20;
+	float scale = 0.01f * aScale;
 
+	float ratio = DX2D::CEngine::GetInstance()->GetWindowRatioInversed();
+	DX2D::Vector2f pos = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scale * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scale };
+
+	myLineSprites[aBuffer]->SetRotation(rot * (3.14f / 180.0f));
+	//myLineSprites[aBuffer]->SetSize({ 0.5f, 0.5f });
+
+	RenderCommand command;
+	command.mySprite = myLineSprites[aBuffer];
+	command.myPosition = pos;
+	command.myType = eRenderType::eSprite;
+
+	aSynchronizer.AddRenderCommand(command);
+}
+
+void MouseManager::Update(float aDeltaTime)
+{
+	float scaleSpeed = 1.1f;
+	if (myGoUp == true)
+	{
+		myScale += scaleSpeed * aDeltaTime;
+		if (myScale >= 1.2f)
+		{
+			myGoUp = false;
+		}
+	}
+	else
+	{
+		myScale -= scaleSpeed * aDeltaTime;
+		if (myScale <= 0.8f)
+		{
+			myGoUp = true;
+		}
+	}
+
+
+	/*if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
+	{
+		float aRad = mySprite->GetRotation() + (0.001f * aDeltaTime);
+		mySprite->SetRotation(aRad);
+	}
+	else
+	{
+		mySprite->SetRotation(0.0f);
+	}*/
 
 	//
 	//Hold L-CTRL to unlock mouse in debug
@@ -164,6 +220,15 @@ void MouseManager::Render(Synchronizer &aSynchronizer)
 		command.myType = eRenderType::eSprite;
 
 		aSynchronizer.AddRenderCommand(command);
+
+
+		if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
+		{
+			for (float i = 0; i < myTotalLines; ++i)
+			{
+				DrawLine(aSynchronizer, static_cast<int>(i), myPosition, (i / myTotalLines) * 360.0f, myScale);
+			}
+		}
 	}
 }
 

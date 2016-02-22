@@ -88,14 +88,14 @@ bool EventTalk::Update(const float aDeltaTime)
 	if (myCanBeInterupted == true)
 	{
 		myGameWorld->SetTalkIsOn();
-		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
+		MouseManager::GetInstance()->SetHideGameMouse(true);
 
 		if (myFirstFrame == true && myGameWorld->GetOptions()->GetActive() == false && MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
 			if (myCurrentLetter == myText.size() + 1)
 			{
 				myGameWorld->SetTalkIsOff();
-				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+				MouseManager::GetInstance()->SetHideGameMouse(false);
 
 				return true;
 			}
@@ -112,7 +112,14 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		if (myObjectData->myActive == false || object->myActive == false)
+		if (myObjectData != nullptr)
+		{
+			if (myObjectData->myActive == false || object->myActive == false)
+			{
+				return true;
+			}
+		}
+		else if (object->myActive == false)
 		{
 			return true;
 		}
@@ -166,7 +173,8 @@ bool EventTalk::Update(const float aDeltaTime)
 				if (myCanBeInterupted == true)
 				{
 					myGameWorld->SetTalkIsOff();
-					MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+					MouseManager::GetInstance()->SetHideGameMouse(false);
+
 				}
 				return true;
 			}
@@ -177,7 +185,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		if (myCanBeInterupted == true)
 		{
 			myGameWorld->SetTalkIsOff();
-			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+			MouseManager::GetInstance()->SetHideGameMouse(false);
 		}
 		return true;
 	}

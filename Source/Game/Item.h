@@ -29,6 +29,7 @@ public:
 	void SetCombinable(bool aCombinableStatus);
 	void SetToInventorySprite();
 	void SetToWorldSprite();
+	void SetCombinationText(std::string& aCombinationText);
 	void Render(Synchronizer& aSynchronizer);
 
 	inline DX2D::CSprite* GetSprite();
@@ -37,6 +38,7 @@ public:
 	inline std::string& GetDescription();
 	inline DX2D::Vector2f& GetPosition();
 	inline std::string& GetNameOfResultingItem();
+	inline std::string& GetCombinationText();
 
 	inline bool IsCombinable();
 	inline bool IsClicked();
@@ -60,6 +62,7 @@ private:
 
 	std::string myCombinableWith;
 	std::string myResultingItem; //after combining
+	std::string myCombinationText;
 
 	bool myIsCombinable;
 	bool myIsClicked;
@@ -98,6 +101,11 @@ std::string& Item::GetDescription()
 DX2D::Vector2f& Item::GetPosition()
 {
 	return myPosition;
+}
+
+std::string& Item::GetCombinationText()
+{
+	return myCombinationText;
 }
 
 //Gets a list of what this item can be combined with

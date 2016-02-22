@@ -41,11 +41,23 @@ ObjectData::~ObjectData()
 			delete myChilds[i];
 		}
 	}
-	myEvents.DeleteAll();
-	delete myOriginalSprite;
-	myOriginalSprite = nullptr;
+	if (myEvents.GetIsInitialized() == true)
+	{
+		myEvents.DeleteAll();
+	}
+	if (myOriginalSprite != nullptr)
+	{
+		delete myOriginalSprite;
+		myOriginalSprite = nullptr;
+	}
 
 	myAnimations.DeleteAll();
+
+	if (myOriginalData != nullptr)
+	{
+		delete myOriginalData;
+		myOriginalData = nullptr;
+	}
 }
 
 void ObjectData::AddTriangle(Triangle& aTriangle)
@@ -69,13 +81,13 @@ void ObjectData::CreateOriginalData()
 	myOriginalData->myPivotY = myPivotY;
 	myOriginalData->myActive = myActive;
 	myOriginalData->myColor = myColor;
-	myOriginalData->myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myEvents);
 
 	/*for (unsigned int i = 0; i < myChilds.Size(); ++i)
 	{
 		myChilds[i]->CreateOriginalData();
 	}*/
 }
+
 void ObjectData::ResetToOriginalData()
 {
 	if (myOriginalData != nullptr)
@@ -92,7 +104,6 @@ void ObjectData::ResetToOriginalData()
 		myPivotX = myOriginalData->myPivotX;
 		myPivotY = myOriginalData->myPivotY;
 		myColor = myOriginalData->myColor;
-		myEvents = CommonUtilities::GrowingArray<Event*, unsigned int>(myOriginalData->myEvents);
 
 		myAmountActiveEvents = 0;
 		myIsHovering = false;

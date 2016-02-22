@@ -35,6 +35,10 @@ void Event::Render(Synchronizer &)
 
 ObjectData* Event::GetGameObject(const std::string& aName) const
 {
+	if (myRoom == nullptr || myGameWorld == nullptr)
+	{
+		return nullptr;
+	}
 	if (aName == "Self")
 	{
 		return myObjectData;

@@ -6,7 +6,6 @@
 Room::Room()
 {
 	myNavMeshes.Init(12);
-	myItems.Init(10);
 
 	/*
 	myItems.Add(new Item());
@@ -17,13 +16,22 @@ Room::Room()
 
 Room::~Room()
 {
-	myItems.DeleteAll();
 	myObjects.DeleteAll();
 }
 
 void Room::OnLoad()
 {
 
+}
+
+std::string& Room::GetName()
+{
+	return myName;
+}
+
+void Room::SetName(std::string& aName)
+{
+	myName = aName;
 }
 
 void Room::Init(const CommonUtilities::GrowingArray<Point2f>& aNavPoints)

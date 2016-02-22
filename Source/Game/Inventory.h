@@ -5,6 +5,7 @@
 #include <tga2d/sprite/sprite.h>
 #include "ItemList.h"
 
+class EventTalk;
 class Synchronizer;
 class InputManager;
 class Options;
@@ -68,6 +69,7 @@ private:
 	void UpdateSelectedItem();
 
 	ItemList *myMasterItemList;
+	EventTalk* eventTalkOnCombine;
 
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
 	DX2D::CSprite* myBackground;

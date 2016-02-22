@@ -40,13 +40,13 @@ public:
 
 	void Reset();
 	bool OnEvent(ObjectData* aData, EventTypes aType);
-	bool OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY);
+	bool OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY, bool aDoAddEvents = true);
 	void Init(CU::DirectInput::InputManager* aInputManager, CGameWorld* aGameWorld) { myInputManager = aInputManager; myGameWorld = aGameWorld; };
 	void ChangeRoom(Room* aCurrentRoom);
 
 	bool Update(const float aDeltaTime, const bool aTalkIsOn);
 	void Render(Synchronizer &aSynchronizer);
-	void AddEvent(Event* aEvent);
+	void AddEvent(Event* aEvent, bool aForceAdd = false);
 	void RemoveAllEvents();
 
 	Room* GetCurrentRoom() { return myCurrentRoom; }
@@ -73,6 +73,7 @@ private:
 	bool myIsSwitchingRoom;
 	bool myIsInsideAObject;
 	bool myClicked;
+	bool myResetted;
 
 	EventManager();
 	~EventManager();

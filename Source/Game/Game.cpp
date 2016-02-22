@@ -217,7 +217,7 @@ void CGame::InitCallBack()
 const bool CGame::Update()
 {
 	SoundManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
-	MouseManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
+	MouseManager::GetInstance()->Update(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat());
 	MusicManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
 	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();

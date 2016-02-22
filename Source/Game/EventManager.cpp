@@ -26,6 +26,7 @@ EventManager::EventManager()
 EventManager::~EventManager()
 {
 	myActiveEvents.RemoveAll();
+	delete myText;
 }
 
 void EventManager::ChangeRoom(Room* aCurrentRoom)
@@ -35,8 +36,13 @@ void EventManager::ChangeRoom(Room* aCurrentRoom)
 	myIsSwitchingRoom = true;
 }
 
-void EventManager::AddEvent(Event* aEvent)
+void EventManager::AddEvent(Event* aEvent, bool aForceAdd)
 {
+	if (aForceAdd == false && myResetted == true)
+	{
+		return;
+	}
+
 	if (aEvent->myActive == false)
 	{
 		bool canActivate = true;
@@ -51,7 +57,10 @@ void EventManager::AddEvent(Event* aEvent)
 		{
 			if (GetRootIsClick(aEvent) == true)
 			{
-				++aEvent->myObjectData->myAmountActiveEvents;
+				if (aEvent->myObjectData != nullptr)
+				{
+					++aEvent->myObjectData->myAmountActiveEvents;
+				}
 			}
 			aEvent->myActive = true;
 			aEvent->Reset();
@@ -64,10 +73,17 @@ void EventManager::Reset()
 {
 	RemoveAllEvents();
 	myVisitedRooms.clear();
+	myResetted = true;
 }
 
-bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY)
+bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMouseX, float aMouseY, float aRelativeX, float aRelativeY, bool aDoAddEvents)
 {
+	if (myResetted == true)
+	{
+		myResetted = false;
+		return true;
+	}
+
 	if (aData->myActive == true)
 	{
 		if (aData->myChilds.GetIsInitialized() == true)
@@ -89,10 +105,6 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					if (aData->myName == "Chef")
-					{
-						std::cout << aData->myAmountActiveEvents << std::endl;
-					}
 					if (aData->myAmountActiveEvents == 0)
 					{
 						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
@@ -108,11 +120,14 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				else if (aData->myIsHovering == false)
 				{
 					aData->myIsHovering = true;
-					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
+					if (aDoAddEvents == true)
 					{
-						if (aData->myEvents[j]->myType == EventTypes::OnHover)
+						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 						{
-							AddEvent(aData->myEvents[j]);
+							if (aData->myEvents[j]->myType == EventTypes::OnHover)
+							{
+								AddEvent(aData->myEvents[j]);
+							}
 						}
 					}
 					return true;
@@ -123,11 +138,14 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnHover && aData->myIsHovering == true)
 				{
 					aData->myIsHovering = false;
-					for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
+					if (aDoAddEvents == true)
 					{
-						if (aData->myEvents[j]->myType == EventTypes::OnLeave)
+						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 						{
-							AddEvent(aData->myEvents[j]);
+							if (aData->myEvents[j]->myType == EventTypes::OnLeave)
+							{
+								AddEvent(aData->myEvents[j]);
+							}
 						}
 					}
 					return true;
@@ -169,10 +187,18 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 {
 	DX2D::Vector2f& mousePosition = MouseManager::GetInstance()->GetPosition();
 
+	if (myResetted == true)
+	{
+		myResetted = false;
+		UpdateActiveEvents(aDeltaTime);
+		return false;
+	}
+
 	myClicked = false;
 	myIsInsideAObject = false;
 
-	if (myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false)
+	bool doCheckInput = myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false;
+	if (doCheckInput == true)
 	{
 		if (myGameWorld->GetCinematicMode() == false && myInputManager->LeftMouseButtonClicked() == true)
 		{
@@ -184,30 +210,22 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 				}
 			}
 		}
-
-		for (int i = (*myObjects).Size() - 1; i >= 0; --i)
+	}
+	for (int i = (*myObjects).Size() - 1; i >= 0; --i)
+	{
+		if (OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0, doCheckInput) == true)
 		{
-			if (OnEvent((*myObjects)[i], EventTypes::OnHover, mousePosition.x, mousePosition.y, 0, 0) == true)
-			{
-				break;
-			}
+			break;
 		}
 	}
 
 	UpdateActiveEvents(aDeltaTime);
 
-	std::string value = "";
-	EventVariablesManager::GetInstance()->GetVariable(value, "_SELECTED_ITEM");
-	if (value != "" && myGameWorld->GetPlayer()->GetInventory().IsOpen() == false && myInputManager->LeftMouseButtonClicked() == true && myIsInsideAObject == false)
-	{
-		//myGameWorld->GetPlayer()->GetInventory().DeSelect();
-		//value = "";
-		//EventVariablesManager::GetInstance()->SetVariable(value, "_PREV_SELECTED_ITEM");
-		myClicked = true;
-	}
-
 #ifdef _DEBUG
-	myText->myText = std::string("Active Events: ") + std::to_string(myActiveEvents.Size());
+	EventVariablesManager::GetInstance()->GetVariable(myText->myText, "_PREV_SELECTED_ITEM");
+	std::string str = "";
+	EventVariablesManager::GetInstance()->GetVariable(str, "_SELECTED_ITEM");
+	myText->myText = "Active Events: " + std::to_string(myActiveEvents.Size()) + "\nPrevious: " + myText->myText + "\n" + "Selected: " + str;
 #endif
 
 	if (myIsSwitchingRoom == true)
@@ -239,6 +257,10 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 
 void EventManager::Render(Synchronizer &aSynchronizer)
 {
+	if (myText == nullptr)
+	{
+		return;
+	}
 	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
 	{
 		Event* event = myActiveEvents[i];
@@ -266,7 +288,6 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 		}
 		if (event->Update(aDeltaTime) == true)
 		{
-			bool doRemove = true;
 			event->myActive = false;
 			if (myActiveEvents.Size() == 0)
 			{
@@ -303,12 +324,13 @@ void EventManager::UpdateActiveEvents(const float aDeltaTime)
 			}
 			if (GetRootIsClick(event) == true)
 			{
-				--event->myObjectData->myAmountActiveEvents;
+				if (event->myObjectData != nullptr)
+				{
+					--event->myObjectData->myAmountActiveEvents;
+				}
 			}
-			if (doRemove == true)
-			{
-				myActiveEvents.RemoveCyclicAtIndex(i);
-			}
+
+			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
 	}
 
@@ -349,7 +371,10 @@ void EventManager::RemoveAllAnswers()
 			myActiveEvents[i]->myActive = false;
 			if (GetRootIsClick(myActiveEvents[i]) == true)
 			{
-				--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
+				if (myActiveEvents[i]->myObjectData != nullptr)
+				{
+					--myActiveEvents[i]->myObjectData->myAmountActiveEvents;
+				}
 			}
 			myActiveEvents.RemoveCyclicAtIndex(i);
 		}
@@ -361,7 +386,11 @@ void EventManager::RemoveAllEvents()
 	for (int i = 0; i < myActiveEvents.Size(); ++i)
 	{
 		myActiveEvents[i]->myActive = false;
-		myActiveEvents[i]->myObjectData->myAmountActiveEvents = 0;
+		if (myActiveEvents[i]->myObjectData != nullptr)
+		{
+			myActiveEvents[i]->myObjectData->myAmountActiveEvents = 0;
+		}
+		myActiveEvents[i]->Reset();
 	}
 	myActiveEvents.RemoveAll();
 }
