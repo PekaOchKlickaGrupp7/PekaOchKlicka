@@ -107,7 +107,14 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	if (object != nullptr)
 	{
-		if (myObjectData->myActive == false || object->myActive == false)
+		if (myObjectData != nullptr)
+		{
+			if (myObjectData->myActive == false || object->myActive == false)
+			{
+				return true;
+			}
+		}
+		else if (object->myActive == false)
 		{
 			return true;
 		}
