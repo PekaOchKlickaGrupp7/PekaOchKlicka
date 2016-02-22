@@ -6,6 +6,8 @@
 #include "Options.h"
 #include "EventManager.h"
 #include "EventTalk.h"
+#include "MouseManager.h"
+#include "SoundFileHandler.h"
 
 Inventory::Inventory()
 {
@@ -90,6 +92,8 @@ void Inventory::RemoveSelectedItem()
 //Update the inventory
 void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDeltaTime)
 {
+	static bool isInsideOptionsArea = false; // So that hover sound only plays once. /findus
+
 	if (myIsOpen == true)
 	{
 		Open(aDeltaTime, aInputManager);
@@ -102,7 +106,39 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 	
 	if (aInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
+	}
+
+
+	//Options area in the inventory
+	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
+	Vector2f botRight = { 0.97656f, 1 - 0.032407f };
+
+	if (MouseManager::GetInstance()->GetPosition().x >= topLeft.x &&
+		MouseManager::GetInstance()->GetPosition().x <= botRight.x &&
+		MouseManager::GetInstance()->GetPosition().y >= topLeft.y &&
+		MouseManager::GetInstance()->GetPosition().y <= botRight.y)
+	{
+		if (isInsideOptionsArea == false)
+		{
+			isInsideOptionsArea = true;
+
+			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+
+			SoundPtr->SetLooping(false);
+			SoundPtr->PlaySound();
+
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
+		}
+	}
+	else
+	{
+		if (isInsideOptionsArea == true)
+		{
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+		}
+		isInsideOptionsArea = false;
 	}
 }
 
@@ -156,6 +192,11 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 		mySelectedItem = nullptr;
 		myPreviouslySelectedItem = nullptr;
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
+
+		Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonClick");
+
+		SoundPtr->SetLooping(false);
+		SoundPtr->PlaySound();
 	}
 }
 

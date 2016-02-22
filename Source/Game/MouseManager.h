@@ -88,6 +88,8 @@ private:
 	// This is the current sprite
 	DX2D::CSprite* mySprite;
 
+	float myRotation;
+
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> mySpriteInteractive;
 };
 
