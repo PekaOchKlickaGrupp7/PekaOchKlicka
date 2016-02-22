@@ -59,7 +59,9 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			{
 				combineText = item["CombineText"].GetString();
 			}
-			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
+			Item* tempItem = new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath);
+			tempItem->SetCombinationText(combineText);
+			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(tempItem);
 		}
 	}
 

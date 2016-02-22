@@ -123,6 +123,11 @@ void Item::SetToWorldSprite()
 	mySprite = myWorldSprite;
 }
 
+void Item::SetCombinationText(std::string& aCombinationText)
+{
+	myCombinationText = aCombinationText;
+}
+
 void Item::Render(Synchronizer& aSynchronizer)
 {
 	RenderCommand command;
