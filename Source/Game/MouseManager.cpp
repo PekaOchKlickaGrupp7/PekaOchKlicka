@@ -41,33 +41,38 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myScale = 1.0f;
 	myGoUp = true;
 	myTotalLines = 8;
+
+	myLineSprites.Init(myTotalLines);
+	for (int i = 0; i < myTotalLines; ++i)
+	{
+		myLineSprites.Add(new DX2D::CSprite("Sprites/Cursor/Line.dds"));
+		myLineSprites[myLineSprites.Size() - 1]->SetPivot({ 0.0f, 0.5f });
+	}
 }
 
-void MouseManager::DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale)
+void MouseManager::DrawLine(Synchronizer& aSynchronizer, int aBuffer, DX2D::Vector2f aPos, float aRotation, float aScale)
 {
-	float rot = aRotation;
-	float scaleFrom = 0.009f * aScale;
-	float scaleTo = 0.018f * aScale;
-
-	//MouseManager::GetInstance()->SetHideGameMouse(true);
+	float rot = aRotation + 20;
+	float scale = 0.01f * aScale;
 
 	float ratio = DX2D::CEngine::GetInstance()->GetWindowRatioInversed();
+	DX2D::Vector2f pos = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scale * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scale };
 
-	DX2D::Vector2f from = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleFrom * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
-	DX2D::Vector2f to = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleTo * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
+	myLineSprites[aBuffer]->SetRotation(rot * (3.14f / 180.0f));
+	//myLineSprites[aBuffer]->SetSize({ 0.5f, 0.5f });
 
+	RenderCommand command;
+	command.mySprite = myLineSprites[aBuffer];
+	command.myPosition = pos;
+	command.myType = eRenderType::eSprite;
 
-	std::cout << ratio << std::endl;
-	/*from.x *= ratio;
-	to.x *= ratio;*/
-
-	DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to, {1,1,1,1});
+	aSynchronizer.AddRenderCommand(command);
 
 }
 
 void MouseManager::Update(float aDeltaTime)
 {
-	float scaleSpeed = 1.0f;
+	float scaleSpeed = 1.2f;
 	if (myGoUp == true)
 	{
 		myScale += scaleSpeed * aDeltaTime;
@@ -226,7 +231,7 @@ void MouseManager::Render(Synchronizer &aSynchronizer)
 		{
 			for (float i = 0; i < myTotalLines; ++i)
 			{
-				DrawLine(myPosition, (i / myTotalLines) * 360.0f, myScale);
+				DrawLine(aSynchronizer, static_cast<int>(i), myPosition, (i / myTotalLines) * 360.0f, myScale);
 			}
 		}
 	}
