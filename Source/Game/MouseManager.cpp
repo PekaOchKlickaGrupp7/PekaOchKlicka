@@ -38,8 +38,19 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myInputManager->SetHideMouse(true);
 }
 
-void MouseManager::Update(float)
+void MouseManager::Update(float aDeltaTime)
 {
+	if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
+	{
+		float aRad = mySprite->GetRotation() + (0.001f * aDeltaTime);
+		mySprite->SetRotation(aRad);
+	}
+	else
+	{
+		mySprite->SetRotation(0.0f);
+	}
+
+
 
 
 	//
