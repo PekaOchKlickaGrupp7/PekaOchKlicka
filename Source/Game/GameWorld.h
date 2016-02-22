@@ -59,6 +59,7 @@ private:
 	DX2D::Vector2f myNewTargetPosition;
 	DX2D::CText* myTextFPS;
 
+
 	Player myPlayer;
 	Pathfinding myPathfinding;
 	JSON myJson;
@@ -68,6 +69,8 @@ private:
 
 	int myCurrentWaypoint;
 	float myFadeIn;
+	float myScale;
+	bool myGoUp;
 
 	bool myResettedGame;
 	bool myTalkIsOn;
