@@ -103,13 +103,12 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 		Close(aDeltaTime);
 	}
 
-	
 	if (aInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
 		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+		MouseManager::GetInstance()->SetHideGameMouse(false);
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
 	}
-
 
 	//Options area in the inventory
 	Vector2f topLeft = { 0.86458f, 1 - 0.0833f };
