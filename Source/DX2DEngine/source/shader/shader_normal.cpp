@@ -88,7 +88,7 @@ void CShaderNormal::SetShaderParameters(CRenderObjectSprite* aObject, ID3D11Buff
 		return;
 	}
 
-	DX2D::Vector2f offsetPos(DX2D::CEngine::GetInstance()->GetWindowRatio(), -1.0f);
+	DX2D::Vector2f offsetPos(0, -1.0f);
 
 	Vector2f correctedPosition = DX2D::Vector2f((aObject->myPosition.x * 2.0f) - 1.0f, -(aObject->myPosition.y * 2.0f) + 1.0f);
 

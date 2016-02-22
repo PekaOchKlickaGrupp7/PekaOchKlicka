@@ -105,7 +105,7 @@ int CShaderNormalInstanced::SetShaderParameters(std::vector<CSprite*>& someSprit
 		ObjectBufferInstanceType& type = *next;
 
 		type.myPosition = sprite->GetPosition();
-		DX2D::Vector2f offsetPos(DX2D::CEngine::GetInstance()->GetWindowRatio(), -1.0f);
+		DX2D::Vector2f offsetPos(1080.0f / 1920.0f, -1.0f);
 		//Vector2f correctedPosition = DX2D::Vector2f( (type.myPosition.x * 2.0f) - 1.0f, (type.myPosition.y * 2.0f) + 1);
 		Vector2f correctedPosition = DX2D::Vector2f((type.myPosition.x * 2.0f) - 1.0f, -(type.myPosition.y * 2.0f) + 1.0f);
 	

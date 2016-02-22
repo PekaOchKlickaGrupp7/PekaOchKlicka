@@ -105,6 +105,9 @@ void CGameWorld::Init()
 		ChangeLevel(name);
 	}
 
+	myScale = 1.0f;
+	myGoUp = true;
+
 	myDoQuit = false;
 	myTalkIsOn = false;
 	myPlayerCanMove = true;
@@ -180,8 +183,25 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	DX2D::Vector2f& pos = MouseManager::GetInstance()->GetPosition();
 
-	float scale = 1.0f;
-	float totalLines = 24;
+	float scaleSpeed = 1.0f;
+	if (myGoUp == true)
+	{
+		myScale += scaleSpeed * aTimeDelta;
+		if (myScale >= 1.2f)
+		{
+			myGoUp = false;
+		}
+	}
+	else
+	{
+		myScale -= scaleSpeed * aTimeDelta;
+		if (myScale <= 0.8f)
+		{
+			myGoUp = true;
+		}
+	}
+	float scale = myScale;
+	float totalLines = 8;
 	for (float i = 0; i < totalLines; ++i)
 	{
 		DrawLine(pos, (i / totalLines) * 360.0f, scale);
@@ -249,16 +269,22 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 void CGameWorld::DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale)
 {
 	float rot = aRotation;
-	float scaleFrom = 0.02f * aScale;
-	float scaleTo = 0.04f * aScale;
-	DX2D::Vector2f from = { aPos.x + cos(rot * (3.14f / 180.0f)) * scaleFrom, aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
-	DX2D::Vector2f to = { aPos.x + cos(rot * (3.14f / 180.0f)) * scaleTo, aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
+	float scaleFrom = 0.009f * aScale;
+	float scaleTo = 0.018f * aScale;
 
-	float ratio = ResolutionManager::GetInstance()->GetRatio();
-	from.x *= ratio;
-	to.x *= ratio;
+	//MouseManager::GetInstance()->SetHideGameMouse(true);
 
-	//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to);
+	float ratio = DX2D::CEngine::GetInstance()->GetWindowRatioInversed();
+
+	DX2D::Vector2f from = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleFrom * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
+	DX2D::Vector2f to = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleTo * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
+
+
+	std::cout << ratio << std::endl;
+	/*from.x *= ratio;
+	to.x *= ratio;*/
+
+	DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to);
 
 }
 
@@ -306,43 +332,31 @@ void CGameWorld::SetTalkIsOff()
 
 void CGameWorld::ResetGame()
 {
-	DL_PRINT("Reset game");
-	DL_PRINT("Set cinematic");
 	SetCinematicMode(false);
-	DL_PRINT("Set hide mouse");
 
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
-	DL_PRINT("Set talk is off");
 	myTalkIsOn = false;
 
-	DL_PRINT("Get player position");
 	DX2D::Vector2f pos = GetPlayer()->GetPosition();
-	DL_PRINT("Set player target position to the player position");
 	SetPlayerTargetPosition(Point2f(pos.x, pos.y));
 
-	DL_PRINT("Set player target position");
 	myPlayer.GetInventory().Clear();
 
-	DL_PRINT("Reset all data to original");
 	for (std::map<std::string, Room*>::iterator iterator = myRooms.begin(); iterator != myRooms.end(); iterator++)
 	{
 		std::string name = iterator->second->GetName();
-		DL_PRINT(("In room: " + name).c_str());
 		CommonUtilities::GrowingArray<ObjectData*, unsigned int>& objects = *iterator->second->GetObjectList();
 		for (unsigned int i = 0; i < objects.Size(); ++i)
 		{
 			std::string name = objects[i]->myName;
-			DL_PRINT(("Resetting object: " + name).c_str());
 			objects[i]->ResetToOriginalData();
 		}
 	}
 
-	DL_PRINT("Set player color");
 	DX2D::CColor color = { 1, 1, 1, 1 };
 	myPlayer.SetColor(color);
 
-	DL_PRINT("Reset event manager");
 	EventManager::GetInstance()->Reset();
 	//ChangeLevel(aTargetLevel);
 
