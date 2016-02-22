@@ -33,12 +33,14 @@ protected:
 	DX2D::CText* myTextRender;
 
 	std::string mySoundPath;
+	std::string myIdentifier;
 
 	CommonUtilities::GrowingArray < DX2D::CText* > myTextRenders;
 
 	unsigned int myCurrentLetter;
-	unsigned int myShakeStart;
-	unsigned int myShakeStop;
+	int mySounds;
+	//unsigned int myShakeStart;
+	//unsigned int myShakeStop;
 	unsigned int myCurrentIndex;
 
 	float myShowedTime;
