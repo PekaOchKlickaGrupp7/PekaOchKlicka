@@ -40,7 +40,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	myGoUp = true;
 	myTotalLines = 8;
 
-	myLineSprites.Init(myTotalLines);
+	myLineSprites.Init(static_cast<int>(myTotalLines));
 	for (int i = 0; i < myTotalLines; ++i)
 	{
 		myLineSprites.Add(new DX2D::CSprite("Sprites/Cursor/Line.dds"));
