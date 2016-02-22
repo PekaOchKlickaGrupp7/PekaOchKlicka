@@ -213,17 +213,17 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 						UpdateSelectedItem();
 
 						myMasterItemList->GetItemList()[j].PlayCombineSound();
-						std::string str = myMasterItemList->GetItemList()[j].GetDescription();
+						std::string &str = myMasterItemList->GetItemList()[j].GetCombinationText();
 
 						eventTalkOnCombine->myCanBeInterupted = true;
 						eventTalkOnCombine->myColor = { 0.78f, 0.85f, 0.68f, 1.0f };
 						eventTalkOnCombine->myAction = EventActions::Talk;
 						eventTalkOnCombine->myType = EventTypes::OnClick;
-						eventTalkOnCombine->mySize = 0.3f;
+						eventTalkOnCombine->mySize = 0.5f;
 						eventTalkOnCombine->myText = str;
 						eventTalkOnCombine->myTarget = "Player";
 						eventTalkOnCombine->myShowTime = 1.0f;
-						eventTalkOnCombine->myLetterLength = 0.02f;
+						eventTalkOnCombine->myLetterLength = 0.05f;
 
 						eventTalkOnCombine->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
 

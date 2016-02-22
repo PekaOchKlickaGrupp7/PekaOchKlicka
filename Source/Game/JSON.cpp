@@ -54,7 +54,14 @@ bool JSON::Load(const std::string& aRootFile, std::map<std::string, Room*>& aRoo
 			std::string resultingItem = item["ResultingItem"].GetString();
 			bool isCombinable = item["IsCombinable"].GetBool();
 			std::string aPath = item["SoundPath"].GetString();
-			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath));
+			std::string combineText = "";
+			if (item.HasMember("CombineText") == true)
+			{
+				combineText = item["CombineText"].GetString();
+			}
+			Item* tempItem = new Item(name, path, description, combinableWith, resultingItem, isCombinable, aPath);
+			tempItem->SetCombinationText(combineText);
+			aGameWorld->GetPlayer()->GetInventory().GetMasterItemList()->Add(tempItem);
 		}
 	}
 
