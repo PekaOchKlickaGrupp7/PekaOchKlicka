@@ -85,6 +85,13 @@ private:
 	bool myHideGameMouse;
 	bool myInMenu;
 
+	void DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale);
+	bool myGoUp;
+	float myFadeIn;
+	float myScale;
+
+	float myTotalLines;
+
 	// This is the current sprite
 	DX2D::CSprite* mySprite;
 

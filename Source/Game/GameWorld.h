@@ -68,9 +68,8 @@ private:
 	Options myOptionsMenu;
 
 	int myCurrentWaypoint;
+
 	float myFadeIn;
-	float myScale;
-	bool myGoUp;
 
 	bool myResettedGame;
 	bool myTalkIsOn;

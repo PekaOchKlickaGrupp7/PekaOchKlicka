@@ -105,8 +105,6 @@ void CGameWorld::Init()
 		ChangeLevel(name);
 	}
 
-	myScale = 1.0f;
-	myGoUp = true;
 
 	myDoQuit = false;
 	myTalkIsOn = false;
@@ -181,31 +179,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		std::cout << "Resetted game" << std::endl;
 	}
 
-	DX2D::Vector2f& pos = MouseManager::GetInstance()->GetPosition();
-
-	float scaleSpeed = 1.0f;
-	if (myGoUp == true)
-	{
-		myScale += scaleSpeed * aTimeDelta;
-		if (myScale >= 1.2f)
-		{
-			myGoUp = false;
-		}
-	}
-	else
-	{
-		myScale -= scaleSpeed * aTimeDelta;
-		if (myScale <= 0.8f)
-		{
-			myGoUp = true;
-		}
-	}
-	float scale = myScale;
-	float totalLines = 8;
-	for (float i = 0; i < totalLines; ++i)
-	{
-		DrawLine(pos, (i / totalLines) * 360.0f, scale);
-	}
 	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
 	{
@@ -264,28 +237,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	return eStateStatus::eKeepState;
-}
-
-void CGameWorld::DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale)
-{
-	float rot = aRotation;
-	float scaleFrom = 0.009f * aScale;
-	float scaleTo = 0.018f * aScale;
-
-	//MouseManager::GetInstance()->SetHideGameMouse(true);
-
-	float ratio = DX2D::CEngine::GetInstance()->GetWindowRatioInversed();
-
-	DX2D::Vector2f from = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleFrom * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
-	DX2D::Vector2f to = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleTo * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
-
-
-	std::cout << ratio << std::endl;
-	/*from.x *= ratio;
-	to.x *= ratio;*/
-
-	DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to);
-
 }
 
 float CGameWorld::GetFadeIn() const

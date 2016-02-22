@@ -29,6 +29,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	mySprite = mySpriteInteractive[eMouse(eInteractive::eRegular)];
 
 	mySpriteInteractive[eMouse(eInteractive::eActive)]->SetPivot({ 0.5f, 0.5f });
+	mySpriteInteractive[eMouse(eInteractive::eActive)]->SetColor({ 0,0,0,0 });
 
 	myPosition = { 0.5f, 0.5f };
 	mySprite->SetPivot({ 0.5f, 0.5f });
@@ -36,11 +37,56 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 	
 
 	myInputManager->SetHideMouse(true);
+
+	myScale = 1.0f;
+	myGoUp = true;
+	myTotalLines = 8;
+}
+
+void MouseManager::DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale)
+{
+	float rot = aRotation;
+	float scaleFrom = 0.009f * aScale;
+	float scaleTo = 0.018f * aScale;
+
+	//MouseManager::GetInstance()->SetHideGameMouse(true);
+
+	float ratio = DX2D::CEngine::GetInstance()->GetWindowRatioInversed();
+
+	DX2D::Vector2f from = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleFrom * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
+	DX2D::Vector2f to = { aPos.x + (cos(rot * (3.14f / 180.0f)) * scaleTo * ratio), aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
+
+
+	std::cout << ratio << std::endl;
+	/*from.x *= ratio;
+	to.x *= ratio;*/
+
+	DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to, {1,1,1,1});
+
 }
 
 void MouseManager::Update(float aDeltaTime)
 {
-	if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
+	float scaleSpeed = 1.0f;
+	if (myGoUp == true)
+	{
+		myScale += scaleSpeed * aDeltaTime;
+		if (myScale >= 1.2f)
+		{
+			myGoUp = false;
+		}
+	}
+	else
+	{
+		myScale -= scaleSpeed * aDeltaTime;
+		if (myScale <= 0.8f)
+		{
+			myGoUp = true;
+		}
+	}
+
+
+	/*if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
 	{
 		float aRad = mySprite->GetRotation() + (0.001f * aDeltaTime);
 		mySprite->SetRotation(aRad);
@@ -48,8 +94,7 @@ void MouseManager::Update(float aDeltaTime)
 	else
 	{
 		mySprite->SetRotation(0.0f);
-	}
-
+	}*/
 
 
 
@@ -175,6 +220,15 @@ void MouseManager::Render(Synchronizer &aSynchronizer)
 		command.myType = eRenderType::eSprite;
 
 		aSynchronizer.AddRenderCommand(command);
+
+
+		if (mySprite == mySpriteInteractive[eMouse(eInteractive::eActive)])
+		{
+			for (float i = 0; i < myTotalLines; ++i)
+			{
+				DrawLine(myPosition, (i / myTotalLines) * 360.0f, myScale);
+			}
+		}
 	}
 }
 
