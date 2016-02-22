@@ -172,7 +172,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		else if (myCurrentLetter >= myText.size() - 1)
 		{
 			myShowedTime += aDeltaTime;
-			if (myShowedTime > myShowTime)
+			if (myShowedTime > myShowTime + 1.5f)
 			{
 				if (myCanBeInterupted == true)
 				{
