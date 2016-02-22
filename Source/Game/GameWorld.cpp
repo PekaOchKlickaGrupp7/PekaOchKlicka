@@ -10,6 +10,7 @@
 
 #include "ResolutionManager.h"
 
+#include "..\CommonUtilities\Macros.h"
 #include "Game.h"
 #include "EventManager.h"
 #include "HitBox.h"
@@ -177,6 +178,14 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		std::cout << "Resetted game" << std::endl;
 	}
 
+	DX2D::Vector2f& pos = MouseManager::GetInstance()->GetPosition();
+
+	float scale = 1.0f;
+	float totalLines = 24;
+	for (float i = 0; i < totalLines; ++i)
+	{
+		DrawLine(pos, (i / totalLines) * 360.0f, scale);
+	}
 	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
 	{
@@ -235,6 +244,22 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	}
 
 	return eStateStatus::eKeepState;
+}
+
+void CGameWorld::DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale)
+{
+	float rot = aRotation;
+	float scaleFrom = 0.02f * aScale;
+	float scaleTo = 0.04f * aScale;
+	DX2D::Vector2f from = { aPos.x + cos(rot * (3.14f / 180.0f)) * scaleFrom, aPos.y + sin(rot * (3.14f / 180.0f)) * scaleFrom };
+	DX2D::Vector2f to = { aPos.x + cos(rot * (3.14f / 180.0f)) * scaleTo, aPos.y + sin(rot * (3.14f / 180.0f)) * scaleTo };
+
+	float ratio = ResolutionManager::GetInstance()->GetRatio();
+	from.x *= ratio;
+	to.x *= ratio;
+
+	//DX2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(from, to);
+
 }
 
 float CGameWorld::GetFadeIn() const

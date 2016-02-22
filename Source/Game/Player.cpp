@@ -176,6 +176,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 	{
 		scaleY *= 1.5f;
 	}
+
 	myAnimations[myCurentAnimation]->SetSize(scaleY);
 	myAnimations[myCurentAnimation]->Update(aDeltaT);
 }
