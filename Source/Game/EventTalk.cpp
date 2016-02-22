@@ -75,12 +75,12 @@ bool EventTalk::Update(const float aDeltaTime)
 	 else if (object->myName == "Antagonist")
 	{
 		 myIdentifier = "Antagonist";
-		 mySoundPath = "Sound/SoundFX/Talk1.ogg";
+		 mySoundPath = "Sound/SoundFX/Talk3.ogg";
 	}
 	else
 	{
 		myIdentifier = "Player";
-		mySoundPath = "Sound/SoundFX/Talk3.ogg";
+		mySoundPath = "Sound/SoundFX/Talk5.ogg";
 	}
 
 	
