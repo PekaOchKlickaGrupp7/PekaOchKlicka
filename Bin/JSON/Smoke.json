@@ -33,7 +33,7 @@
                 "y": -0.01
             }
         },
-        "ParticleImage": "Sprites/dot.png",
+        "ParticleImage": "Sprites/dot.dds",
         "EmissionLifeTime": 0
     },
     "Particle":
