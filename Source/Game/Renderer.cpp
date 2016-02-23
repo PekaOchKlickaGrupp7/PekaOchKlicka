@@ -20,6 +20,10 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 
 	for (unsigned short i = 0; i < aSynchronizer.GetSize(); ++i)
 	{
+		if (aSynchronizer.GetRenderCommand(i).myChangeAmbience == true)
+		{
+			DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(aSynchronizer.GetRenderCommand(i).myAmbience);
+		}
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{
 		case eRenderType::eSprite:
