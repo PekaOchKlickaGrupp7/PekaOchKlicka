@@ -11,7 +11,14 @@
 #include "Pathfinding.h"
 #include "Options.h"
 
+class EventParticleSystem;
 class Room;
+
+struct RenderPass
+{
+	EventParticleSystem* myEvent;
+	std::string myObjectPass;
+};
 
 class CGameWorld : public GameState
 {
@@ -25,6 +32,9 @@ public:
 	void DoChangeLevel(Room* aCurrentRoom);
 	void ChangeLevel(const std::string& aString);
 	Player* GetPlayer();
+
+	void AddParticlePass(std::string& aObjectPass, EventParticleSystem* aParticleSystem);
+
 	void SetPlayerTargetPosition(Point2f aPoint);
 	const Vector2f GetPlayerTargetPosition() const;
 
@@ -35,16 +45,15 @@ public:
 
 	void SetFadeIn(bool aFade = true);
 	float GetFadeIn() const;
+
 	bool PlayerHasReachedTarget();
 	void Quit();
 
 	void SetTalkIsOn();
 	void SetTalkIsOff();
 
-	void DrawLine(DX2D::Vector2f aPos, float aRotation, float aScale);
-
 	eStateStatus Update(float aTimeDelta) override;
-	void Render(Synchronizer& aSynchronizer)override;
+	void Render(Synchronizer& aSynchronizer) override;
 private:
 	void PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCanMove, float aTimeDelta);
 
@@ -53,6 +62,7 @@ private:
 
 	CommonUtilities::GrowingArray<DX2D::CSprite*, int> myDotSprites;
 	CommonUtilities::GrowingArray<Node*, int>* myWaypointNodes;
+	CommonUtilities::GrowingArray<RenderPass, int> myRenderPasses;
 	std::map<std::string, Room*> myRooms;
 
 	DX2D::Vector2f myTargetPosition;

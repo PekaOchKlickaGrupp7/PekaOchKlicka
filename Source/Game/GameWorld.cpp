@@ -20,7 +20,7 @@
 #include "EventVariablesManager.h"
 
 #include "..\CommonUtilities\Vector3.h"
-
+#include "EventParticleSystem.h"
 
 CGameWorld::CGameWorld(StateStackProxy& aStateStackProxy, CU::DirectInput::InputManager& aInputManager, CU::TimeSys::TimerManager& aTimerManager) :
 GameState(aStateStackProxy, aInputManager, aTimerManager)
@@ -115,6 +115,8 @@ void CGameWorld::Init()
 	myTextFPS->myText = "FPS: ";
 	myTextFPS->mySize = 0.8f;
 
+	myRenderPasses.Init(32);
+
 	myPlayer.Init(DX2D::Vector2f(0.5f, 0.8f), this);
 
 	myFadeIn = 1.0f;
@@ -202,7 +204,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myResettedGame = false;
 		return eStateStatus::eKeepState;
 	}
+
 	myPlayerIsPresent = false;
+	myRenderPasses.RemoveAll();
+
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
@@ -453,6 +458,14 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	}
 }
 
+void CGameWorld::AddParticlePass(std::string& aObjectPass, EventParticleSystem* aParticleSystem)
+{
+	RenderPass pass;
+	pass.myEvent = aParticleSystem;
+	pass.myObjectPass = aObjectPass;
+	myRenderPasses.Add(pass);
+}
+
 void CGameWorld::UpdateObject(ObjectData* aNode, float aDeltaTime)
 {
 	if (aNode->myActive == true)
@@ -503,6 +516,16 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 				command.mySprite = aNode->mySprite;
 				command.mySprite->SetColor(aNode->myColor);
 				aSynchronizer.AddRenderCommand(command);
+			}
+
+			for (int i = myRenderPasses.Size() - 1; i >= 0; --i)
+			{
+				RenderPass& pass = myRenderPasses[i];
+				if (pass.myObjectPass == aNode->myName)
+				{
+					myRenderPasses[i].myEvent->DoRender(aSynchronizer);
+					myRenderPasses.RemoveCyclicAtIndex(i);
+				}
 			}
 		}
 
@@ -595,7 +618,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	if (myPlayerIsPresent == true)
 	{
-		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f && myTalkIsOn == false);
+		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f);
 	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)

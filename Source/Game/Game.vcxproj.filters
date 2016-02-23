@@ -85,6 +85,9 @@
     <Filter Include="Source\System\Options Ingame\Pathfinding">
       <UniqueIdentifier>{9e4e1877-96f9-4342-bb34-b260e3912cfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Events\Particles">
+      <UniqueIdentifier>{0364cd8f-edf8-45c9-ba58-33db11be55bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -360,6 +363,15 @@
     <ClInclude Include="EventFadePosition.h">
       <Filter>Source\Events\Object</Filter>
     </ClInclude>
+    <ClInclude Include="EventParticleSystem.h">
+      <Filter>Source\Events\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Forcefield.h">
+      <Filter>Source\Events\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Source\Events\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -592,6 +604,15 @@
     </ClCompile>
     <ClCompile Include="EventSetPosition.cpp">
       <Filter>Source\Events\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EventParticleSystem.cpp">
+      <Filter>Source\Events\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Forcefield.cpp">
+      <Filter>Source\Events\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source\Events\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

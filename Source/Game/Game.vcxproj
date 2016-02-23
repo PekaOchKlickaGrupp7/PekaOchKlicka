@@ -176,6 +176,7 @@
     <ClInclude Include="EventIfNotGlobalVariable.h" />
     <ClInclude Include="EventIsItem.h" />
     <ClInclude Include="EventItemIsNot.h" />
+    <ClInclude Include="EventParticleSystem.h" />
     <ClInclude Include="EventPickupItem.h" />
     <ClInclude Include="EventRandom.h" />
     <ClInclude Include="EventRemoveSelectedItem.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="EventUpdateAnimation.h" />
     <ClInclude Include="EventVariablesManager.h" />
     <ClInclude Include="EventWalkTo.h" />
+    <ClInclude Include="Forcefield.h" />
     <ClInclude Include="FullscreenButton.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="Animation.h" />
@@ -234,6 +236,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="ResumeButton.h" />
     <ClInclude Include="Room.h" />
@@ -265,6 +268,7 @@
     <ClCompile Include="EventIfNotGlobalVariable.cpp" />
     <ClCompile Include="EventIsItem.cpp" />
     <ClCompile Include="EventItemIsNot.cpp" />
+    <ClCompile Include="EventParticleSystem.cpp" />
     <ClCompile Include="EventPickupItem.cpp" />
     <ClCompile Include="EventRandom.cpp" />
     <ClCompile Include="EventRemoveSelectedItem.cpp" />
@@ -289,6 +293,7 @@
     <ClCompile Include="EventUpdateAnimation.cpp" />
     <ClCompile Include="EventVariablesManager.cpp" />
     <ClCompile Include="EventWalkTo.cpp" />
+    <ClCompile Include="Forcefield.cpp" />
     <ClCompile Include="FullscreenButton.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="Animation.cpp" />
@@ -314,6 +319,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="Room.cpp" />

@@ -40,6 +40,10 @@ void Animation::SetSize(float aScale)
 {
 	mySprite->SetSize(DX2D::Vector2f(aScale / myFramesPerRow, aScale / myFramesPerRow));
 }
+void Animation::SetFlip(bool aFlip)
+{
+	myFlip = aFlip;
+}
 DX2D::Vector2f Animation::GetSize()
 {
 	return mySprite->GetSize();
@@ -83,6 +87,11 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 	command.myType = eRenderType::eSprite;
 	command.myPosition = aPos;
 	mySprite->SetColor(myColor);
+	if (myFlip == true)
+	{
+		DX2D::Vector2f size = mySprite->GetSize();
+		mySprite->SetSize({ -size.x, size.y });
+	}
 	command.mySprite = mySprite;
 
 	aSynchronizer.AddRenderCommand(command);

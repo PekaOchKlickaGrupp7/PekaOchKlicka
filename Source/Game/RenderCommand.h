@@ -20,6 +20,13 @@ struct RenderCommand
 	DX2D::CSprite *mySprite;
 	DX2D::CCustomShape *myCustomShape;
 	DX2D::CText *myText;
+
+	bool myHasColor = false;
+	DX2D::CColor myColor;
+
+	bool myHasSize = false;
+	DX2D::Vector2f mySize;
+
 	eRenderType myType;
 	bool myChangeAmbience = false;
 	float myAmbience;
