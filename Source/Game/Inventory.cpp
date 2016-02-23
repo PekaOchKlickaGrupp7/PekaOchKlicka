@@ -299,7 +299,7 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 		aSynchronizer.AddRenderCommand(command);
 
 		//For setting the position of the first item in the inventory
-		DX2D::Vector2f tempItemPos = DX2D::Vector2f(myPosition.x + myXOffset, myPosition.y + myYOffset);
+		DX2D::Vector2f tempItemPos = DX2D::Vector2f(myPosition.x, myPosition.y);
 
 		//Render each item in the inventory
 		for (unsigned short i = 0; i < myContents.Size(); ++i)
@@ -311,7 +311,7 @@ void Inventory::Render(Synchronizer& aSynchronizer)
 
 			//Change the position to the end of the items image + the offset
 			DX2D::Vector2f imageSize = myContents[i]->GetSprite()->GetSize();
-			tempItemPos.x += imageSize.x + myXOffset;
+			tempItemPos.x += imageSize.x;
 
 			//If the image would be rendered outside the inventorys background image size in x-direction
 			//Reset the x-position and change the y-position to one row down
