@@ -10,6 +10,7 @@ EventParticleSystem::EventParticleSystem()
 {
 	myFile = "JSON/Smoke.json";
 	myTarget = "Player";
+	myEnabled = true;
 }
 
 EventParticleSystem::~EventParticleSystem()
@@ -48,18 +49,18 @@ float EventParticleSystem::RandomInRange(float aMin, float aMax)
 
 void EventParticleSystem::InitParticle(Particle* aParticle)
 {
-	aParticle->SetTotalLifeTime(RandomInRange(myMinLifeTime * 100.0f, myMaxLifeTime * 100.0f) / 100.0f);
+	aParticle->SetTotalLifeTime(RandomInRange(myMinLifeTime * 1000.0f, myMaxLifeTime * 1000.0f) / 1000.0f);
 
 	ObjectData* object = GetGameObject(myTarget);
 	Vector2f pos(object->myX, object->myY);
 
-	pos += Vector2f(RandomInRange(myEmissionAreaMin.x * 100.0f, myEmissionAreaMax.x * 100.0f) / 100.0f,
-		RandomInRange(myEmissionAreaMin.y * 100.0f, myEmissionAreaMax.y * 100.0f) / 100.0f);
+	pos += Vector2f(RandomInRange(myEmissionAreaMin.x * 1000.0f, myEmissionAreaMax.x * 1000.0f) / 1000.0f,
+		RandomInRange(myEmissionAreaMin.y * 1000.0f, myEmissionAreaMax.y * 1000.0f) / 1000.0f);
 
 	aParticle->SetPosition(pos);
 	Vector2f velocity = Vector2f(
-		RandomInRange(myMinEmissionVelocity.x * 100.0f, myMaxEmissionVelocity.x * 100.0f) / 100.0f,
-		RandomInRange(myMinEmissionVelocity.y * 100.0f, myMaxEmissionVelocity.y * 100.0f) / 100.0f);
+		RandomInRange(myMinEmissionVelocity.x * 1000.0f, myMaxEmissionVelocity.x * 1000.0f) / 1000.0f,
+		RandomInRange(myMinEmissionVelocity.y * 1000.0f, myMaxEmissionVelocity.y * 1000.0f) / 1000.0f);
 
 	aParticle->SetVelocity(velocity);
 	aParticle->SetIsActive(true);
@@ -115,10 +116,8 @@ void EventParticleSystem::Init(Room* aRoom, CGameWorld* aGameWorld)
 	velocity = emitter["EmissionVelocity"]["max"];
 	myMaxEmissionVelocity = Vector2f(velocity["x"].GetFloat(), velocity["y"].GetFloat());
 
-	int maxSize = static_cast<int>(myMaxLifeTime * mySpawnRate) + 5;
+	int maxSize = static_cast<int>(myMaxLifeTime / mySpawnRate) + 5;
 	myPoolOffset = 0;
-
-	myEnabled = false;
 
 	myParticlesPool.Init(maxSize);
 	myParticlesActive.Init(maxSize);
@@ -147,13 +146,21 @@ void EventParticleSystem::Init(Room* aRoom, CGameWorld* aGameWorld)
 
 bool EventParticleSystem::Update(const float aDeltaTime)
 {
-	if (myEnabled == false)
+	ObjectData* target = GetGameObject(myTarget);
+	if (target != nullptr)
+	{
+		if (target->myActive == false)
+		{
+			return false;
+		}
+	}
+	if (myEnabled == false || myObjectData->myActive == false)
 	{
 		return false;
 	}
 
 	myEmissionLifeTimeLeft -= aDeltaTime;
-	if (myEmissionLifeTimeLeft >= 0)
+	if (myEmissionLifeTimeLeft >= 0 || myEmissionLifeTime == 0)
 	{
 		mySpawnTime += aDeltaTime;
 		for (; mySpawnTime >= mySpawnRate; mySpawnTime -= mySpawnRate)
@@ -181,12 +188,30 @@ bool EventParticleSystem::Update(const float aDeltaTime)
 			myParticlesActive.RemoveCyclicAtIndex(i);
 		}
 	}
+
 	return false;
 }
 
-void EventParticleSystem::Render(Synchronizer&)
+void EventParticleSystem::PostRender(Synchronizer&)
 {
-	myGameWorld->AddParticlePass(myTarget, this);
+	ObjectData* target = GetGameObject(myTarget);
+	if (target != nullptr)
+	{
+		if (target->myActive == false)
+		{
+			return;
+		}
+	}
+	if (myObjectData->myActive == false)
+	{
+		return;
+	}
+	std::string strTarget = myTarget;
+	if (strTarget == "Self")
+	{
+		strTarget = myObjectData->myName;
+	}
+	myGameWorld->AddParticlePass(strTarget, this);
 }
 
 void EventParticleSystem::DoRender(Synchronizer& aSynchronizer)
@@ -209,4 +234,9 @@ void EventParticleSystem::DoRender(Synchronizer& aSynchronizer)
 		command.myPosition = DX2D::Vector2f(position.x, position.y);
 		aSynchronizer.AddRenderCommand(command);
 	}
+}
+
+void EventParticleSystem::Reset()
+{
+
 }

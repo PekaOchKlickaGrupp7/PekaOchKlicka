@@ -233,6 +233,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 	myOptionsMenu.Update(aTimeDelta);
+	std::cout << myRenderPasses.Size() << std::endl;
 
 	if (myDoQuit == true)
 	{
@@ -335,8 +336,12 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 
 	bool renderedPlayer = false;
 
+	EventManager::GetInstance()->PostRender(aSynchronizer);
+	
 	if (myCurrentRoom != nullptr)
 	{
+		std::cout << myRenderPasses.Size() << std::endl;
+
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
 		{
 			if ((*myCurrentRoom->GetObjectList())[i]->myName == "Player")
@@ -500,32 +505,32 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	{
 		aNode->myGlobalX = aRelativeX + aNode->myX;
 		aNode->myGlobalY = aRelativeY + aNode->myY;
-		if (aNode->mySprite != nullptr)
+		if (aNode->myIsAnimation == true)
 		{
-			aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
-			aNode->mySprite->SetSize(DX2D::Vector2f(aNode->myScaleX, aNode->myScaleY));
-			aNode->mySprite->SetRotation(aNode->myRotation);
+			aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
+		}
+		else
+		{
+			if (aNode->mySprite != nullptr)
+			{
+				aNode->mySprite->SetPivot(DX2D::Vector2f(aNode->myPivotX, aNode->myPivotY));
+				aNode->mySprite->SetSize(DX2D::Vector2f(aNode->myScaleX, aNode->myScaleY));
+				aNode->mySprite->SetRotation(aNode->myRotation);
 
-			command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
-			if (aNode->myIsAnimation == true)
-			{
-				aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
-			}
-			else
-			{
+				command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
 				command.mySprite = aNode->mySprite;
 				command.mySprite->SetColor(aNode->myColor);
 				aSynchronizer.AddRenderCommand(command);
 			}
+		}
 
-			for (int i = myRenderPasses.Size() - 1; i >= 0; --i)
+		for (int i = myRenderPasses.Size() - 1; i >= 0; --i)
+		{
+			RenderPass& pass = myRenderPasses[i];
+			if (pass.myObjectPass == aNode->myName)
 			{
-				RenderPass& pass = myRenderPasses[i];
-				if (pass.myObjectPass == aNode->myName)
-				{
-					myRenderPasses[i].myEvent->DoRender(aSynchronizer);
-					myRenderPasses.RemoveCyclicAtIndex(i);
-				}
+				myRenderPasses[i].myEvent->DoRender(aSynchronizer);
+				myRenderPasses.RemoveCyclicAtIndex(i);
 			}
 		}
 

@@ -58,7 +58,16 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	{
 	case EventActions::CreateParticleSystem:
 	{
+		EventParticleSystem* var = new EventParticleSystem();
 
+		if (extra.HasMember("FilePath") == true)
+		{
+			var->myFile = extra["FilePath"].GetString();
+		}
+
+		var->Init(aRoom, aGameWorld);
+
+		event = var;
 		break;
 	}
 	case EventActions::SetActive:

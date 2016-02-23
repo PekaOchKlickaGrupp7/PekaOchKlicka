@@ -220,7 +220,11 @@ const bool CGame::Update()
 	MouseManager::GetInstance()->Update(myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat());
 	MusicManager::GetInstance()->Update(static_cast<float>(myTimerManager.GetMasterTimer().GetTimeElapsed().GetMiliseconds()));
 
-	const float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
+	float deltaTime = myTimerManager.GetMasterTimer().GetTimeElapsed().GetSecondsFloat();
+	if (deltaTime > 0.5f)
+	{
+		deltaTime = 0.5f;
+	}
 	if (myStateStack.UpdateCurrentState(deltaTime) == true)
 	{
 		myStateStack.RenderCurrentState(mySynchronizer);

@@ -28,10 +28,8 @@ void Event::Init(Room* aRoom, CGameWorld* aGameWorld)
 	}
 }
 
-void Event::Render(Synchronizer &)
-{
-
-}
+void Event::PostRender(Synchronizer&) { }
+void Event::Render(Synchronizer&) { }
 
 ObjectData* Event::GetGameObject(const std::string& aName) const
 {
