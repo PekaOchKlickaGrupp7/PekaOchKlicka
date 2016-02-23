@@ -48,6 +48,8 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 					myGameWorld->GetPlayer()->SetAnimation(myPlayerDirection);
 				}
 				myGameWorld->SetFadeIn(false);
+				myGameWorld->SetTalkIsOff();
+				MouseManager::GetInstance()->SetHideGameMouse(false);
 
 				if (myTargetLevelName == "mainmenu" || myTargetLevelName == "splashscreen" || myTargetLevelName == "optionsmenu")
 				{
