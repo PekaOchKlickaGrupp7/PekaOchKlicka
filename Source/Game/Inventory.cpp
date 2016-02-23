@@ -23,7 +23,7 @@ Inventory::Inventory()
 
 	myMovementPerFrame = 0.0f;
 	myXOffset = 0.02f;
-	myYOffset = 0.02f;
+	myYOffset = 0;
 
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
