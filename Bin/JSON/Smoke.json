@@ -1,17 +1,17 @@
 {
     "Emitter":
     {
-        "EmissionRate":  50,
+        "EmissionRate":  100,
         "EmissionArea":
         {
             "min":
             {
-                "x": -0.01,
+                "x": -0.015,
                 "y": 0
             },
             "max":
             {
-                "x": 0.01,
+                "x": 0.015,
                 "y": 0
             }  
         },
@@ -38,7 +38,7 @@
     },
     "Particle":
     {
-        "StartAlpha": 0.8,
+        "StartAlpha": 0.09,
         "DeltaAlpha": 0,
         "StartSize": 0.1,
         "SizeDelta": 0.01,
