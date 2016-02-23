@@ -12,6 +12,7 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 	myNumberOfFrames = aNumberOfFrames;
 	myFrame = 0;
 	myPaused = false;
+	myFlip = false;
 
 	myCurentRow = 0;
 	myRowFrameCounter = 0;
