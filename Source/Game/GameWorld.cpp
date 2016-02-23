@@ -204,7 +204,10 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myResettedGame = false;
 		return eStateStatus::eKeepState;
 	}
+
 	myPlayerIsPresent = false;
+	myRenderPasses.RemoveAll();
+
 	if (myCurrentRoom != nullptr)
 	{
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
