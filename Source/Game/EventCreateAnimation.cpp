@@ -16,12 +16,12 @@ void EventCreateAnimation::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
 
-	Animation* anim = new Animation(myFilePath.c_str(), DX2D::Vector2f(myObjectData->myPivotX, myObjectData->myPivotY), myFrameDuration, myNumberOfFrames, myFramesPerRow);
+	myAnimation = new Animation(myFilePath.c_str(), DX2D::Vector2f(myObjectData->myPivotX, myObjectData->myPivotY), myFrameDuration, myNumberOfFrames, myFramesPerRow);
 	DX2D::CColor color = { 1, 1, 1, 1 };
-	anim->SetColor(color);
-	anim->SetFlip(myFlip);
-	anim->SetSize(myScale);
-	myObjectData->myAnimations.Add(anim);
+	myAnimation->SetColor(color);
+	myAnimation->SetFlip(myFlip);
+	myAnimation->SetSize(myScale);
+	myObjectData->myAnimations.Add(myAnimation);
 	myObjectData->myIsAnimation = true;
 }
 

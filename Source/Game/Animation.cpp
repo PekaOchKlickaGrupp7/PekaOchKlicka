@@ -89,8 +89,8 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 	mySprite->SetColor(myColor);
 	if (myFlip == true)
 	{
-		DX2D::Vector2f size = mySprite->GetSize();
-		mySprite->SetSize({ -size.x, size.y });
+		DX2D::Vector2f size = mySprite->GetScale();
+		mySprite->SetSize({ -abs(size.x), size.y });
 	}
 	command.mySprite = mySprite;
 

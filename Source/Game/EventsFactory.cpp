@@ -586,7 +586,7 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		}
 		if (extra.HasMember("Flip") == true)
 		{
-			var->myFlip = true;
+			var->myFlip = extra["Flip"].GetBool();
 		}
 
 		var->myFrameDuration = max(0.0001f, var->myFrameDuration);

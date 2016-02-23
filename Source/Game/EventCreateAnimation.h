@@ -17,5 +17,7 @@ public:
 	float myFrameDuration;
 	float myScale;
 	bool myFlip;
+protected:
+	Animation* myAnimation;
 };
 
