@@ -25,7 +25,7 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 			DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(aSynchronizer.GetRenderCommand(i).myAmbience);
 		}
 
-		RenderCommand command = aSynchronizer.GetRenderCommand(i);
+		RenderCommand& command = aSynchronizer.GetRenderCommand(i);
 
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{
