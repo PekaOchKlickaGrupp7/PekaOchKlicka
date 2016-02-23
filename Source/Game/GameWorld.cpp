@@ -211,12 +211,12 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		{
 			UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
 		}
+		if (myOptionsMenu.GetActive() == true)
+		{
+			PlayerMovement(false, false, false, aTimeDelta);
+		}
 	}
-	if (myOptionsMenu.GetActive() == true)
-	{
-		PlayerMovement(false, false, false, aTimeDelta);
-	}
-	else
+	if (myOptionsMenu.GetActive() == false)
 	{
 		bool myCachedTalkIsOn = myTalkIsOn;
 		bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
