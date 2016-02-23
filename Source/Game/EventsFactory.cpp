@@ -37,6 +37,7 @@
 #include "EventIfNotGlobalVariable.h"
 #include "EventCreateAnimation.h"
 #include "EventUpdateAnimation.h"
+#include "EventParticleSystem.h"
 
 using namespace rapidjson;
 
@@ -55,6 +56,11 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 	Value& extra = aParent["extra"];
 	switch (action)
 	{
+	case EventActions::CreateParticleSystem:
+	{
+
+		break;
+	}
 	case EventActions::SetActive:
 	{
 		EventSetActive* setActive = new EventSetActive();
@@ -577,6 +583,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		if (extra.HasMember("Scale") == true)
 		{
 			var->myScale = extra["Scale"].GetFloat();
+		}
+		if (extra.HasMember("Flip") == true)
+		{
+			var->myFlip = true;
 		}
 
 		var->myFrameDuration = max(0.0001f, var->myFrameDuration);

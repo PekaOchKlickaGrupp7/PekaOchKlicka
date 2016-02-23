@@ -16,5 +16,6 @@ public:
 	int myFramesPerRow;
 	float myFrameDuration;
 	float myScale;
+	bool myFlip;
 };
 

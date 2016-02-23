@@ -37,5 +37,6 @@ enum EventActions
 	Random,
 	IfNotGlobalVariable,
 	CreateAnimation,
-	UpdateAnimation
+	UpdateAnimation,
+	CreateParticleSystem
 };
