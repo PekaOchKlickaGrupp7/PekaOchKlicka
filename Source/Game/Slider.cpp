@@ -84,6 +84,8 @@ void Slider::Update(float)
 
 	if (myIsDraggingKnob == true)
 	{
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+
 		myKnob = myKnobPressed;
 
 		if (MouseManager::GetInstance()->GetPosition().x > mySlider->GetPosition().x + mySlider->GetSize().x - 0.058f)
@@ -111,6 +113,7 @@ void Slider::Update(float)
 	else
 	{
 
+
 		myKnob = myKnobRegular;
 	}
 
@@ -131,6 +134,11 @@ void Slider::Update(float)
 	}
 	else
 	{
+		if (myIsHoveringKnob == true)
+		{
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+		}
+
 		myIsHoveringKnob = false;
 	}
 	SliderSpecificUpdate();
