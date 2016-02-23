@@ -65,4 +65,3 @@ private:
 	std::map<std::string, Sound> mySounds;
 	std::map<std::string, Sound> myMusic;
 };
-
