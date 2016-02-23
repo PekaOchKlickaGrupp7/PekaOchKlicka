@@ -29,9 +29,6 @@ EventTalk::~EventTalk()
 
 	delete myTextOutline;
 	myTextOutline = nullptr;
-
-	//
-	//myTextRenders.DeleteAll();
 }
 
 void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
@@ -57,7 +54,7 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 	myWidth = DX2D::CText::GetWidth(myText, myTextRender->mySize, FONTPATH);
 	myText.erase(std::remove(myText.begin(), myText.end(), '\r'), myText.end());
 
-
+	myIdentifier = "EMPTY";
 }
 
 bool EventTalk::Update(const float aDeltaTime)
@@ -67,22 +64,41 @@ bool EventTalk::Update(const float aDeltaTime)
 
 	std::cout << mySounds << std::endl;
 
-	 if (object->myName == "Chef")
+	if (myIdentifier == "EMPTY")
 	{
-		mySoundPath = "Sound/SoundFX/Talk2.ogg";
-		myIdentifier = "Chef";
+		if (object->myName == "Chef" || object->myName == "Giraff" || object->myName == "giraffTarget")
+		{
+			mySoundPath = "Sound/SoundFX/Talk2.ogg";
+			myIdentifier = "Chef";
+		}
+		else if (object->myName == "Antagonist")
+		{
+			myIdentifier = "Antagonist";
+			mySoundPath = "Sound/SoundFX/Talk1.ogg";
+		}
+		else if (object->myName == "Player")
+		{
+			myIdentifier = "Player";
+			mySoundPath = "Sound/SoundFX/Talk3.ogg";
+		}
+		else if (object->myName == "RightGuard" || object->myName == "LeftGuard" ||
+			object->myName == "talkObjectRightGuard" || object->myName == "talkobject" ||
+			object->myName == "GuardL" || object->myName == "Waiter")
+		{
+			myIdentifier = "Guard";
+			mySoundPath = "Sound/SoundFX/Talk5.ogg";
+		}
+		else if (object->myName == "SnotKidInBedroom")
+		{
+			myIdentifier = "SnotKid";
+			mySoundPath = "Sound/SoundFX/Talk7.ogg";
+		}
+		else if (object->myName == "targetPointLady" || object->myName == "fancyLady" || object->myName == "talkTarget")
+		{
+			myIdentifier = "FancyLady";
+			mySoundPath = "Sound/SoundFX/Talk4.ogg";
+		}
 	}
-	 else if (object->myName == "Antagonist")
-	{
-		 myIdentifier = "Antagonist";
-		 mySoundPath = "Sound/SoundFX/Talk3.ogg";
-	}
-	else if (object->myName == "Player")
-	{
-		myIdentifier = "Player";
-		mySoundPath = "Sound/SoundFX/Talk1.ogg";
-	}
-
 	if (myCanBeInterupted == true)
 	{
 		myGameWorld->SetTalkIsOn();
@@ -260,4 +276,5 @@ void EventTalk::Reset()
 	myCurrentTime = 0.0f;
 	myCurrentLetter = 0;
 	myTextRender->myText = " ";
+	myIdentifier = "EMPTY";
 }
