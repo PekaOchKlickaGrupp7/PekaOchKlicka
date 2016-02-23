@@ -94,6 +94,8 @@ void Options::Render(Synchronizer& aSynchronizer)
 		background.mySprite = myBackground;
 		background.myType = eRenderType::eSprite;
 		background.myPosition = myBackground->GetPosition();
+		background.myAmbience = 1.0f;
+		background.myChangeAmbience = true;
 		aSynchronizer.AddRenderCommand(background);
 
 		myMusicSlider.Render(aSynchronizer);
