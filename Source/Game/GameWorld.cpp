@@ -197,8 +197,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
-
 	if (myResettedGame == true)
 	{
 		myResettedGame = false;
@@ -325,6 +323,9 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		return;
 	}
+	
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
+
 	RenderCommand command;
 
 	bool renderedPlayer = false;
@@ -445,6 +446,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		EventManager::GetInstance()->Render(aSynchronizer);
 
 		 // if options clicked in inventory
+		//DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 		myOptionsMenu.Render(aSynchronizer);
 
 		MouseManager::GetInstance()->Render(aSynchronizer);
