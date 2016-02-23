@@ -19,6 +19,7 @@ public:
 	void Destroy();
 	void SetColor(DX2D::CColor& aColor);
 	void SetSize(float aScale);
+	void SetFlip(bool aFlip);
 	float GetScale();
 	DX2D::Vector2f GetSize();
 private:
@@ -28,6 +29,7 @@ private:
 
 	DX2D::CColor myColor;
 
+	bool myFlip;
 	DX2D::CSprite *mySprite;
 	int myNumberOfFrames,
 		myFrame,

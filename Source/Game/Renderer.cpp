@@ -24,11 +24,22 @@ void Renderer::Render(Synchronizer& aSynchronizer)
 		{
 			DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(aSynchronizer.GetRenderCommand(i).myAmbience);
 		}
+
+		RenderCommand command = aSynchronizer.GetRenderCommand(i);
+
 		switch (aSynchronizer.GetRenderCommand(i).myType)
 		{
 		case eRenderType::eSprite:
-			aSynchronizer.GetRenderCommand(i).mySprite->SetPosition(aSynchronizer.GetRenderCommand(i).myPosition);
-			aSynchronizer.GetRenderCommand(i).mySprite->Render();
+			if (command.myHasSize == true)
+			{
+				command.mySprite->SetSize(command.mySize);
+			}
+			if (command.myHasColor == true)
+			{
+				command.mySprite->SetColor(command.myColor);
+			}
+			command.mySprite->SetPosition(command.myPosition);
+			command.mySprite->Render();
 			break;
 		case eRenderType::eCustomShape:
 			aSynchronizer.GetRenderCommand(i).myCustomShape->myPosition = aSynchronizer.GetRenderCommand(i).myPosition;
