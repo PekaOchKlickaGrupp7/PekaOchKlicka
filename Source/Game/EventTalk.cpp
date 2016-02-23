@@ -83,7 +83,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		}
 		else if (object->myName == "RightGuard" || object->myName == "LeftGuard" ||
 			object->myName == "talkObjectRightGuard" || object->myName == "talkobject" ||
-			object->myName == "GuardL" || object->myName == "Waiter")
+			object->myName == "GuardL" || object->myName == "Waiter" || object->myName == "CInematicTextPos")
 		{
 			myIdentifier = "Guard";
 			mySoundPath = "Sound/SoundFX/Talk5.ogg";
