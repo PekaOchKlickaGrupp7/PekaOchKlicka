@@ -52,7 +52,7 @@ void EventParticleSystem::InitParticle(Particle* aParticle)
 	aParticle->SetTotalLifeTime(RandomInRange(myMinLifeTime * 1000.0f, myMaxLifeTime * 1000.0f) / 1000.0f);
 
 	ObjectData* object = GetGameObject(myTarget);
-	Vector2f pos(object->myX, object->myY);
+	Vector2f pos(object->myGlobalX, object->myGlobalY);
 
 	pos += Vector2f(RandomInRange(myEmissionAreaMin.x * 1000.0f, myEmissionAreaMax.x * 1000.0f) / 1000.0f,
 		RandomInRange(myEmissionAreaMin.y * 1000.0f, myEmissionAreaMax.y * 1000.0f) / 1000.0f);
