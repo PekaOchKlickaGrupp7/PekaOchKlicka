@@ -77,13 +77,11 @@ bool EventTalk::Update(const float aDeltaTime)
 		 myIdentifier = "Antagonist";
 		 mySoundPath = "Sound/SoundFX/Talk3.ogg";
 	}
-	else
+	 else if (object->myName == "Player")
 	{
 		myIdentifier = "Player";
-		mySoundPath = "Sound/SoundFX/Talk5.ogg";
+		mySoundPath = "Sound/SoundFX/Talk1.ogg";
 	}
-
-	
 
 	if (myCanBeInterupted == true)
 	{
