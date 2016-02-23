@@ -1,28 +1,40 @@
 {
     "music": [
         {
-            "file": "Sound/Music/BugsAndFish.ogg",
-            "name": "BugsAndFish"
+            "file": "Sound/Music/Ballroom.ogg",
+            "name": "Ballroom"
         },
         {
-            "file": "Sound/Music/Fossils.ogg",
-            "name": "Fossils"
+            "file": "Sound/Music/EntranceToBallRoom.ogg",
+            "name": "EntranceToBallRoom"
         },
         {
-            "file": "Sound/Music/MainRoom.ogg",
-            "name": "MainRoom"
+            "file": "Sound/Music/Hub.ogg",
+            "name": "Hub"
         },
         {
-            "file": "Sound/Music/Observatory.ogg",
-            "name": "Observatory"
+            "file": "Sound/Music/Kitchen.ogg",
+            "name": "Kitchen"
         },
         {
-            "file": "Sound/Music/Paintings.ogg",
-            "name": "Paintings"
+            "file": "Sound/Music/Foodcellar.ogg",
+            "name": "Foodcellar"
         },
         {
-            "file": "Sound/Music/MainMenuThing.ogg",
-            "name":  "MainMenu"
+            "file": "Sound/Music/Sittingroom.ogg",
+            "name": "Sittingroom"
+        },
+        {
+            "file": "Sound/Music/Bathroom.ogg",
+            "name": "Bathroom"
+        },
+        {
+            "file": "Sound/Music/Bedroom.ogg",
+            "name": "Bedroom"
+        },
+        {
+            "file": "Sound/Music/ServantsQuarters.ogg",
+            "name": "ServantsQuarters"
         }
     ]
 }

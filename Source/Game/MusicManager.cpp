@@ -17,12 +17,15 @@ void MusicManager::Load(const std::string &aSongPath, const std::string &anIdent
 
 void MusicManager::StartSystem()
 {
-	SoundFileHandler::GetInstance()->GetSong("BugsAndFish")->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong("Fossils")->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong("MainRoom")->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong("Observatory")->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong("Paintings")->PlaySong();
-	SoundFileHandler::GetInstance()->GetSong("MainMenu")->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Ballroom")			->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("EntranceToBallRoom")	->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Hub")					->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Kitchen")				->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Foodcellar")			->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Sittingroom")			->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Bathroom")			->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("Bedroom")				->PlaySong();
+	SoundFileHandler::GetInstance()->GetSong("ServantsQuarters")	->PlaySong();
 }
 
 bool MusicManager::ChangeTheme(const std::string &aNextTheme)
