@@ -4,6 +4,7 @@
 
 #include "SoundFileHandler.h"
 
+#include <iostream>
 
 Button::Button()
 {
@@ -85,6 +86,7 @@ void Button::Update(float)
 
 			myIsChecked = !myIsChecked;
 			ButtonSpecificUpdate();
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
 			UpdateImage();
 		}
 	}
@@ -107,18 +109,21 @@ bool Button::OnMouseHover()
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
+
+				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 			}
 
 
 			myIsHovering = true;
 			return true;
 		}
-		else
-		{
-			myIsHovering = false;
-			return false;
-		}
 	}
+
+	if (myIsHovering == true)
+	{
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+	}
+
 	myIsHovering = false;
 	return false;
 }

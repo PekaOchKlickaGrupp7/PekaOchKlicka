@@ -197,8 +197,6 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		}
 	}
 
-	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
-
 	if (myResettedGame == true)
 	{
 		myResettedGame = false;
@@ -211,12 +209,12 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		{
 			UpdateObject((*myCurrentRoom->GetObjectList())[i], aTimeDelta);
 		}
+		if (myOptionsMenu.GetActive() == true)
+		{
+			PlayerMovement(false, false, false, aTimeDelta);
+		}
 	}
-	if (myOptionsMenu.GetActive() == true)
-	{
-		PlayerMovement(false, false, false, aTimeDelta);
-	}
-	else
+	if (myOptionsMenu.GetActive() == false)
 	{
 		bool myCachedTalkIsOn = myTalkIsOn;
 		bool input = EventManager::GetInstance()->Update(aTimeDelta, myTalkIsOn);
@@ -325,6 +323,9 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	{
 		return;
 	}
+	
+	DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(myFadeIn);
+
 	RenderCommand command;
 
 	bool renderedPlayer = false;
@@ -445,6 +446,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 		EventManager::GetInstance()->Render(aSynchronizer);
 
 		 // if options clicked in inventory
+		//DX2D::CEngine::GetInstance()->GetLightManager().SetAmbience(1.0f);
 		myOptionsMenu.Render(aSynchronizer);
 
 		MouseManager::GetInstance()->Render(aSynchronizer);
@@ -593,7 +595,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	if (myPlayerIsPresent == true)
 	{
-		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f);
+		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f && myTalkIsOn == false);
 	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)

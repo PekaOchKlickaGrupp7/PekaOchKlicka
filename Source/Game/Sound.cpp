@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Sound.h"
 #include "SoundManager.h"
-#include <iostream>
 
 Sound::Sound()
 {
@@ -146,7 +145,6 @@ void Sound::Update(float aDeltaTime)
 	}
 	float aVol;
 	myChannel->getVolume(&aVol);
-	std::cout << "Sound volume: " << aVol << std::endl;
 }
 
 void Sound::SetPosition(float aX, float aY, float aZ)
