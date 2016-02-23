@@ -49,18 +49,18 @@ float EventParticleSystem::RandomInRange(float aMin, float aMax)
 
 void EventParticleSystem::InitParticle(Particle* aParticle)
 {
-	aParticle->SetTotalLifeTime(RandomInRange(myMinLifeTime * 100.0f, myMaxLifeTime * 100.0f) / 100.0f);
+	aParticle->SetTotalLifeTime(RandomInRange(myMinLifeTime * 1000.0f, myMaxLifeTime * 1000.0f) / 1000.0f);
 
 	ObjectData* object = GetGameObject(myTarget);
 	Vector2f pos(object->myX, object->myY);
 
-	pos += Vector2f(RandomInRange(myEmissionAreaMin.x * 100.0f, myEmissionAreaMax.x * 100.0f) / 100.0f,
-		RandomInRange(myEmissionAreaMin.y * 100.0f, myEmissionAreaMax.y * 100.0f) / 100.0f);
+	pos += Vector2f(RandomInRange(myEmissionAreaMin.x * 1000.0f, myEmissionAreaMax.x * 1000.0f) / 1000.0f,
+		RandomInRange(myEmissionAreaMin.y * 1000.0f, myEmissionAreaMax.y * 1000.0f) / 1000.0f);
 
 	aParticle->SetPosition(pos);
 	Vector2f velocity = Vector2f(
-		RandomInRange(myMinEmissionVelocity.x * 100.0f, myMaxEmissionVelocity.x * 100.0f) / 100.0f,
-		RandomInRange(myMinEmissionVelocity.y * 100.0f, myMaxEmissionVelocity.y * 100.0f) / 100.0f);
+		RandomInRange(myMinEmissionVelocity.x * 1000.0f, myMaxEmissionVelocity.x * 1000.0f) / 1000.0f,
+		RandomInRange(myMinEmissionVelocity.y * 1000.0f, myMaxEmissionVelocity.y * 1000.0f) / 1000.0f);
 
 	aParticle->SetVelocity(velocity);
 	aParticle->SetIsActive(true);
@@ -206,7 +206,12 @@ void EventParticleSystem::PostRender(Synchronizer&)
 	{
 		return;
 	}
-	myGameWorld->AddParticlePass(myTarget, this);
+	std::string strTarget = myTarget;
+	if (strTarget == "Self")
+	{
+		strTarget = myObjectData->myName;
+	}
+	myGameWorld->AddParticlePass(strTarget, this);
 }
 
 void EventParticleSystem::DoRender(Synchronizer& aSynchronizer)
