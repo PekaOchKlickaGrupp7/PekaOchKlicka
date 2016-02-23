@@ -255,6 +255,15 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 	return !myClicked;
 }
 
+void EventManager::PostRender(Synchronizer &aSynchronizer)
+{
+	for (int i = myActiveEvents.Size() - 1; i >= 0; --i)
+	{
+		Event* event = myActiveEvents[i];
+		event->PostRender(aSynchronizer);
+	}
+}
+
 void EventManager::Render(Synchronizer &aSynchronizer)
 {
 	if (myText == nullptr)

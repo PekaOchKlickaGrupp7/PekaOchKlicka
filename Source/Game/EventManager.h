@@ -45,6 +45,7 @@ public:
 	void ChangeRoom(Room* aCurrentRoom);
 
 	bool Update(const float aDeltaTime, const bool aTalkIsOn);
+	void PostRender(Synchronizer &aSynchronizer);
 	void Render(Synchronizer &aSynchronizer);
 	void AddEvent(Event* aEvent, bool aForceAdd = false);
 	void RemoveAllEvents();
