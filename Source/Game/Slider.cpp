@@ -4,6 +4,8 @@
 
 #include "SoundFileHandler.h"
 
+#include "MouseManager.h"
+
 
 Slider::Slider()
 {
@@ -104,9 +106,11 @@ void Slider::Update(float)
 	else if (myIsHoveringKnob == true && myIsDraggingKnob == false)
 	{
 		myKnob = myKnobHovered;
+		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 	}
 	else
 	{
+
 		myKnob = myKnobRegular;
 	}
 
