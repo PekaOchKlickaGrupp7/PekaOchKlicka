@@ -90,7 +90,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 		{
 			for (int i = aData->myChilds.Size() - 1; i >= 0; --i)
 			{
-				if (OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY, aRelativeX + aData->myX, aRelativeY + aData->myY) == true)
+				if (OnEvent(aData->myChilds[i], aType, aMouseX, aMouseY, aRelativeX + aData->myX, aRelativeY + aData->myY, aDoAddEvents) == true)
 				{
 					return true;
 				}
@@ -105,7 +105,7 @@ bool EventManager::OnEvent(ObjectData* aData, const EventTypes& aType, float aMo
 				if (aType == EventTypes::OnClick)
 				{
 					myClicked = true;
-					if (aData->myAmountActiveEvents == 0)
+					if (aDoAddEvents == true && aData->myAmountActiveEvents == 0)
 					{
 						for (int j = aData->myEvents.Size() - 1; j >= 0; --j)
 						{
