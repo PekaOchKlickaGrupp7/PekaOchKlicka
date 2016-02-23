@@ -14,6 +14,7 @@ public:
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld);
 	virtual bool Update(const float aDeltaTime) = 0;
 	virtual void Reset() = 0;
+	virtual void PostRender(Synchronizer &aSynchronizer);
 	virtual void Render(Synchronizer &aSynchronizer);
 
 	ObjectData* GetGameObject(const std::string& aName) const;

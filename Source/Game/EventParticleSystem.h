@@ -12,7 +12,7 @@ public:
 
 	virtual void Init(Room* aRoom, CGameWorld* aGameWorld) override;
 	virtual bool Update(const float aDeltaTime) override;
-	virtual void Render(Synchronizer& aSynchronizer) override;
+	virtual void PostRender(Synchronizer &aSynchronizer) override;
 	virtual void Reset() override;
 
 	void DoRender(Synchronizer& aSynchronizer);

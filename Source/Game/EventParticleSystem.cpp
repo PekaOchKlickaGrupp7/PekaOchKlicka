@@ -188,10 +188,11 @@ bool EventParticleSystem::Update(const float aDeltaTime)
 			myParticlesActive.RemoveCyclicAtIndex(i);
 		}
 	}
+
 	return false;
 }
 
-void EventParticleSystem::Render(Synchronizer&)
+void EventParticleSystem::PostRender(Synchronizer&)
 {
 	ObjectData* target = GetGameObject(myTarget);
 	if (target != nullptr)
