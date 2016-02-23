@@ -505,6 +505,9 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 	{
 		aNode->myGlobalX = aRelativeX + aNode->myX;
 		aNode->myGlobalY = aRelativeY + aNode->myY;
+
+		command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
+
 		if (aNode->myIsAnimation == true)
 		{
 			aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
@@ -517,7 +520,6 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 				aNode->mySprite->SetSize(DX2D::Vector2f(aNode->myScaleX, aNode->myScaleY));
 				aNode->mySprite->SetRotation(aNode->myRotation);
 
-				command.myPosition = DX2D::Vector2f(aRelativeX + aNode->myX, aRelativeY + aNode->myY);
 				command.mySprite = aNode->mySprite;
 				command.mySprite->SetColor(aNode->myColor);
 				aSynchronizer.AddRenderCommand(command);
