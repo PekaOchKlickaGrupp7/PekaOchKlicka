@@ -593,7 +593,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	if (myPlayerIsPresent == true)
 	{
-		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0);
+		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f);
 	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
