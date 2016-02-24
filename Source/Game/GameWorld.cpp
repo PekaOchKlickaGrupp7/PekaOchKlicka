@@ -207,6 +207,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayerIsPresent = false;
 	myRenderPasses.RemoveAll();
+	
+	bool hasMoved = false;
 
 	if (myCurrentRoom != nullptr)
 	{
@@ -217,6 +219,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myOptionsMenu.GetActive() == true)
 		{
 			PlayerMovement(false, false, false, aTimeDelta);
+			hasMoved = true;
 		}
 	}
 	if (myOptionsMenu.GetActive() == false)
@@ -227,13 +230,14 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		{
 			return eStateStatus::eKeepState;
 		}
-		if (myCurrentRoom != nullptr)
+		if (myCurrentRoom != nullptr && hasMoved == false)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
 		}
 	}
+
 	myOptionsMenu.Update(aTimeDelta);
-	std::cout << myRenderPasses.Size() << std::endl;
+	//std::cout << myRenderPasses.Size() << std::endl;
 
 	if (myDoQuit == true)
 	{
@@ -340,7 +344,7 @@ void CGameWorld::Render(Synchronizer& aSynchronizer)
 	
 	if (myCurrentRoom != nullptr)
 	{
-		std::cout << myRenderPasses.Size() << std::endl;
+		//std::cout << myRenderPasses.Size() << std::endl;
 
 		for (unsigned int i = 0; i < myCurrentRoom->GetObjectList()->Size(); ++i)
 		{
@@ -586,6 +590,8 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 		}
 	}
 
+	Vector2f myFinalTargetPos;
+
 	if (aPlayerCanMove == true && myHasPath == true && myWaypointNodes->Size() > 0)
 	{
 		Vector2f playerPosition;
@@ -615,6 +621,9 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 			myTargetPosition.x = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetX()) * myCurrentRoom->GetGridSize()) / 1920.0f;
 			myTargetPosition.y = (static_cast<float>((*myWaypointNodes)[myCurrentWaypoint]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
 		}
+
+		myFinalTargetPos.x = (static_cast<float>((*myWaypointNodes)[myWaypointNodes->Size() - 1]->GetX()) * myCurrentRoom->GetGridSize()) / 1920.0f;
+		myFinalTargetPos.y = (static_cast<float>((*myWaypointNodes)[myWaypointNodes->Size() - 1]->GetY()) * myCurrentRoom->GetGridSize()) / 1080.0f;
 	}
 	else if (myHasPath == true)
 	{
@@ -625,7 +634,7 @@ void CGameWorld::PlayerMovement(bool aCheckInput, bool aTalkIsOn, bool aPlayerCa
 	std::cout << std::boolalpha << "MyHasPath " << myHasPath << std::endl << std::endl;*/
 	if (myPlayerIsPresent == true)
 	{
-		myPlayer.Update(myInputManager, myTargetPosition, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f);
+		myPlayer.Update(myInputManager, myTargetPosition, myFinalTargetPos, aTimeDelta, myPlayerCanMove && myTalkIsOn == false, myHasPath && myWaypointNodes->Size() > 0 && myFadeIn == 1.0f);
 	}
 
 	for (unsigned int i = 0; i < (*myCurrentRoom->GetObjectList()).Size(); ++i)
