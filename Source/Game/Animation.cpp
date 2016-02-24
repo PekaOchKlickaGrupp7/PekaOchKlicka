@@ -2,7 +2,7 @@
 #include "Animation.h"
 
 
-Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow)
+Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float aFrameDuration, int aNumberOfFrames, int aFramesPerRow, bool aLooping)
 {
 	myFrameDuration = aFrameDuration;
 	myCurentFrameDuration = 0;
@@ -16,6 +16,8 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 
 	myCurentRow = 0;
 	myRowFrameCounter = 0;
+
+	myIsLooping = aLooping;
 
 	mySprite->SetSize(DX2D::Vector2f(1.f / myFramesPerRow, 1.f / myFramesPerRow));
 
@@ -55,7 +57,6 @@ float Animation::GetScale()
 }
 void Animation::Update(float aDelta)
 {
-	
 	if (myPaused == false)
 	{
 		myCurentFrameDuration += aDelta;
@@ -64,6 +65,10 @@ void Animation::Update(float aDelta)
 			myFrame++;
 			myCurentFrameDuration = 0;
 			myRowFrameCounter++;
+			if (myNumberOfFrames == 16)
+			{
+				myRowFrameCounter = myRowFrameCounter;
+			}
 
 			if (myRowFrameCounter == myFramesPerRow)
 			{
@@ -72,14 +77,34 @@ void Animation::Update(float aDelta)
 			}
 			if (myFrame >= myNumberOfFrames)
 			{
-				myFrame = 0;
-				myCurentRow = 0;
-				myRowFrameCounter = 0;
-				
+				if (myIsLooping == false)
+				{
+					myFrame = myNumberOfFrames - 1;
+					myRowFrameCounter = myFramesPerRow - 1;
+					--myCurentRow;
+
+					Pause();
+				}
+				else
+				{
+					myFrame = 0;
+					myCurentRow = 0;
+					myRowFrameCounter = 0;
+				}
 			}
 			UpdateTextureRect();
 		}
 	}
+}
+
+bool Animation::GetIsLooping() const
+{
+	return myIsLooping;
+}
+
+bool Animation::GetIsPlaying() const
+{
+	return !myPaused;
 }
 
 void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
