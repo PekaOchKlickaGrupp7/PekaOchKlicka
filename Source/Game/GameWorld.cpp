@@ -211,6 +211,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayerIsPresent = false;
 	myRenderPasses.RemoveAll();
+	bool hasMoved = false;
 
 	if (myCurrentRoom != nullptr)
 	{
@@ -221,6 +222,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		if (myOptionsMenu.GetActive() == true)
 		{
 			PlayerMovement(false, false, false, aTimeDelta);
+			hasMoved = true;
 		}
 	}
 	if (myOptionsMenu.GetActive() == false)
@@ -231,7 +233,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		{
 			return eStateStatus::eKeepState;
 		}
-		if (myCurrentRoom != nullptr)
+		if (myCurrentRoom != nullptr && hasMoved == false)
 		{
 			PlayerMovement(input, myCachedTalkIsOn, true, aTimeDelta);
 		}
