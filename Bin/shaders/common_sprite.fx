@@ -1,6 +1,11 @@
 #include "common.fx"
 
-SamplerState SampleType;
+SamplerState SampleType
+{
+	Filter = MIN_MAG_MIP_POINT;
+  AddressU = Wrap;
+  AddressV = Wrap;
+};
 
 #define DIFFUSE_MAP 0
 #define NORMAL_MAP 1
