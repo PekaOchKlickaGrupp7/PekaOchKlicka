@@ -109,9 +109,6 @@ void Player::SetColor(DX2D::CColor& aColor)
 
 float Player::SpeedUp(float aDeltaTime)
 {
-	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
-	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
-
 	if (myMovementSpeed <= myMaxSpeed)
 	{
 		myMovementSpeed += myAcceleration * aDeltaTime;
@@ -124,10 +121,8 @@ float Player::SpeedUp(float aDeltaTime)
 	return myMovementSpeed;
 }
 
-float Player::SpeedDown(float aDeltaTime, float aDifference)
+float Player::SpeedDown(float, float aDifference)
 {
-	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
-	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
 	float diff2 = CU::Remap(aDifference, 0, 0.05f, 0, 1);
 
 	if (myMovementSpeed >= myMinSpeed)
@@ -151,6 +146,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		if (SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->IsPlaying() == false)
 		{
 			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->PlaySound();
+			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->SetVolume(0.25f);
 		}
 	}
 	else

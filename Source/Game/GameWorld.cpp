@@ -94,6 +94,7 @@ void CGameWorld::Init()
 	std::cout << "Loading music took " << delta << " milliseconds" << std::endl;
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
+	//CGame::myTestLevel = "servantsquartergame";
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
@@ -295,6 +296,8 @@ void CGameWorld::SetTalkIsOff()
 void CGameWorld::ResetGame()
 {
 	SetCinematicMode(false);
+
+	SoundFileHandler::GetInstance()->StopAllSongs();
 
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 

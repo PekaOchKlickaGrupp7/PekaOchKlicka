@@ -83,6 +83,7 @@ void Button::Update(float)
 
 			SoundPtr->SetLooping(false);
 			SoundPtr->PlaySound();
+			SoundPtr->SetVolume(0.4f);
 
 			myIsChecked = !myIsChecked;
 			ButtonSpecificUpdate();
@@ -106,9 +107,11 @@ bool Button::OnMouseHover()
 			if (myIsHovering == false)
 			{
 				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+				
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
+				SoundPtr->SetVolume(0.4f);
 
 				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 			}

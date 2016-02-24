@@ -11,5 +11,7 @@ public:
 	virtual void Reset() override;
 
 	int myAnimationIndex;
+protected:
+	bool myCached;
 };
 
