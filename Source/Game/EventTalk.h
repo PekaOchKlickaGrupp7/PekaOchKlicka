@@ -49,5 +49,7 @@ protected:
 	float myHeight;
 
 	bool myFirstFrame;
+	bool myCached;
+	bool myMouseIsInvisible;
 };
 
