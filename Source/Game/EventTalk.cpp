@@ -157,11 +157,11 @@ bool EventTalk::Update(const float aDeltaTime)
 		{
 			if ((x + myWidth) > 1.0f)
 			{
-				x = (1.0f - myWidth) - 0.01f;
+				x = (1.0f - myWidth) - 0.03f;
 			}
 			else
 			{
-				x = 0.01f;
+				x = 0.03f;
 			}
 		}
 
