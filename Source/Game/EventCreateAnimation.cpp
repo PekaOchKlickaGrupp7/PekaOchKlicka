@@ -5,6 +5,7 @@
 EventCreateAnimation::EventCreateAnimation()
 {
 	myFlip = false;
+	myIsLooping = true;
 }
 
 EventCreateAnimation::~EventCreateAnimation()
