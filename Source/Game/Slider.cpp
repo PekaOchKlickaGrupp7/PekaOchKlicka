@@ -165,6 +165,7 @@ bool Slider::OnMouseHover()
 			if (myIsHoveringKnob == false)
 			{
 				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
+				SoundPtr->SetVolume(0.6f);
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
@@ -189,9 +190,11 @@ bool Slider::OnMouseClick()
 			if (myIsDraggingKnob == false)
 			{
 				Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonClick");
+				
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
+				SoundPtr->SetVolume(0.6f);
 			}
 
 			return true;

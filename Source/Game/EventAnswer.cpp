@@ -50,6 +50,7 @@ bool EventAnswer::Update(const float)
 
 			SoundPtr->SetLooping(false);
 			SoundPtr->PlaySound();
+			SoundPtr->SetVolume(0.6f);
 		}
 
 		myIsInside = true;
