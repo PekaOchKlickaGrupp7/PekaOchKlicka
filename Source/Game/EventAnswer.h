@@ -25,7 +25,5 @@ protected:
 
 	float myHeight; 
 	float myY;
-
-	bool myIsInside;
 };
 
