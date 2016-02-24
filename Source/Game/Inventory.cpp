@@ -294,23 +294,26 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 
 	//Trigger message to indicate that they cant be combined
 
-	if (myPreviousCombineFailIndex == myFailedCombineTexts.Size())
-	{
-		--myPreviousCombineFailIndex;
-	}
-	else
-	{
-		++myPreviousCombineFailIndex;
-	}
+	int myTextIndex = rand() % myFailedCombineTexts.Size();
 
-	int myCombineFailIndex = rand() % myFailedCombineTexts.Size() - 1;
-
+	if (myTextIndex == myPreviousCombineFailIndex)
+	{
+		if (myTextIndex == myFailedCombineTexts.Size() - 1)
+		{
+			--myTextIndex;
+		}
+		else
+		{
+			++myTextIndex;
+		}
+	}
+	
 	eventTalkOnCombine->myCanBeInterupted = true;
 	eventTalkOnCombine->myColor = { 0.78f, 0.85f, 0.68f, 1.0f };
 	eventTalkOnCombine->myAction = EventActions::Talk;
 	eventTalkOnCombine->myType = EventTypes::OnClick;
 	eventTalkOnCombine->mySize = 0.5f;
-	eventTalkOnCombine->myText = myFailedCombineTexts[myCombineFailIndex];
+	eventTalkOnCombine->myText = myFailedCombineTexts[myTextIndex];
 	eventTalkOnCombine->myTarget = "Player";
 	eventTalkOnCombine->myShowTime = 1.0f;
 	eventTalkOnCombine->myLetterLength = 0.05f;
@@ -319,7 +322,7 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 
 	EventManager::GetInstance()->AddEvent(eventTalkOnCombine);
 
-	myPreviousCombineFailIndex = myCombineFailIndex;
+	myPreviousCombineFailIndex = myTextIndex;
 
 	return false;
 }
