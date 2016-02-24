@@ -213,7 +213,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 	myRenderPasses.RemoveAll();
 	bool hasMoved = false;
 
-	bool hasMoved = false;
+	
 
 	if (myCurrentRoom != nullptr)
 	{
