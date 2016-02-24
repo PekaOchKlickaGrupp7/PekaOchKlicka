@@ -62,6 +62,12 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
+	if (myCached == false)
+	{
+		myCached = true;
+		myMouseIsInvisible = MouseManager::GetInstance()->GetHideGameMouse();
+	}
+
 	if (myIdentifier == "EMPTY")
 	{
 		if (object->myName == "Chef" || object->myName == "Giraff" || object->myName == "giraffTarget")
@@ -107,7 +113,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			if (myCurrentLetter == myText.size() + 1)
 			{
 				myGameWorld->SetTalkIsOff();
-				MouseManager::GetInstance()->SetHideGameMouse(false);
+				MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
 
 				return true;
 			}
@@ -185,7 +191,7 @@ bool EventTalk::Update(const float aDeltaTime)
 				if (myCanBeInterupted == true)
 				{
 					myGameWorld->SetTalkIsOff();
-					MouseManager::GetInstance()->SetHideGameMouse(false);
+					MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
 
 				}
 				return true;
@@ -197,7 +203,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		if (myCanBeInterupted == true)
 		{
 			myGameWorld->SetTalkIsOff();
-			MouseManager::GetInstance()->SetHideGameMouse(false);
+			MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
 		}
 		return true;
 	}
@@ -270,6 +276,7 @@ bool EventTalk::TypeNextLetter(float)
 void EventTalk::Reset()
 {
 	myFirstFrame = false;
+	myCached = false;
 	myShowedTime = 0.0f;
 	myCurrentTime = 0.0f;
 	myCurrentLetter = 0;
