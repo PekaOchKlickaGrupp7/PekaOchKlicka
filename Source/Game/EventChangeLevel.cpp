@@ -5,12 +5,14 @@
 #include "..\CommonUtilities\DL_Debug.h"
 #include "EventVariablesManager.h"
 #include "MusicManager.h"
+#include "EventManager.h"
 
 EventChangeLevel::EventChangeLevel()
 {
 	myUseFading = false;
 	myPlayerDirection = -1;
 	myTargetPosition = { 0, 0 };
+	myResetGame = false;
 	Reset();
 }
 
@@ -40,6 +42,10 @@ bool EventChangeLevel::Update(const float aDeltaTime)
 			myTime += aDeltaTime;
 			if (myUseFading == false || myTime >= 0.2f)
 			{
+				if (myResetGame == true)
+				{
+					EventManager::GetInstance()->GetGameWorld()->ResetGame();
+				}
 				myGameWorld->ChangeLevel(myTargetLevelName);
 				myGameWorld->GetPlayer()->SetPosition(myTargetPosition);
 				myGameWorld->GetPlayer()->SetPreviousPosition(myTargetPosition);

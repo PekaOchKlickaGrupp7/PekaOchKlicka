@@ -128,6 +128,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		{
 			changeLevel->myPlayerDirection = extra["PlayerDirection"].GetInt() - 1;
 		}
+		if (extra.HasMember("ResetGame") == true)
+		{
+			changeLevel->myResetGame = extra["ResetGame"].GetBool();
+		}
 
 		event = changeLevel;
 		break;
@@ -596,6 +600,10 @@ Event* EventsFactory::CreateEventData(ObjectData* aData, Value& aParent, Room* a
 		if (extra.HasMember("Flip") == true)
 		{
 			var->myFlip = extra["Flip"].GetBool();
+		}
+		if (extra.HasMember("Looping") == true)
+		{
+			var->myIsLooping = extra["Looping"].GetBool();
 		}
 
 		var->myFrameDuration = max(0.0001f, var->myFrameDuration);
