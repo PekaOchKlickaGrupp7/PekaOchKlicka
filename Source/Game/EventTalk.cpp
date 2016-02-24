@@ -88,7 +88,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			myIdentifier = "Guard";
 			mySoundPath = "Sound/SoundFX/Talk5.ogg";
 		}
-		else if (object->myName == "SnotKidInBedroom")
+		else if (object->myName == "SnotKid")
 		{
 			myIdentifier = "SnotKid";
 			mySoundPath = "Sound/SoundFX/Talk7.ogg";
