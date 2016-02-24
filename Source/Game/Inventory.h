@@ -72,7 +72,6 @@ private:
 	EventTalk* eventTalkOnCombine;
 
 	CommonUtilities::GrowingArray<Item*, unsigned int> myContents;
-	CommonUtilities::GrowingArray<std::string, unsigned int> myRandomNotCombinableTexts;
 	DX2D::CSprite* myBackground;
 	DX2D::Vector2f myPosition;
 	DX2D::CText* myHoverText;
@@ -88,8 +87,6 @@ private:
 	float myMovementPerFrame;
 	float myXOffset;
 	float myYOffset;
-
-	int myPreviousRandomCombinedTextIndex;
 
 	bool myIsOpen;
 	bool myIsClicked;
