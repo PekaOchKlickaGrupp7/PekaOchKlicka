@@ -146,7 +146,7 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 		if (SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->IsPlaying() == false)
 		{
 			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->PlaySound();
-			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->SetVolume(0.4f);
+			SoundFileHandler::GetInstance()->GetSound(std::string("Walk"))->SetVolume(0.25f);
 		}
 	}
 	else
