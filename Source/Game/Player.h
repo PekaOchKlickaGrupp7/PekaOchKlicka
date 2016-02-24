@@ -19,7 +19,7 @@ public:
 	void Move(DX2D::Vector2f aTargetPosition, float aMovementSpeed, float aDeltaT);
 
 	//Update the character
-	void Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer = true);
+	void Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, const Vector2f& aFinalTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer = true);
 
 	void SetColor(DX2D::CColor& aColor);
 
@@ -49,7 +49,15 @@ private:
 	DX2D::Vector2f myRenderPosition;
 	DX2D::Vector2f myPivotPoint;
 
+	// Acceleration feedback - Linus
+	float myMaxSpeed;
+	float myMinSpeed;
+	float myAcceleration;
 	float myMovementSpeed;
+	float SpeedUp(float aDeltaTime);
+	float SpeedDown(float aDeltaTime, float aDifference);
+	// End acceleration feedback
+
 	float myDepthScaleFactor;
 
 	float myMaxScale;
