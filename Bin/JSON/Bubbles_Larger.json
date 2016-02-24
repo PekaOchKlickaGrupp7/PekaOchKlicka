@@ -1,36 +1,36 @@
 {
     "Emitter":
     {
-        "EmissionRate":  500,
+        "EmissionRate":  5,
         "EmissionArea":
         {
             "min":
             {
-                "x": -0.14,
+                "x": -0.1,
                 "y": 0
             },
             "max":
             {
-                "x": 0.14,
+                "x": 0.1,
                 "y": 0
             }  
         },
         "ParticleLifetime":
         {
-            "min": 8,
-            "max": 12
+            "min": 5,
+            "max": 8
         },
         "EmissionVelocity":
         {
             "min":
             {
-                "x": -0.01,
-                "y": -0.02
+                "x": -0.02,
+                "y": -0.03
             },
             "max":
             {
-                "x": 0.01,
-                "y": -0.01
+                "x": 0.02,
+                "y": -0.02
             }
         },
         "ParticleImage": "Sprites/Particles/bubbles.dds",
@@ -38,14 +38,14 @@
     },
     "Particle":
     {
-        "StartAlpha": 0.09,
-        "DeltaAlpha": 0,
-        "StartSize": 0.1,
-        "SizeDelta": 0.01,
+        "StartAlpha": 0.7,
+        "DeltaAlpha": 0.5,
+        "StartSize": 0.3,
+        "SizeDelta": 0.25,
         "Gravitation":
         {
             "x": 0,
-            "y": -0.01
+            "y": 0.0015
         },
         "IsAffectedGravity": true
     },
