@@ -12,6 +12,7 @@
 Inventory::Inventory()
 {
 	myContents.Init(10);
+	myFailedCombineTexts.Init(10);
 	myIsOpen = false;
 	myIsClicked = false;
 	myPosition = DX2D::Vector2f(0.0, 1.0);
@@ -25,6 +26,16 @@ Inventory::Inventory()
 	myXOffset = 0.02f;
 	myYOffset = 0;
 
+	//Stuff for random text when trying to combine items that should not be combined
+	myPreviousCombineFailIndex = -1;
+	myFailedCombineTexts.Add("I can't do that.");
+	myFailedCombineTexts.Add("That makes no sense.");
+	myFailedCombineTexts.Add("I don't think that's a good idea.");
+	myFailedCombineTexts.Add("No..");
+	myFailedCombineTexts.Add("It doesn't work.");
+	myFailedCombineTexts.Add("Nothing happened.");
+
+
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
 	mySelectedItem = nullptr;
@@ -37,7 +48,6 @@ Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
 	delete myMasterItemList;
-	//myContents.DeleteAll();
 }
 
 void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
@@ -174,8 +184,10 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				}
 				else
 				{
-					mySelectedItem = myContents[i];
-					myPreviouslySelectedItem = mySelectedItem;
+					mySelectedItem = nullptr;
+					myPreviouslySelectedItem = nullptr;
+					UpdateSelectedItem();
+					return;
 				}
 			}
 		}
@@ -234,6 +246,10 @@ bool Inventory::IsClicked()
 //Combine one item with another
 bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
+	if (aItemToCombine == aItemToCombineWith)
+	{
+		return false;
+	}
 	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
 	{
 		for (unsigned int i = 0; i < myContents.Size(); ++i)
@@ -274,13 +290,38 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 				}
 			}
 		}
-		return false;
+	}
+
+	//Trigger message to indicate that they cant be combined
+
+	if (myPreviousCombineFailIndex == myFailedCombineTexts.Size())
+	{
+		--myPreviousCombineFailIndex;
 	}
 	else
 	{
-		return false;
-		//Trigger message to indicate that they cant be combined
+		++myPreviousCombineFailIndex;
 	}
+
+	int myCombineFailIndex = rand() % myFailedCombineTexts.Size() - 1;
+
+	eventTalkOnCombine->myCanBeInterupted = true;
+	eventTalkOnCombine->myColor = { 0.78f, 0.85f, 0.68f, 1.0f };
+	eventTalkOnCombine->myAction = EventActions::Talk;
+	eventTalkOnCombine->myType = EventTypes::OnClick;
+	eventTalkOnCombine->mySize = 0.5f;
+	eventTalkOnCombine->myText = myFailedCombineTexts[myCombineFailIndex];
+	eventTalkOnCombine->myTarget = "Player";
+	eventTalkOnCombine->myShowTime = 1.0f;
+	eventTalkOnCombine->myLetterLength = 0.05f;
+
+	eventTalkOnCombine->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
+
+	EventManager::GetInstance()->AddEvent(eventTalkOnCombine);
+
+	myPreviousCombineFailIndex = myCombineFailIndex;
+
+	return false;
 }
 
 //Render the inventory through the synchronizer
