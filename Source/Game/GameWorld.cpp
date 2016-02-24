@@ -158,10 +158,12 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		ResolutionManager::GetInstance()->ToggleFullscreen();
 	}
 
+#ifdef _DEBUG
 	if (myInputManager.KeyPressed(DIK_F2) == true)
 	{
 		myShouldRenderDebug = !myShouldRenderDebug;
 	}
+#endif
 
 	if (myInputManager.KeyPressed(DIK_F3) == true)
 	{
@@ -173,6 +175,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myShouldRenderNavPoints = !myShouldRenderNavPoints;
 	}
 
+#ifdef _DEBUG
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		ChangeLevel("kitchen");
@@ -180,6 +183,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 		std::cout << "Resetted game" << std::endl;
 	}
+#endif
 
 	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
@@ -207,7 +211,8 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 	myPlayerIsPresent = false;
 	myRenderPasses.RemoveAll();
-	
+	bool hasMoved = false;
+
 	bool hasMoved = false;
 
 	if (myCurrentRoom != nullptr)
