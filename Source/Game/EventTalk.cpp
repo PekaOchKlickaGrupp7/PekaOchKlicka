@@ -153,9 +153,9 @@ bool EventTalk::Update(const float aDeltaTime)
 			y = object->myGlobalY - myHeight;
 		}
 
-		if (x < 0.0f || (x + myWidth) >= 1.0f)
+		if (x < 0.03f || (x + myWidth) >= (1.0f - 0.03f))
 		{
-			if ((x + myWidth) > 1.0f)
+			if ((x + myWidth) > (1.0f - 0.03f))
 			{
 				x = (1.0f - myWidth) - 0.03f;
 			}
@@ -165,15 +165,15 @@ bool EventTalk::Update(const float aDeltaTime)
 			}
 		}
 
-		if (y < 0.0f || (y + myHeight) > 1.0f)
+		if (y < 0.03f || (y + myHeight) > (1.0f - 0.03f))
 		{
-			if ((y + myHeight) > 1.0f)
+			if ((y + myHeight) > (1.0f - 0.03f))
 			{
-				y = (1.0f - myHeight) - 0.01f;
+				y = (1.0f - myHeight) - 0.03f;
 			}
 			else
 			{
-				y = 0.01f;
+				y = 0.03f;
 			}
 		}
 
