@@ -16,7 +16,7 @@ void EventCreateAnimation::Init(Room* aRoom, CGameWorld* aGameWorld)
 {
 	Event::Init(aRoom, aGameWorld);
 
-	myAnimation = new Animation(myFilePath.c_str(), DX2D::Vector2f(myObjectData->myPivotX, myObjectData->myPivotY), myFrameDuration, myNumberOfFrames, myFramesPerRow);
+	myAnimation = new Animation(myFilePath.c_str(), DX2D::Vector2f(myObjectData->myPivotX, myObjectData->myPivotY), myFrameDuration, myNumberOfFrames, myFramesPerRow, myIsLooping);
 	DX2D::CColor color = { 1, 1, 1, 1 };
 	myAnimation->SetColor(color);
 	myAnimation->SetFlip(myFlip);
