@@ -62,6 +62,8 @@ bool EventTalk::Update(const float aDeltaTime)
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
+	std::cout << mySounds << std::endl;
+
 	if (myIdentifier == "EMPTY")
 	{
 		if (object->myName == "Chef" || object->myName == "Giraff" || object->myName == "giraffTarget")
@@ -86,7 +88,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			myIdentifier = "Guard";
 			mySoundPath = "Sound/SoundFX/Talk5.ogg";
 		}
-		else if (object->myName == "SnotKidInBedroom")
+		else if (object->myName == "SnotKid")
 		{
 			myIdentifier = "SnotKid";
 			mySoundPath = "Sound/SoundFX/Talk7.ogg";

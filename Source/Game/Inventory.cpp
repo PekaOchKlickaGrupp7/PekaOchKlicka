@@ -12,6 +12,7 @@
 Inventory::Inventory()
 {
 	myContents.Init(10);
+	myRandomNotCombinableTexts.Init(10);
 	myIsOpen = false;
 	myIsClicked = false;
 	myPosition = DX2D::Vector2f(0.0, 1.0);
@@ -24,6 +25,7 @@ Inventory::Inventory()
 	myMovementPerFrame = 0.0f;
 	myXOffset = 0.02f;
 	myYOffset = 0;
+	myPreviousRandomCombinedTextIndex = -1;
 
 	myBackground = nullptr;
 	myMasterItemList = new ItemList;
@@ -37,7 +39,6 @@ Inventory::~Inventory()
 {
 	SAFE_DELETE(myBackground);
 	delete myMasterItemList;
-	//myContents.DeleteAll();
 }
 
 void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
@@ -53,6 +54,17 @@ void Inventory::Init(const char* aFilePath, Options* aOptionsPtr)
 	myOptionsPtr = aOptionsPtr;
 
 	myHoverText = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
+
+	//Fill up list with random not combinable texts
+	myRandomNotCombinableTexts.Add("I don't think that's such a good idea.");
+	myRandomNotCombinableTexts.Add("I can't do that.");
+	myRandomNotCombinableTexts.Add("That won't work.");
+	myRandomNotCombinableTexts.Add("Let's not do that.");
+	myRandomNotCombinableTexts.Add("No... ");
+	myRandomNotCombinableTexts.Add("Nothing happens.");
+	myRandomNotCombinableTexts.Add("I don't think that's such a good idea.");
+	myRandomNotCombinableTexts.Add("That doesn't make sense.");
+
 
 	UpdateSelectedItem();
 }
@@ -171,11 +183,14 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 				else if (mySelectedItem == myContents[i])
 				{
 					DeSelect();
+					return;
 				}
 				else
 				{
-					mySelectedItem = myContents[i];
-					myPreviouslySelectedItem = mySelectedItem;
+					mySelectedItem = nullptr;
+					myPreviouslySelectedItem = nullptr;
+					UpdateSelectedItem();
+					return;
 				}
 			}
 		}
@@ -234,6 +249,10 @@ bool Inventory::IsClicked()
 //Combine one item with another
 bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 {
+	if (aItemToCombine == aItemToCombineWith)
+	{
+		return false;
+	}
 	if ((aItemToCombine->IsCombinable() == true && aItemToCombineWith->IsCombinable() == true))
 	{
 		for (unsigned int i = 0; i < myContents.Size(); ++i)
@@ -274,13 +293,40 @@ bool Inventory::Combine(Item* aItemToCombine, Item* aItemToCombineWith)
 				}
 			}
 		}
-		return false;
 	}
-	else
+
+	//Trigger message to indicate that they cant be combined
+	int textIndex = rand() % myRandomNotCombinableTexts.Size();
+
+	if (textIndex == myPreviousRandomCombinedTextIndex)
 	{
-		return false;
-		//Trigger message to indicate that they cant be combined
+		if (textIndex == myRandomNotCombinableTexts.Size() - 1)
+		{
+			--textIndex;
+		}
+		else
+		{
+			++textIndex;
+		}
 	}
+
+	myPreviousRandomCombinedTextIndex = textIndex;
+
+	eventTalkOnCombine->myCanBeInterupted = true;
+	eventTalkOnCombine->myColor = { 0.78f, 0.85f, 0.68f, 1.0f };
+	eventTalkOnCombine->myAction = EventActions::Talk;
+	eventTalkOnCombine->myType = EventTypes::OnClick;
+	eventTalkOnCombine->mySize = 0.5f;
+	eventTalkOnCombine->myText = myRandomNotCombinableTexts[textIndex];
+	eventTalkOnCombine->myTarget = "Player";
+	eventTalkOnCombine->myShowTime = 1.0f;
+	eventTalkOnCombine->myLetterLength = 0.05f;
+
+	eventTalkOnCombine->Init(EventManager::GetInstance()->GetCurrentRoom(), EventManager::GetInstance()->GetGameWorld());
+
+	EventManager::GetInstance()->AddEvent(eventTalkOnCombine);
+
+	return false;
 }
 
 //Render the inventory through the synchronizer

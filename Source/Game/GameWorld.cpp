@@ -74,8 +74,8 @@ void CGameWorld::Init()
 {
 	Vector3f Vec1({ 1, 0, 0 });
 	Vector3f Vec2({ -1, 0, 0 });
-	//std::cout << "Angle in rad: " << Vec1.Angle(Vec2) << std::endl;
-	//std::cout << "Angle in degrees: " << (Vec1.Angle(Vec2) * (180.0f / 3.14159265359f)) << std::endl;
+	std::cout << "Angle in rad: " << Vec1.Angle(Vec2) << std::endl;
+	std::cout << "Angle in degrees: " << (Vec1.Angle(Vec2) * (180.0f / 3.14159265359f)) << std::endl;
 
 	std::string name = "";
 	unsigned char timer = myTimerManager.CreateTimer();
@@ -158,10 +158,12 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		ResolutionManager::GetInstance()->ToggleFullscreen();
 	}
 
+#ifdef _DEBUG
 	if (myInputManager.KeyPressed(DIK_F2) == true)
 	{
 		myShouldRenderDebug = !myShouldRenderDebug;
 	}
+#endif
 
 	if (myInputManager.KeyPressed(DIK_F3) == true)
 	{
@@ -173,6 +175,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 		myShouldRenderNavPoints = !myShouldRenderNavPoints;
 	}
 
+#ifdef _DEBUG
 	if (myInputManager.KeyPressed(DIK_SPACE) == true)
 	{
 		ChangeLevel("kitchen");
@@ -180,6 +183,7 @@ eStateStatus CGameWorld::Update(float aTimeDelta)
 
 		std::cout << "Resetted game" << std::endl;
 	}
+#endif
 
 	float fadeSpeed = 2.0f;
 	if (myDoFadeIn == true)
