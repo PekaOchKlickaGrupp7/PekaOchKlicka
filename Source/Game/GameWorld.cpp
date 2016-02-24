@@ -297,6 +297,8 @@ void CGameWorld::ResetGame()
 {
 	SetCinematicMode(false);
 
+	SoundFileHandler::GetInstance()->StopAllSongs();
+
 	MouseManager::GetInstance()->SetHideGameMouse(false);
 
 	myTalkIsOn = false;
