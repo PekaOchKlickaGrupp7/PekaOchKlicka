@@ -9,7 +9,7 @@
 #include "SoundFileHandler.h"
 #include "EventVariablesManager.h"
 #include <iostream>
-
+#include "..\CommonUtilities\Vector2.h"
 
 using namespace rapidjson;
 
@@ -52,8 +52,10 @@ void Player::Init(DX2D::Vector2f aPosition, CGameWorld* aGameWorldPtr)
 		return;
 	}
 
-	myMovementSpeed = static_cast<float>(root["movmentSpeed"].GetDouble());
-
+	myMinSpeed = static_cast<float>(root["minSpeed"].GetDouble());
+	myMaxSpeed = static_cast<float>(root["maxSpeed"].GetDouble());
+	myAcceleration = static_cast<float>(root["acceleration"].GetDouble());
+	myMovementSpeed = 0;
 
 	rapidjson::Value& animations = root["animation"];
 
@@ -105,8 +107,44 @@ void Player::SetColor(DX2D::CColor& aColor)
 	myColor = aColor;
 }
 
+float Player::SpeedUp(float aDeltaTime)
+{
+	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
+	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
+
+	if (myMovementSpeed <= myMaxSpeed)
+	{
+		myMovementSpeed += myAcceleration * aDeltaTime;
+	}
+	if (myMovementSpeed >= myMaxSpeed)
+	{
+		myMovementSpeed = myMaxSpeed;
+	}
+
+	return myMovementSpeed;
+}
+
+float Player::SpeedDown(float aDeltaTime, float aDifference)
+{
+	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
+	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
+	float diff2 = CU::Remap(aDifference, 0, 0.05f, 0, 1);
+
+	if (myMovementSpeed >= myMinSpeed)
+	{
+		myMovementSpeed = diff2 * myMaxSpeed;
+		//myMovementSpeed -= (myAcceleration * aDeltaTime);
+	}
+	if (myMovementSpeed <= myMinSpeed)
+	{
+		myMovementSpeed = myMinSpeed;
+	}
+
+	return myMovementSpeed;
+}
+
 //Update the character
-void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer)
+void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Vector2f& aTargetPos, const Vector2f& aFinalTargetPos, float aDeltaT, bool aUpdateInput, bool aMovePlayer)
 {
 	if (myGameWorldPtr->PlayerHasReachedTarget() == false)
 	{
@@ -152,11 +190,44 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 	float scale = CU::Remap(myPosition.y, myMinY, myMaxY, 0, 1);
 	float scaleY = CU::Remap(scale, 0, 1, myMinScale, myMaxScale);
-
+	Vector2<float> v1, v2;
+	v1.x = aFinalTargetPos.x; v1.y = aFinalTargetPos.y;
+	if (v1.x == -1)
+	{
+		v1.x = 0;
+	}
+	if (v1.y == -1)
+	{
+		v1.y = 0;
+	}
+	v2.x = myPosition.x; v2.y = myPosition.y;
+	float Distance = (v2 - v1).Length();
+	if (myMovementSpeed <= 0.0045)
+	{
+		myMovementSpeed = myMinSpeed;
+	}
 	if (aMovePlayer == true)
 	{
+		if (Distance > 0.05f)
+		{
+			SpeedUp(aDeltaT);
+		}
+		else
+		{
+			SpeedDown(aDeltaT, Distance);
+		}
+
+		if (Distance < 0.002f)
+		{
+			myPosition = DX2D::Vector2f(aFinalTargetPos.x, aFinalTargetPos.y);
+		}
+
+		
+
 		Move(aTargetPos, myMovementSpeed * (scaleY / 2), aDeltaT);
 	}
+	std::cout << "speed: " << myMovementSpeed * (scaleY / 2) << std::endl;
+	//std::cout << "distance: " << Distance << std::endl;
 
 	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
 	{
