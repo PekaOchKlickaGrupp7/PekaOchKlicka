@@ -44,7 +44,7 @@ bool FullscreenButton::OnMouseHover()
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
-				SoundPtr->SetVolume(0.6f);
+				SoundPtr->SetVolume(0.4f);
 
 				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 			}

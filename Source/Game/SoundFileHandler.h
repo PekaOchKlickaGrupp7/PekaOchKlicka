@@ -55,6 +55,7 @@ public:
 	void DestroyAllMusic();
 
 	void UpdateSongs(float aDeltaTime);
+	void StopAllSongs();
 
 	~SoundFileHandler();
 private:

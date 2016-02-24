@@ -38,6 +38,14 @@ void SoundFileHandler::Load(const std::string &aSoundPath, const std::string &an
 	}
 }
 
+void SoundFileHandler::StopAllSongs()
+{
+	for (std::map<std::string, Sound>::iterator i = mySounds.begin(); i != mySounds.end(); ++i)
+	{
+		i->second.Stop();
+	}
+}
+
 void SoundFileHandler::SetupStream(const std::string &aSoundPath, const std::string &anIdentifier, bool aIs3D, bool aIsSong)
 {
 	if (aIsSong == false)

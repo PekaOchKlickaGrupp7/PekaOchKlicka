@@ -137,7 +137,7 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 
 			SoundPtr->SetLooping(false);
 			SoundPtr->PlaySound();
-			SoundPtr->SetVolume(0.6f);
+			SoundPtr->SetVolume(0.4f);
 
 			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eActive);
 		}
@@ -209,7 +209,7 @@ void Inventory::OnClick(DX2D::Vector2f& aPointerPosition)
 
 		SoundPtr->SetLooping(false);
 		SoundPtr->PlaySound();
-		SoundPtr->SetVolume(0.6f);
+		SoundPtr->SetVolume(0.4f);
 	}
 }
 

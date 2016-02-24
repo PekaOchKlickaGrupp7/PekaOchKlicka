@@ -194,7 +194,7 @@ bool Slider::OnMouseClick()
 
 				SoundPtr->SetLooping(false);
 				SoundPtr->PlaySound();
-				SoundPtr->SetVolume(0.6f);
+				SoundPtr->SetVolume(0.4f);
 			}
 
 			return true;
