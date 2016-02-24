@@ -19,7 +19,10 @@ bool EventUpdateAnimation::Update(const float)
 		if (myCached == false)
 		{
 			myCached = true;
-			target->myAnimations[target->myCurrentAnimation]->Reset();
+			if (target->myAnimations[target->myCurrentAnimation]->GetIsLooping() == false)
+			{
+				target->myAnimations[target->myCurrentAnimation]->Reset();
+			}
 		}
 		if (target->myAnimations[target->myCurrentAnimation]->GetIsLooping() == true)
 		{
