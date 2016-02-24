@@ -18,7 +18,7 @@ void MainMenuButton::InitValue()
 
 void MainMenuButton::ButtonSpecificUpdate()
 {
-	myEvent->myNextTheme = "Hub";
+	myEvent->myNextTheme = "MainMenu";
 	myEvent->myAction = EventActions::ChangeLevel;
 	myEvent->myType = EventTypes::OnClick;
 	myEvent->myTargetLevelName = "mainmenu";

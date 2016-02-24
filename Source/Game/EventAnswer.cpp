@@ -3,8 +3,6 @@
 #include "MouseManager.h"
 #include "GameWorld.h"
 
-#include "SoundFileHandler.h"
-
 //Work in progress
 
 EventAnswer::EventAnswer() : myBackgroundSprite(nullptr)
@@ -43,17 +41,6 @@ bool EventAnswer::Update(const float)
 	myGameWorld->SetTalkIsOn();
 	if (mousePos.y > myY && mousePos.y < myY + myHeight)
 	{
-		if (myIsInside == false)
-		{
-			//make sure to only play once
-			Sound* SoundPtr = SoundFileHandler::GetInstance()->GetSound("ButtonHover");
-
-			SoundPtr->SetLooping(false);
-			SoundPtr->PlaySound();
-		}
-
-		myIsInside = true;
-
 		myTextRender->myColor = myHighlightColor;
 		if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft) == true)
 		{
@@ -63,7 +50,6 @@ bool EventAnswer::Update(const float)
 	}
 	else
 	{
-		myIsInside = false;
 		myTextRender->myColor = myColor;
 	}
 	
