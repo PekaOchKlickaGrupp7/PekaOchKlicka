@@ -174,6 +174,7 @@ bool EventTalk::Update(const float aDeltaTime)
 			else
 			{
 				y = 0.03f;
+
 			}
 		}
 
