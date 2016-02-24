@@ -17,6 +17,7 @@ public:
 	float myFrameDuration;
 	float myScale;
 	bool myFlip;
+	bool myIsLooping;
 protected:
 	Animation* myAnimation;
 };
