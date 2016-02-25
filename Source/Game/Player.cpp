@@ -222,8 +222,6 @@ void Player::Update(CU::DirectInput::InputManager& aInputManager, const DX2D::Ve
 
 		Move(aTargetPos, myMovementSpeed * (scaleY / 2), aDeltaT);
 	}
-	std::cout << "speed: " << myMovementSpeed * (scaleY / 2) << std::endl;
-	//std::cout << "distance: " << Distance << std::endl;
 
 	if (MouseManager::GetInstance()->ButtonClicked(eMouseButtons::eLeft))
 	{

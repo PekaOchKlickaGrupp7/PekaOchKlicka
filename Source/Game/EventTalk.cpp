@@ -12,6 +12,7 @@
 #define TARGETSOUND "Sound/SoundFX/Talk.ogg"
 
 bool EventTalk::myIsActive = false;
+volatile int EventTalk::myCountActive = 0;
 
 EventTalk::EventTalk() : myTextRender(nullptr)
 {
@@ -59,6 +60,15 @@ void EventTalk::Init(Room* aRoom, CGameWorld* aGameWorld)
 
 bool EventTalk::Update(const float aDeltaTime)
 {
+	if (myCanBeInterupted == true && myCached == false)
+	{
+		if (myCountActive > 0)
+		{
+			return true;
+		}
+		++myCountActive;
+	}
+
 	myCurrentTime += aDeltaTime;
 	ObjectData* object = GetGameObject(myTarget);
 
@@ -114,6 +124,8 @@ bool EventTalk::Update(const float aDeltaTime)
 			{
 				myGameWorld->SetTalkIsOff();
 				MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
+
+				--myCountActive;
 
 				return true;
 			}
@@ -193,7 +205,7 @@ bool EventTalk::Update(const float aDeltaTime)
 				{
 					myGameWorld->SetTalkIsOff();
 					MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
-
+					--myCountActive;
 				}
 				return true;
 			}
@@ -205,6 +217,7 @@ bool EventTalk::Update(const float aDeltaTime)
 		{
 			myGameWorld->SetTalkIsOff();
 			MouseManager::GetInstance()->SetHideGameMouse(myMouseIsInvisible);
+			--myCountActive;
 		}
 		return true;
 	}

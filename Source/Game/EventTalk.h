@@ -14,6 +14,7 @@ public:
 	virtual void Reset() override;
 	virtual void Render(Synchronizer &aSynchronizer) override;
 
+
 	std::string myText;
 
 	DX2D::CColor myColor;
@@ -24,6 +25,7 @@ public:
 	float mySize;
 	bool myCanBeInterupted;
 
+	volatile static int myCountActive;
 	static bool myIsActive;
 protected:
 	bool TypeNextLetter(float aDeltaTime);

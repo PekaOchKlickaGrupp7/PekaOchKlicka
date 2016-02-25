@@ -8,6 +8,7 @@
 #include "GameWorld.h"
 #include "EventVariablesManager.h"
 #include "EventRandom.h"
+#include "EventTalk.h"
 
 EventManager* EventManager::myInstance = nullptr;
 
@@ -231,6 +232,8 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 		}
 	}
 
+	std::cout << EventTalk::myCountActive << std::endl << std::endl;
+
 	UpdateActiveEvents(aDeltaTime);
 
 #ifdef _DEBUG
@@ -414,4 +417,9 @@ void EventManager::RemoveAllEvents()
 		myActiveEvents[i]->Reset();
 	}
 	myActiveEvents.RemoveAll();
+
+	EventTalk::myCountActive = 0;
+
+	myGameWorld->SetTalkIsOff();
+	MouseManager::GetInstance()->SetHideGameMouse(false);
 }
