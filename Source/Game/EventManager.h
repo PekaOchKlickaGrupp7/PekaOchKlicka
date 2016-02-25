@@ -58,6 +58,8 @@ private:
 
 	DX2D::CText* myText;
 
+	float myPrevClickTime;
+
 	void UpdateActiveEvents(const float aDeltaTime);
 	bool GetRootIsClick(Event* aEvent);
 	void RemoveAllAnswers();

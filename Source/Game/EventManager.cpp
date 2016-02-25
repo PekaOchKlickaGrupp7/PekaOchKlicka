@@ -18,6 +18,8 @@ EventManager::EventManager()
 	myClicked = false;
 	myIsInsideAObject = false;
 
+	myPrevClickTime = 0.0f;
+
 	myText = new DX2D::CText("Text/PassionOne-Regular.ttf_sdf");
 	myText->myPosition = { 0.7f, 0.1f };
 	myText->mySize = 0.4f;
@@ -197,16 +199,26 @@ bool EventManager::Update(const float aDeltaTime, const bool aTalkIsOn)
 	myClicked = false;
 	myIsInsideAObject = false;
 
+	myPrevClickTime += aDeltaTime;
+	if (myPrevClickTime > 20.0f)
+	{
+		myPrevClickTime = 20.0f;
+	}
+
 	bool doCheckInput = myGameWorld->GetPlayer()->GetInventory().GetIsOpen() == false && aTalkIsOn == false;
 	if (doCheckInput == true)
 	{
 		if (myGameWorld->GetCinematicMode() == false && myInputManager->LeftMouseButtonClicked() == true)
 		{
-			for (int i = (*myObjects).Size() - 1; i >= 0; --i)
+			if (myPrevClickTime > 0.2f)
 			{
-				if (OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0) == true)
+				myPrevClickTime = 0.0f;
+				for (int i = (*myObjects).Size() - 1; i >= 0; --i)
 				{
-					break;
+					if (OnEvent((*myObjects)[i], EventTypes::OnClick, mousePosition.x, mousePosition.y, 0, 0) == true)
+					{
+						break;
+					}
 				}
 			}
 		}
