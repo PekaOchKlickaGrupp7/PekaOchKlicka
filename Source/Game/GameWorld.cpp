@@ -94,7 +94,6 @@ void CGameWorld::Init()
 	std::cout << "Loading music took " << delta << " milliseconds" << std::endl;
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
-	CGame::myTestLevel = "sittingroom";
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
