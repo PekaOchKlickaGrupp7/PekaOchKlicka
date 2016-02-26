@@ -11,7 +11,7 @@ Remaining sound effects are public domain.
 
 Sound effects for characters talking are made by our programmer Edvin Jacobsson Pontén.
 
-Music is made by:
+--- Music is made by ---
 Emil Li, visit his work here: https://soundcloud.com/emil-li
 
 Mikael Indelicato, visit his work here: https://soundcloud.com/eyralandscape
