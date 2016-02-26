@@ -115,8 +115,6 @@ void Inventory::Update(CU::DirectInput::InputManager& aInputManager, float aDelt
 
 	if (aInputManager.KeyPressed(DIK_ESCAPE) == true)
 	{
-		MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
-		MouseManager::GetInstance()->SetHideGameMouse(false);
 		myOptionsPtr->SetActive(!myOptionsPtr->GetActive());
 	}
 

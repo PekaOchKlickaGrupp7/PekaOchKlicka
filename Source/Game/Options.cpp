@@ -13,6 +13,7 @@ Options::Options()
 void Options::Initialize()
 {
 	myIsActive = false;
+	myMouseWasInvisible = false;
 
 	myBackground = new DX2D::CSprite("Sprites/Options_InG/Background.dds");
 
