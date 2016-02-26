@@ -15,6 +15,7 @@ void MouseManager::Initialize(CommonUtilities::GrowingArray<std::string> &aFileP
 {
 	myHideGameMouse = false;
 	myInMenu = false;
+	myHideGameMouse = false;
 
 	myInputManager = aInputManager;
 
@@ -231,6 +232,16 @@ void MouseManager::Render(Synchronizer &aSynchronizer)
 		}
 	}
 }
+
+void MouseManager::SetHideGameMouse(bool aSet)
+{
+	myHideGameMouse = aSet;
+}
+
+bool MouseManager::GetHideGameMouse()
+{
+	return myHideGameMouse;
+};
 
 MouseManager::~MouseManager()
 {

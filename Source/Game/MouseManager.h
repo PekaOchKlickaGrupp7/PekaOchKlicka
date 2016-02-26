@@ -63,8 +63,8 @@ public:
 	bool ButtonClicked(eMouseButtons aButton);
 	bool ButtonPressed(eMouseButtons aButton);
 
-	void SetHideGameMouse(bool aSet) { myHideGameMouse = aSet; };
-	bool GetHideGameMouse() { return myHideGameMouse; };
+	void SetHideGameMouse(bool aSet);
+	bool GetHideGameMouse();
 
 	DX2D::Vector2f &GetPosition()
 	{ 

@@ -94,7 +94,7 @@ void CGame::Init(const char** argv, const int argc)
 	/*std::string versionNumber = "Cakewalk 1.0";*/
 	#ifdef _DEBUG
 
-	versionNumber = "Cakewalk 1.0 DEBUG";
+//	versionNumber = "Cakewalk 1.0 DEBUG";
 
 	#endif
 
