@@ -5,7 +5,6 @@
 #include "FullscreenButton.h"
 #include "MainMenuButton.h"
 #include "ResumeButton.h"
-#include <iostream>
 
 class Options
 {
@@ -20,16 +19,18 @@ public:
 	{
 		if (myMouseWasInvisible == true && aActive == false)
 		{
-			/*myMouseWasInvisible = false;
-			MouseManager::GetInstance()->SetHideGameMouse(true);*/
+			myMouseWasInvisible = false;
+			MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+			MouseManager::GetInstance()->SetHideGameMouse(true);
 		}
 		else if (aActive == true)
 		{
-			/*std::cout << MouseManager::GetInstance()->GetHideGameMouse() << std::endl;
 			if (MouseManager::GetInstance()->GetHideGameMouse() == true)
 			{
 				myMouseWasInvisible = true;
-			}*/
+				MouseManager::GetInstance()->SetInteractiveMode(eInteractive::eRegular);
+				MouseManager::GetInstance()->SetHideGameMouse(false);
+			}
 		}
 		myIsActive = aActive;
 	};
