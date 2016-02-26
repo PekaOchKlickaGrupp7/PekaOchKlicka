@@ -94,7 +94,7 @@ void CGameWorld::Init()
 	std::cout << "Loading music took " << delta << " milliseconds" << std::endl;
 	//myJson.LoadItems("JSON/items.json", myPlayer.GetInventory());
 
-	//CGame::myTestLevel = "servantsquartergame";
+	CGame::myTestLevel = "sittingroom";
 	std::cout << "Level: " << CGame::myTestLevel << std::endl;
 	if (CGame::myTestLevel.size() > 0)
 	{
@@ -532,8 +532,10 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 				aNode->mySprite->SetRotation(aNode->myRotation);
 
 				command.mySprite = aNode->mySprite;
-				command.mySprite->SetColor(aNode->myColor);
+				command.myHasColor = true;
+				command.myColor = aNode->myColor;
 				aSynchronizer.AddRenderCommand(command);
+				command.myHasColor = false;
 			}
 		}
 
