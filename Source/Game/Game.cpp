@@ -88,24 +88,25 @@ void CGame::Init(const char** argv, const int argc)
 	createParameters.myRenderWidth = windowWidth;
 	createParameters.myClearColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 
-	int version[] = { PRODUCTVER };
+	//int version[] = { PRODUCTVER };
 
-	std::string versionNumber = "Cakewalk 1.0";
+	std::wstring appname(L"Cakewalk 1.0");
+	/*std::string versionNumber = "Cakewalk 1.0";*/
 	#ifdef _DEBUG
 
 	versionNumber = "Cakewalk 1.0 DEBUG";
 
 	#endif
 
-	int count = sizeof(version) / sizeof(version[0]);
-	for (int i = 0; i < count; i++)
-	{
-		versionNumber += std::to_string(version[i]);
-		versionNumber += ".";
-	}
-	versionNumber.pop_back();
+	//int count = sizeof(version) / sizeof(version[0]);
+	//for (int i = 0; i < count; i++)
+	//{
+	//	versionNumber += std::to_string(version[i]);
+	//	versionNumber += ".";
+	//}
+	//versionNumber.pop_back();
 
-	std::wstring appname(versionNumber.begin(), versionNumber.end());
+	//std::wstring appname(versionNumber.begin(), versionNumber.end());
 	ResolutionManager::GetInstance()->SetFullscreen(true);
 #ifdef _DEBUG
 	ResolutionManager::GetInstance()->SetFullscreen(false);
