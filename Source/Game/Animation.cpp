@@ -9,6 +9,8 @@ Animation::Animation(const char* aSpriteFilePath, DX2D::Vector2f aPivot, float a
 	myFramesPerRow = aFramesPerRow;
 	mySprite = new DX2D::CSprite(aSpriteFilePath);
 
+	myColor = { 1, 1, 1, 1 };
+
 	myNumberOfFrames = aNumberOfFrames;
 	myFrame = 0;
 	myPaused = false;
@@ -112,7 +114,6 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 	RenderCommand command;
 	command.myType = eRenderType::eSprite;
 	command.myPosition = aPos;
-	mySprite->SetColor(myColor);
 	
 	if (myFlip == true)
 	{
@@ -120,6 +121,8 @@ void Animation::Render(Synchronizer& aSynchronizer, DX2D::Vector2f aPos)
 		mySprite->SetSize({ -abs(size.x), size.y });
 	}
 
+	command.myHasColor = true;
+	command.myColor = myColor;
 	command.mySprite = mySprite;
 
 	aSynchronizer.AddRenderCommand(command);
