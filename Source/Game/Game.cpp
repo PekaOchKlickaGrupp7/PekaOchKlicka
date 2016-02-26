@@ -90,10 +90,10 @@ void CGame::Init(const char** argv, const int argc)
 
 	int version[] = { PRODUCTVER };
 
-	std::string versionNumber = "Giraffspelet* v";
+	std::string versionNumber = "Cakewalk 1.0";
 	#ifdef _DEBUG
 
-	versionNumber = "Giraffspelet* Debug v";
+	versionNumber = "Cakewalk 1.0 DEBUG";
 
 	#endif
 
