@@ -520,6 +520,7 @@ void CGameWorld::RenderObject(Synchronizer& aSynchronizer, ObjectData* aNode, fl
 
 		if (aNode->myIsAnimation == true)
 		{
+			aNode->myAnimations[aNode->myCurrentAnimation]->SetColor(aNode->myColor);
 			aNode->myAnimations[aNode->myCurrentAnimation]->Render(aSynchronizer, command.myPosition);
 		}
 		else
